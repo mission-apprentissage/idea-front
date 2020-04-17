@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
-/*import Auth from "./Auth/reducer";
+import Filter from "./Filter/reducer";
 
 const appState = {
-  user: Auth,
-};*/
+  filters: Filter,
+};
 
 export default (history) =>
   combineReducers({
     router: connectRouter(history),
-    //...appState,
+    ...appState,
   });

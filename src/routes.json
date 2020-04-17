@@ -1,3 +1,6 @@
 {
-    
+    "NOTFOUND": "/404",    
+    "CHANGELOG": "/journal",
+    "JOBSELECTION": "/selectionner-metier",
+    "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }
