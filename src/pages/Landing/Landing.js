@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import IdeaTitle from "../../components/IdeaTitle";
+import { IdeaTitle } from "../../components";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -26,6 +26,7 @@ const Landing = () => {
             </div>
           </Col>
         </Row>
+        
       </Container>
     </div>
   );

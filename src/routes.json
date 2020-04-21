@@ -1,6 +1,8 @@
 {
+    "LANDING": "/",    
     "NOTFOUND": "/404",    
     "CHANGELOG": "/journal",
     "JOBSELECTION": "/selectionner-metier",
+    "DIPLOMASELECTION": "/selectionner-diplome",
     "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }

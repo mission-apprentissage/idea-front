@@ -1,14 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "reactstrap";
-import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
-import routes from "../../routes.json";
+import { IdeaHeader, JobAdvice } from "../../components";
+import { Progress } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
+import { JobSelectionForm } from "./components";
 import "./jobSelection.css";
 
 const JobSelection = () => {
-  //const dispatch = useDispatch();
-
-  return <div className="page">WIP page sélection de job</div>;
+  return (
+    <div className="page jobSelection">
+      <IdeaHeader />
+      <Progress value={20} />
+      <Container>
+        <Row>
+          <Col xs="12">
+            <h2>Ton projet c'est devenir ...</h2>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12 form">
+            <JobSelectionForm />
+          </Col>
+        </Row>
+        <Row>
+          <JobAdvice />
+        </Row>
+      </Container>
+    </div>
+  );
 };
 
 export default JobSelection;

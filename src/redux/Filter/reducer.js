@@ -2,8 +2,8 @@ import { types as actionsTypes } from "./actions";
 
 const initialState = {
   job: {
-    title: null,
-    ROME: null,
+    label: "",
+    ROME: "",
   },
 };
 
