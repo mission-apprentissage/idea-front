@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import routes from "../../routes.json";
 import { setHasDiploma } from "../../redux/Filter/actions";
-import "./diplomaSelection.css";
+import "./trainingDurationSelection.css";
 
-const DiplomaSelection = () => {
+const TrainingDurationSelection = () => {
   const { job, hasDiploma } = useSelector((state) => state.filters);
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const DiplomaSelection = () => {
       <Container>
         <Row>
           <Col xs="12">
-            <h2>Quel diplôme ?</h2>
+            <h2>Durée FORMATION</h2>
           </Col>
         </Row>
         <Row>
@@ -117,4 +117,4 @@ const DiplomaSelection = () => {
   );
 };
 
-export default DiplomaSelection;
+export default TrainingDurationSelection;

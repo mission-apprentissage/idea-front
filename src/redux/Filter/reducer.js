@@ -5,6 +5,7 @@ const initialState = {
     label: "",
     ROME: "",
   },
+  hasDiploma: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         job: action.job,
       };
+    case actionsTypes.SET_HAS_DIPLOMA:
+      return {
+        ...state,
+        hasDiploma: action.hasDiploma,
+      }
     default:
       return state;
   }

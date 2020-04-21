@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import routes from "../../routes.json";
 import { setHasDiploma } from "../../redux/Filter/actions";
-import "./diplomaSelection.css";
+import "./hasDiplomaSelection.css";
 
-const DiplomaSelection = () => {
+const HasDiplomaSelection = () => {
   const { job, hasDiploma } = useSelector((state) => state.filters);
   const dispatch = useDispatch();
 
@@ -28,7 +28,10 @@ const DiplomaSelection = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      dispatch(push(routes.LANDING));
+      if(hD)
+        dispatch(push(routes.DIPLOMASELECTION));
+      else
+        dispatch(push(routes.TRAININGDURATIONSELECTION));
     }
   };
 
@@ -39,7 +42,7 @@ const DiplomaSelection = () => {
       <Container>
         <Row>
           <Col xs="12">
-            <h2>Quel diplôme ?</h2>
+            <h2>As tu déjà un diplôme en lien avec le métier de {job.label} ?</h2>
           </Col>
         </Row>
         <Row>
@@ -117,4 +120,4 @@ const DiplomaSelection = () => {
   );
 };
 
-export default DiplomaSelection;
+export default HasDiplomaSelection;

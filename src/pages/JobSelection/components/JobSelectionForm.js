@@ -26,14 +26,14 @@ const JobSelectionForm = (props) => {
       }}
       onSubmit={(values, { setSubmitting }) => {
         dispatch(setJob(values.jobSelectorLabel, ""));
-        dispatch(push(routes.DIPLOMASELECTION));
+        dispatch(push(routes.HASDIPLOMASELECTION));
       }}
     >
       {({ values, isSubmitting, setFieldValue }) => (
         <Form>
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
-            <Field type="text" placeholder="cherche un métier ..." name="jobSelectorLabel" />
+            <Field type="text" placeholder="ex: opticien" name="jobSelectorLabel" />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 

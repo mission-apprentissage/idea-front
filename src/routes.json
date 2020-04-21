@@ -4,5 +4,7 @@
     "CHANGELOG": "/journal",
     "JOBSELECTION": "/selectionner-metier",
     "DIPLOMASELECTION": "/selectionner-diplome",
+    "HASDIPLOMASELECTION": "/diplome",
+    "TRAININGDURATIONSELECTION": "/duree-formation",
     "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }
