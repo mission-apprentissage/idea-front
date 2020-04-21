@@ -5,6 +5,8 @@ import JobSelection from "./JobSelection";
 import DiplomaSelection from "./DiplomaSelection";
 import HasDiplomaSelection from "./HasDiplomaSelection";
 import TrainingDurationSelection from "./TrainingDurationSelection";
+/*TrainingStartTime;
+TrainingLocation;*/
 import HelpForUserProject from "./HelpForUserProject";
 
 export {
@@ -15,5 +17,7 @@ export {
   HasDiplomaSelection,
   TrainingDurationSelection,
   DiplomaSelection,
+  /*TrainingStartTime,
+  TrainingLocation,*/
   HelpForUserProject,
 };

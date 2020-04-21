@@ -1,91 +1,80 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IdeaHeader, JobAdvice } from "../../components";
 import { Progress } from "reactstrap";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import routes from "../../routes.json";
-import { setHasDiploma } from "../../redux/Filter/actions";
+import { setTrainingDuration } from "../../redux/Filter/actions";
 import "./trainingDurationSelection.css";
 
 const TrainingDurationSelection = () => {
-  const { job, hasDiploma } = useSelector((state) => state.filters);
+  const { job, hasDiploma, trainingDuration } = useSelector((state) => state.filters);
   const dispatch = useDispatch();
 
-  if (!job.label) dispatch(push(routes.LANDING));
+  if (!job.label || hasDiploma !== false) dispatch(push(routes.LANDING));
 
-  const [hD, setHD] = useState(hasDiploma);
+  const [tD, setTD] = useState(trainingDuration);
   const [hasError, setHasError] = useState(null);
 
   const handleChange = (response) => {
-    setHD(response);
+    setTD(response);
     setHasError(null);
-    dispatch(setHasDiploma(response));
+    dispatch(setTrainingDuration(response));
   };
 
   const handleSubmit = () => {
-    if (hD !== true && hD !== false) {
+    if (!tD) {
       setHasError(true);
     } else {
       setHasError(false);
-      dispatch(push(routes.LANDING));
+      dispatch(push(routes.TRAININGSTARTTIME));
     }
   };
 
+  const getRadioButton = (value, label, selectedValue) => {
+    return (
+      <Col xs="3" className="radioButton">
+        <FormGroup check>
+          <Label
+            check
+            className={`btn ${selectedValue === value ? "active" : ""}`}
+            onClick={() => {
+              handleChange(value);
+            }}
+          >
+            <Input
+              type="radio"
+              name="trainingDuration"
+              value="true"
+              onChange={() => handleChange(value)}
+              checked={selectedValue === value}
+            />{" "}
+            {label}
+          </Label>
+        </FormGroup>
+      </Col>
+    );
+  };
+
   return (
-    <div className="page hasDiploma">
+    <div className="page trainingDuration">
       <IdeaHeader />
-      <Progress value={40} />
+      <Progress value={60} />
       <Container>
         <Row>
           <Col xs="12">
-            <h2>Durée FORMATION</h2>
+            <h2>En combien de temps souhaites-tu suivre une formation ?</h2>
           </Col>
         </Row>
         <Row>
           <div className="buttons">
             <Container>
               <Row>
-                <Col xs="6" className="radioButton">
-                  <FormGroup check>
-                    <Label
-                      check
-                      className={`btn ${hD === true ? "active" : ""}`}
-                      onClick={() => {
-                        handleChange(true);
-                      }}
-                    >
-                      <Input
-                        type="radio"
-                        name="hasDiploma"
-                        value="true"
-                        onChange={() => handleChange(true)}
-                        checked={hD === true}
-                      />{" "}
-                      Oui
-                    </Label>
-                  </FormGroup>
-                </Col>
-                <Col xs="6" className="radioButton">
-                  <FormGroup check>
-                    <Label
-                      check
-                      className={`btn ${hD === false ? "active" : ""}`}
-                      onClick={() => {
-                        handleChange(false);
-                      }}
-                    >
-                      <Input
-                        type="radio"
-                        name="hasDiploma"
-                        value="false"
-                        onChange={() => handleChange(false)}
-                        checked={hD === false}
-                      />{" "}
-                      Non
-                    </Label>
-                  </FormGroup>
-                </Col>
+                {getRadioButton(1,"1 an",tD)}
+                {getRadioButton(2,"2 ans",tD)}
+                {getRadioButton(3,"3 ans",tD)}
+                {getRadioButton(4,"> 3 ans",tD)}
               </Row>
             </Container>
           </div>

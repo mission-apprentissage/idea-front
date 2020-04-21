@@ -28,10 +28,8 @@ const HasDiplomaSelection = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      if(hD)
-        dispatch(push(routes.DIPLOMASELECTION));
-      else
-        dispatch(push(routes.TRAININGDURATIONSELECTION));
+      if (hD) dispatch(push(routes.DIPLOMASELECTION));
+      else dispatch(push(routes.TRAININGDURATIONSELECTION));
     }
   };
 

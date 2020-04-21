@@ -6,6 +6,10 @@ const initialState = {
     ROME: "",
   },
   hasDiploma: "",
+  trainingDuration: "",
+  diploma: "",
+  location: "",
+  starttime: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +23,19 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         hasDiploma: action.hasDiploma,
-      }
+      };
+    case actionsTypes.SET_TRAINING_DURATION:
+      return {
+        ...state,
+        trainingDuration: action.trainingDuration,
+      };
+    case actionsTypes.SET_DIPLOMA:
+      return {
+        ...state,
+        diploma: action.diploma,
+      };
+    // set_start_time
+    // set_location
     default:
       return state;
   }
