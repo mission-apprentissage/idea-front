@@ -3,5 +3,6 @@ import IdeaTitle from "./IdeaTitle";
 import IdeaHeader from "./IdeaHeader";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import DatePickerField from "./DatePickerField";
 
-export { JobAdvice, IdeaHeader, IdeaTitle, Footer, ScrollToTop };
+export { DatePickerField, JobAdvice, IdeaHeader, IdeaTitle, Footer, ScrollToTop };
