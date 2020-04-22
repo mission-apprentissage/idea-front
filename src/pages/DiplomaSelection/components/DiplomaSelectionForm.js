@@ -25,7 +25,7 @@ const DiplomaSelectionForm = (props) => {
       }}
       onSubmit={(values, { setSubmitting }) => {
         dispatch(setDiploma(values.diploma));
-        dispatch(push(routes.TRAININGSTARTTIME));
+        dispatch(push(routes.STARTTIMESELECTION));
       }}
     >
       {({ isSubmitting }) => (

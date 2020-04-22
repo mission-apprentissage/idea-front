@@ -37,16 +37,16 @@ export const setDiploma = (diploma = "") => {
     diploma,
   };
 };
-export const setTrainingLocation = (trainingLocation = "") => {
+export const setTrainingLocation = (location = "") => {
   return {
     type: types.SET_TRAINING_LOCATION,
-    trainingLocation,
+    location,
   };
 };
 
-export const setTrainingStartTime = (trainingStartTime = "") => {
+export const setTrainingStartTime = (startTime = "") => {
   return {
     type: types.SET_TRAINING_START_TIME,
-    trainingStartTime,
+    startTime,
   };
 };

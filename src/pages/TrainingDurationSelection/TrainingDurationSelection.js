@@ -28,7 +28,7 @@ const TrainingDurationSelection = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      dispatch(push(routes.TRAININGSTARTTIME));
+      dispatch(push(routes.STARTTIMESELECTION));
     }
   };
 
@@ -71,10 +71,10 @@ const TrainingDurationSelection = () => {
           <div className="buttons">
             <Container>
               <Row>
-                {getRadioButton(1,"1 an",tD)}
-                {getRadioButton(2,"2 ans",tD)}
-                {getRadioButton(3,"3 ans",tD)}
-                {getRadioButton(4,"> 3 ans",tD)}
+                {getRadioButton(1, "1 an", tD)}
+                {getRadioButton(2, "2 ans", tD)}
+                {getRadioButton(3, "3 ans", tD)}
+                {getRadioButton(4, "> 3 ans", tD)}
               </Row>
             </Container>
           </div>

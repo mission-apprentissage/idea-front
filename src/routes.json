@@ -6,7 +6,7 @@
     "DIPLOMASELECTION": "/selectionner-diplome",
     "HASDIPLOMASELECTION": "/diplome",
     "TRAININGDURATIONSELECTION": "/duree-formation",
-    "TRAININGSTARTTIME": "/debut-formation",
-    "TRAININGLOCATION": "/lieu-formation",
+    "STARTTIMESELECTION": "/debut-formation",
+    "TRAININGLOCATIONSELECTION": "/lieu-formation",
     "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }

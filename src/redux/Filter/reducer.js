@@ -9,7 +9,7 @@ const initialState = {
   trainingDuration: "",
   diploma: "",
   location: "",
-  starttime: "",
+  startTime: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,8 +34,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         diploma: action.diploma,
       };
-    // set_start_time
-    // set_location
+    case actionsTypes.SET_TRAINING_START_TIME:
+      return {
+        ...state,
+        startTime: action.startTime,
+      };
+    case actionsTypes.SET_TRAINING_LOCATION:
+      return {
+        ...state,
+        location: action.location,
+      };
     default:
       return state;
   }
