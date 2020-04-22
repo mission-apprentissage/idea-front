@@ -14,8 +14,6 @@ const StartTimeSelectionForm = (props) => {
   const dispatch = useDispatch();
   const { startTime } = useSelector((state) => state.filters);
 
-  console.log("startTime ; ",startTime);
-
   return (
     <Formik
       initialValues={{ startTime }}
@@ -27,11 +25,8 @@ const StartTimeSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values) => {
-
-        console.log("Alors : ",values);
-
         dispatch(setTrainingStartTime(values.startTime));
-        dispatch(push(routes.TRAININGLOCATIONSELECTION));
+        dispatch(push(routes.LOCATIONSELECTION));
       }}
     >
       {({ values, isSubmitting, handleSubmit }) => (

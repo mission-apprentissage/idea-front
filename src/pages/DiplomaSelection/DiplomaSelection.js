@@ -17,7 +17,7 @@ const DiplomaSelection = () => {
   return (
     <div className="page diplomaSelection">
       <IdeaHeader />
-      <Progress value={40} />
+      <Progress value={60} />
       <Container>
         <Row>
           <Col xs="12">

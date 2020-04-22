@@ -37,10 +37,11 @@ export const setDiploma = (diploma = "") => {
     diploma,
   };
 };
-export const setTrainingLocation = (location = "") => {
+export const setLocation = (location = "", locationRadius = "") => {
   return {
     type: types.SET_TRAINING_LOCATION,
     location,
+    locationRadius,
   };
 };
 

@@ -9,6 +9,7 @@ const initialState = {
   trainingDuration: "",
   diploma: "",
   location: "",
+  locationRadius: "",
   startTime: "",
 };
 
@@ -43,6 +44,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         location: action.location,
+        locationRadius: action.locationRadius,
       };
     default:
       return state;

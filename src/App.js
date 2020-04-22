@@ -10,7 +10,7 @@ import {
   DiplomaSelection,
   TrainingDurationSelection,
   StartTimeSelection,
-  /*TrainingLocation,*/
+  LocationSelection,
   HelpForUserProject,
   Journal,
   NotFound,
@@ -31,7 +31,8 @@ const App = () => {
         <Route exact path={routes.DIPLOMASELECTION} component={DiplomaSelection} />
         <Route exact path={routes.TRAININGDURATIONSELECTION} component={TrainingDurationSelection} />
         <Route exact path={routes.STARTTIMESELECTION} component={StartTimeSelection} />
-        {/*<Route exact path={routes.TRAININGLOCATION} component={TrainingLocation} />*/}
+        <Route exact path={routes.LOCATIONSELECTION} component={LocationSelection} />
+        <Route exact path={routes.TRAININGLIST} component={Landing} />
         <Route exact path={routes.CHANGELOG} component={Journal} />
         <Route exact path={routes.HELPFORUSERPROJECT} component={HelpForUserProject} />
         <Route component={NotFound} />

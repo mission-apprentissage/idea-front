@@ -6,7 +6,7 @@ import DiplomaSelection from "./DiplomaSelection";
 import HasDiplomaSelection from "./HasDiplomaSelection";
 import TrainingDurationSelection from "./TrainingDurationSelection";
 import StartTimeSelection from "./StartTimeSelection";
-/*TrainingLocation;*/
+import LocationSelection from "./LocationSelection";
 import HelpForUserProject from "./HelpForUserProject";
 
 export {
@@ -18,6 +18,6 @@ export {
   TrainingDurationSelection,
   DiplomaSelection,
   StartTimeSelection,
-  /*TrainingLocation,*/
+  LocationSelection,
   HelpForUserProject,
 };
