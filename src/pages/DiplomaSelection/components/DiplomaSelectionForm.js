@@ -32,8 +32,10 @@ const DiplomaSelectionForm = (props) => {
         <Form>
           <div className="formGroup">
             <FontAwesomeIcon icon={faPassport} />
-            <Field name="diploma" as="select" placeholder="Ton diplôme">
-              <option value=""></option>
+            <Field name="diploma" required as="select">
+              <option disabled value="">
+                Indique ton diplôme
+              </option>
               <option value="CAP">CAP</option>
               <option value="BEP">BEP</option>
               <option value="BTS">BTS</option>
