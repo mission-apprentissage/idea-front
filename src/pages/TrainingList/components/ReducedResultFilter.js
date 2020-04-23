@@ -14,7 +14,7 @@ const ReducedResultFilter = () => {
           <FontAwesomeIcon icon={faSearch} />
         </div>
         <div className="inputText">
-          <input type="text" placeholder={job.label} value={job.label} />
+          <input readonly type="text" placeholder={job.label} value={job.label} />
         </div>
         <div className="fa-icon right">
           <FontAwesomeIcon icon={faSlidersH} />

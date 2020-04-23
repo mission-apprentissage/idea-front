@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { IdeaHeader } from "../../components";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { push } from "connected-react-router";
-import routes from "../../routes.json";
 import "./trainingList.css";
 import { LoadingResults } from "./components";
 import fakeResult from "../../services/fakeResult.json";
@@ -32,7 +30,7 @@ const TrainingList = (props) => {
       ) : (
         <>
           <ReducedResultFilter />
-          <Container className="">
+          <Container>
             <Row>
               <Col xs="12">
                 <ResultNav />
