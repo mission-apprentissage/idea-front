@@ -14,6 +14,7 @@ import {
   HelpForUserProject,
   Journal,
   NotFound,
+  TrainingList,
 } from "./pages";
 
 import routes from "./routes.json";
@@ -32,7 +33,7 @@ const App = () => {
         <Route exact path={routes.TRAININGDURATIONSELECTION} component={TrainingDurationSelection} />
         <Route exact path={routes.STARTTIMESELECTION} component={StartTimeSelection} />
         <Route exact path={routes.LOCATIONSELECTION} component={LocationSelection} />
-        <Route exact path={routes.TRAININGLIST} component={Landing} />
+        <Route exact path={routes.TRAININGLIST} component={TrainingList} />
         <Route exact path={routes.CHANGELOG} component={Journal} />
         <Route exact path={routes.HELPFORUSERPROJECT} component={HelpForUserProject} />
         <Route component={NotFound} />

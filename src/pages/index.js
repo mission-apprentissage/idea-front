@@ -8,6 +8,7 @@ import TrainingDurationSelection from "./TrainingDurationSelection";
 import StartTimeSelection from "./StartTimeSelection";
 import LocationSelection from "./LocationSelection";
 import HelpForUserProject from "./HelpForUserProject";
+import TrainingList from "./TrainingList";
 
 export {
   Landing,
@@ -20,4 +21,5 @@ export {
   StartTimeSelection,
   LocationSelection,
   HelpForUserProject,
+  TrainingList,
 };
