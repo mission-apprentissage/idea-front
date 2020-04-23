@@ -38,12 +38,12 @@ const TrainingList = (props) => {
             </Row>
             <Row>
               <Col>
-                <ResultList listType="training" />
+                <ResultList listType="training" trainings={trainings} />
               </Col>
             </Row>
             <Row>
               <Col>
-                <ResultList listType="job" />
+                <ResultList listType="job" jobs={jobs} />
               </Col>
             </Row>
           </Container>
