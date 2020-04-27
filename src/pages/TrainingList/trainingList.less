@@ -113,6 +113,44 @@
                 padding-left: 25px;
             }
         }
+
+        .resultCardCol.sticky
+        {
+            padding-top: 130px;
+        }
+        .sticky 
+        {
+            .resultCard
+            {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                margin-top: 0;
+                margin-left: -15px;
+                z-index: 1;
+                max-width: 1140px;
+                border: none;
+                border-bottom: 2px solid;
+                background: #f9f9f9;
+                padding-bottom: 20px;
+                transition: all 0.5s ease-out;
+            }
+
+            .expandButton,
+            .favoriteButton
+            {
+                display: none;
+            }
+        }
+
+        .unsticky 
+        {
+            .resultCard
+            {
+                transition: all 0.5s ease-out;
+            }
+        }
+
     }
 
 

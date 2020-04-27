@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import "../trainingList.css";
 import { ResultCard } from "./index";
 const ResultList = ({ listType, trainings, jobs }) => {
-  console.log("listType : ", listType, trainings, jobs);
+  useEffect(() => {
+    if (listType === "training") {
+      let header = document.getElementById("trainingCol");
+      let sticky = header.offsetTop;
+
+      window.onscroll = function () {
+        if (window.pageYOffset > sticky + 280) {
+          header.classList.remove("unsticky");
+          header.classList.add("sticky");
+        } else {
+          header.classList.remove("sticky");
+          header.classList.add("unsticky");
+        }
+      };
+    }
+  }, [listType]);
 
   return (
     <Container className={listType + " resultList"}>
@@ -24,7 +39,7 @@ const ResultList = ({ listType, trainings, jobs }) => {
             </Col>
           </Row>
           <Row>
-            <Col className="resultCardCol" xs="12">
+            <Col id="trainingCol" className="resultCardCol" xs="12">
               <ResultCard type={listType} item={trainings[0]} />
             </Col>
           </Row>
