@@ -21,7 +21,7 @@ const DiplomaSelection = () => {
       <Container>
         <Row>
           <Col xs="12">
-            <h2>Quel diplôme souhaites-tu obtenir ?</h2>
+            <h2>Quel est le diplôme en lien avec le métier que tu as déjà ?</h2>
           </Col>
         </Row>
         <Row>
