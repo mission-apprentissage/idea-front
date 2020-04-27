@@ -6,6 +6,7 @@ import "./trainingList.css";
 import { LoadingResults } from "./components";
 import fakeResult from "../../services/fakeResult.json";
 import { setResults } from "../../redux/Training/actions";
+import { useSwipeable } from "react-swipeable";
 import { ReducedResultFilter, ResultNav, ResultList } from "./components";
 
 const TrainingList = (props) => {
@@ -22,8 +23,19 @@ const TrainingList = (props) => {
     }, 2000);
   });
 
+  const slide = (dir) => {
+    console.log("swipe : ",dir);
+  };
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => slide("next"),
+    onSwipedRight: () => slide("previous"),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true,
+  });
+
   return (
-    <div className="page trainingList">
+    <div {...handlers} className="page trainingList">
       <IdeaHeader />
       {loading ? (
         <LoadingResults />
