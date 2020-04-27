@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@amplitude/ua-parser-js@0.7.20":
+  version "0.7.20"
+  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.20.tgz#15652f8cc4fee72d962a5f2101cfde6f3c8e87b8"
+  integrity sha512-bmW++BLt1Hg+4HCExLXP+0Jhgy2eTsEevqkVc5o4yYbgwdP/gV3gEQXzyVrMVlWWNLgph/tFIkf5PVlSpCELEg==
+
 "@aws-amplify/analytics@^3.1.7":
   version "3.1.7"
   resolved "https://registry.yarnpkg.com/@aws-amplify/analytics/-/analytics-3.1.7.tgz#adcb61c22dca9ea5c0011fa5b4ff91139c8808d7"
@@ -3126,6 +3131,15 @@ amazon-cognito-identity-js@^4.2.1:
     crypto-js "^3.3.0"
     js-cookie "^2.1.4"
 
+amplitude-js@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-6.1.0.tgz#34bb9caf8652c3524b634aa13d084db7f9e3ec1c"
+  integrity sha512-/K6b8g7xC5Zw/woB+li4snt52BCWC0RTnPF/8TBTLb6YNNsyL0L6lwKAbFZ+D8B2gRTCQ3FI/eV+spUaiKz+Mw==
+  dependencies:
+    "@amplitude/ua-parser-js" "0.7.20"
+    blueimp-md5 "^2.10.0"
+    query-string "5"
+
 ansi-colors@^3.0.0:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
@@ -3668,6 +3682,11 @@ bluebird@^3.5.5:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
+
+blueimp-md5@^2.10.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/blueimp-md5/-/blueimp-md5-2.13.0.tgz#07314b0c64dda0bf1733f96ce40d5af94eb28965"
+  integrity sha512-lmp0m647R5e77ORduxLW5mISIDcvgJZa52vMBv5uVI3UmSWTQjkJsZVBfaFqQPw/QFogJwvY6e3Gl9nP+Loe+Q==
 
 bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
   version "4.11.8"
@@ -10159,6 +10178,15 @@ qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
+
+query-string@5:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.1.1.tgz#a78c012b71c17e05f2e3fa2319dd330682efb3cb"
+  integrity sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
+  dependencies:
+    decode-uri-component "^0.2.0"
+    object-assign "^4.1.0"
+    strict-uri-encode "^1.0.0"
 
 query-string@^4.1.0:
   version "4.3.4"

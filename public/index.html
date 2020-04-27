@@ -53,7 +53,9 @@
       ;if(!n._iq.hasOwnProperty(e)){n._iq[e]={_q:[]};v(n._iq[e])}return n._iq[e]}
       ;e.amplitude=n})(window,document);
 
-      amplitude.getInstance().init("31dd22e4a238de2aeee7ca0f90597f5a");
+      let project = amplitude.getInstance();
+      project.init("31dd22e4a238de2aeee7ca0f90597f5a");
+      project.logEvent('Visit');
     </script>
   </head>
   <body>
