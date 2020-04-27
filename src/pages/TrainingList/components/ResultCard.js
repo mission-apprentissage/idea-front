@@ -100,7 +100,7 @@ const ResultCard = ({ item, type }) => {
           <div className="item">
             <div className="leftIcon"></div>
             <div className="rightText">
-              <a target="_blank" href={item.url}>
+              <a target="_blank" href={item.url} rel="noopener noreferrer">
                 {item.url}
               </a>
             </div>
@@ -209,7 +209,7 @@ const ResultCard = ({ item, type }) => {
           <div className="item">
             <div className="leftIcon"></div>
             <div className="rightText">
-              <a target="_blank" href={item.url}>
+              <a target="_blank" href={item.url} rel="noopener noreferrer">
                 {item.url}
               </a>
             </div>
@@ -257,7 +257,7 @@ const ResultCard = ({ item, type }) => {
           <div className="item">
             <div className="leftIcon"></div>
             <div className="rightText">
-              <a target="_blank" href={item.teachingUrl}>
+              <a target="_blank" href={item.teachingUrl} rel="noopener noreferrer">
                 {item.teachingUrl}
               </a>
             </div>

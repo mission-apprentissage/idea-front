@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { IdeaHeader } from "../../components";
-import { Container, Row, Col, Button } from "reactstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { Container, Row, Col } from "reactstrap";
 import "./trainingList.css";
 import { LoadingResults } from "./components";
 import fakeResult from "../../services/fakeResult.json";
-import { setResults } from "../../redux/Training/actions";
 import { useSwipeable } from "react-swipeable";
 import { ReducedResultFilter, ResultNav, ResultList } from "./components";
 
 const TrainingList = (props) => {
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
 
   const { jobs, trainings } = fakeResult;
 
@@ -24,7 +21,7 @@ const TrainingList = (props) => {
   });
 
   const slide = (dir) => {
-    console.log("swipe : ",dir);
+    console.log("swipe : ", dir);
   };
 
   const handlers = useSwipeable({
