@@ -1,6 +1,7 @@
 {
     "jobs" : [
         {
+            "id" : "J1",
             "company": "AUCHAN CITY",
             "address": "rue Fidèle Lehoucq, Tourcoing (59)",
             "people": "3 à 5 salariés",
@@ -17,6 +18,7 @@
             "url": "https://auchancity_tourcoing.fr/"
         },
         {
+            "id" : "J2",
             "company" : "LUCIDARME",
             "address" : "447, rue du clinquet, Tourcoing (59)",
             "people" : "20 à 49 salariés",
@@ -28,36 +30,43 @@
             "url": "https://www.boucherie-lucidarme.fr/"
         },
         {
+            "id" : "J3",
             "company" : "HENRI BOUCHER",
             "address" : "21 rue du Brun Pain, Tourcoing (59)",
             "people" : "10 à 19 salariés"
         },
         {
+            "id" : "J4",
             "company" : "GRAND FRAIS",
             "address" : "29 boulevard d'Halluin, Roncq (59)",
             "people" : "6 à 9 salariés"
         },
         {
+            "id" : "J5",
             "company" : "BOUCHERIE CATTEAU PERE ET FILS",
             "address" : "32 rue d'Halluin, Neuville-en-Ferrain (59)",
             "people" : "3 à 5 salariés"
         },
         {
+            "id" : "J6",
             "company" : "INTERMARCHE",
             "address" : "40 rue Victor Hugo, Croix (59)",
             "people" : "50 à 99 salariés"
         },
         {
+            "id" : "J7",
             "company" : "SARL EXTRAVIANDE",
             "address" : "442 rue de Lille, Roncq (59)",
             "people" : "10 à 19 salariés"
         },
         {
+            "id" : "J8",
             "company" : "LE PALAIS DES GOURMETS",
             "address" : "110 avenue Saint Maur, La Madeleine (59)",
             "people" : "1 salarié"
         },
         {
+            "id" : "J9",
             "company" : "DELBE TRAITEUR",
             "address" : "15 rue de Tressin, Forest-sur-Marque (59)",
             "people" : "20 à 49 salariés"
@@ -66,6 +75,7 @@
 
     "trainings" : [
         {
+            "id" : "T1",
             "title" : "CAP Boucher",
             "school" : "Lycée professionnel Le Corbusier",
             "address" : "78 rue de Piats, Tourcoing (59)",

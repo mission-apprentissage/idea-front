@@ -4,14 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import "../trainingList.css";
 import { ResultCard } from "./index";
-const ResultList = ({ listType, trainings, jobs }) => {
+const ResultList = ({ listType, trainings, jobs, handleOpenedItem, openedItem }) => {
   useEffect(() => {
     if (listType === "training") {
       let header = document.getElementById("trainingCol");
       let sticky = header.offsetTop;
 
-      window.onscroll = function () {
-        if (window.pageYOffset > sticky + 280) {
+      window.onscroll = () => {
+        if (window.pageYOffset > sticky + 280 && (!openedItem || openedItem.charAt(0) !== "T")) {
           header.classList.remove("unsticky");
           header.classList.add("sticky");
         } else {
@@ -20,7 +20,7 @@ const ResultList = ({ listType, trainings, jobs }) => {
         }
       };
     }
-  }, [listType]);
+  }, [listType, openedItem]);
 
   return (
     <Container className={listType + " resultList"}>
@@ -40,7 +40,12 @@ const ResultList = ({ listType, trainings, jobs }) => {
           </Row>
           <Row>
             <Col id="trainingCol" className="resultCardCol" xs="12">
-              <ResultCard type={listType} item={trainings[0]} />
+              <ResultCard
+                type={listType}
+                item={trainings[0]}
+                handleOpenedItem={handleOpenedItem}
+                openedItem={openedItem}
+              />
             </Col>
           </Row>
         </>
@@ -55,7 +60,7 @@ const ResultList = ({ listType, trainings, jobs }) => {
           {jobs.map((job, idx) => (
             <Row key={idx}>
               <Col className="resultCardCol" xs="12">
-                <ResultCard type={listType} item={job} />
+                <ResultCard type={listType} item={job} handleOpenedItem={handleOpenedItem} openedItem={openedItem} />
               </Col>
             </Row>
           ))}

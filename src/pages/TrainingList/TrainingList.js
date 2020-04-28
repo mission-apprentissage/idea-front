@@ -9,6 +9,7 @@ import { ReducedResultFilter, ResultNav, ResultList } from "./components";
 
 const TrainingList = (props) => {
   const [loading, setLoading] = useState(true);
+  const [openedItem, setOpenedItem] = useState(null);
 
   const { jobs, trainings } = fakeResult;
 
@@ -31,6 +32,18 @@ const TrainingList = (props) => {
     trackMouse: true,
   });
 
+  const handleOpenedItem = (id) => {
+    setOpenedItem(id);
+    if (id) {
+      setTimeout(() => {
+        document.getElementById(id).scrollIntoView();
+        setTimeout(() => {
+          window.scrollBy(0, -150);
+        }, 0);
+      }, 250);
+    }
+  };
+
   return (
     <div {...handlers} className="page trainingList">
       <IdeaHeader />
@@ -47,12 +60,17 @@ const TrainingList = (props) => {
             </Row>
             <Row>
               <Col>
-                <ResultList listType="training" trainings={trainings} />
+                <ResultList
+                  listType="training"
+                  trainings={trainings}
+                  handleOpenedItem={handleOpenedItem}
+                  openedItem={openedItem}
+                />
               </Col>
             </Row>
             <Row>
               <Col>
-                <ResultList listType="job" jobs={jobs} />
+                <ResultList listType="job" jobs={jobs} handleOpenedItem={handleOpenedItem} openedItem={openedItem} />
               </Col>
             </Row>
           </Container>

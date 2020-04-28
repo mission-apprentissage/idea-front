@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Collapse, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,10 +12,15 @@ import {
 import { faHeart, faClock } from "@fortawesome/free-regular-svg-icons";
 import "../trainingList.css";
 
-const ResultCard = ({ item, type }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ResultCard = ({ item, type, handleOpenedItem, openedItem }) => {
+  //const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = () => {
+    //setIsOpen(!isOpen);
+    handleOpenedItem(openedItem === item.id ? null : item.id);
+  };
+
+  const isOpen = openedItem === item.id ? true : false;
 
   const getJobDetail = () => {
     return (
@@ -270,7 +275,7 @@ const ResultCard = ({ item, type }) => {
   };
 
   return (
-    <div className={"resultCard " + type}>
+    <div id={item.id} className={"resultCard " + type}>
       {type === "training" ? <div className="trainingTitle">{item.title}</div> : ""}
       <div className="company">{type === "training" ? item.school : item.company}</div>
       <div className="address">
