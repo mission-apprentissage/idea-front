@@ -3,17 +3,45 @@ import { IdeaHeader } from "../../components";
 import { Container, Row, Col } from "reactstrap";
 import "./trainingList.css";
 import { LoadingResults } from "./components";
-import fakeResult from "../../services/fakeResult.json";
+import { useSelector } from "react-redux";
+import fakeResultMacon from "../../services/fakeResultMacon.json";
+import fakeResultBoucher from "../../services/fakeResultBoucher.json";
 import { useSwipeable } from "react-swipeable";
 import { ReducedResultFilter, ResultNav, ResultList } from "./components";
+import { useDispatch } from "react-redux";
+import { push } from "connected-react-router";
+import routes from "../../routes.json";
+
+const getRank = (props) => {
+  let rank = props.match.params.rank;
+  if (rank) {
+    try {
+      if (rank.charAt(0) === "#") rank = rank.substring(1);
+      rank = parseInt(rank);
+
+      if (rank < 0 || rank > 1) rank = 0;
+    } catch (err) {
+      rank = 0;
+    }
+  } else rank = 0;
+
+  return rank;
+};
 
 const TrainingList = (props) => {
+const dispatch = useDispatch();
+
+  const rank = getRank(props);
+
   const [loading, setLoading] = useState(true);
   const [openedItem, setOpenedItem] = useState(null);
 
-  const { jobs, trainings } = fakeResult;
+  const { job } = useSelector((state) => state.filters);
 
-  console.log("jobs ", jobs, "trainings ", trainings);
+  //console.log("job : ",job);
+  const { trainings } = job && job.label && job.label.toLowerCase() === "boucher" ? fakeResultBoucher : fakeResultMacon;
+
+  //console.log("trainings ", trainings);
 
   useEffect(() => {
     setTimeout(() => {
@@ -21,8 +49,21 @@ const TrainingList = (props) => {
     }, 2000);
   });
 
+  // note : quick n dirty
+  const goToPreviousTraining = () => {
+    if (rank == 1) dispatch(push(routes.TRAININGLIST + "/0"));
+  };
+
+  const goToNextTraining = () => {
+    if (rank == 0) dispatch(push(routes.TRAININGLIST + "/1"));
+  };
+
   const slide = (dir) => {
     console.log("swipe : ", dir);
+    if(dir==="next")
+        goToNextTraining();
+    else
+        goToPreviousTraining();
   };
 
   const handlers = useSwipeable({
@@ -55,14 +96,14 @@ const TrainingList = (props) => {
           <Container>
             <Row>
               <Col xs="12">
-                <ResultNav />
+                <ResultNav goToPreviousTraining={goToPreviousTraining} goToNextTraining={goToNextTraining} rank={rank} />
               </Col>
             </Row>
             <Row>
               <Col>
                 <ResultList
                   listType="training"
-                  trainings={trainings}
+                  training={trainings[rank]}
                   handleOpenedItem={handleOpenedItem}
                   openedItem={openedItem}
                 />
@@ -70,7 +111,12 @@ const TrainingList = (props) => {
             </Row>
             <Row>
               <Col>
-                <ResultList listType="job" jobs={jobs} handleOpenedItem={handleOpenedItem} openedItem={openedItem} />
+                <ResultList
+                  listType="job"
+                  jobs={trainings[rank].jobs}
+                  handleOpenedItem={handleOpenedItem}
+                  openedItem={openedItem}
+                />
               </Col>
             </Row>
           </Container>

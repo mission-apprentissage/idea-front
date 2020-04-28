@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { IdeaTitle } from "../../components";
 import { Container, Row, Col, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
@@ -26,7 +26,6 @@ const Landing = () => {
             </div>
           </Col>
         </Row>
-        
       </Container>
     </div>
   );

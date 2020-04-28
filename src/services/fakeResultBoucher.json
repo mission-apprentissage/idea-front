@@ -1,0 +1,168 @@
+{
+    "trainings" : [
+        {
+            "id" : "T1",
+            "title" : "CAP Boucher",
+            "school" : "Lycée professionnel Le Corbusier",
+            "address" : "78 rue de Piats, Tourcoing (59)",
+            "description" : "Objectif de la formation\n\nL'obtention du CAP permet d'exercer le métier de boucher, en petite entreprise artisanale ou en grande surface.L'objectif est de mâitriser les opérations de préparation de viandes et de spécialités bouchères suivant les règles d’hygiène, les techniques de conservation et de sécurité alimentaires.",
+            "duration" : "2 ans",
+            "startTime" : "septembre ou mars",
+            "seats" : "30",
+            "seatPerClass" : "15",
+            "teachings" : "Enseignement professionnel :\n- Approvisionnement, organisation, environnement professionnel\n- Transformation des produits\n\nEnseignement général :\n- Français et histoire géographie\n- Mathématiques et sciences\n- Éducation physique et sportive\n- Langue vivante",
+            "contact" : {
+                "phone":"09-72-72-72-07",
+                "email":"contact@cma-hautsdefrance.fr"
+            },
+            "url" : "http://www.cma-hautsdefrance.fr",
+            "teachingLocation" : "Lycée Le corbusier\n78, Rue de Piats\n59200 Tourcoing",
+            "teachingPhone" : "03-20-58-16-50",
+            "teachingUrl" : "https://le-corbusier.enthdf.fr/",
+            "services" : "Internat, Restaurant scolaire, Bibliothèque",
+            "jobs" : [
+                {
+                    "id" : "J1",
+                    "company": "AUCHAN CITY",
+                    "address": "rue Fidèle Lehoucq, Tourcoing (59)",
+                    "people": "3 à 5 salariés",
+                    "jobTitle": "Boucher/bouchère (H/F)",
+                    "published": "16 avril 2020",
+                    "contractDuration": "18 mois",
+                    "trainingRythm": "1 à 2 jours école/ 3 à 4 jours entreprise",
+                    "jobDescription": "Vos missions sont les suivantes:\n- Préparer les viandes et les spécialités bouchères (selon les règles d'hygiène et de sécurité alimentaires)\n- Assurer la vente des produits de boucherie\n\nPostuler : \nauchan_boucherie@auchancity.fr",
+                    "contact" : {
+                        "phone" : "0320213475",
+                        "email" : "contact@auchancity.fr"
+                    },
+                    "companyEmail": "auchan_boucherie@auchancity.fr",
+                    "url": "https://auchancity_tourcoing.fr/"
+                },
+                {
+                    "id" : "J2",
+                    "company" : "LUCIDARME",
+                    "address" : "447, rue du clinquet, Tourcoing (59)",
+                    "people" : "20 à 49 salariés",
+                    "contact" : {
+                        "phone" : "0320943132",
+                        "email" : "contact@boucherie-lucidarme.fr"
+                    },
+                    "companyEmail": "auchan_boucherie@auchancity.fr",
+                    "url": "https://www.boucherie-lucidarme.fr/"
+                },
+                {
+                    "id" : "J3",
+                    "company" : "HENRI BOUCHER",
+                    "address" : "21 rue du Brun Pain, Tourcoing (59)",
+                    "people" : "10 à 19 salariés"
+                },
+                {
+                    "id" : "J4",
+                    "company" : "GRAND FRAIS",
+                    "address" : "29 boulevard d'Halluin, Roncq (59)",
+                    "people" : "6 à 9 salariés"
+                },
+                {
+                    "id" : "J5",
+                    "company" : "BOUCHERIE CATTEAU PERE ET FILS",
+                    "address" : "32 rue d'Halluin, Neuville-en-Ferrain (59)",
+                    "people" : "3 à 5 salariés"
+                },
+                {
+                    "id" : "J6",
+                    "company" : "INTERMARCHE",
+                    "address" : "40 rue Victor Hugo, Croix (59)",
+                    "people" : "50 à 99 salariés"
+                },
+                {
+                    "id" : "J7",
+                    "company" : "SARL EXTRAVIANDE",
+                    "address" : "442 rue de Lille, Roncq (59)",
+                    "people" : "10 à 19 salariés"
+                },
+                {
+                    "id" : "J8",
+                    "company" : "LE PALAIS DES GOURMETS",
+                    "address" : "110 avenue Saint Maur, La Madeleine (59)",
+                    "people" : "1 salarié"
+                },
+                {
+                    "id" : "J9",
+                    "company" : "DELBE TRAITEUR",
+                    "address" : "15 rue de Tressin, Forest-sur-Marque (59)",
+                    "people" : "20 à 49 salariés"
+                }
+            ]
+        },
+        {
+            "id" : "T2",
+            "title" : "CAP Boucher",
+            "school" : "Campus Pro",
+            "address" : "5 rue de l'Innovation, Hellemmes-Lille (59)",
+            "description" : "Objectif de la formation\n\nVous êtes amené(e) à sélectionner des bêtes entières, des carcasses, ou des morceaux auprès de producteurs, de transformateurs ou plus souvent d’intermédiaires et vous en définissez les conditions d’achat. Vous réceptionnez et stockez ces pièces de viandes d’espèces variées (bovins, ovins, porcins, caprins, équins, volailles, gibiers).Les carcasses, les pièces de viande sont découpées selon des techniques précises : vous désossez, dénervez et parez.aillez, tranchez et hachez les pièces de viandes que vous avez sélectionnées tout en respectant scrupuleusement la traçabilité des produits finis. Rôtis, paupiettes, saucisses, merguez, boudins, andouillettes, etc. sont autant de produits que vous élaborez.Vous accueillez, conseillez et servez les clients en fonction de leurs besoins et leurs envies en garantissant la qualité et la fraîcheur de chaque produit vendu. Vous n’hésitez pas à suggérer des recettes aux clients pour parfaire la vente.L’hygiène et la sécurité alimentaires sont des éléments déterminants dans ce métier. Vous appliquez et respectez les protocoles de conservation des produits. Vous nettoyez les outils, les équipements et les locaux.",
+            "duration" : "2 ans",
+            "startTime" : "septembre ou mars",
+            "seats" : "30",
+            "seatPerClass" : "15",
+            "teachings" : "Enseignement professionnel :\n- les produits et leurs transformations, la filière viande,les équipements matériels et outillages,la commercialisation, CEEEJS - Connaissance de l'entreprise et de son environnement économique, juridique et social\n\nEnseignement général :\n- Français et histoire géographie\n- Sciences Physiques\n- PSE :Prévention Santé Environnement",
+            "contact" : {
+                "phone":"03-20-84-36-40",
+                "email":"lille@campus-pro.fr"
+            },
+            "url" : "https://www.campus-pro.fr/",
+            "teachingLocation" : "Campus Pro\n5, Rue de l'Innovation\n59260 Hellemmes-Lille",
+            "teachingPhone" : "03-20-84-36-40",
+            "teachingUrl" : "https://www.campus-pro.fr/",
+            "services" : "",
+            "jobs" : [
+                {
+                    "id": "J1",
+                    "company": "SUPERMARCHE MATCH",
+                    "address": "97, rue de Solferino, Lille (59)",
+                    "people": "3 à 5 salariés",
+                    "jobTitle": "Boucher/bouchère (H/F)",
+                    "published": "20 avril 2020",
+                    "contractDuration": "18 mois",
+                    "trainingRythm": "1 à 2 jours école/ 3 à 4 jours entreprise",
+                    "jobDescription": "Vos missions sont les suivantes:\n- Préparer les viandes et les spécialités bouchères (selon les règles d'hygiène et de sécurité alimentaires)\n- Assurer la vente des produits de boucherie\n\nPostuler : se présenter en magasin ou envoi mail sdebuyck@supermarchesmatch.fr",
+                    "contact" : {
+                        "phone" : "0320577145",
+                        "email" : "sdebuyck@supermarchematch.fr"
+                    },
+                    "companyEmail": "contact@supermarchematch.fr",
+                    "url": "https://match_lillesolferino.fr/"
+                },
+                {
+                    "id": "J2",
+                    "company" : "LA SAVOUREUSE",
+                    "address" : "185, rue Roger Salengro, Hellemmes-Lille (59)",
+                    "people" : "1 à 2 salariés",
+                    "contact" : {
+                        "phone" : "0320202021",
+                        "email" : "rdupuis@lasavoureuse.fr"
+                    },
+                    "companyEmail": "contact@lasavoureuse.com",
+                    "url": "https://boucherielasavoureuse.fr/"
+                },
+                {
+                    "id": "J3",
+                    "company" : "AU PETIT SANGLIER",
+                    "address" : "265, rue Nationale, Lille (59)",
+                    "people" : "3 à 5 salariés"
+                },
+                {
+                    "id": "J4",
+                    "company" : "BOUCHERIE JEAN CLAUDE",
+                    "address" : "PLace de la nouvelle aventure, Lille (59)",
+                    "people" : "6 à 9 salariés"
+                },
+                {
+                    "id": "J5",
+                    "company" : "MAISON EVRARD",
+                    "address" : "374 rue Leon Gambetta, Lille (59)",
+                    "people" : "3 à 5 salariés"
+                }
+            ]
+        }
+    ]
+}

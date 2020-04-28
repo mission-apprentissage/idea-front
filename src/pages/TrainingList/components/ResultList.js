@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import "../trainingList.css";
 import { ResultCard } from "./index";
-const ResultList = ({ listType, trainings, jobs, handleOpenedItem, openedItem }) => {
+const ResultList = ({ listType, training, jobs, handleOpenedItem, openedItem }) => {
   useEffect(() => {
     if (listType === "training") {
       let header = document.getElementById("trainingCol");
@@ -21,6 +21,8 @@ const ResultList = ({ listType, trainings, jobs, handleOpenedItem, openedItem })
       };
     }
   }, [listType, openedItem]);
+
+  //console.log("listType ",listType, training, jobs);
 
   return (
     <Container className={listType + " resultList"}>
@@ -40,12 +42,7 @@ const ResultList = ({ listType, trainings, jobs, handleOpenedItem, openedItem })
           </Row>
           <Row>
             <Col id="trainingCol" className="resultCardCol" xs="12">
-              <ResultCard
-                type={listType}
-                item={trainings[0]}
-                handleOpenedItem={handleOpenedItem}
-                openedItem={openedItem}
-              />
+              <ResultCard type={listType} item={training} handleOpenedItem={handleOpenedItem} openedItem={openedItem} />
             </Col>
           </Row>
         </>
@@ -57,13 +54,16 @@ const ResultList = ({ listType, trainings, jobs, handleOpenedItem, openedItem })
               Où trouver un job ?
             </Col>
           </Row>
-          {jobs.map((job, idx) => (
-            <Row key={idx}>
-              <Col className="resultCardCol" xs="12">
-                <ResultCard type={listType} item={job} handleOpenedItem={handleOpenedItem} openedItem={openedItem} />
-              </Col>
-            </Row>
-          ))}
+          {jobs.map((job, idx) => {
+            //console.log(job,idx);
+            return (
+              <Row key={idx}>
+                <Col className="resultCardCol" xs="12">
+                  <ResultCard type={listType} item={job} handleOpenedItem={handleOpenedItem} openedItem={openedItem} />
+                </Col>
+              </Row>
+            );
+          })}
         </>
       )}
     </Container>

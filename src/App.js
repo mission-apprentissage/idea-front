@@ -34,6 +34,7 @@ const App = () => {
         <Route exact path={routes.STARTTIMESELECTION} component={StartTimeSelection} />
         <Route exact path={routes.LOCATIONSELECTION} component={LocationSelection} />
         <Route exact path={routes.TRAININGLIST} component={TrainingList} />
+        <Route path={routes.TRAININGLIST+"/:rank"} component={TrainingList} />
         <Route exact path={routes.CHANGELOG} component={Journal} />
         <Route exact path={routes.HELPFORUSERPROJECT} component={HelpForUserProject} />
         <Route component={NotFound} />
