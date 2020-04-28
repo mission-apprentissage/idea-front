@@ -29,7 +29,7 @@ const getRank = (props) => {
 };
 
 const TrainingList = (props) => {
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const rank = getRank(props);
 
@@ -51,19 +51,16 @@ const dispatch = useDispatch();
 
   // note : quick n dirty
   const goToPreviousTraining = () => {
-    if (rank == 1) dispatch(push(routes.TRAININGLIST + "/0"));
+    if (rank === 1) dispatch(push(routes.TRAININGLIST + "/0"));
   };
 
   const goToNextTraining = () => {
-    if (rank == 0) dispatch(push(routes.TRAININGLIST + "/1"));
+    if (rank === 0) dispatch(push(routes.TRAININGLIST + "/1"));
   };
 
   const slide = (dir) => {
-    console.log("swipe : ", dir);
-    if(dir==="next")
-        goToNextTraining();
-    else
-        goToPreviousTraining();
+    if (dir === "next") goToNextTraining();
+    else goToPreviousTraining();
   };
 
   const handlers = useSwipeable({
@@ -96,7 +93,11 @@ const dispatch = useDispatch();
           <Container>
             <Row>
               <Col xs="12">
-                <ResultNav goToPreviousTraining={goToPreviousTraining} goToNextTraining={goToNextTraining} rank={rank} />
+                <ResultNav
+                  goToPreviousTraining={goToPreviousTraining}
+                  goToNextTraining={goToNextTraining}
+                  rank={rank}
+                />
               </Col>
             </Row>
             <Row>

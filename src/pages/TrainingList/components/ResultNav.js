@@ -9,15 +9,23 @@ const ResultNav = ({ rank, goToPreviousTraining, goToNextTraining }) => {
     <Container className="resultNav">
       <Row>
         <Col xs="2">
-          <Button className="left" onClick={goToPreviousTraining}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </Button>
+          {rank === 1 ? (
+            <Button className="left" onClick={goToPreviousTraining}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </Button>
+          ) : (
+            ""
+          )}
         </Col>
         <Col xs="8">Il y a 2 résultats pour votre recherche</Col>
         <Col xs="2">
-          <Button className="right" onClick={goToNextTraining}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </Button>
+          {rank === 0 ? (
+            <Button className="right" onClick={goToNextTraining}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </Button>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
     </Container>
