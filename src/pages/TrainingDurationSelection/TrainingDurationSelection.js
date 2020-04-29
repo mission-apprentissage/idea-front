@@ -71,10 +71,10 @@ const TrainingDurationSelection = () => {
           <div className="buttons">
             <Container>
               <Row>
-                {getRadioButton(1, "1 an", tD)}
-                {getRadioButton(2, "2 ans", tD)}
-                {getRadioButton(3, "3 ans", tD)}
-                {getRadioButton(4, "> 3 ans", tD)}
+                {getRadioButton(1, "6 mois", tD)}
+                {getRadioButton(2, "1 an", tD)}
+                {getRadioButton(3, "2 ans", tD)}
+                {getRadioButton(4, "3 ans", tD)}
               </Row>
             </Container>
           </div>
