@@ -276,7 +276,11 @@ const ResultCard = ({ item, type, handleOpenedItem, openedItem }) => {
 
   return (
     <div id={item.id} className={"resultCard " + type}>
-      {type === "training" ? <div className="trainingTitle">{item.title}</div> : ""}
+      {type === "training" ? (
+        <div className="trainingTitle">{item.title}</div>
+      ) : (
+        <div className="jobScore">{item.score}</div>
+      )}
       <div className="company">{type === "training" ? item.school : item.company}</div>
       <div className="address">
         <FontAwesomeIcon icon={faMapMarkerAlt} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { IdeaHeader, JobAdvice } from "../../components";
 import { Progress } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";

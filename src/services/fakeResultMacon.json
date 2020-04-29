@@ -23,6 +23,7 @@
             "jobs" : [
                 {
                     "id" : "J1",
+                    "score" : "100%",
                     "company": "EXANO",
                     "address": "23 rue Robert Mathieu, Bruges (33)",
                     "people": "0 salarié",
@@ -40,6 +41,7 @@
                 },
                 {
                     "id" : "J2",
+                    "score" : "90%",
                     "company" : "SIREMS SERVICE",
                     "address" : "rue Jean Giroudoux, Le Pian Medoc (33)",
                     "people" : "20 à 49 salariés",
@@ -52,12 +54,14 @@
                 },
                 {
                     "id" : "J3",
+                    "score" : "90%",
                     "company" : "EIFFAGE CONSTRUCTION NORD AQUITAINE",
                     "address" : "5 place Ravezies, Bordeaux (33)",
                     "people" : "199 à 250 salariés"
                 },
                 {
                     "id" : "J4",
+                    "score" : "80%",
                     "company" : "SARL DO CASAL",
                     "address" : "10 rue du Maréchal de Lattre de Tassigny, Bassens (33)",
                     "people" : "6 à 9 salariés"                                 
@@ -87,6 +91,7 @@
             "jobs" : [
                 {
                     "id" : "J1",
+                    "score" : "90%",
                     "company": "LES BATISSEURS MARMANDAIS",
                     "address": "Le Chemin neuf, Lagupie (33)",
                     "people": "3 à 5 salariés",
@@ -104,6 +109,7 @@
                 },
                 {
                     "id" : "J2",
+                    "score" : "80%",
                     "company" : "ALPBATI",
                     "address" : "4 lieudit Blanchard, Saint Seve (33)",
                     "people" : "6 à 9 salariés",
@@ -116,24 +122,28 @@
                 },
                 {
                     "id" : "J3",
+                    "score" : "80%",
                     "company" : "LEGLISE MACONNERIE",
                     "address" : "3 lieudit Camgran (33)",
                     "people" : "1 à 2 salariés"
                 },
                 {
                     "id" : "J4",
+                    "score" : "55%",
                     "company" : "SARL SOTRABAT",
                     "address" : "25, rue du notaire, Saint Morillon (33)",
                     "people" : "6 à 9 salariés"
                 },
                 {
                     "id" : "J5",
+                    "score" : "50%",
                     "company" : "RUIZ ERIC",
                     "address" : "11B avenue Aristide Briand, Pessac (33)",
                     "people" : "3 à 5 salariés"
                 },
                 {
                     "id" : "J6",
+                    "score" : "50%",
                     "company" : "GSS TP",
                     "address" : "25 avenue du Quercy, Cancon (47)",
                     "people" : "0 salarié"               
