@@ -37,9 +37,12 @@ const DiplomaSelectionForm = (props) => {
                 Indique ton diplôme
               </option>
               <option value="CAP">CAP</option>
-              <option value="BEP">BEP</option>
-              <option value="BTS">BTS</option>
               <option value="Bac pro">Bac pro</option>
+              <option value="BTS">BTS</option>
+              <option value="DUT">DUT</option>
+              <option value="Licence pro">Licence pro</option>
+              <option value="Master">Master</option>
+              <option value="Diplôme d'Ingénieur">Diplôme d'Ingénieur</option>
               <option value="Mention complémentaire">Mention complémentaire</option>
             </Field>
           </div>
