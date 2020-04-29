@@ -15,8 +15,7 @@ const Landing = () => {
         <Row>
           <Col xs="12">
             <IdeaTitle />
-            <h2>L'apprentissage c'est fait pour toi ?</h2>
-            <p>Trouve la formation et l'entreprise pour réaliser ton projet !</p>
+            <h2>Trouve la formation et l'entreprise pour réaliser ton projet !</h2>
           </Col>
         </Row>
         <Row>
