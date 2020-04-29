@@ -20,7 +20,7 @@ const StartTimeSelectionForm = (props) => {
       validate={(values) => {
         const errors = {};
         if (!values.startTime) {
-          errors.startTime = "Requis";
+          errors.startTime = "Choisis une réponse";
         }
         return errors;
       }}

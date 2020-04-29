@@ -20,7 +20,7 @@ const JobSelectionForm = (props) => {
       validate={(values) => {
         const errors = {};
         if (!values.jobSelectorLabel) {
-          errors.jobSelectorLabel = "Requis";
+          errors.jobSelectorLabel = "Choisis une réponse";
         }
         return errors;
       }}

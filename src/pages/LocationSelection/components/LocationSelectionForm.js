@@ -49,10 +49,10 @@ const LocationSelectionForm = (props) => {
       validate={(values) => {
         const errors = {};
         if (!values.location) {
-          errors.location = "Requis";
+          errors.location = "Choisis une réponse";
         }
         if (!lR) {
-          errors.locationRadius = "Requis";
+          errors.locationRadius = "Choisis une réponse";
         }
         return errors;
       }}
