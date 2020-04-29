@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IdeaHeader, JobAdvice } from "../../components";
+import { IdeaHeader } from "../../components";
 import { Progress } from "reactstrap";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -97,9 +97,6 @@ const TrainingDurationSelection = () => {
               Valider
             </Button>
           </Col>
-        </Row>
-        <Row>
-          <JobAdvice />
         </Row>
       </Container>
     </div>
