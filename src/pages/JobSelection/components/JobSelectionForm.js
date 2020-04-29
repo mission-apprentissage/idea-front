@@ -33,7 +33,7 @@ const JobSelectionForm = (props) => {
         <Form>
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
-            <Field type="text" placeholder="ex: opticien" name="jobSelectorLabel" />
+            <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 
