@@ -1,5 +1,5 @@
 import React from "react";
-import { IdeaHeader, JobAdvice } from "../../components";
+import { IdeaHeader } from "../../components";
 import { Progress } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import { StartTimeSelectionForm } from "./components";
@@ -34,9 +34,6 @@ const JobSelection = () => {
           <Col xs="12 form">
             <StartTimeSelectionForm />
           </Col>
-        </Row>
-        <Row>
-          <JobAdvice />
         </Row>
       </Container>
     </div>

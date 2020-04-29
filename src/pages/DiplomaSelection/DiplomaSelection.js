@@ -1,5 +1,5 @@
 import React from "react";
-import { IdeaHeader, JobAdvice } from "../../components";
+import { IdeaHeader } from "../../components";
 import { Progress } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,9 +28,6 @@ const DiplomaSelection = () => {
           <Col xs="12">
             <DiplomaSelectionForm />
           </Col>
-        </Row>
-        <Row>
-          <JobAdvice />
         </Row>
       </Container>
     </div>
