@@ -11,12 +11,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faClock } from "@fortawesome/free-regular-svg-icons";
 import "../trainingList.css";
+import { logEvent } from "../../../services/amplitude";
 
 const ResultCard = ({ item, type, handleOpenedItem, openedItem }) => {
   //const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
-    //setIsOpen(!isOpen);
+    if (!isOpen) {
+      let eventParameters = { type };
+      if (type === "training") eventParameters.title = item.title;
+      else {
+        eventParameters.company = item.company;
+        eventParameters.jobTitle = item.jobTitle ? item.jobTitle : "";
+      }
+
+      logEvent("openDetail", { eventParameters });
+    }
     handleOpenedItem(openedItem === item.id ? null : item.id);
   };
 
