@@ -11,6 +11,7 @@ import { ReducedResultFilter, ResultNav, ResultList } from "./components";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import routes from "../../routes.json";
+import { logEvent } from "../../services/amplitude";
 
 const getRank = (props) => {
   let rank = props.match.params.rank;
@@ -44,6 +45,8 @@ const TrainingList = (props) => {
   //console.log("trainings ", trainings);
 
   useEffect(() => {
+    logEvent("searchResult", { job });
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);
