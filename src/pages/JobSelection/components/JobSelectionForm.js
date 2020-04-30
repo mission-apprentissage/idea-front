@@ -9,6 +9,7 @@ import "./jobSelectionForm.css";
 import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setJob } from "../../../redux/Filter/actions";
+import { logEvent } from "../../../services/amplitude";
 
 const JobSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const JobSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
+        logEvent("tunnelNextStep", { currentStep: "jobSelection", job: values.jobSelectorLabel });
         dispatch(setJob(values.jobSelectorLabel, ""));
         dispatch(push(routes.HASDIPLOMASELECTION));
       }}

@@ -8,6 +8,7 @@ import "./diplomaSelectionForm.css";
 import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setDiploma } from "../../../redux/Filter/actions";
+import { logEvent } from "../../../services/amplitude";
 
 const DiplomaSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const DiplomaSelectionForm = (props) => {
       }}
       onSubmit={(values, { setSubmitting }) => {
         dispatch(setDiploma(values.diploma));
+
+        logEvent("tunnelNextStep", { currentStep: "diplomaSelection", diploma: values.diploma });
         dispatch(push(routes.STARTTIMESELECTION));
       }}
     >

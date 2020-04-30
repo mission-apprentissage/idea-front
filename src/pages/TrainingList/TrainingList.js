@@ -45,7 +45,8 @@ const TrainingList = (props) => {
   //console.log("trainings ", trainings);
 
   useEffect(() => {
-    if(loading) // quick'n dirty only happen once
+    if (loading)
+      // quick'n dirty only happen once
       logEvent("searchResult", { job });
 
     setTimeout(() => {

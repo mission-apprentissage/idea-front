@@ -8,6 +8,7 @@ import "./locationSelectionForm.css";
 import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setLocation } from "../../../redux/Filter/actions";
+import { logEvent } from "../../../services/amplitude";
 
 const LocationSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ const LocationSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
+        logEvent("tunnelNextStep", { currentStep: "locationSelection", location: values.location });
         dispatch(setLocation(values.location, lR));
         dispatch(push(routes.TRAININGLIST));
       }}
