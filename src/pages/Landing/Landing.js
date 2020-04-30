@@ -24,7 +24,7 @@ const Landing = () => {
             <div className="cta">
               <Button
                 onClick={() => {
-                  logEvent("essai");
+                  logEvent("tunnelNextStep", { currentStep: "landing" });
                   dispatch(push(routes.JOBSELECTION));
                 }}
               >
