@@ -7,6 +7,7 @@ import { push } from "connected-react-router";
 import routes from "../../routes.json";
 import { setTrainingDuration } from "../../redux/Filter/actions";
 import "./trainingDurationSelection.css";
+import { logEvent } from "../../services/amplitude";
 
 const TrainingDurationSelection = () => {
   const { job, hasDiploma, trainingDuration } = useSelector((state) => state.filters);
@@ -23,11 +24,27 @@ const TrainingDurationSelection = () => {
     dispatch(setTrainingDuration(response));
   };
 
+  const getDurationFromValue = (value) => {
+    switch (value) {
+      case 1:
+        return "6 mois";
+      case 2:
+        return "1 an";
+      case 3:
+        return "2 ans";
+      case 4:
+        return "3 ans";
+      default:
+        return "";
+    }
+  };
+
   const handleSubmit = () => {
     if (!tD) {
       setHasError(true);
     } else {
       setHasError(false);
+      logEvent("tunnelNextStep", { currentStep: "trainingDurationSelection", duration: getDurationFromValue(tD) });
       dispatch(push(routes.STARTTIMESELECTION));
     }
   };

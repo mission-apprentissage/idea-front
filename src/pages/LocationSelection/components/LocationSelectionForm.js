@@ -58,7 +58,11 @@ const LocationSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        logEvent("tunnelNextStep", { currentStep: "locationSelection", location: values.location });
+        logEvent("tunnelNextStep", {
+          currentStep: "locationSelection",
+          location: values.location,
+          locationRadius: lR + "km",
+        });
         dispatch(setLocation(values.location, lR));
         dispatch(push(routes.TRAININGLIST));
       }}

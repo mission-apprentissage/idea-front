@@ -9,6 +9,7 @@ import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setTrainingStartTime } from "../../../redux/Filter/actions";
 import { DatePickerField } from "../../../components";
+import { logEvent } from "../../../services/amplitude";
 
 const StartTimeSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const StartTimeSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values) => {
+        logEvent("tunnelNextStep", { currentStep: "startTimeSelection" });
         dispatch(setTrainingStartTime(values.startTime));
         dispatch(push(routes.LOCATIONSELECTION));
       }}
