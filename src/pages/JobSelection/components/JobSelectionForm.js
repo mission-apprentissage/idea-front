@@ -72,6 +72,9 @@ const JobSelectionForm = (props) => {
               placeholder="ex: boucher"
             />
           </div>
+          <div className="formGroup">
+            <AutoCompleteField name="jobField" />
+          </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 
           <Button type="submit" disabled={isSubmitting}>
