@@ -5,11 +5,11 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import "./jobSelectionForm.css";
-//import Autocomplete from "react-autocomplete";
 import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setJob } from "../../../redux/Filter/actions";
 import { logEvent } from "../../../services/amplitude";
+import { AutoCompleteField } from "../../../components";
 
 const JobSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -20,6 +20,9 @@ const JobSelectionForm = (props) => {
       initialValues={{ jobSelectorLabel: job.label, jobSelectorValue: "" }}
       validate={(values) => {
         const errors = {};
+
+        console.log("values : ",values);
+
         if (!values.jobSelectorLabel) {
           errors.jobSelectorLabel = "Choisis une réponse";
         }
@@ -36,6 +39,9 @@ const JobSelectionForm = (props) => {
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
             <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
+          </div>
+          <div className="formGroup">
+            <AutoCompleteField name="jobField" />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 

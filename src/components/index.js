@@ -4,5 +4,6 @@ import IdeaHeader from "./IdeaHeader";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
 import DatePickerField from "./DatePickerField";
+import AutoCompleteField from "./AutoCompleteField";
 
-export { DatePickerField, JobAdvice, IdeaHeader, IdeaTitle, Footer, ScrollToTop };
+export { AutoCompleteField, DatePickerField, JobAdvice, IdeaHeader, IdeaTitle, Footer, ScrollToTop };

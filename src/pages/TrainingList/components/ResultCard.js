@@ -305,9 +305,7 @@ const ResultCard = ({ item, type, handleOpenedItem, openedItem }) => {
         ""
       )}
       {!isOpen && type === "job" && item.jobTitle ? (
-        <div className="hasJob">
-          L'entreprise a 1 offre d'emploi pour cette formation
-        </div>
+        <div className="hasJob">L'entreprise a 1 offre d'emploi pour cette formation</div>
       ) : (
         ""
       )}
