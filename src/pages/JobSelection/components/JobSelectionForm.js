@@ -15,44 +15,54 @@ const JobSelectionForm = (props) => {
   const dispatch = useDispatch();
   const { job } = useSelector((state) => state.filters);
   const jobItems = [
-    { label: "Maçon", ROME: "A0000" },
-    { label: "Boucher", ROME: "B0000" },
-    { label: "Opticien", ROME: "C0000" },
+    { label: "Maçon", value: "A0000" },
+    { label: "Boucher", value: "B0000" },
+    { label: "Opticien", value: "C0000" },
   ];
 
   const autoCompleteToStringFunction = (item) => {
-    return item?item.label:"";
-  }
+    return item ? item.label : "";
+  };
 
+  const updateValuesFromAutoComplete = (item, setFieldValue) => {
+    //setFieldValue("jobSelectorLabel",value );
+    setTimeout(() => {
+      setFieldValue("jobSelectorLabel", item ? item.label : "");
+      setFieldValue("jobSelectorValue", item ? item.value : "");
+    }, 0);
+  };
+
+  console.log("initial : ", job);
   return (
     <Formik
-      initialValues={{ jobSelectorLabel: job.label, jobSelectorValue: "" }}
+      initialValues={{ jobSelectorLabel: job.label, jobSelectorValue: job.value }}
       validate={(values) => {
         const errors = {};
 
-        console.log("values : ", values);
-
-        if (!values.jobSelectorLabel) {
-          errors.jobSelectorLabel = "Choisis une réponse";
+        if (!values.jobSelectorLabel || !values.jobSelectorValue) {
+          errors.jobSelectorLabel = "Choisis une réponse dans la liste";
         }
+
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
         logEvent("tunnelNextStep", { currentStep: "jobSelection", job: values.jobSelectorLabel });
-        dispatch(setJob(values.jobSelectorLabel, ""));
+        dispatch(setJob(values.jobSelectorLabel, values.jobSelectorValue));
         dispatch(push(routes.HASDIPLOMASELECTION));
       }}
     >
       {({ values, isSubmitting, setFieldValue }) => (
         <Form>
-          {/*<div className="formGroup">
-            
-            <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
-            </div>*/}
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
-            <AutoCompleteField items={jobItems} itemToStringFunction={autoCompleteToStringFunction} name="jobField" placeholder="ex: boucher" />
+            <AutoCompleteField
+              items={jobItems}
+              initialItem={{ label: job.label, value: job.value }}
+              itemToStringFunction={autoCompleteToStringFunction}
+              onSelectedItemChangeFunction={updateValuesFromAutoComplete}
+              name="jobField"
+              placeholder="ex: boucher"
+            />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 

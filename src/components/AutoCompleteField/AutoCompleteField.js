@@ -4,7 +4,14 @@ import { useCombobox } from "downshift";
 import axios from "axios";
 import "./AutoCompleteField.css";
 
-export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunction, items, ...props }) => {
+export const AutoCompleteField = ({
+  itemToStringFunction,
+  onInputValueChangeFunction,
+  onSelectedItemChangeFunction,
+  initialItem,
+  items,
+  ...props
+}) => {
   const { setFieldValue } = useFormikContext();
   const [field] = useField(props);
 
@@ -33,10 +40,18 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
     });
   };
 
+  const setFieldValueFormik = (item) => {
+    //setFieldValue("jobSelectorLabel",value );
+    setTimeout(() => {
+      setFieldValue("jobSelectorLabel", item.label);
+      setFieldValue("jobSelectorValue", item.value);
+    }, 0);
+  };
+
   const {
     isOpen,
-    getToggleButtonProps,
-    getLabelProps,
+    /*getToggleButtonProps,
+    getLabelProps,*/
     getMenuProps,
     getInputProps,
     getComboboxProps,
@@ -45,10 +60,16 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
   } = useCombobox({
     items: inputItems,
     itemToString,
-    onInputValueChange: ({ inputValue }) => {
+    initialSelectedItem: initialItem,
+    onSelectedItemChange: ({ selectedItem }) => {       //
+      if (onSelectedItemChangeFunction) onSelectedItemChangeFunction(selectedItem, setFieldValue);
+    },
+    onInputValueChange: ({ inputValue, selectedItem }) => {
       //console.log("returnedItems : ", fetchAddresses(inputValue));
       if (onInputValueChangeFunction) setInputItems(onInputValueChangeFunction(inputValue));
       else setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
+
+      onSelectedItemChangeFunction(null, setFieldValue);
     },
   });
   return (
