@@ -59,6 +59,10 @@ const JobSelectionForm = (props) => {
     >
       {({ isSubmitting }) => (
         <Form>
+          {/*<div className="formGroup">
+            
+            <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
+            </div>*/}
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
             <AutoCompleteField
@@ -71,9 +75,6 @@ const JobSelectionForm = (props) => {
               name="jobField"
               placeholder="ex: boucher"
             />
-          </div>
-          <div className="formGroup">
-            <AutoCompleteField name="jobField" />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 
