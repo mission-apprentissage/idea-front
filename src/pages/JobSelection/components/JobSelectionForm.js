@@ -14,6 +14,11 @@ import { AutoCompleteField } from "../../../components";
 const JobSelectionForm = (props) => {
   const dispatch = useDispatch();
   const { job } = useSelector((state) => state.filters);
+  const jobItems = [
+    { label: "Maçon", ROME: "A0000" },
+    { label: "Boucher", ROME: "B0000" },
+    { label: "Opticien", ROME: "C0000" },
+  ];
 
   return (
     <Formik
@@ -21,7 +26,7 @@ const JobSelectionForm = (props) => {
       validate={(values) => {
         const errors = {};
 
-        console.log("values : ",values);
+        console.log("values : ", values);
 
         if (!values.jobSelectorLabel) {
           errors.jobSelectorLabel = "Choisis une réponse";
@@ -36,12 +41,13 @@ const JobSelectionForm = (props) => {
     >
       {({ values, isSubmitting, setFieldValue }) => (
         <Form>
+          {/*<div className="formGroup">
+            
+            <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
+            </div>*/}
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
-            <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
-          </div>
-          <div className="formGroup">
-            <AutoCompleteField name="jobField" />
+            <AutoCompleteField items={jobItems} name="jobField" placeholder="ex: boucher" />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 

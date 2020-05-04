@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useField, useFormikContext } from "formik";
 import { useCombobox } from "downshift";
 import axios from "axios";
+import "./AutoCompleteField.css";
 
 /*const items = [ {value:"a",label:"Bleu"},
 {value:"b",label:"rouge"},
@@ -59,12 +60,12 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
   });
   return (
     <div>
-      <label {...getLabelProps()}>Choose an element:</label>
+      {/*<label {...getLabelProps()}>Possibilité de poser un label avec des props dédiées</label>*/}
       <div {...getComboboxProps()}>
-        <input {...getInputProps()} />
-        <button {...getToggleButtonProps()} aria-label="toggle menu">
-          &#8595;
-        </button>
+        <input {...getInputProps()} placeholder={props.placeholder} />
+        {/*<button {...getToggleButtonProps()} aria-label="toggle menu">
+          &#8595;   possibilité de poser un bouton toggle avec des props dédiées
+        </button>*/}
       </div>
       <ul {...getMenuProps()} className="autoCompleteMenu">
         {isOpen &&
