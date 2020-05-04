@@ -59,7 +59,7 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
     },
   });
   return (
-    <div>
+    <div className='autoCompleteContainer'>
       {/*<label {...getLabelProps()}>Possibilité de poser un label avec des props dédiées</label>*/}
       <div {...getComboboxProps()}>
         <input {...getInputProps()} placeholder={props.placeholder} />

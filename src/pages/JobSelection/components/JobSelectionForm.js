@@ -34,6 +34,7 @@ const JobSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
+        console.log(values);
         logEvent("tunnelNextStep", { currentStep: "jobSelection", job: values.jobSelectorLabel });
         dispatch(setJob(values.jobSelectorLabel, ""));
         dispatch(push(routes.HASDIPLOMASELECTION));
