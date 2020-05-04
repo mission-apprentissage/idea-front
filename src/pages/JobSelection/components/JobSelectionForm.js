@@ -52,7 +52,6 @@ const JobSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        console.log(values);
         logEvent("tunnelNextStep", { currentStep: "jobSelection", job: values.jobSelectorLabel });
         dispatch(setJob(values.jobSelectorLabel, values.jobSelectorValue));
         dispatch(push(routes.HASDIPLOMASELECTION));
@@ -60,10 +59,6 @@ const JobSelectionForm = (props) => {
     >
       {({ isSubmitting }) => (
         <Form>
-          {/*<div className="formGroup">
-            
-            <Field type="text" placeholder="ex: boucher" name="jobSelectorLabel" />
-            </div>*/}
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
             <AutoCompleteField
