@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { /*useField,*/ useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import { useCombobox } from "downshift";
-//import axios from "axios";
 import "./AutoCompleteField.css";
 
 export const AutoCompleteField = ({
@@ -15,7 +14,6 @@ export const AutoCompleteField = ({
   ...props
 }) => {
   const { setFieldValue } = useFormikContext();
-  //const [field] = useField(props);
 
   const [inputItems, setInputItems] = useState(items);
 
@@ -23,25 +21,6 @@ export const AutoCompleteField = ({
     if (itemToStringFunction) return item ? itemToStringFunction(item) : "";
     else return item;
   };
-
-  /*
-  const fetchAddresses = (value) => {
-    const addressURL = `https://api-adresse.data.gouv.fr/search/?limit=15&q=${value}`;
-    console.log(addressURL);
-    return axios.get(addressURL).then((response) => {
-      //this.setState({ movies: response.data.results })
-      console.log(response.data.features);
-      const returnedItems = response.data.features.map((feature) => {
-        console.log(feature);
-        return { value: feature.geometry, label: feature.properties.label };
-      });
-
-      console.log("returned items : ", returnedItems);
-
-      return returnedItems;
-      //setInputItems(returnedItems);
-    });
-  };*/
 
   const {
     isOpen,
