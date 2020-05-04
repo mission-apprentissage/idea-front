@@ -10,6 +10,28 @@ import routes from "../../../routes.json";
 import { setLocation } from "../../../redux/Filter/actions";
 import { logEvent } from "../../../services/amplitude";
 
+
+//import axios from "axios";
+/*
+  const fetchAddresses = (value) => {
+    const addressURL = `https://api-adresse.data.gouv.fr/search/?limit=15&q=${value}`;
+    console.log(addressURL);
+    return axios.get(addressURL).then((response) => {
+      //this.setState({ movies: response.data.results })
+      console.log(response.data.features);
+      const returnedItems = response.data.features.map((feature) => {
+        console.log(feature);
+        return { value: feature.geometry, label: feature.properties.label };
+      });
+
+      console.log("returned items : ", returnedItems);
+
+      return returnedItems;
+      //setInputItems(returnedItems);
+    });
+  };*/
+
+
 const LocationSelectionForm = (props) => {
   const dispatch = useDispatch();
   const { location, locationRadius } = useSelector((state) => state.filters);
