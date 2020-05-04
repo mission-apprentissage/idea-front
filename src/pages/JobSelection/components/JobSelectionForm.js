@@ -17,22 +17,28 @@ const JobSelectionForm = (props) => {
   const jobItems = [
     { label: "Maçon", value: "A0000" },
     { label: "Boucher", value: "B0000" },
-    { label: "Opticien", value: "C0000" },
+    //{ label: "Opticien", value: "C0000" },
   ];
 
+  // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
     return item ? item.label : "";
   };
 
+  // Permet de sélectionner un élément dans la liste d'items correspondant à un texte entré au clavier
+  const compareAutoCompleteValues = (items, value) => {
+    return items.findIndex((element) => element.label.toLowerCase() === value.toLowerCase());
+  };
+
+  // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
   const updateValuesFromAutoComplete = (item, setFieldValue) => {
-    //setFieldValue("jobSelectorLabel",value );
+    //setTimeout perme d'éviter un conflit de setState
     setTimeout(() => {
       setFieldValue("jobSelectorLabel", item ? item.label : "");
       setFieldValue("jobSelectorValue", item ? item.value : "");
     }, 0);
   };
 
-  console.log("initial : ", job);
   return (
     <Formik
       initialValues={{ jobSelectorLabel: job.label, jobSelectorValue: job.value }}
@@ -51,15 +57,17 @@ const JobSelectionForm = (props) => {
         dispatch(push(routes.HASDIPLOMASELECTION));
       }}
     >
-      {({ values, isSubmitting, setFieldValue }) => (
+      {({ isSubmitting }) => (
         <Form>
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
             <AutoCompleteField
               items={jobItems}
+              initialIsOpen={true}
               initialItem={{ label: job.label, value: job.value }}
               itemToStringFunction={autoCompleteToStringFunction}
               onSelectedItemChangeFunction={updateValuesFromAutoComplete}
+              compareItemFunction={compareAutoCompleteValues}
               name="jobField"
               placeholder="ex: boucher"
             />
@@ -76,24 +84,3 @@ const JobSelectionForm = (props) => {
 };
 
 export default JobSelectionForm;
-
-/*
-<Autocomplete
-              getItemValue={item => item.label}
-              items={[
-                { label: "apple", value:"5" },
-                { label: "banana", value:"8" },
-                { label: "pear", value:"10" }
-              ]}
-              renderItem={(item, isHighlighted) => (
-                <div
-                  style={{ background: isHighlighted ? "lightgray" : "white" }}
-                >
-                  {item.label}
-                </div>
-              )}
-              value={values.value}
-              onChange={e => setFieldValue("jobSelectorValue", e.target.value)}
-              onSelect={val => setFieldValue("jobSelectorValue", val)}
-            />
-*/

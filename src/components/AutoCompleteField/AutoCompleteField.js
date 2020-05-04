@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import { useField, useFormikContext } from "formik";
+import { /*useField,*/ useFormikContext } from "formik";
 import { useCombobox } from "downshift";
-import axios from "axios";
+//import axios from "axios";
 import "./AutoCompleteField.css";
 
 export const AutoCompleteField = ({
   itemToStringFunction,
   onInputValueChangeFunction,
   onSelectedItemChangeFunction,
+  compareItemFunction,
   initialItem,
   items,
+  initialIsOpen,
   ...props
 }) => {
   const { setFieldValue } = useFormikContext();
-  const [field] = useField(props);
+  //const [field] = useField(props);
 
   const [inputItems, setInputItems] = useState(items);
 
@@ -22,6 +24,7 @@ export const AutoCompleteField = ({
     else return item;
   };
 
+  /*
   const fetchAddresses = (value) => {
     const addressURL = `https://api-adresse.data.gouv.fr/search/?limit=15&q=${value}`;
     console.log(addressURL);
@@ -38,15 +41,7 @@ export const AutoCompleteField = ({
       return returnedItems;
       //setInputItems(returnedItems);
     });
-  };
-
-  const setFieldValueFormik = (item) => {
-    //setFieldValue("jobSelectorLabel",value );
-    setTimeout(() => {
-      setFieldValue("jobSelectorLabel", item.label);
-      setFieldValue("jobSelectorValue", item.value);
-    }, 0);
-  };
+  };*/
 
   const {
     isOpen,
@@ -57,19 +52,27 @@ export const AutoCompleteField = ({
     getComboboxProps,
     highlightedIndex,
     getItemProps,
+    selectItem,
   } = useCombobox({
     items: inputItems,
     itemToString,
     initialSelectedItem: initialItem,
-    onSelectedItemChange: ({ selectedItem }) => {       //
+    initialIsOpen,
+    onSelectedItemChange: ({ selectedItem }) => {
+      // modifie les valeurs sélectionnées du formulaire en fonction de l'item sélectionné
       if (onSelectedItemChangeFunction) onSelectedItemChangeFunction(selectedItem, setFieldValue);
     },
-    onInputValueChange: ({ inputValue, selectedItem }) => {
-      //console.log("returnedItems : ", fetchAddresses(inputValue));
+    onInputValueChange: ({ inputValue }) => {
+      // fixe la liste d'items en fonction de la valeur courante du champ input. S'il y a appel à une API c'est ici
       if (onInputValueChangeFunction) setInputItems(onInputValueChangeFunction(inputValue));
       else setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
 
-      onSelectedItemChangeFunction(null, setFieldValue);
+      // sélectionne ou désélectionne l'objet en fonction des modifications au clavier de l'utilisateur
+      if (compareItemFunction) {
+        const itemIndex = compareItemFunction(inputItems, inputValue);
+        if (itemIndex >= 0) selectItem(inputItems[itemIndex]);
+        else selectItem(null);
+      }
     },
   });
   return (
