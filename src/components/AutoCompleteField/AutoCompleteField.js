@@ -4,12 +4,6 @@ import { useCombobox } from "downshift";
 import axios from "axios";
 import "./AutoCompleteField.css";
 
-/*const items = [ {value:"a",label:"Bleu"},
-{value:"b",label:"rouge"},
-{value:"c",label:"Vert"} ];*/
-
-//const items = [];
-
 export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunction, items, ...props }) => {
   const { setFieldValue } = useFormikContext();
   const [field] = useField(props);
@@ -17,13 +11,14 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
   const [inputItems, setInputItems] = useState(items);
 
   const itemToString = (item) => {
-    return item ? item.label : "";
+    if (itemToStringFunction) return item ? itemToStringFunction(item) : "";
+    else return item;
   };
 
   const fetchAddresses = (value) => {
     const addressURL = `https://api-adresse.data.gouv.fr/search/?limit=15&q=${value}`;
     console.log(addressURL);
-    axios.get(addressURL).then((response) => {
+    return axios.get(addressURL).then((response) => {
       //this.setState({ movies: response.data.results })
       console.log(response.data.features);
       const returnedItems = response.data.features.map((feature) => {
@@ -32,7 +27,9 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
       });
 
       console.log("returned items : ", returnedItems);
-      setInputItems(returnedItems);
+
+      return returnedItems;
+      //setInputItems(returnedItems);
     });
   };
 
@@ -49,17 +46,13 @@ export const AutoCompleteField = ({ itemToStringFunction, onInputValueChangeFunc
     items: inputItems,
     itemToString,
     onInputValueChange: ({ inputValue }) => {
-      fetchAddresses(inputValue);
-
-      /*setInputItems(
-        items.filter(item =>
-          item.label.toLowerCase().startsWith(inputValue.toLowerCase()),
-        ),
-      )*/
+      //console.log("returnedItems : ", fetchAddresses(inputValue));
+      if (onInputValueChangeFunction) setInputItems(onInputValueChangeFunction(inputValue));
+      else setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
     },
   });
   return (
-    <div className='autoCompleteContainer'>
+    <div className="autoCompleteContainer">
       {/*<label {...getLabelProps()}>Possibilité de poser un label avec des props dédiées</label>*/}
       <div {...getComboboxProps()}>
         <input {...getInputProps()} placeholder={props.placeholder} />

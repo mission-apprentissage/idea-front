@@ -20,6 +20,10 @@ const JobSelectionForm = (props) => {
     { label: "Opticien", ROME: "C0000" },
   ];
 
+  const autoCompleteToStringFunction = (item) => {
+    return item?item.label:"";
+  }
+
   return (
     <Formik
       initialValues={{ jobSelectorLabel: job.label, jobSelectorValue: "" }}
@@ -48,7 +52,7 @@ const JobSelectionForm = (props) => {
             </div>*/}
           <div className="formGroup">
             <FontAwesomeIcon icon={faSearch} />
-            <AutoCompleteField items={jobItems} name="jobField" placeholder="ex: boucher" />
+            <AutoCompleteField items={jobItems} itemToStringFunction={autoCompleteToStringFunction} name="jobField" placeholder="ex: boucher" />
           </div>
           <ErrorMessage name="jobSelectorLabel" className="errorField" component="div" />
 
