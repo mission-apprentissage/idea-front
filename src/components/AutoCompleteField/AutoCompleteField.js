@@ -32,6 +32,7 @@ export const AutoCompleteField = ({
     highlightedIndex,
     getItemProps,
     selectItem,
+    inputValue,
   } = useCombobox({
     items: inputItems,
     itemToString,
@@ -58,7 +59,11 @@ export const AutoCompleteField = ({
     <div className="autoCompleteContainer">
       {/*<label {...getLabelProps()}>Possibilité de poser un label avec des props dédiées</label>*/}
       <div {...getComboboxProps()}>
-        <input {...getInputProps()} placeholder={props.placeholder} />
+        <input
+          {...getInputProps()}
+          className={inputValue && inputValue.length > 20 ? "autoCompleteSmallFont" : ""}
+          placeholder={props.placeholder}
+        />
         {/*<button {...getToggleButtonProps()} aria-label="toggle menu">
           &#8595;   possibilité de poser un bouton toggle avec des props dédiées
         </button>*/}
