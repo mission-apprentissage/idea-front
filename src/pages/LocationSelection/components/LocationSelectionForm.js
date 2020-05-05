@@ -9,28 +9,8 @@ import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setLocation } from "../../../redux/Filter/actions";
 import { logEvent } from "../../../services/amplitude";
-
-
-//import axios from "axios";
-/*
-  const fetchAddresses = (value) => {
-    const addressURL = `https://api-adresse.data.gouv.fr/search/?limit=15&q=${value}`;
-    console.log(addressURL);
-    return axios.get(addressURL).then((response) => {
-      //this.setState({ movies: response.data.results })
-      console.log(response.data.features);
-      const returnedItems = response.data.features.map((feature) => {
-        console.log(feature);
-        return { value: feature.geometry, label: feature.properties.label };
-      });
-
-      console.log("returned items : ", returnedItems);
-
-      return returnedItems;
-      //setInputItems(returnedItems);
-    });
-  };*/
-
+import { AutoCompleteField } from "../../../components";
+import { fetchAddresses } from "../../../services/baseAdresse";
 
 const LocationSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -40,6 +20,25 @@ const LocationSelectionForm = (props) => {
 
   const handleChange = (response) => {
     setLR(response);
+  };
+
+  // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
+  const autoCompleteToStringFunction = (item) => {
+    return item ? item.label : "";
+  };
+
+  // Permet de sélectionner un élément dans la liste d'items correspondant à un texte entré au clavier
+  const compareAutoCompleteValues = (items, value) => {
+    return items.findIndex((element) => element.label.toLowerCase() === value.toLowerCase());
+  };
+
+  // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
+  const updateValuesFromAutoComplete = (item, setFieldValue) => {
+    //setTimeout perme d'éviter un conflit de setState
+    setTimeout(() => {
+      setFieldValue("location", item ? item.label : "");
+      //setFieldValue("jobSelectorValue", item ? item.value : "");
+    }, 0);
   };
 
   const getRadioButton = (value, label, selectedValue) => {
@@ -72,7 +71,7 @@ const LocationSelectionForm = (props) => {
       validate={(values) => {
         const errors = {};
         if (!values.location) {
-          errors.location = "Choisis une réponse";
+          errors.location = "Choisis une réponse dans la liste";
         }
         if (!lR) {
           errors.locationRadius = "Choisis une réponse";
@@ -93,7 +92,17 @@ const LocationSelectionForm = (props) => {
         <Form>
           <div className="formGroup">
             <FontAwesomeIcon icon={faMapMarkerAlt} />
-            <Field type="text" placeholder="cherche une ville" name="location" />
+            <AutoCompleteField
+              items={[]}
+              initialIsOpen={false}
+              initialItem={{ label: location /*, value: job.value*/ }}
+              itemToStringFunction={autoCompleteToStringFunction}
+              onSelectedItemChangeFunction={updateValuesFromAutoComplete}
+              compareItemFunction={compareAutoCompleteValues}
+              onInputValueChangeFunction={fetchAddresses}
+              name="location"
+              placeholder="cherche une ville"
+            />
           </div>
           <ErrorMessage name="location" className="errorField" component="div" />
 
