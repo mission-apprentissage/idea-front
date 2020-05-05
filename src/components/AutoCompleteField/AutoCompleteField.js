@@ -42,10 +42,12 @@ export const AutoCompleteField = ({
       // modifie les valeurs sélectionnées du formulaire en fonction de l'item sélectionné
       if (onSelectedItemChangeFunction) onSelectedItemChangeFunction(selectedItem, setFieldValue);
     },
-    onInputValueChange: ({ inputValue }) => {
+    onInputValueChange: async ({ inputValue }) => {
       // fixe la liste d'items en fonction de la valeur courante du champ input. S'il y a appel à une API c'est ici
-      if (onInputValueChangeFunction) setInputItems(onInputValueChangeFunction(inputValue));
-      else setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
+      if (onInputValueChangeFunction) {
+        const newItems = await onInputValueChangeFunction(inputValue);
+        setInputItems(newItems);
+      } else setInputItems(items.filter((item) => item.label.toLowerCase().startsWith(inputValue.toLowerCase())));
 
       // sélectionne ou désélectionne l'objet en fonction des modifications au clavier de l'utilisateur
       if (compareItemFunction) {
