@@ -15,7 +15,8 @@ export const DatePickerField = ({ ...props }) => {
       {...props}
       locale="fr"
       selected={(field.value && new Date(field.value)) || null}
-      dateFormat="d MMMM yyyy"
+      dateFormat={props.dateFormat?props.dateFormat:"dd MMMM yyyy"}
+      showMonthYearPicker={props.showMonthYearPicker?true:false}
       onChange={(val) => {
         setFieldValue(field.name, val);
       }}

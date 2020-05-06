@@ -36,7 +36,7 @@ const StartTimeSelectionForm = (props) => {
           <div className="formGroup">
             <FontAwesomeIcon icon={faCalendar} />
 
-            <DatePickerField name="startTime" todayButton="Aujourd'hui" placeholderText="Sélectionnez une date" />
+            <DatePickerField name="startTime" showMonthYearPicker={true} dateFormat="MMMM yyyy" todayButton="Aujourd'hui" placeholderText="Sélectionnez une date" />
           </div>
           <ErrorMessage name="startTime" className="errorField" component="div" />
           <Button type="submit" className="cta" disabled={isSubmitting}>
