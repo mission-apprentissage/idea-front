@@ -9,5 +9,6 @@
     "STARTTIMESELECTION": "/debut-formation",
     "LOCATIONSELECTION": "/lieu-formation",
     "TRAININGLIST": "/formations",
+    "APITESTER": "/test-api",
     "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }
