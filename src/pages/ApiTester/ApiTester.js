@@ -74,7 +74,7 @@ const ApiTester = () => {
           </Col>
         </Row>
         <Row>
-          <div xs="12" sm="6" md="3">
+          <Col xs="12" sm="6" md="3">
             <Container>
               <Row>
                 <div>RECHERCHE DE FORMATIONS</div>
@@ -113,10 +113,10 @@ const ApiTester = () => {
                 </Formik>
               </Row>
             </Container>
-          </div>
-          <div xs="12" sm="6" md="9">
+          </Col>
+          <Col xs="12" sm="6" md="9">
             {getResult()}
-          </div>
+          </Col>
         </Row>
       </Container>
     </div>
