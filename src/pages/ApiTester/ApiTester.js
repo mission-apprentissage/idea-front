@@ -16,13 +16,16 @@ const formationApi = baseUrl + "/formation";
 const romesApi = baseUrl + "/romes";
 const romeLabelsApi = baseUrl + "/romelabels";
 
-const ApiTester = () => {
-  const jobItems = [
-    { label: "Maçon", value: "F1703" },
-    { label: "Boucher", value: "D1101" },
-    //{ label: "Opticien", value: "C0000" },
-  ];
+export const fetchRomes = async (value) => {
+  if (value) {
+    const response = await axios.get(romeLabelsApi, { params: { title: value } });
 
+    if (response.data instanceof Array) return response.data;
+    else return [];
+  } else return [];
+};
+
+const ApiTester = () => {
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
     return item ? item.label : "";
@@ -43,10 +46,8 @@ const ApiTester = () => {
 
   const [trainings, setTrainings] = useState(null);
 
-  const handleSearchTrainingSubmit = async (values, { setSubmitting }) => {
-    const response = await axios.get(formationApi, { params: { romes: values.job.value } });
-
-    console.log(response);
+  const handleSearchTrainingSubmit = async (values) => {
+    const response = await axios.get(formationApi, { params: { romes: values.job.rome } });
     setTrainings(response.data);
   };
 
@@ -81,7 +82,7 @@ const ApiTester = () => {
                 <Formik
                   validate={(values) => {
                     const errors = {};
-                    if (!values.job || !values.job.label || !values.job.value) {
+                    if (!values.job || !values.job.label || !values.job.rome) {
                       errors.job = "Sélectionne un métier";
                     }
                     return errors;
@@ -94,11 +95,11 @@ const ApiTester = () => {
                       <div className="formGroup">
                         <FontAwesomeIcon icon={faSearch} />
                         <AutoCompleteField
-                          items={jobItems}
-                          initialIsOpen={true}
+                          items={[]}
                           itemToStringFunction={autoCompleteToStringFunction}
                           onSelectedItemChangeFunction={updateValuesFromAutoComplete}
                           compareItemFunction={compareAutoCompleteValues}
+                          onInputValueChangeFunction={fetchRomes}
                           name="jobField"
                           placeholder="ex: boucher"
                         />
