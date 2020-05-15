@@ -9,6 +9,7 @@ import StartTimeSelection from "./StartTimeSelection";
 import LocationSelection from "./LocationSelection";
 import HelpForUserProject from "./HelpForUserProject";
 import TrainingList from "./TrainingList";
+import ApiTester from "./ApiTester";
 
 export {
   Landing,
@@ -22,4 +23,5 @@ export {
   LocationSelection,
   HelpForUserProject,
   TrainingList,
+  ApiTester,
 };
