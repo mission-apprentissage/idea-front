@@ -7,12 +7,12 @@ export const types = {
   SET_TRAINING_START_TIME: "filter/SET_TRAINING_START_TIME",
 };
 
-export const setJob = (label = "", ROME = "") => {
+export const setJob = (label = "", value = "") => {
   return {
     type: types.SET_JOB,
     job: {
       label,
-      ROME,
+      value,
     },
   };
 };
