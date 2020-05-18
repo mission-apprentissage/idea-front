@@ -8,7 +8,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import Training from "./Training";
-import ReactJson from 'react-json-view';
+import ReactJson from "react-json-view";
 
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
@@ -52,11 +52,11 @@ const ApiTester = () => {
     setTrainings(response.data);
   };
 
-  const getResult = () => {
+  const getTrainingResult = () => {
     if (trainings) {
       return (
-        <div className='apiResult'>
-          <h1>Formations ({trainings.length})</h1>
+        <div className="apiResult">
+          <h2>Formations ({trainings.length})</h2>
           <ReactJson src={trainings} />
         </div>
       );
@@ -65,58 +65,57 @@ const ApiTester = () => {
     }
   };
 
+  const getJobResult = () => {
+    return "jobs";
+  }
+
   return (
-    <div className="page trainingDuration">
-      <IdeaHeader />
+    <div className="page">
       <Container>
         <Row>
           <Col xs="12">
-            <h2>Test des APIs IDEA</h2>
+            <h1>Test des APIs IDEA</h1>
+            <Formik
+              validate={(values) => {
+                const errors = {};
+                if (!values.job || !values.job.label || !values.job.rome) {
+                  errors.job = "Sélectionne un métier";
+                }
+                return errors;
+              }}
+              initialValues={{ job: {} }}
+              onSubmit={handleSearchTrainingSubmit}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <div className="formGroup">
+                    <FontAwesomeIcon icon={faSearch} />
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchRomes}
+                      name="jobField"
+                      placeholder="ex: boucher"
+                    />
+                  </div>
+                  <ErrorMessage name="job" className="errorField" component="div" />
+
+                  <Button type="submit" disabled={isSubmitting}>
+                    Valider
+                  </Button>
+                </Form>
+              )}
+            </Formik>
           </Col>
         </Row>
         <Row>
-          <Col xs="12" sm="6" md="3">
-            <Container>
-              <Row>
-                <div>RECHERCHE DE FORMATIONS</div>
-                <Formik
-                  validate={(values) => {
-                    const errors = {};
-                    if (!values.job || !values.job.label || !values.job.rome) {
-                      errors.job = "Sélectionne un métier";
-                    }
-                    return errors;
-                  }}
-                  initialValues={{ job: {} }}
-                  onSubmit={handleSearchTrainingSubmit}
-                >
-                  {({ isSubmitting }) => (
-                    <Form>
-                      <div className="formGroup">
-                        <FontAwesomeIcon icon={faSearch} />
-                        <AutoCompleteField
-                          items={[]}
-                          itemToStringFunction={autoCompleteToStringFunction}
-                          onSelectedItemChangeFunction={updateValuesFromAutoComplete}
-                          compareItemFunction={compareAutoCompleteValues}
-                          onInputValueChangeFunction={fetchRomes}
-                          name="jobField"
-                          placeholder="ex: boucher"
-                        />
-                      </div>
-                      <ErrorMessage name="job" className="errorField" component="div" />
-
-                      <Button type="submit" disabled={isSubmitting}>
-                        Valider
-                      </Button>
-                    </Form>
-                  )}
-                </Formik>
-              </Row>
-            </Container>
+          <Col xs="12" sm="6">
+            {getTrainingResult()}
           </Col>
-          <Col xs="12" sm="6" md="9">
-            {getResult()}
+          <Col xs="12" sm="6">
+            {getJobResult()}
           </Col>
         </Row>
       </Container>
