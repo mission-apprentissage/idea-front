@@ -8,6 +8,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import Training from "./Training";
+import ReactJson from 'react-json-view';
 
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
@@ -44,10 +45,6 @@ const ApiTester = () => {
     }, 0);
   };
 
-  const [selectedRome, setSelectedRome] = useState(null);
-
-  /*
-  
   const [trainings, setTrainings] = useState(null);
 
   const handleSearchTrainingSubmit = async (values) => {
@@ -58,28 +55,11 @@ const ApiTester = () => {
   const getResult = () => {
     if (trainings) {
       return (
-        <div>
-          {trainings.map((training, idx) => {
-            return <Training key={idx} training={training} />;
-          })}
+        <div className='apiResult'>
+          <h1>Formations ({trainings.length})</h1>
+          <ReactJson src={trainings} />
         </div>
       );
-    } else {
-      return "";
-    }
-  };*/
-
-  const handleSearchTrainingSubmit = async (values) => {
-    setSelectedRome(values.job.rome);
-  };
-
-  const getTrainingApiURL = () => {
-    return formationApi + "?romes=" + selectedRome;
-  };
-
-  const getResult = () => {
-    if (selectedRome) {
-      return <iframe title="trainingFrame" className="resultFrame" src={getTrainingApiURL()} />;
     } else {
       return "";
     }
