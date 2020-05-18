@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { IdeaHeader } from "../../components";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import "./apitester.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
-import Training from "./Training";
+//import Training from "./Training";
 import ReactJson from "react-json-view";
 
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
 
 const formationApi = baseUrl + "/formation";
+const jobApi = baseUrl + "/job";
 const romesApi = baseUrl + "/romes";
 const romeLabelsApi = baseUrl + "/romelabels";
 
@@ -47,9 +47,19 @@ const ApiTester = () => {
 
   const [trainings, setTrainings] = useState(null);
 
-  const handleSearchTrainingSubmit = async (values) => {
+  const handleSubmit = async (values) => {
+    searchForTrainings(values);
+    searchForJobs(values);
+  };
+
+  const searchForTrainings = async (values) => {
     const response = await axios.get(formationApi, { params: { romes: values.job.rome } });
     setTrainings(response.data);
+  };
+
+  const searchForJobs = async (values) => {
+    //const response = await axios.get(jobApi, { params: { romes: values.job.rome } });
+    //setTrainings(response.data);
   };
 
   const getTrainingResult = () => {
@@ -67,7 +77,7 @@ const ApiTester = () => {
 
   const getJobResult = () => {
     return "jobs";
-  }
+  };
 
   return (
     <div className="page">
@@ -84,7 +94,7 @@ const ApiTester = () => {
                 return errors;
               }}
               initialValues={{ job: {} }}
-              onSubmit={handleSearchTrainingSubmit}
+              onSubmit={handleSubmit}
             >
               {({ isSubmitting }) => (
                 <Form>
@@ -111,10 +121,10 @@ const ApiTester = () => {
           </Col>
         </Row>
         <Row>
-          <Col xs="12" sm="6">
+          <Col xs="12" lg="6">
             {getTrainingResult()}
           </Col>
-          <Col xs="12" sm="6">
+          <Col xs="12" lg="6">
             {getJobResult()}
           </Col>
         </Row>
