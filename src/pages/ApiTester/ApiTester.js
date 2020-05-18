@@ -91,7 +91,7 @@ const ApiTester = () => {
   };
 
   return (
-    <div className="page">
+    <div className="page apiTestPage">
       <Container>
         <Row>
           <Col xs="12">
