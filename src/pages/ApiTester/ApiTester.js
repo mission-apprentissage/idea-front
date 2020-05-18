@@ -12,8 +12,8 @@ import ReactJson from "react-json-view";
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
 
-const formationApi = baseUrl + "/formation";
-const jobApi = baseUrl + "/job";
+const formationsApi = baseUrl + "/formations";
+const jobsApi = baseUrl + "/jobs";
 const romesApi = baseUrl + "/romes";
 const romeLabelsApi = baseUrl + "/romelabels";
 
@@ -53,7 +53,7 @@ const ApiTester = () => {
   };
 
   const searchForTrainings = async (values) => {
-    const response = await axios.get(formationApi, { params: { romes: values.job.rome } });
+    const response = await axios.get(formationsApi, { params: { romes: values.job.rome } });
     setTrainings(response.data);
   };
 
