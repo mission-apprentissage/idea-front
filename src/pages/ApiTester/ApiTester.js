@@ -46,6 +46,7 @@ const ApiTester = () => {
   };
 
   const [trainings, setTrainings] = useState(null);
+  const [jobs, setJobs] = useState(null);
 
   const handleSubmit = async (values) => {
     searchForTrainings(values);
@@ -58,8 +59,9 @@ const ApiTester = () => {
   };
 
   const searchForJobs = async (values) => {
-    //const response = await axios.get(jobApi, { params: { romes: values.job.rome } });
-    //setTrainings(response.data);
+    const response = await axios.get(jobsApi, { params: { romes: values.job.rome } });
+    console.log("----- ",response);
+    setJobs(response.data.resultats);
   };
 
   const getTrainingResult = () => {
@@ -76,7 +78,16 @@ const ApiTester = () => {
   };
 
   const getJobResult = () => {
-    return "jobs";
+    if (jobs) {
+      return (
+        <div className="apiResult">
+          <h2>Postes ({jobs.length})</h2>
+          <ReactJson src={jobs} />
+        </div>
+      );
+    } else {
+      return "";
+    }
   };
 
   return (
