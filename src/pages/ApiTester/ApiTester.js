@@ -44,6 +44,10 @@ const ApiTester = () => {
     }, 0);
   };
 
+  const [selectedRome, setSelectedRome] = useState(null);
+
+  /*
+  
   const [trainings, setTrainings] = useState(null);
 
   const handleSearchTrainingSubmit = async (values) => {
@@ -60,6 +64,22 @@ const ApiTester = () => {
           })}
         </div>
       );
+    } else {
+      return "";
+    }
+  };*/
+
+  const handleSearchTrainingSubmit = async (values) => {
+    setSelectedRome(values.job.rome);
+  };
+
+  const getTrainingApiURL = () => {
+    return formationApi + "?romes=" + selectedRome;
+  };
+
+  const getResult = () => {
+    if (selectedRome) {
+      return <iframe title="trainingFrame" className="resultFrame" src={getTrainingApiURL()} />;
     } else {
       return "";
     }
