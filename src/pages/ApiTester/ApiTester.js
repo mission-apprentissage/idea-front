@@ -3,9 +3,10 @@ import axios from "axios";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import "./apitester.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
+import { fetchAddresses } from "../../services/baseAdresse";
 //import Training from "./Training";
 import ReactJson from "react-json-view";
 
@@ -14,7 +15,6 @@ const baseUrl =
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
-const romesApi = baseUrl + "/romes";
 const romeLabelsApi = baseUrl + "/romelabels";
 
 export const fetchRomes = async (value) => {
@@ -38,10 +38,18 @@ const ApiTester = () => {
   };
 
   // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
-  const updateValuesFromAutoComplete = (item, setFieldValue) => {
+  const updateValuesFromJobAutoComplete = (item, setFieldValue) => {
     //setTimeout perme d'éviter un conflit de setState
     setTimeout(() => {
       setFieldValue("job", item);
+    }, 0);
+  };
+
+  // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
+  const updateValuesFromPlaceAutoComplete = (item, setFieldValue) => {
+    //setTimeout perme d'éviter un conflit de setState
+    setTimeout(() => {
+      setFieldValue("location", item);
     }, 0);
   };
 
@@ -60,9 +68,9 @@ const ApiTester = () => {
 
   const searchForJobs = async (values) => {
     const response = await axios.get(jobsApi, { params: { romes: values.job.rome } });
-    console.log("----- ",response);
+    console.log("----- ", response);
 
-    let results = { peJobs : response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies }
+    let results = { peJobs: response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies };
 
     setJobs(results);
   };
@@ -112,19 +120,38 @@ const ApiTester = () => {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  <div className="formGroup">
-                    <FontAwesomeIcon icon={faSearch} />
-                    <AutoCompleteField
-                      items={[]}
-                      itemToStringFunction={autoCompleteToStringFunction}
-                      onSelectedItemChangeFunction={updateValuesFromAutoComplete}
-                      compareItemFunction={compareAutoCompleteValues}
-                      onInputValueChangeFunction={fetchRomes}
-                      name="jobField"
-                      placeholder="ex: boucher"
-                    />
-                  </div>
-                  <ErrorMessage name="job" className="errorField" component="div" />
+                  <Row>
+                    <Col xs="12" md="6">
+                      <div className="formGroup">
+                        <FontAwesomeIcon icon={faSearch} />
+                        <AutoCompleteField
+                          items={[]}
+                          itemToStringFunction={autoCompleteToStringFunction}
+                          onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
+                          compareItemFunction={compareAutoCompleteValues}
+                          onInputValueChangeFunction={fetchRomes}
+                          name="jobField"
+                          placeholder="ex: boucher"
+                        />
+                      </div>
+                      <ErrorMessage name="job" className="errorField" component="div" />
+                    </Col>
+                    <Col xs="12" md="6">
+                      <div className="formGroup">
+                        <FontAwesomeIcon icon={faMapMarkerAlt} />
+                        <AutoCompleteField
+                          items={[]}
+                          itemToStringFunction={autoCompleteToStringFunction}
+                          onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
+                          compareItemFunction={compareAutoCompleteValues}
+                          onInputValueChangeFunction={fetchAddresses}
+                          name="placeField"
+                          placeholder="ex: Nantes"
+                        />
+                      </div>
+                      <ErrorMessage name="job" className="errorField" component="div" />
+                    </Col>
+                  </Row>
 
                   <Button type="submit" disabled={isSubmitting}>
                     Valider
