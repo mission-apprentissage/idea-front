@@ -57,8 +57,6 @@ const ApiTester = () => {
   const [jobs, setJobs] = useState(null);
 
   const handleSubmit = async (values) => {
-    console.log("values : ", values);
-
     searchForTrainings(values);
     searchForJobs(values);
   };
@@ -78,8 +76,6 @@ const ApiTester = () => {
         zipcode: values.location.zipcode,
       },
     });
-
-    console.log("----- ", response);
 
     let results = { peJobs: response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies };
 
@@ -103,7 +99,7 @@ const ApiTester = () => {
     if (jobs) {
       return (
         <div className="apiResult">
-          <h2>Postes ({jobs.length})</h2>
+          <h2>Postes ({jobs.peJobs.length}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})</h2>
           <ReactJson src={jobs} />
         </div>
       );
