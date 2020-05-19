@@ -61,7 +61,10 @@ const ApiTester = () => {
   const searchForJobs = async (values) => {
     const response = await axios.get(jobsApi, { params: { romes: values.job.rome } });
     console.log("----- ",response);
-    setJobs(response.data.resultats);
+
+    let results = { peJobs : response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies }
+
+    setJobs(results);
   };
 
   const getTrainingResult = () => {
