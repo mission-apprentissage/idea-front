@@ -57,6 +57,8 @@ const ApiTester = () => {
   const [jobs, setJobs] = useState(null);
 
   const handleSubmit = async (values) => {
+    console.log("values : ", values);
+
     searchForTrainings(values);
     searchForJobs(values);
   };
@@ -67,7 +69,16 @@ const ApiTester = () => {
   };
 
   const searchForJobs = async (values) => {
-    const response = await axios.get(jobsApi, { params: { romes: values.job.rome } });
+    const response = await axios.get(jobsApi, {
+      params: {
+        romes: values.job.rome,
+        longitude: values.location.value.coordinates[0],
+        latitude: values.location.value.coordinates[1],
+        insee: values.location.insee,
+        zipcode: values.location.zipcode,
+      },
+    });
+
     console.log("----- ", response);
 
     let results = { peJobs: response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies };
@@ -149,7 +160,7 @@ const ApiTester = () => {
                           placeholder="ex: Nantes"
                         />
                       </div>
-                      <ErrorMessage name="job" className="errorField" component="div" />
+                      <ErrorMessage name="location" className="errorField" component="div" />
                     </Col>
                   </Row>
 
