@@ -7,7 +7,7 @@ export const fetchAddresses = (value) => {
 
     return axios.get(addressURL).then((response) => {
       const returnedItems = response.data.features.map((feature) => {
-        return { value: feature.geometry, label: feature.properties.label };
+        return { value: feature.geometry, insee: feature.properties.citycode, zipcode: feature.properties.postcode, label: feature.properties.label };
       });
 
       //console.log("returned items : ", returnedItems);
