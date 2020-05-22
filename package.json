@@ -20,6 +20,7 @@
     "downshift": "^5.2.0",
     "formik": "^2.1.4",
     "history": "^4.10.1",
+    "mapbox-gl": "^1.10.1",
     "node-less-chokidar": "^0.4.1",
     "react": "^16.13.1",
     "react-autocomplete": "^1.8.1",
