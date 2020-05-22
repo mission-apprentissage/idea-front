@@ -7,8 +7,11 @@ import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
+import mapboxgl from "mapbox-gl";
 //import Training from "./Training";
 import ReactJson from "react-json-view";
+
+mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
 
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
@@ -56,6 +59,12 @@ const ApiTester = () => {
   const [trainings, setTrainings] = useState(null);
   const [jobs, setJobs] = useState(null);
 
+  const [mapState, setMapState] = useState({
+    lng: 5,
+    lat: 34,
+    zoom: 2,
+  });
+
   const handleSubmit = async (values) => {
     searchForTrainings(values);
     searchForJobs(values);
@@ -99,13 +108,19 @@ const ApiTester = () => {
     if (jobs) {
       return (
         <div className="apiResult">
-          <h2>Postes ({jobs.peJobs.length}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})</h2>
+          <h2>
+            Postes ({jobs.peJobs.length}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
+          </h2>
           <ReactJson src={jobs} />
         </div>
       );
     } else {
       return "";
     }
+  };
+
+  const getMap = () => {
+    return "ICI SERA LA MAP";
   };
 
   return (
@@ -175,6 +190,9 @@ const ApiTester = () => {
           <Col xs="12" lg="6">
             {getJobResult()}
           </Col>
+        </Row>
+        <Row>
+          <Col xs="12">{getMap()}</Col>
         </Row>
       </Container>
     </div>
