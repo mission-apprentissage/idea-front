@@ -62,12 +62,14 @@ const ApiTester = () => {
   const [jobs, setJobs] = useState(null);
 
   const [mapState, setMapState] = useState({
-    lng: 5,
-    lat: 34,
+    lon: 2.3488,
+    lat: 48.85341,
     zoom: 2,
   });
 
   const handleSubmit = async (values) => {
+    setMapState({ lon: values.location.value.coordinates[0], lat: values.location.value.coordinates[1] });
+
     searchForTrainings(values);
     searchForJobs(values);
   };
@@ -131,14 +133,12 @@ const ApiTester = () => {
         }}
         maxPitch={0}
         pitchWithRotate={false}
-        center={ [2.34880, 48.85341] }
-
+        center={[mapState.lon, mapState.lat]}
       >
         <ZoomControl position="bottom-left" />
         <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
           <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
         </Layer>
-
       </Map>
     );
   };
