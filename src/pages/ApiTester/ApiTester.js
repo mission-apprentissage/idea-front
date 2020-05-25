@@ -7,11 +7,13 @@ import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
-import mapboxgl from "mapbox-gl";
+import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
 //import Training from "./Training";
 import ReactJson from "react-json-view";
 
-mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
+const Map = ReactMapboxGl({
+  accessToken: "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA",
+});
 
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
@@ -120,7 +122,25 @@ const ApiTester = () => {
   };
 
   const getMap = () => {
-    return "ICI SERA LA MAP";
+    return (
+      <Map
+        style="mapbox://styles/mapbox/streets-v9"
+        containerStyle={{
+          height: "50vh",
+          width: "50vw",
+        }}
+        maxPitch={0}
+        pitchWithRotate={false}
+        center={ [2.34880, 48.85341] }
+
+      >
+        <ZoomControl position="bottom-left" />
+        <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
+          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
+        </Layer>
+
+      </Map>
+    );
   };
 
   return (
