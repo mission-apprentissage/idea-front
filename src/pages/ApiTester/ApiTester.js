@@ -75,7 +75,13 @@ const ApiTester = () => {
   };
 
   const searchForTrainings = async (values) => {
-    const response = await axios.get(formationsApi, { params: { romes: values.job.rome } });
+    const response = await axios.get(formationsApi, {
+      params: {
+        romes: values.job.rome,
+        longitude: values.location.value.coordinates[0],
+        latitude: values.location.value.coordinates[1],
+      },
+    });
     setTrainings(response.data);
   };
 
