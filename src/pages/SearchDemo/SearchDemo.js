@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
-import "./apitester.css";
+import "./searchdemo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
@@ -31,7 +31,7 @@ export const fetchRomes = async (value) => {
   } else return [];
 };
 
-const ApiTester = () => {
+const SearchDemo = () => {
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
     return item ? item.label : "";
@@ -225,4 +225,4 @@ const ApiTester = () => {
   );
 };
 
-export default ApiTester;
+export default SearchDemo;
