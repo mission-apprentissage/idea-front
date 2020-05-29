@@ -8,7 +8,7 @@ import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
 import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
-//import Training from "./Training";
+import Training from "./Training";
 import ReactJson from "react-json-view";
 
 const Map = ReactMapboxGl({
@@ -60,6 +60,7 @@ const SearchDemo = () => {
 
   const [trainings, setTrainings] = useState(null);
   const [jobs, setJobs] = useState(null);
+  const [hasSearch, setHasSearch] = useState(false);
 
   const [mapState, setMapState] = useState({
     lon: 2.3488,
@@ -103,6 +104,7 @@ const SearchDemo = () => {
       },
     });
     setTrainings(response.data);
+    setHasSearch(true);
   };
 
   const searchForJobs = async (values) => {
@@ -122,16 +124,29 @@ const SearchDemo = () => {
   };
 
   const getTrainingResult = () => {
-    if (trainings) {
+    if (hasSearch) {
       return (
         <div className="trainingResult">
           <h2>Formations ({trainings.length})</h2>
-          <ReactJson src={trainings} />
+          {getTrainingList()}
         </div>
       );
     } else {
       return "";
     }
+  };
+
+  const getTrainingList = () => {
+    if (trainings.length) {
+      return (
+        <>
+          {trainings.map((training, idx) => {
+            console.log("training avant  ",idx,training);
+             return <Training key={idx} training={training} />
+          })}
+        </>
+      );
+    } else return "Aucune formation pour ces critères de recherche";
   };
 
   const getJobResult = () => {
