@@ -10,7 +10,7 @@ import { fetchAddresses } from "../../services/baseAdresse";
 import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
 import Training from "./Training";
 import PeJob from "./PeJob";
-import ReactJson from "react-json-view";
+import LbbCompany from "./LbbCompany";
 
 const Map = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA",
@@ -146,7 +146,7 @@ const SearchDemo = () => {
           })}
         </>
       );
-    } else return "Aucune formation pour ces critères de recherche";
+    } else return <div className="listText">Aucune formation pour ces critères de recherche</div>;
   };
 
   const getJobResult = () => {
@@ -154,12 +154,11 @@ const SearchDemo = () => {
       return (
         <div className="jobResult">
           <h2>
-            Postes ({jobs.peJobs?jobs.peJobs.length:0}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
+            Postes ({jobs.peJobs ? jobs.peJobs.length : 0}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
           </h2>
-          
+
           {getPeJobList()}
           {getLbbCompanyList()}
-
         </div>
       );
     } else {
@@ -168,20 +167,35 @@ const SearchDemo = () => {
   };
 
   const getPeJobList = () => {
-    if (jobs && jobs.peJobs) {
+    if (jobs && jobs.peJobs && jobs.peJobs.length) {
       return (
         <>
+          <div className="listText">Postes ouverts en alternance sur Pôle emploi</div>
           {jobs.peJobs.map((job, idx) => {
             return <PeJob key={idx} job={job} />;
           })}
         </>
       );
-    } else return "Aucun poste pour ces critères de recherche";
-  }
+    } else return <div className="listText">Aucun poste pour ces critères de recherche</div>;
+  };
 
   const getLbbCompanyList = () => {
-    return "";
-  }
+    if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
+      return (
+        <>
+          <div className="listText">Sociétés recrutant en alternance</div>
+          {jobs.lbbCompanies.companies.map((company, idx) => {
+            return <LbbCompany key={idx} company={company} />;
+          })}
+        </>
+      );
+    } else
+      return (
+        <div className="listText">
+          Aucune société susceptible de recruter en alternance pour ces critères de recherche
+        </div>
+      );
+  };
 
   const getSearchForm = () => {
     return (
@@ -247,9 +261,11 @@ const SearchDemo = () => {
     <div className="page demoPage">
       <Row>
         <Col xs="12" lg="3">
-          {getSearchForm()}
-          {getTrainingResult()}
-          {getJobResult()}
+          <div className="leftCol">
+            {getSearchForm()}
+            {getTrainingResult()}
+            {getJobResult()}
+          </div>
         </Col>
         <Col xs="12" lg="9">
           {getMap()}
