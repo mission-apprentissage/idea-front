@@ -7,7 +7,7 @@ const PeJob = ({ job }) => {
     <div className="resultCard">
       <div className="title">{job.intitule}</div>
       <div className="body">
-        {job.entreprise.nom}
+        {job.entreprise ? job.entreprise.nom : ""}
         <br />
         {job.natureContrat} {job.typeContrat}
         <br />
