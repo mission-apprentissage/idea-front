@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Button, Row, Col, FormGroup } from "reactstrap";
+import { Button, Row, Col } from "reactstrap";
 import "./searchdemo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
-import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
+import mapboxgl from "mapbox-gl";
 import Training from "./Training";
 import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
-
-const Map = ReactMapboxGl({
-  accessToken: "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA",
-});
 
 const baseUrl =
   window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
@@ -63,13 +59,54 @@ const SearchDemo = () => {
   const [jobs, setJobs] = useState(null);
   const [hasSearch, setHasSearch] = useState(false);
 
+  const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
-    lon: 2.3488,
     lat: 48.85341,
-    zoom: 2,
+    lon: 2.3488,
+    zoom: 11,
   });
 
+  const mapContainer = useRef(null);
+
+  useEffect(() => {
+    mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
+
+    const initializeMap = ({ setMap, mapContainer }) => {
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+        center: [mapState.lon, mapState.lat],
+        zoom: mapState.zoom,
+      });
+
+      map.on("load", () => {
+        setMap(map);
+        map.resize();
+      });
+
+      map.on("move", () => {
+        setMapState({
+          lon: map.getCenter().lng.toFixed(4),
+          lat: map.getCenter().lat.toFixed(4),
+          zoom: map.getZoom().toFixed(2),
+          maxZoom: 15,
+          minZoom: 5,
+        });
+      });
+
+      const nav = new mapboxgl.NavigationControl({showCompass:false,visualizePitch:false});
+      map.addControl(nav, 'top-right');
+
+    };
+
+    if (!map) initializeMap({ setMap, mapContainer });
+  }, [map]);
+
   const getMap = () => {
+    return <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />;
+  };
+
+  /*const getMap = () => {
     return (
       <Map
         style="mapbox://styles/mapbox/streets-v9"
@@ -87,10 +124,11 @@ const SearchDemo = () => {
         </Layer>
       </Map>
     );
-  };
+  };*/
 
   const handleSubmit = async (values) => {
-    setMapState({ lon: values.location.value.coordinates[0], lat: values.location.value.coordinates[1] });
+    // centrage de la carte sur le lieu de recherche
+    map.easeTo({ center: [values.location.value.coordinates[0], values.location.value.coordinates[1]] });
 
     searchForTrainings(values);
     searchForJobs(values);
@@ -262,6 +300,8 @@ const SearchDemo = () => {
       <Row>
         <Col xs="12" lg="3">
           <div className="leftCol">
+            lat : {mapState.lat} - long : {mapState.lon} - zoom : {mapState.zoom}
+            <br />
             {getSearchForm()}
             {getTrainingResult()}
             {getJobResult()}
