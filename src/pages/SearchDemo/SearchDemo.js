@@ -95,9 +95,8 @@ const SearchDemo = () => {
         });
       });
 
-      const nav = new mapboxgl.NavigationControl({showCompass:false,visualizePitch:false});
-      map.addControl(nav, 'top-right');
-
+      const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
+      map.addControl(nav, "top-right");
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
@@ -106,26 +105,6 @@ const SearchDemo = () => {
   const getMap = () => {
     return <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />;
   };
-
-  /*const getMap = () => {
-    return (
-      <Map
-        style="mapbox://styles/mapbox/streets-v9"
-        containerStyle={{
-          height: "100vh",
-          width: "100%",
-        }}
-        maxPitch={0}
-        disab={false}
-        center={[mapState.lon, mapState.lat]}
-      >
-        <ZoomControl position="bottom-left" />
-        <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
-          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-        </Layer>
-      </Map>
-    );
-  };*/
 
   const handleSubmit = async (values) => {
     // centrage de la carte sur le lieu de recherche
@@ -144,7 +123,17 @@ const SearchDemo = () => {
       },
     });
     setTrainings(response.data);
+
     setHasSearch(true);
+
+    setTrainingMarkers(response.data);
+  };
+
+  const setTrainingMarkers = (trainingList) => {
+    trainingList.map((training, idx) => {
+      const coords = training.source.geo_coordonnees_etablissement_reference.split(",");
+      new mapboxgl.Marker().setLngLat([coords[1], coords[0]]).addTo(map);
+    });
   };
 
   const searchForJobs = async (values) => {
