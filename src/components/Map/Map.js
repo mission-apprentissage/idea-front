@@ -11,7 +11,7 @@ export default class Map extends React.Component {
     style: "mapbox://styles/mapbox/streets-v9",
     drawerContent: null,
     selectedMarker: null,
-    selectedPositionMarker: null
+    selectedPositionMarker: null,
   };
 
   mapRef = null;
@@ -25,13 +25,13 @@ export default class Map extends React.Component {
 
   componentDidMount() {
     const mapboxgl = require("mapbox-gl");
-    mapboxgl.accessToken ="";
+    mapboxgl.accessToken = "";
     this.map = new mapboxgl.Map({
       container: "map",
-      style: this.state.style
+      style: this.state.style,
     });
 
-    this.map.on("load", e => {
+    this.map.on("load", (e) => {
       this.mapInitialPosition(this.map);
       this.setState({ loaded: true });
       this.updateQuery();
@@ -55,13 +55,7 @@ export default class Map extends React.Component {
     const currentZoom = this.map.getZoom();
     const precision = getPrecision(currentZoom);
 
-    this.props.onChange(
-      mapBounds._ne.lat,
-      mapBounds._sw.lng,
-      mapBounds._sw.lat,
-      mapBounds._ne.lng,
-      precision
-    );
+    this.props.onChange(mapBounds._ne.lat, mapBounds._sw.lng, mapBounds._sw.lat, mapBounds._ne.lng, precision);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -113,7 +107,7 @@ export default class Map extends React.Component {
     if (position) {
       this.map.flyTo({
         center: position,
-        zoom
+        zoom,
       });
     }
   }
@@ -135,7 +129,7 @@ export default class Map extends React.Component {
     if (props.aggregations) {
       const geojson = toGeoJson(props.aggregations.france.buckets);
 
-      geojson.features.forEach(feature => {
+      geojson.features.forEach((feature) => {
         const key = feature.properties.id;
         // If the marker is a single notice, always the same, then we do not rebuild it
         if (
@@ -149,7 +143,7 @@ export default class Map extends React.Component {
         const zoom = Math.min(this.map.getZoom() + 1, 24);
 
         const marker = new Marker(feature, zoom >= 15 ? "#fc5e2a" : "#007bff");
-        marker.onClick(marker => {
+        marker.onClick((marker) => {
           let zoom = this.map.getZoom();
           if (marker._type == "cluster") {
             zoom++;
@@ -178,7 +172,7 @@ export default class Map extends React.Component {
     }
   }
 
-  mapInitialPosition = map => {
+  mapInitialPosition = (map) => {
     if (map) {
       map.resize();
       map.setZoom(5);
@@ -189,11 +183,7 @@ export default class Map extends React.Component {
   render() {
     return (
       <div style={{ width: "100%", height: "600px" }} className="search-map view">
-        <Location
-          ready={this.state.loaded}
-          map={this.map}
-          setPosition={this.setPosition.bind(this)}
-        />
+        <Location ready={this.state.loaded} map={this.map} setPosition={this.setPosition.bind(this)} />
         <Drawer
           notices={this.state.selectedMarker ? this.state.selectedMarker.getHits() : null}
           onClose={() => {
@@ -203,7 +193,7 @@ export default class Map extends React.Component {
         <div id="map" ref={this.mapRef} style={{ width: "100%", height: "600px" }}>
           <SwitchStyleButton
             value={this.state.style}
-            onChange={style => {
+            onChange={(style) => {
               this.setState({ style });
               this.map.setStyle(style);
             }}
@@ -497,4 +487,4 @@ const SwitchStyleButton = ({ onChange, value }) => {
       )}
     </div>
   );
-}
+};
