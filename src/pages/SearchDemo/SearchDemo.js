@@ -72,8 +72,8 @@ const SearchDemo = () => {
       <Map
         style="mapbox://styles/mapbox/streets-v9"
         containerStyle={{
-          height: "50vh",
-          width: "50vw",
+          height: "100vh",
+          width: "100%",
         }}
         maxPitch={0}
         disab={false}
@@ -124,7 +124,7 @@ const SearchDemo = () => {
   const getTrainingResult = () => {
     if (trainings) {
       return (
-        <div className="apiResult">
+        <div className="trainingResult">
           <h2>Formations ({trainings.length})</h2>
           <ReactJson src={trainings} />
         </div>
@@ -137,7 +137,7 @@ const SearchDemo = () => {
   const getJobResult = () => {
     if (jobs) {
       return (
-        <div className="apiResult">
+        <div className="jobResult">
           <h2>
             Postes ({jobs.peJobs.length}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
           </h2>
@@ -149,78 +149,78 @@ const SearchDemo = () => {
     }
   };
 
-  return (
-    <div className="page apiTestPage">
-      <Container>
-        <Row>
-          <Col xs="12">
-            <h1>Test des APIs IDEA</h1>
-            <Formik
-              validate={(values) => {
-                const errors = {};
-                if (!values.job || !values.job.label || !values.job.rome) {
-                  errors.job = "Sélectionne un métier";
-                }
-                return errors;
-              }}
-              initialValues={{ job: {} }}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting }) => (
-                <Form>
-                  <Row>
-                    <Col xs="12" md="6">
-                      <div className="formGroup">
-                        <FontAwesomeIcon icon={faSearch} />
-                        <AutoCompleteField
-                          items={[]}
-                          itemToStringFunction={autoCompleteToStringFunction}
-                          onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
-                          compareItemFunction={compareAutoCompleteValues}
-                          onInputValueChangeFunction={fetchRomes}
-                          name="jobField"
-                          placeholder="ex: boucher"
-                        />
-                      </div>
-                      <ErrorMessage name="job" className="errorField" component="div" />
-                    </Col>
-                    <Col xs="12" md="6">
-                      <div className="formGroup">
-                        <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        <AutoCompleteField
-                          items={[]}
-                          itemToStringFunction={autoCompleteToStringFunction}
-                          onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
-                          compareItemFunction={compareAutoCompleteValues}
-                          onInputValueChangeFunction={fetchAddresses}
-                          name="placeField"
-                          placeholder="ex: Nantes"
-                        />
-                      </div>
-                      <ErrorMessage name="location" className="errorField" component="div" />
-                    </Col>
-                  </Row>
+  const getSearchForm = () => {
+    return (
+      <>
+        <h1>Test des APIs IDEA</h1>
+        <Formik
+          validate={(values) => {
+            const errors = {};
+            if (!values.job || !values.job.label || !values.job.rome) {
+              errors.job = "Sélectionne un métier";
+            }
+            return errors;
+          }}
+          initialValues={{ job: {} }}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <Row>
+                <Col xs="12">
+                  <div className="formGroup">
+                    <FontAwesomeIcon icon={faSearch} />
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchRomes}
+                      name="jobField"
+                      placeholder="ex: boucher"
+                    />
+                  </div>
+                  <ErrorMessage name="job" className="errorField" component="div" />
+                </Col>
+                <Col xs="12">
+                  <div className="formGroup">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchAddresses}
+                      name="placeField"
+                      placeholder="ex: Nantes"
+                    />
+                  </div>
+                  <ErrorMessage name="location" className="errorField" component="div" />
+                </Col>
+              </Row>
 
-                  <Button type="submit" disabled={isSubmitting}>
-                    Valider
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12" lg="6">
-            {getTrainingResult()}
-          </Col>
-          <Col xs="12" lg="6">
-            {getJobResult()}
-          </Col>
-        </Row>
-        <Row>
-          <Col xs="12">{getMap()}</Col>
-        </Row>
-      </Container>
+              <Button type="submit" disabled={isSubmitting}>
+                Valider
+              </Button>
+            </Form>
+          )}
+        </Formik>
+      </>
+    );
+  };
+
+  return (
+    <div className="page demoPage">
+      <Row>
+        <Col xs="12" lg="3">
+          {getSearchForm()}
+          {getTrainingResult()}
+          {getJobResult()}
+        </Col>
+        <Col xs="12" lg="9">
+          {getMap()}
+        </Col>
+      </Row>
     </div>
   );
 };
