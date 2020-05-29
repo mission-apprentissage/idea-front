@@ -10,5 +10,6 @@
     "LOCATIONSELECTION": "/lieu-formation",
     "TRAININGLIST": "/formations",
     "APITESTER": "/test-api",
+    "SEARCHDEMO": "/demo-recherche",
     "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }
