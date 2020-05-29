@@ -77,6 +77,8 @@ const SearchDemo = () => {
         style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
         center: [mapState.lon, mapState.lat],
         zoom: mapState.zoom,
+        maxZoom: 15,
+        minZoom: 5,
       });
 
       map.on("load", () => {
@@ -89,8 +91,6 @@ const SearchDemo = () => {
           lon: map.getCenter().lng.toFixed(4),
           lat: map.getCenter().lat.toFixed(4),
           zoom: map.getZoom().toFixed(2),
-          maxZoom: 15,
-          minZoom: 5,
         });
       });
 
