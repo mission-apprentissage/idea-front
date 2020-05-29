@@ -79,6 +79,7 @@ const SearchDemo = () => {
         zoom: mapState.zoom,
         maxZoom: 15,
         minZoom: 5,
+        dragRotate: false,
       });
 
       map.on("load", () => {
