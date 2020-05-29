@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const ScrollToTop = () => {
   const { location, action } = useSelector(state => state.router);
   useEffect(() => {
-    if (action === "POP") {
+    if (action === "POP") { //TODO: check usefullness
       return;
     }
     // In all other cases, check fragment/scroll to top
@@ -19,7 +19,7 @@ const ScrollToTop = () => {
       window.scrollTo(0, 0);
     }
   });
-  return <div />;
+  return <div className="scrollToTopElement" />;
 };
 
 export default withRouter(ScrollToTop);
