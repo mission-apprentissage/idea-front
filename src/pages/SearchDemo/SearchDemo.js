@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
+import { Button, Row, Col, FormGroup } from "reactstrap";
 import "./searchdemo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,7 @@ import { AutoCompleteField } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
 import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
 import Training from "./Training";
+import PeJob from "./PeJob";
 import ReactJson from "react-json-view";
 
 const Map = ReactMapboxGl({
@@ -141,8 +142,7 @@ const SearchDemo = () => {
       return (
         <>
           {trainings.map((training, idx) => {
-            console.log("training avant  ",idx,training);
-             return <Training key={idx} training={training} />
+            return <Training key={idx} training={training} />;
           })}
         </>
       );
@@ -154,15 +154,34 @@ const SearchDemo = () => {
       return (
         <div className="jobResult">
           <h2>
-            Postes ({jobs.peJobs.length}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
+            Postes ({jobs.peJobs?jobs.peJobs.length:0}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
           </h2>
-          <ReactJson src={jobs} />
+          
+          {getPeJobList()}
+          {getLbbCompanyList()}
+
         </div>
       );
     } else {
       return "";
     }
   };
+
+  const getPeJobList = () => {
+    if (jobs && jobs.peJobs) {
+      return (
+        <>
+          {jobs.peJobs.map((job, idx) => {
+            return <PeJob key={idx} job={job} />;
+          })}
+        </>
+      );
+    } else return "Aucun poste pour ces critères de recherche";
+  }
+
+  const getLbbCompanyList = () => {
+    return "";
+  }
 
   const getSearchForm = () => {
     return (
