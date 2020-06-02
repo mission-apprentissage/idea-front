@@ -1,7 +1,7 @@
 import React from "react";
 
 const PeJob = ({ job }) => {
-  console.log("peJob : ", job);
+  //console.log("peJob : ", job);
 
   return (
     <div className="resultCard">
