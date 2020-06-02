@@ -1,7 +1,7 @@
 import React from "react";
 
 const LbbCompany = ({ company }) => {
-  console.log("lbb company : ", company);
+  //console.log("lbb company : ", company);
 
   return (
     <div className="resultCard">
