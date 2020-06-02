@@ -19,6 +19,8 @@ const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 const romeLabelsApi = baseUrl + "/romelabels";
 
+let currentMarkers = [];
+
 export const fetchRomes = async (value) => {
   if (value) {
     const response = await axios.get(romeLabelsApi, { params: { title: value } });
@@ -106,7 +108,14 @@ const SearchDemo = () => {
     return <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />;
   };
 
+  const clearMarkers = () => {
+    for (let i = 0; i < currentMarkers.length; ++i) currentMarkers[i].remove();
+
+    currentMarkers = [];
+  };
+
   const handleSubmit = async (values) => {
+    clearMarkers();
     // centrage de la carte sur le lieu de recherche
     map.easeTo({ center: [values.location.value.coordinates[0], values.location.value.coordinates[1]] });
 
@@ -132,10 +141,13 @@ const SearchDemo = () => {
   const setTrainingMarkers = (trainingList) => {
     trainingList.map((training, idx) => {
       const coords = training.source.geo_coordonnees_etablissement_reference.split(",");
-      new mapboxgl.Marker()
-        .setLngLat([coords[1], coords[0]])
-        .setPopup(new mapboxgl.Popup().setHTML(`${training.source.intitule_long}<br />${training.source.diplome}`))
-        .addTo(map);
+
+      currentMarkers.push(
+        new mapboxgl.Marker()
+          .setLngLat([coords[1], coords[0]])
+          .setPopup(new mapboxgl.Popup().setHTML(`${training.source.intitule_long}<br />${training.source.diplome}`))
+          .addTo(map)
+      );
     });
   };
 
@@ -161,24 +173,24 @@ const SearchDemo = () => {
     // positionnement des marqueurs bonne boîte
     if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
       jobs.lbbCompanies.companies.map((company, idx) => {
-        new mapboxgl.Marker({ color: "red" })
+        currentMarkers.push(new mapboxgl.Marker({ color: "red" })
           .setLngLat([company.lon, company.lat])
           .setPopup(new mapboxgl.Popup().setHTML(`${company.name}<br />${company.address}`))
-          .addTo(map);
+          .addTo(map));
       });
     }
 
     // positionnement des marqueurs PE
     if (jobs && jobs.peJobs && jobs.peJobs.length) {
       jobs.peJobs.map((job, idx) => {
-        new mapboxgl.Marker({ color: "green" })
+        currentMarkers.push(new mapboxgl.Marker({ color: "green" })
           .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
           .setPopup(
             new mapboxgl.Popup().setHTML(
               `${job.intitule}<br />${job.entreprise ? job.entreprise.nom : ""}<br />${job.lieuTravail.libelle}`
             )
           )
-          .addTo(map);
+          .addTo(map));
       });
     }
   };
