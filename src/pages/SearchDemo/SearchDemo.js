@@ -158,8 +158,6 @@ const SearchDemo = () => {
   };
 
   const setJobMarkers = (jobs) => {
-    console.log("joblist pour markers : ", jobs);
-
     // positionnement des marqueurs bonne boîte
     if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
       jobs.lbbCompanies.companies.map((company, idx) => {
@@ -171,7 +169,18 @@ const SearchDemo = () => {
     }
 
     // positionnement des marqueurs PE
-
+    if (jobs && jobs.peJobs && jobs.peJobs.length) {
+      jobs.peJobs.map((job, idx) => {
+        new mapboxgl.Marker({ color: "green" })
+          .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
+          .setPopup(
+            new mapboxgl.Popup().setHTML(
+              `${job.intitule}<br />${job.entreprise ? job.entreprise.nom : ""}<br />${job.lieuTravail.libelle}`
+            )
+          )
+          .addTo(map);
+      });
+    }
   };
 
   const getTrainingResult = () => {
