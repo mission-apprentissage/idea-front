@@ -63,7 +63,7 @@ const SearchDemo = () => {
   const [mapState, setMapState] = useState({
     lat: 48.85341,
     lon: 2.3488,
-    zoom: 11,
+    zoom: 10,
   });
 
   const mapContainer = useRef(null);
@@ -132,7 +132,10 @@ const SearchDemo = () => {
   const setTrainingMarkers = (trainingList) => {
     trainingList.map((training, idx) => {
       const coords = training.source.geo_coordonnees_etablissement_reference.split(",");
-      new mapboxgl.Marker().setLngLat([coords[1], coords[0]]).addTo(map);
+      new mapboxgl.Marker()
+        .setLngLat([coords[1], coords[0]])
+        .setPopup(new mapboxgl.Popup().setHTML(`${training.source.intitule_long}<br />${training.source.diplome}`))
+        .addTo(map);
     });
   };
 
@@ -150,6 +153,25 @@ const SearchDemo = () => {
     let results = { peJobs: response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies };
 
     setJobs(results);
+
+    setJobMarkers(results);
+  };
+
+  const setJobMarkers = (jobs) => {
+    console.log("joblist pour markers : ", jobs);
+
+    // positionnement des marqueurs bonne boîte
+    if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
+      jobs.lbbCompanies.companies.map((company, idx) => {
+        new mapboxgl.Marker({ color: "red" })
+          .setLngLat([company.lon, company.lat])
+          .setPopup(new mapboxgl.Popup().setHTML(`${company.name}<br />${company.address}`))
+          .addTo(map);
+      });
+    }
+
+    // positionnement des marqueurs PE
+
   };
 
   const getTrainingResult = () => {
