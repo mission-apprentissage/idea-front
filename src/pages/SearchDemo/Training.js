@@ -13,6 +13,8 @@ const Training = ({ training }) => {
           ""
         )}
         <br />
+        Diplôme : {training.source.diplome}
+        <br />
         Code postal : {training.source.code_postal} - Distance : {Math.round(training.sort[0])} km(s)
       </div>
     </div>
