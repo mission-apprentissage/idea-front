@@ -3,12 +3,10 @@ import axios from "axios";
 import { Row, Col } from "reactstrap";
 import "./searchdemo.css";
 import mapboxgl from "mapbox-gl";
-import Training from "./Training";
-import PeJob from "./PeJob";
-import LbbCompany from "./LbbCompany";
 import baseUrl from "../../utils/baseUrl";
 import SearchForm from "./SearchForm";
 import MapListSwitchButton from "./MapListSwitchButton";
+import ResultLists from "./ResultLists";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -161,81 +159,12 @@ const SearchDemo = () => {
     }
   };
 
-  const getTrainingResult = () => {
-    if (hasSearch) {
-      return (
-        <div className="trainingResult">
-          <h2>Formations ({trainings.length})</h2>
-          {getTrainingList()}
-        </div>
-      );
-    } else {
-      return "";
-    }
-  };
-
-  const getTrainingList = () => {
-    if (trainings.length) {
-      return (
-        <>
-          {trainings.map((training, idx) => {
-            return <Training key={idx} training={training} />;
-          })}
-        </>
-      );
-    } else return <div className="listText">Aucune formation pour ces critères de recherche</div>;
-  };
-
-  const getJobResult = () => {
-    if (jobs) {
-      return (
-        <div className="jobResult">
-          <h2>
-            Postes ({jobs.peJobs ? jobs.peJobs.length : 0}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
-          </h2>
-
-          {getPeJobList()}
-          {getLbbCompanyList()}
-        </div>
-      );
-    } else {
-      return "";
-    }
-  };
-
-  const getPeJobList = () => {
-    if (jobs && jobs.peJobs && jobs.peJobs.length) {
-      return (
-        <>
-          <div className="listText">Postes ouverts en alternance sur Pôle emploi</div>
-          {jobs.peJobs.map((job, idx) => {
-            return <PeJob key={idx} job={job} />;
-          })}
-        </>
-      );
-    } else return <div className="listText">Aucun poste pour ces critères de recherche</div>;
-  };
-
-  const getLbbCompanyList = () => {
-    if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
-      return (
-        <>
-          <div className="listText">Sociétés recrutant en alternance</div>
-          {jobs.lbbCompanies.companies.map((company, idx) => {
-            return <LbbCompany key={idx} company={company} />;
-          })}
-        </>
-      );
-    } else
-      return (
-        <div className="listText">
-          Aucune société susceptible de recruter en alternance pour ces critères de recherche
-        </div>
-      );
+  const getResultLists = () => {
+    return <ResultLists hasSearch={hasSearch} visibleForm={visibleForm} trainings={trainings} jobs={jobs} />
   };
 
   const getSearchForm = () => {
-    return <SearchForm handleSubmit={handleSubmit} />;
+    return <SearchForm visibleForm={visibleForm} handleSubmit={handleSubmit} />;
   };
 
   const showResultMap = (e) => {
@@ -269,14 +198,10 @@ const SearchDemo = () => {
           md="4"
         >
           <div className="rightCol">
-            bascule formulaire de filtrage / liste de résultats bouton bascule map / filtres si version mobile trois
-            états : état filtre ou liste état carte ou filtre/liste : si &lt;800px display:none si $gte800px display
-            block si état carte et &lt; 800px boutons filtres + liste visibles en fixed si état liste et &lt; 800px
-            bouton carte visible en fixed lat : {mapState.lat} - long : {mapState.lon} - zoom : {mapState.zoom}
+            lat : {mapState.lat} - long : {mapState.lon} - zoom : {mapState.zoom}
             <br />
             {getSearchForm()}
-            {getTrainingResult()}
-            {getJobResult()}
+            {getResultLists()}
           </div>
         </Col>
       </Row>
