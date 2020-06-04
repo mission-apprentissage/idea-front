@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Button, Row, Col } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import "./searchdemo.css";
 import mapboxgl from "mapbox-gl";
 import Training from "./Training";
@@ -8,8 +8,7 @@ import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
 import baseUrl from "../../utils/baseUrl";
 import SearchForm from "./SearchForm";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import MapListSwitchButton from "./MapListSwitchButton";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -239,47 +238,24 @@ const SearchDemo = () => {
     return <SearchForm handleSubmit={handleSubmit} />;
   };
 
-  const getMapListSwitchButton = () => {
-    if (visiblePane === "resultList") {
-      return (
-        <div className="floatingButtons resultList">
-          <Button onClick={showResultMap}>
-            <FontAwesomeIcon icon={faMapMarkerAlt} /> Carte
-          </Button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="floatingButtons resultMap">
-          <Button onClick={showSearchForm}>Filtres</Button>
-          <Button onClick={showResultList}>Liste</Button>
-        </div>
-      );
-    }
+  const showResultMap = (e) => {
+    if (e) e.stopPropagation();
+    setVisiblePane("resultMap");
+    setTimeout(() => {
+      map.resize();
+    }, 50);
   };
 
-  const showResultMap = (e) =>
-  {
-    if(e)
-      e.stopPropagation();
-    setVisiblePane("resultMap");
-    setTimeout(() => {map.resize()},50);
-  }
-
-  const showResultList = (e) =>
-  {
-    if(e)
-      e.stopPropagation();
+  const showResultList = (e) => {
+    if (e) e.stopPropagation();
     setVisiblePane("resultList");
-  }
+  };
 
-  const showSearchForm = (e) =>
-  {
-    if(e)
-      e.stopPropagation();
+  const showSearchForm = (e) => {
+    if (e) e.stopPropagation();
     setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
     setVisibleForm(true);
-  }
+  };
 
   return (
     <div className="page demoPage">
@@ -304,7 +280,13 @@ const SearchDemo = () => {
           </div>
         </Col>
       </Row>
-      {getMapListSwitchButton()}
+      <MapListSwitchButton
+        showSearchForm={showSearchForm}
+        showResultMap={showResultMap}
+        showResultList={showResultList}
+        visiblePane={visiblePane}
+        hasSearch={hasSearch}
+      />
     </div>
   );
 };
