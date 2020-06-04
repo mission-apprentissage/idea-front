@@ -263,6 +263,7 @@ const SearchDemo = () => {
     if(e)
       e.stopPropagation();
     setVisiblePane("resultMap");
+    setTimeout(() => {map.resize()},50);
   }
 
   const showResultList = (e) =>
