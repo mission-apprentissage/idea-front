@@ -7,6 +7,14 @@
         box-shadow: none;
     }
 
+    @media only screen and (min-width:768px) {
+        
+        .leftShadow
+        {
+            box-shadow: 2px -15px 15px rgba(0, 0, 0, 0.5);
+        }
+    }
+
     .activeXSPane
     {
         display:block;
@@ -16,13 +24,16 @@
     {
         display:block;
     }
+    
+    .floatingButtons
+    {
+        display:none;
+    }
 
-    @media only screen and (min-width:768px) {
-        
-        .leftShadow
-        {
-            box-shadow: 2px -15px 15px rgba(0, 0, 0, 0.5);
-        }
+    .floatingButtons button
+    {
+        cursor: pointer;
+        margin-right: 30px;
     }
 
     @media only screen and (max-width:767px) {        
@@ -31,7 +42,22 @@
             display:none;
         
         }
+
+        .floatingButtons
+        {
+            display:block;
+            position: fixed;
+            bottom: 40px;
+            right: 40%;
+        }
+
+        .floatingButtons.resultList
+        {
+            right: 30px;
+        }
     }
+
+    
 
 
     .rightCol

@@ -8,6 +8,8 @@ import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
 import baseUrl from "../../utils/baseUrl";
 import SearchForm from "./SearchForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -20,6 +22,7 @@ const SearchDemo = () => {
   const [hasSearch, setHasSearch] = useState(false);
 
   const [visiblePane, setVisiblePane] = useState("resultList");
+  const [visibleForm, setVisibleForm] = useState(true);
 
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
@@ -236,6 +239,47 @@ const SearchDemo = () => {
     return <SearchForm handleSubmit={handleSubmit} />;
   };
 
+  const getMapListSwitchButton = () => {
+    if (visiblePane === "resultList") {
+      return (
+        <div className="floatingButtons resultList">
+          <Button onClick={showResultMap}>
+            <FontAwesomeIcon icon={faMapMarkerAlt} /> Carte
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="floatingButtons resultMap">
+          <Button onClick={showSearchForm}>Filtres</Button>
+          <Button onClick={showResultList}>Liste</Button>
+        </div>
+      );
+    }
+  };
+
+  const showResultMap = (e) =>
+  {
+    if(e)
+      e.stopPropagation();
+    setVisiblePane("resultMap");
+  }
+
+  const showResultList = (e) =>
+  {
+    if(e)
+      e.stopPropagation();
+    setVisiblePane("resultList");
+  }
+
+  const showSearchForm = (e) =>
+  {
+    if(e)
+      e.stopPropagation();
+    setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
+    setVisibleForm(true);
+  }
+
   return (
     <div className="page demoPage">
       <Row>
@@ -259,6 +303,7 @@ const SearchDemo = () => {
           </div>
         </Col>
       </Row>
+      {getMapListSwitchButton()}
     </div>
   );
 };
