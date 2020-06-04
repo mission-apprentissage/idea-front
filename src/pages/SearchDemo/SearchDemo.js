@@ -15,11 +15,11 @@ const jobsApi = baseUrl + "/jobs";
 let currentMarkers = [];
 
 const SearchDemo = () => {
-
-
   const [trainings, setTrainings] = useState(null);
   const [jobs, setJobs] = useState(null);
   const [hasSearch, setHasSearch] = useState(false);
+
+  const [visiblePane, setVisiblePane] = useState("resultList");
 
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
@@ -233,21 +233,25 @@ const SearchDemo = () => {
   };
 
   const getSearchForm = () => {
-    return <SearchForm handleSubmit={handleSubmit} />
+    return <SearchForm handleSubmit={handleSubmit} />;
   };
 
   return (
     <div className="page demoPage">
       <Row>
-        <Col xs="12" lg="8">
-          <div className="mapContainer">
-            {getMap()}
-          </div>
+        <Col className={visiblePane === "resultMap" ? "activeXSPane" : "inactiveXSPane"} xs="12" md="8">
+          <div className="mapContainer">{getMap()}</div>
         </Col>
-        <Col xs="12" lg="4">
-          <div className="leftCol">
-            
-            lat : {mapState.lat} - long : {mapState.lon} - zoom : {mapState.zoom}
+        <Col
+          className={`leftShadow ${visiblePane === "resultList" ? "activeXSPane" : "inactiveXSPane"}`}
+          xs="12"
+          md="4"
+        >
+          <div className="rightCol">
+            bascule formulaire de filtrage / liste de résultats bouton bascule map / filtres si version mobile trois
+            états : état filtre ou liste état carte ou filtre/liste : si &lt;800px display:none si $gte800px display
+            block si état carte et &lt; 800px boutons filtres + liste visibles en fixed si état liste et &lt; 800px
+            bouton carte visible en fixed lat : {mapState.lat} - long : {mapState.lon} - zoom : {mapState.zoom}
             <br />
             {getSearchForm()}
             {getTrainingResult()}

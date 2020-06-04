@@ -7,11 +7,29 @@
         box-shadow: none;
     }
 
+    .activeXSPane
+    {
+        display:block;
+    }
+
+    .inactiveXSPane
+    {
+        display:block;
+    }
+
     @media only screen and (min-width:768px) {
         
         .leftShadow
         {
             box-shadow: 2px -15px 15px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    @media only screen and (max-width:767px) {        
+        .inactiveXSPane
+        {
+            display:none;
+        
         }
     }
 
