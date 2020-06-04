@@ -48,7 +48,7 @@ const SearchForm = (props) => {
   };
 
   return (
-    <>
+    <div className={props.visibleForm ? "" : "hiddenSearchForm"}>
       <h1>Test des APIs IDEA</h1>
       <Formik
         validate={(values) => {
@@ -102,7 +102,7 @@ const SearchForm = (props) => {
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 
