@@ -80,7 +80,7 @@ const ResultLists = (props) => {
   };
 
   return (
-    <div className={props.visibleForm ? "hiddenResultList" : ""}>
+    <div className={props.isFormVisible ? "hiddenResultList" : ""}>
       {getTrainingResult()}
       {getJobResult()}
     </div>
