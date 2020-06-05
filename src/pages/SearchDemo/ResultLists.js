@@ -77,11 +77,18 @@ const ResultLists = (props) => {
   };
 
   const getResultCounts = () => {
-    const trs = props.trainings?props.trainings.length:"";
+    const trs = props.trainings ? props.trainings.length : "";
+    let jobs = 0;
+
+    if (props.jobs) {
+      if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
+      if (props.jobs.lbbCompanies) jobs += props.jobs.lbbCompanies.companies.length;
+    }
 
     let trainingCount = trs,
       trainingCountLabel = " formation ne correspond",
-      jobCount = "";
+      jobCount = jobs,
+      jobCountLabel = " entreprise ne correspond";
 
     if (trs == 0) {
       trainingCount = "Aucune";
@@ -91,12 +98,22 @@ const ResultLists = (props) => {
       trainingCountLabel = " formations correspondent";
     }
 
+    if (jobs == 0) {
+      jobCount = "Aucune";
+    } else if (jobs == 1) {
+      jobCountLabel = " entreprise correspond";
+    } else {
+      jobCountLabel = " entreprises correspondent";
+    }
+
+
     return (
       <div className="resultTitle">
         <span className="countValue">{trainingCount}</span>
         {trainingCountLabel} à votre recherche
         <br />
-        {/*jobCount*/}
+        <span className="countValue">{jobCount}</span>
+        {jobCountLabel} à votre recherche
       </div>
     );
   };
