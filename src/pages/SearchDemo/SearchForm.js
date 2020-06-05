@@ -50,6 +50,9 @@ const SearchForm = (props) => {
   return (
     <div className={props.isFormVisible ? "" : "hiddenSearchForm"}>
       <h1>Test des APIs IDEA</h1>
+
+      {props.hasSearch ? <Button onClick={props.showResultList}>Retour aux résultats précédents</Button> : ""}
+
       <Formik
         validate={(values) => {
           const errors = {};

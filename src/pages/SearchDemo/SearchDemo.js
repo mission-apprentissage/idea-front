@@ -81,6 +81,7 @@ const SearchDemo = () => {
 
     searchForTrainings(values);
     searchForJobs(values);
+    setIsFormVisible(false);
   };
 
   const searchForTrainings = async (values) => {
@@ -94,6 +95,7 @@ const SearchDemo = () => {
     setTrainings(response.data);
 
     setHasSearch(true);
+    setIsFormVisible(false);
 
     setTrainingMarkers(response.data);
   };
@@ -160,11 +162,18 @@ const SearchDemo = () => {
   };
 
   const getResultLists = () => {
-    return <ResultLists hasSearch={hasSearch} isFormVisible={isFormVisible} trainings={trainings} jobs={jobs} />
+    return <ResultLists hasSearch={hasSearch} isFormVisible={isFormVisible} trainings={trainings} jobs={jobs} />;
   };
 
   const getSearchForm = () => {
-    return <SearchForm isFormVisible={isFormVisible} handleSubmit={handleSubmit} />;
+    return (
+      <SearchForm
+        isFormVisible={isFormVisible}
+        hasSearch={hasSearch}
+        showResultList={showResultList}
+        handleSubmit={handleSubmit}
+      />
+    );
   };
 
   const showResultMap = (e) => {
@@ -178,8 +187,10 @@ const SearchDemo = () => {
   };
 
   const showResultList = (e) => {
+    console.log("ICIC");
     if (e) e.stopPropagation();
     setVisiblePane("resultList");
+    setIsFormVisible(false);
   };
 
   const showSearchForm = (e) => {
