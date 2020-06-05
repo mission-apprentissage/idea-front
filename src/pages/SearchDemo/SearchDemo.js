@@ -187,7 +187,6 @@ const SearchDemo = () => {
   };
 
   const showResultList = (e) => {
-    console.log("ICIC");
     if (e) e.stopPropagation();
     setVisiblePane("resultList");
     setIsFormVisible(false);
