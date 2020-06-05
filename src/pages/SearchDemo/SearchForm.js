@@ -2,8 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Button, Row, Col } from "reactstrap";
 import "./searchdemo.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import mapMarker from "../../assets/icons/pin.svg";
 import { Formik, Form, ErrorMessage } from "formik";
 import { AutoCompleteField } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
@@ -69,7 +68,6 @@ const SearchForm = (props) => {
             <Row>
               <Col xs="12">
                 <div className="formGroup">
-                  <FontAwesomeIcon icon={faSearch} />
                   <AutoCompleteField
                     items={[]}
                     itemToStringFunction={autoCompleteToStringFunction}
@@ -84,7 +82,6 @@ const SearchForm = (props) => {
               </Col>
               <Col xs="12">
                 <div className="formGroup">
-                  <FontAwesomeIcon icon={faMapMarkerAlt} />
                   <AutoCompleteField
                     items={[]}
                     itemToStringFunction={autoCompleteToStringFunction}
@@ -94,6 +91,7 @@ const SearchForm = (props) => {
                     name="placeField"
                     placeholder="ex: Nantes"
                   />
+                  <img className="inFormIcon" src={mapMarker} alt="" />
                 </div>
                 <ErrorMessage name="location" className="errorField" component="div" />
               </Col>
