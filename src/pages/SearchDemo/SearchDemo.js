@@ -162,7 +162,7 @@ const SearchDemo = () => {
   };
 
   const getResultLists = () => {
-    return <ResultLists hasSearch={hasSearch} isFormVisible={isFormVisible} trainings={trainings} jobs={jobs} />;
+    return <ResultLists hasSearch={hasSearch} isFormVisible={isFormVisible} showSearchForm={showSearchForm} trainings={trainings} jobs={jobs} />;
   };
 
   const getSearchForm = () => {

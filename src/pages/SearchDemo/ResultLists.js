@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Button } from "reactstrap";
 import Training from "./Training";
 import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
@@ -81,6 +81,7 @@ const ResultLists = (props) => {
 
   return (
     <div className={props.isFormVisible ? "hiddenResultList" : ""}>
+      <Button onClick={props.showSearchForm}>Filtres</Button>
       {getTrainingResult()}
       {getJobResult()}
     </div>
