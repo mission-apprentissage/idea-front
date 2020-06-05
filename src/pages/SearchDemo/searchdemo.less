@@ -2,6 +2,12 @@
 {
     max-width: 99%;
 
+    header
+    {
+        background: none;
+        padding: 0px 10px;
+    }
+
     .hiddenResultList,
     .hiddenSearchForm
     {
@@ -213,6 +219,24 @@
             max-width: 280px;
             margin: auto;
         }
+
+        header .filterButton  {
+            color: #066EE7;
+            background: #fff;
+            width: auto;
+            border: 2px solid #066EE7;
+            text-align: center;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 50px !important;
+            float: right;
+            margin-top: 5px;
+        }
+        header .filterButton:hover  {
+            color: #fff;
+            border: 2px solid #066EE7;
+            background: #066EE7;
+        }
     }
 
     .row
@@ -228,5 +252,9 @@
         right: 0;
         left: 0;
         bottom: 0;
+    }
+
+    .clearBoth {
+        clear:both;
     }
 }

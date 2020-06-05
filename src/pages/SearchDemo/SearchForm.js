@@ -4,7 +4,7 @@ import { Button, Row, Col } from "reactstrap";
 import "./searchdemo.css";
 import mapMarker from "../../assets/icons/pin.svg";
 import { Formik, Form, ErrorMessage } from "formik";
-import { AutoCompleteField } from "../../components";
+import { AutoCompleteField, LogoIdea } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
 import baseUrl from "../../utils/baseUrl";
 
@@ -48,9 +48,17 @@ const SearchForm = (props) => {
 
   return (
     <div className={props.isFormVisible ? "" : "hiddenSearchForm"}>
-      <h1>Test des APIs IDEA</h1>
-
-      {props.hasSearch ? <Button onClick={props.showResultList}>Retour aux résultats précédents</Button> : ""}
+      <header>
+        <LogoIdea />
+        {props.hasSearch ? (
+          <Button className="filterButton" onClick={props.showResultList}>
+            Retour aux résultats précédents
+          </Button>
+        ) : (
+          ""
+        )}
+      </header>
+      <div className="clearBoth" />
 
       <Formik
         validate={(values) => {

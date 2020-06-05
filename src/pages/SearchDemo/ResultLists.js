@@ -3,6 +3,9 @@ import { Button } from "reactstrap";
 import Training from "./Training";
 import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
+import { LogoIdea } from "../../components";
+import { ReactComponent as FilterIcon } from "../../assets/icons/filter.svg";
+
 
 const ResultLists = (props) => {
   const getTrainingResult = () => {
@@ -81,7 +84,13 @@ const ResultLists = (props) => {
 
   return (
     <div className={props.isFormVisible ? "hiddenResultList" : ""}>
-      <Button onClick={props.showSearchForm}>Filtres</Button>
+      <header>
+        <LogoIdea />
+        <Button className="filterButton" onClick={props.showSearchForm}>
+          <FilterIcon /> Filtres
+        </Button>
+      </header>
+      <div className='clearBoth' />
       {getTrainingResult()}
       {getJobResult()}
     </div>
