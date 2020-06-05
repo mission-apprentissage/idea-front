@@ -6,16 +6,10 @@ import LbbCompany from "./LbbCompany";
 import { LogoIdea } from "../../components";
 import { ReactComponent as FilterIcon } from "../../assets/icons/filter.svg";
 
-
 const ResultLists = (props) => {
   const getTrainingResult = () => {
     if (props.hasSearch) {
-      return (
-        <div className="trainingResult">
-          <h2>Formations ({props.trainings.length})</h2>
-          {getTrainingList()}
-        </div>
-      );
+      return <div className="trainingResult">{getTrainingList()}</div>;
     } else {
       return "";
     }
@@ -82,15 +76,42 @@ const ResultLists = (props) => {
       );
   };
 
+  const getResultCounts = () => {
+    const trs = props.trainings?props.trainings.length:"";
+
+    let trainingCount = trs,
+      trainingCountLabel = " formation ne correspond",
+      jobCount = "";
+
+    if (trs == 0) {
+      trainingCount = "Aucune";
+    } else if (trs == 1) {
+      trainingCountLabel = " formation correspond";
+    } else {
+      trainingCountLabel = " formations correspondent";
+    }
+
+    return (
+      <div className="resultTitle">
+        <span className="countValue">{trainingCount}</span>
+        {trainingCountLabel} à votre recherche
+        <br />
+        {/*jobCount*/}
+      </div>
+    );
+  };
+
   return (
     <div className={props.isFormVisible ? "hiddenResultList" : ""}>
       <header>
         <LogoIdea />
         <Button className="filterButton" onClick={props.showSearchForm}>
-          <FilterIcon /> Filtres
+          <FilterIcon />
+          <span className="hiddenSM"> Filtres</span>
         </Button>
       </header>
-      <div className='clearBoth' />
+      <div className="clearBoth" />
+      {getResultCounts()}
       {getTrainingResult()}
       {getJobResult()}
     </div>
