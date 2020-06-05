@@ -170,6 +170,8 @@ const SearchDemo = () => {
   const showResultMap = (e) => {
     if (e) e.stopPropagation();
     setVisiblePane("resultMap");
+
+    // hack : force le redimensionnement de la carte qui peut n'occuper qu'une fraction de l'écran en mode mobile
     setTimeout(() => {
       map.resize();
     }, 50);
