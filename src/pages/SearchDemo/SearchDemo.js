@@ -19,7 +19,7 @@ const SearchDemo = () => {
   const [hasSearch, setHasSearch] = useState(false);
 
   const [visiblePane, setVisiblePane] = useState("resultList");
-  const [visibleForm, setVisibleForm] = useState(true);
+  const [isFormVisible, setIsFormVisible] = useState(true);
 
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
@@ -160,11 +160,11 @@ const SearchDemo = () => {
   };
 
   const getResultLists = () => {
-    return <ResultLists hasSearch={hasSearch} visibleForm={visibleForm} trainings={trainings} jobs={jobs} />
+    return <ResultLists hasSearch={hasSearch} isFormVisible={isFormVisible} trainings={trainings} jobs={jobs} />
   };
 
   const getSearchForm = () => {
-    return <SearchForm visibleForm={visibleForm} handleSubmit={handleSubmit} />;
+    return <SearchForm isFormVisible={isFormVisible} handleSubmit={handleSubmit} />;
   };
 
   const showResultMap = (e) => {
@@ -183,7 +183,7 @@ const SearchDemo = () => {
   const showSearchForm = (e) => {
     if (e) e.stopPropagation();
     setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
-    setVisibleForm(true);
+    setIsFormVisible(true);
   };
 
   return (
