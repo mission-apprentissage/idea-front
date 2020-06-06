@@ -22,6 +22,8 @@
     .leftShadow
     {
         box-shadow: none;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     @media only screen and (min-width:768px) {
@@ -101,6 +103,7 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            border-bottom: 1px solid ;
         }
 
         .resultCard .title
@@ -287,6 +290,15 @@
         .hiddenSM{
             display:none;
         }
+
+        .filterButton  {
+            background-position: 8px !important;
+            width: 42px !important;
+            height: 42px !important;
+        }
+        .filterButton:hover  {
+            background-position: 8px !important;
+        }
     }
 
     .countValue
@@ -302,6 +314,7 @@
         font-size: 22px;
         margin-top: 10px;
         margin-bottom: 20px;
+        padding: 0 20px;
     }
 
     
