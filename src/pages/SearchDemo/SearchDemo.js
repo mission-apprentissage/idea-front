@@ -210,8 +210,6 @@ const SearchDemo = () => {
           md="4"
         >
           <div className="rightCol">
-            lat : {mapState.lat} - long : {mapState.lon} - zoom : {mapState.zoom}
-            <br />
             {getSearchForm()}
             {getResultLists()}
           </div>
