@@ -225,22 +225,42 @@
             margin: auto;
         }
 
-        header .filterButton  {
+        .blueButton
+        {
             color: #066EE7;
             background: #fff;
-            width: auto;
             border: 2px solid #066EE7;
-            text-align: center;
-            font-size: 14px;
-            padding: 10px;
             border-radius: 50px !important;
-            float: right;
-            margin-top: 5px;
+            font-size: 14px;    
+            padding: 10px;
+            text-align: center; 
+            width: auto;       
         }
-        header .filterButton:hover  {
+
+        header .blueButton
+        {
+            margin-top: 5px;
+            float: right;
+        }
+
+        .blueButton:hover
+        {
             color: #fff;
             border: 2px solid #066EE7;
-            background: #066EE7;
+            background: #066EE7;            
+        }
+
+        .filterButton  {
+            background-image: url(/pic/icons/filter.svg);
+            background-position: 4px;
+            background-repeat: no-repeat;
+            width: 80px;
+            text-align: right;            
+        }
+        .filterButton:hover  {
+            background-image: url("/pic/icons/filter_white.svg");
+            background-position: 4px;
+            background-repeat: no-repeat;            
         }
     }
 
@@ -283,5 +303,7 @@
         margin-top: 10px;
         margin-bottom: 20px;
     }
+
+    
     
 }

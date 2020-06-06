@@ -51,7 +51,7 @@ const SearchForm = (props) => {
       <header>
         <LogoIdea />
         {props.hasSearch ? (
-          <Button className="filterButton" onClick={props.showResultList}>
+          <Button className="blueButton" onClick={props.showResultList}>
             Voir les formations
           </Button>
         ) : (
