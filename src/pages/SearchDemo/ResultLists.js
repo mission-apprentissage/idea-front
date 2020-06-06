@@ -30,11 +30,6 @@ const ResultLists = (props) => {
     if (props.jobs) {
       return (
         <div className="jobResult">
-          <h2>
-            Postes ({props.jobs.peJobs ? props.jobs.peJobs.length : 0}), Bonnes boîtes (
-            {props.jobs.lbbCompanies.companies.length})
-          </h2>
-
           {getPeJobList()}
           {getLbbCompanyList()}
         </div>
@@ -48,7 +43,6 @@ const ResultLists = (props) => {
     if (props.jobs && props.jobs.peJobs && props.jobs.peJobs.length) {
       return (
         <>
-          <div className="listText">Postes ouverts en alternance sur Pôle emploi</div>
           {props.jobs.peJobs.map((job, idx) => {
             return <PeJob key={idx} job={job} />;
           })}
@@ -61,7 +55,6 @@ const ResultLists = (props) => {
     if (props.jobs && props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies_count) {
       return (
         <>
-          <div className="listText">Sociétés recrutant en alternance</div>
           {props.jobs.lbbCompanies.companies.map((company, idx) => {
             return <LbbCompany key={idx} company={company} />;
           })}
