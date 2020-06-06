@@ -1,8 +1,13 @@
 import React from "react";
+import trainingIcon from "../../assets/icons/school.svg";
 
 const Training = ({ training }) => {
   return (
-    <div className="resultCard">
+    <div className="resultCard trainingCard">
+      <div>
+        <img className="cardIcon" src={trainingIcon} />
+        <span className="cardDistance">{Math.round(training.sort[0])} km(s) du lieu de recherche</span>
+      </div>
       <div className="title">{training.source.intitule_long}</div>
       <div className="body">
         {training.source.onisep_url ? (
@@ -15,7 +20,7 @@ const Training = ({ training }) => {
         <br />
         Diplôme : {training.source.diplome}
         <br />
-        Code postal : {training.source.code_postal} - Distance : {Math.round(training.sort[0])} km(s)
+        Code postal : {training.source.code_postal} 
       </div>
     </div>
   );
