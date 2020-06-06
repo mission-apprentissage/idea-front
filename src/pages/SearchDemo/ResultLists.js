@@ -4,7 +4,6 @@ import Training from "./Training";
 import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
 import { LogoIdea } from "../../components";
-import { ReactComponent as FilterIcon } from "../../assets/icons/filter.svg";
 
 const ResultLists = (props) => {
   const getTrainingResult = () => {
@@ -122,8 +121,7 @@ const ResultLists = (props) => {
     <div className={props.isFormVisible ? "hiddenResultList" : ""}>
       <header>
         <LogoIdea />
-        <Button className="filterButton" onClick={props.showSearchForm}>
-          <FilterIcon />
+        <Button className="blueButton filterButton" onClick={props.showSearchForm}>
           <span className="hiddenSM"> Filtres</span>
         </Button>
       </header>
