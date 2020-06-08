@@ -52,7 +52,7 @@ const SearchForm = (props) => {
         <LogoIdea />
         {props.hasSearch ? (
           <Button className="blueButton" onClick={props.showResultList}>
-            Voir les formations
+            Retour
           </Button>
         ) : (
           ""
