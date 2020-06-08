@@ -7,7 +7,7 @@ import baseUrl from "../../utils/baseUrl";
 import SearchForm from "./SearchForm";
 import MapListSwitchButton from "./MapListSwitchButton";
 import ResultLists from "./ResultLists";
-
+import distance from "@turf/distance";
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
@@ -17,6 +17,7 @@ const SearchDemo = () => {
   const [trainings, setTrainings] = useState(null);
   const [jobs, setJobs] = useState(null);
   const [hasSearch, setHasSearch] = useState(false);
+  //const [searchCenter, setSearchCenter] = useState(null);
 
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
@@ -27,6 +28,8 @@ const SearchDemo = () => {
     lon: 2.3488,
     zoom: 8,
   });
+
+  let searchCenter;
 
   const mapContainer = useRef(null);
 
@@ -77,7 +80,8 @@ const SearchDemo = () => {
   const handleSubmit = async (values) => {
     clearMarkers();
     // centrage de la carte sur le lieu de recherche
-    map.easeTo({ center: [values.location.value.coordinates[0], values.location.value.coordinates[1]] });
+    searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
+    map.flyTo({ center: searchCenter });
 
     searchForTrainings(values);
     searchForJobs(values);
@@ -124,11 +128,36 @@ const SearchDemo = () => {
       },
     });
 
-    let results = { peJobs: response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies };
+    let results = {
+      peJobs: sortCompaniesByDistance(response.data.peJobs.resultats, "pe"),
+      lbbCompanies: sortCompaniesByDistance(response.data.lbbCompanies, "lbb"),
+    };
 
     setJobs(results);
 
     setJobMarkers(results);
+  };
+
+  const sortCompaniesByDistance = (companies, source) => {
+    if (source === "pe") {
+      // calcule et affectation aux offres PE de la distances du centre de recherche
+      companies.map((company) => {
+        if (company.lieuTravail)
+          company.distance =
+            Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
+      });
+
+      // tri par distance
+      companies.sort((a, b) => {
+        return a.distance - b.distance;
+      });
+    } else {
+      companies.companies.sort((a, b) => {
+        return a.distance - b.distance;
+      });
+    }
+
+    return companies;
   };
 
   const setJobMarkers = (jobs) => {
@@ -162,7 +191,15 @@ const SearchDemo = () => {
   };
 
   const getResultLists = () => {
-    return <ResultLists hasSearch={hasSearch} isFormVisible={isFormVisible} showSearchForm={showSearchForm} trainings={trainings} jobs={jobs} />;
+    return (
+      <ResultLists
+        hasSearch={hasSearch}
+        isFormVisible={isFormVisible}
+        showSearchForm={showSearchForm}
+        trainings={trainings}
+        jobs={jobs}
+      />
+    );
   };
 
   const getSearchForm = () => {

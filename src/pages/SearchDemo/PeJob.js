@@ -7,10 +7,10 @@ const PeJob = ({ job }) => {
   return (
     <div className="resultCard">
       <div>
-        <img className="cardIcon" src={jobIcon} />
-        <span className="cardDistance"> km(s) du lieu de recherche</span>
+        <img className="cardIcon" src={jobIcon} alt="" />
+        <span className="cardDistance">{job.distance} km(s) du lieu de recherche</span>
       </div>
-      
+
       <div className="title">{job.intitule}</div>
       <div className="body">
         {job.entreprise ? job.entreprise.nom : ""}
