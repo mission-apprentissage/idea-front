@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Row, Col } from "reactstrap";
-import "./searchdemo.css";
+import "./searchtraining.css";
 import mapboxgl from "mapbox-gl";
 import baseUrl from "../../utils/baseUrl";
 import SearchForm from "./SearchForm";
@@ -13,7 +13,7 @@ const jobsApi = baseUrl + "/jobs";
 
 let currentMarkers = [];
 
-const SearchDemo = () => {
+const SearchTraining = () => {
   const [trainings, setTrainings] = useState(null);
   const [jobs, setJobs] = useState(null);
   const [hasSearch, setHasSearch] = useState(false);
@@ -263,4 +263,4 @@ const SearchDemo = () => {
   );
 };
 
-export default SearchDemo;
+export default SearchTraining;
