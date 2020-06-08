@@ -1,0 +1,364 @@
+.demoPage
+{
+    max-width: 99%;
+
+    .autoCompleteMenu
+    {
+        margin-left:-10px;
+    }
+
+    header
+    {
+        background: none;
+        padding: 0px 10px;
+    }
+
+    .hiddenResultList,
+    .hiddenSearchForm
+    {
+        display:none;
+    }
+
+    .leftShadow
+    {
+        box-shadow: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    @media only screen and (min-width:768px) {
+        
+        .leftShadow
+        {
+            box-shadow: 2px -15px 15px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    .activeXSPane
+    {
+        display:block;
+    }
+
+    .inactiveXSPane
+    {
+        display:block;
+    }
+    
+    .floatingButtons
+    {
+        display:none;
+    }
+
+    .floatingButtons button
+    {
+        cursor: pointer;
+        margin-right: 30px;
+    }
+
+    @media only screen and (max-width:767px) {        
+        .inactiveXSPane
+        {
+            display:none;
+        
+        }
+
+        .floatingButtons
+        {
+            display:block;
+            position: fixed;
+            bottom: 40px;
+            right: 40%;
+        }
+
+        .floatingButtons.resultList
+        {
+            right: 30px;
+        }
+    }
+    
+    .inFormIcon
+    {
+        margin-top: 13px;
+    }
+
+    .rightCol
+    {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        
+        
+        .apiResult{
+            text-align: left;
+        }
+        
+        .resultCard
+        {
+            text-align: left;
+            padding: 15px 15px 10px;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+            color: #4A4A4A;
+        }
+
+        @media only screen and (max-width:767px) {                 
+            .resultCard
+            {
+                padding: 15px 30px 10px;
+            }
+        }
+
+        .resultCard .cardDistance
+        {
+            font-size: 12px;
+            font-weight: 300;
+            margin-left: 10px;
+        }        
+
+        .resultCard .title
+        {
+            font-size: 16px;    
+            font-weight: bold;        
+            margin-top: 10px;
+            color: #000;
+        }
+
+        .resultCard .body
+        {
+            font-size: 14px;            
+        }
+
+        .resultCard .body > div
+        {
+            margin-top: 5px;
+        }
+
+        .resultCard .knowMore
+        {
+            text-align: right;
+            width: 100%;
+
+            a {
+                text-decoration: underline;
+                cursor: pointer;
+                color: #4A4A4A;
+            }
+            a:hover {
+                color: #000;
+            }
+        }
+
+        .resultCard .hasJob
+        {
+            font-weight: bold;
+        }
+
+        .resultCard .companySize > img
+        {
+            margin-right: 5px;
+            margin-top: -5px;
+        }
+
+        .resultCard .body a,
+        .resultCard .body a:hover,
+        .resultCard .body a:visited  
+        {
+            color: black;        
+        }
+
+        .formGroup {
+            border: 1px solid #e0e0e0;
+            height: 56px;
+            max-width: 280px;
+            min-width: 250px;
+            width: 80%;
+            margin: auto;
+            margin-bottom: 15px;
+            text-align: left;
+            padding: 1px 10px;
+            background: #fff;
+        }
+
+        .errorField
+        {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+
+        .form-check
+        {
+            padding-left:0;
+        }
+
+        label
+        {
+            background: #FFFFFF;
+            border: 1px solid #E0E0E0;
+            border-radius: 56px;
+            padding: 16px 10px;
+            font-size: 14px;
+            color: #333;
+            min-width: 60px;
+        }
+
+        label:hover,
+        label.active
+        {
+            background: #333;
+            border: 1px solid #333;
+            color: #fff;
+        }
+
+        .buttons
+        {
+            margin:auto;
+            max-width: 600px;
+        }
+
+
+        input
+        {
+            border: none;
+            height: 52px;
+            margin-left: 5px;
+            width: 90%;
+        }
+
+        input:focus
+        {
+            outline: none;
+        }
+
+        .fa-search,
+        .fa-map-marker-alt
+        {
+            margin-top: 16px;
+        }
+
+        .autoCompleteContainer
+        {
+            width: 90%;
+            float: left;
+        }
+
+        h2
+        {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .listText
+        {
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    
+
+        button
+        {
+            width: 80%;
+            background: #333;
+            color: #fff;
+            border: 1px solid #333;
+            text-align: center;
+            font-size: 16px;
+            padding: 18px;
+            max-width: 280px;
+            margin: auto;
+        }
+
+        .blueButton
+        {
+            color: #066EE7;
+            background: #fff;
+            border: 2px solid #066EE7;
+            border-radius: 50px !important;
+            font-size: 14px;    
+            padding: 10px;
+            text-align: center; 
+            width: auto;       
+        }
+
+        header .blueButton
+        {
+            margin-top: 5px;
+            float: right;
+        }
+
+        .blueButton:hover
+        {
+            color: #fff;
+            border: 2px solid #066EE7;
+            background: #066EE7;            
+        }
+
+        .filterButton  {
+            background-image: url(/pic/icons/filter.svg);
+            background-position: 4px;
+            background-repeat: no-repeat;
+            width: 80px;
+            text-align: right;            
+        }
+        .filterButton:hover  {
+            background-image: url("/pic/icons/filter_white.svg");
+            background-position: 4px;
+            background-repeat: no-repeat;            
+        }
+    }
+
+    .row
+        {
+            text-align: center;
+        }
+
+    .mapContainer {
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+    }
+
+    .clearBoth {
+        clear:both;
+    }
+
+    @media only screen and (max-width:900px) {        
+        .hiddenSM{
+            display:none;
+        }
+
+        .filterButton  {
+            background-position: 8px !important;
+            width: 42px !important;
+            height: 42px !important;
+        }
+        .filterButton:hover  {
+            background-position: 8px !important;
+        }
+    }
+
+    .countValue
+    {
+        font-weight: bold;
+    }
+    .resultTitle
+    {
+        text-align: left;
+        margin-left: 10px;
+        color: #4A4A4A;
+        font-weight: 500;
+        font-size: 22px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 0 20px;
+    }
+
+    
+    
+}
