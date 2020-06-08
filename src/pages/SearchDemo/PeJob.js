@@ -1,5 +1,6 @@
 import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
+import companySizeIcon from "../../assets/icons/employees.svg";
 
 const PeJob = ({ job }) => {
   //console.log("peJob : ", job);
@@ -11,15 +12,19 @@ const PeJob = ({ job }) => {
         <span className="cardDistance">{job.distance} km(s) du lieu de recherche</span>
       </div>
 
-      <div className="title">{job.intitule}</div>
+      <div className="title">{job.entreprise ? job.entreprise.nom : ""}</div>
       <div className="body">
-        {job.entreprise ? job.entreprise.nom : ""}
-        <br />
-        {job.natureContrat} {job.typeContrat}
-        <br />
-        Lieu : {job.lieuTravail.libelle}
-        <br />
-        L'entreprise propose 1 offre d'emploi pour cette formation
+        {job.intitule}
+        <div className="companyAddress">{job.lieuTravail.libelle}</div>
+        {job.trancheEffectifEtab ? (
+          <div className="companySize">
+            <img src={companySizeIcon} alt="" /> {job.trancheEffectifEtab}
+          </div>
+        ) : (
+          ""
+        )}  
+
+        <div className="hasJob">L'entreprise propose 1 offre d'emploi pour cette formation</div>
       </div>
     </div>
   );
