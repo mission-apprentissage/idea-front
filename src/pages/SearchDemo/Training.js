@@ -22,6 +22,7 @@ const Training = ({ training }) => {
         <br />
         Code postal : {training.source.code_postal} 
       </div>
+      <div className='knowMore'><a href="#">En savoir plus</a></div>
     </div>
   );
 };

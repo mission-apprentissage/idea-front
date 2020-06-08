@@ -23,6 +23,9 @@ const LbbCompany = ({ company }) => {
           ""
         )}
       </div>
+
+      <div className='knowMore'><a href="#">En savoir plus</a></div>
+
     </div>
   );
 };

@@ -22,10 +22,12 @@ const PeJob = ({ job }) => {
           </div>
         ) : (
           ""
-        )}  
+        )}
 
         <div className="hasJob">L'entreprise propose 1 offre d'emploi pour cette formation</div>
       </div>
+
+      <div className='knowMore'><a href="#">En savoir plus</a></div>
     </div>
   );
 };
