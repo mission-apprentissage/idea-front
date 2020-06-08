@@ -17,7 +17,9 @@ const PeJob = ({ job }) => {
         <br />
         {job.natureContrat} {job.typeContrat}
         <br />
-        Lieu : {job.lieuTravail.libelle} - Distance : à calculer km(s)
+        Lieu : {job.lieuTravail.libelle}
+        <br />
+        L'entreprise propose 1 offre d'emploi pour cette formation
       </div>
     </div>
   );
