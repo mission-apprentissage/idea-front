@@ -129,8 +129,8 @@ const SearchTraining = () => {
     });
 
     let results = {
-      peJobs: sortCompaniesByDistance(response.data.peJobs.resultats, "pe"),
-      lbbCompanies: sortCompaniesByDistance(response.data.lbbCompanies, "lbb"),
+      peJobs: computeDistanceFromSearch(response.data.peJobs.resultats, "pe"),
+      lbbCompanies: response.data.lbbCompanies,
     };
 
     setJobs(results);
@@ -138,22 +138,13 @@ const SearchTraining = () => {
     setJobMarkers(results);
   };
 
-  const sortCompaniesByDistance = (companies, source) => {
+  const computeDistanceFromSearch = (companies, source) => {
     if (source === "pe") {
       // calcule et affectation aux offres PE de la distances du centre de recherche
       companies.map((company) => {
         if (company.lieuTravail)
           company.distance =
             Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
-      });
-
-      // tri par distance
-      companies.sort((a, b) => {
-        return a.distance - b.distance;
-      });
-    } else {
-      companies.companies.sort((a, b) => {
-        return a.distance - b.distance;
       });
     }
 
