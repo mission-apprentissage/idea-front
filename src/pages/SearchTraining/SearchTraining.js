@@ -26,7 +26,7 @@ const SearchTraining = () => {
   const [mapState, setMapState] = useState({
     lat: 48.85341,
     lon: 2.3488,
-    zoom: 8,
+    zoom: 10,
   });
 
   let searchCenter;
@@ -96,12 +96,13 @@ const SearchTraining = () => {
         latitude: values.location.value.coordinates[1],
       },
     });
+
     setTrainings(response.data);
 
     setHasSearch(true);
     setIsFormVisible(false);
 
-    setTrainingMarkers(response.data);
+    if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data));
   };
 
   const buildTrainingMarkerIcon = (trainingCount = 1) => {
@@ -111,14 +112,41 @@ const SearchTraining = () => {
     return el;
   };
 
+  // fabrique des clusters de formations
+  const factorTrainingsForMap = (list) => {
+    let currentMarker = null;
+    let resultList = [];
+    for (let i = 0; i < list.length; ++i) {
+      if (!currentMarker)
+        currentMarker = { coords: list[i].source.geo_coordonnees_etablissement_reference, trainings: [list[i]] };
+      else {
+        if (currentMarker.coords !== list[i].source.geo_coordonnees_etablissement_reference) {
+          resultList.push(currentMarker);
+          currentMarker = { coords: list[i].source.geo_coordonnees_etablissement_reference, trainings: [list[i]] };
+        } else currentMarker.trainings.push(list[i]);
+      }
+    }
+    resultList.push(currentMarker);
+    return resultList;
+  };
+
+  const buildTrainingClusterPopup = (trainingCluster) => {
+    const list = trainingCluster.trainings;
+    let schoolInfo = `<div class="">${list[0].source.entreprise_raison_sociale}<br />${list[0].source.adresse}</div>`;
+    let trainingInfo = "";
+    for (let i = 0; i < list.length; ++i)
+      trainingInfo += `<li>${list[i].source.nom ? list[i].source.nom : list[i].source.intitule_long}</li>`;
+    return `${schoolInfo}<ul>${trainingInfo}</ul>`;
+  };
+
   const setTrainingMarkers = (trainingList) => {
     trainingList.map((training, idx) => {
-      const coords = training.source.geo_coordonnees_etablissement_reference.split(",");
+      const coords = training.coords.split(",");
 
       currentMarkers.push(
         new mapboxgl.Marker(buildTrainingMarkerIcon())
           .setLngLat([coords[1], coords[0]])
-          .setPopup(new mapboxgl.Popup().setHTML(`${training.source.intitule_long}<br />${training.source.diplome}`))
+          .setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
           .addTo(map)
       );
     });
