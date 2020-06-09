@@ -133,7 +133,7 @@ const SearchTraining = () => {
 
   const buildTrainingClusterPopup = (trainingCluster) => {
     const list = trainingCluster.trainings;
-    let schoolInfo = `<div class="">${list[0].source.entreprise_raison_sociale}<br />${list[0].source.adresse}</div>`;
+    let schoolInfo = `<div class="mapboxPopupTitle">Formations à : </div><div class="mapboxPopupAddress">${list[0].source.entreprise_raison_sociale.toLowerCase()}<br />${list[0].source.adresse.toLowerCase()}</div>`;
     let trainingInfo = "";
     for (let i = 0; i < list.length; ++i)
       trainingInfo += `<li>${list[i].source.nom ? list[i].source.nom : list[i].source.intitule_long}</li>`;
