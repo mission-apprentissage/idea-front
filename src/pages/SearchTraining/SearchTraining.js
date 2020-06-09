@@ -81,7 +81,9 @@ const SearchTraining = () => {
     clearMarkers();
     // centrage de la carte sur le lieu de recherche
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
+    const cZoom = map.getZoom();
     map.flyTo({ center: searchCenter });
+    map.setZoom(cZoom);
 
     searchForTrainings(values);
     searchForJobs(values);
@@ -140,6 +142,11 @@ const SearchTraining = () => {
   };
 
   const setTrainingMarkers = (trainingList) => {
+    
+    // centrage sur formation la plus proche
+    const centerCoords = trainingList[0].coords.split(","); 
+    map.flyTo({ center: [centerCoords[1],centerCoords[0]] });
+
     trainingList.map((training, idx) => {
       const coords = training.coords.split(",");
 
