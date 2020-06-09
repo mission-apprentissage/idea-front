@@ -144,7 +144,7 @@ const SearchTraining = () => {
       const coords = training.coords.split(",");
 
       currentMarkers.push(
-        new mapboxgl.Marker(buildTrainingMarkerIcon())
+        new mapboxgl.Marker(buildTrainingMarkerIcon(training.trainings.length))
           .setLngLat([coords[1], coords[0]])
           .setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
           .addTo(map)
