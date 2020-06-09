@@ -104,12 +104,19 @@ const SearchTraining = () => {
     setTrainingMarkers(response.data);
   };
 
+  const buildTrainingMarkerIcon = (trainingCount = 1) => {
+    const el = document.createElement("div");
+    el.className = `markerIcon trainingMarkerIcon`;
+    if (trainingCount > 1) el.innerHTML = `<div>${trainingCount}</div>`;
+    return el;
+  };
+
   const setTrainingMarkers = (trainingList) => {
     trainingList.map((training, idx) => {
       const coords = training.source.geo_coordonnees_etablissement_reference.split(",");
 
       currentMarkers.push(
-        new mapboxgl.Marker()
+        new mapboxgl.Marker(buildTrainingMarkerIcon())
           .setLngLat([coords[1], coords[0]])
           .setPopup(new mapboxgl.Popup().setHTML(`${training.source.intitule_long}<br />${training.source.diplome}`))
           .addTo(map)
@@ -153,8 +160,8 @@ const SearchTraining = () => {
 
   const buildJobMarkerIcon = (withJob) => {
     const el = document.createElement("div");
-    el.className = `jobMarkerIcon ${withJob ? "withJob" : ""}`;
-    if (withJob) el.innerHTML = 1;
+    el.className = `markerIcon jobMarkerIcon`;
+    if (withJob) el.innerHTML = "<div>1</div>";
     return el;
   };
 

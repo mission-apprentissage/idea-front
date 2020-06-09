@@ -3,29 +3,36 @@
     max-width: 99%;
 
 
-    .jobMarkerIcon
+    .markerIcon
     {
         width: 30px;
-        height: 30px;
+        height: 30px;        
+    }
+    .jobMarkerIcon
+    {
         background-image: url(/pic/icons/job.svg);
         background-repeat: no-repeat;
     }
 
     .trainingMarkerIcon
     {
-        width: 30px;
-        height: 30px;
         background-image: url(/pic/icons/school.svg);
-        background-repeat: no-repeat;
+        background-repeat: no-repeat;        
     }
 
-    .jobMarkerIcon.withJob
+    .markerIcon > div
     {
-        color: cyan;
-        font-weight: bold;
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        color: #fff;
+        background-color: #000;
         text-align: left;
-        font-size: 14px;
-        padding-top: 2px;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        border-radius: 15px !important;
+        text-align: center;
     }
 
     .autoCompleteMenu
