@@ -206,7 +206,7 @@ const SearchTraining = () => {
         currentMarkers.push(
           new mapboxgl.Marker(buildJobMarkerIcon())
             .setLngLat([company.lon, company.lat])
-            .setPopup(new mapboxgl.Popup().setHTML(`${company.name}<br />${company.address}`))
+            .setPopup(new mapboxgl.Popup().setHTML(`<div class="mapboxPopupTitle">${company.name}</div><div class="mapboxPopupAddress">${company.address}</div>`))
             .addTo(map)
         );
       });
@@ -220,7 +220,7 @@ const SearchTraining = () => {
             .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
             .setPopup(
               new mapboxgl.Popup().setHTML(
-                `${job.intitule}<br />${job.entreprise ? job.entreprise.nom : ""}<br />${job.lieuTravail.libelle}`
+                `<div class="mapboxPopupTitle">${job.intitule}</div><div class="mapboxPopupAddress">${job.entreprise ? job.entreprise.nom : ""}<br />${job.lieuTravail.libelle}</div>`
               )
             )
             .addTo(map)
