@@ -151,12 +151,20 @@ const SearchTraining = () => {
     return companies;
   };
 
+  const buildJobMarkerIcon = (withJob) => {
+    const el = document.createElement("div");
+    el.className = `jobMarkerIcon ${withJob ? "withJob" : ""}`;
+    if (withJob) el.innerHTML = 1;
+    return el;
+  };
+
   const setJobMarkers = (jobs) => {
     // positionnement des marqueurs bonne boîte
+
     if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
       jobs.lbbCompanies.companies.map((company, idx) => {
         currentMarkers.push(
-          new mapboxgl.Marker({ color: "red" })
+          new mapboxgl.Marker(buildJobMarkerIcon())
             .setLngLat([company.lon, company.lat])
             .setPopup(new mapboxgl.Popup().setHTML(`${company.name}<br />${company.address}`))
             .addTo(map)
@@ -168,7 +176,7 @@ const SearchTraining = () => {
     if (jobs && jobs.peJobs && jobs.peJobs.length) {
       jobs.peJobs.map((job, idx) => {
         currentMarkers.push(
-          new mapboxgl.Marker({ color: "green" })
+          new mapboxgl.Marker(buildJobMarkerIcon("withJob"))
             .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
             .setPopup(
               new mapboxgl.Popup().setHTML(
