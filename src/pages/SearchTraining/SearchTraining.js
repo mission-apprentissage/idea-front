@@ -8,17 +8,20 @@ import SearchForm from "./SearchForm";
 import MapListSwitchButton from "./MapListSwitchButton";
 import ResultLists from "./ResultLists";
 import distance from "@turf/distance";
+import { setTrainings, setJobs } from "../../redux/Training/actions";
+import { useDispatch, useSelector } from "react-redux";
+
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
 let currentMarkers = [];
 
 const SearchTraining = () => {
-  const [trainings, setTrainings] = useState(null);
-  const [jobs, setJobs] = useState(null);
-  const [hasSearch, setHasSearch] = useState(false);
-  //const [searchCenter, setSearchCenter] = useState(null);
 
+  const dispatch = useDispatch();
+  const { trainings, jobs } = useSelector((state) => state.trainings);
+  
+  const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
 
@@ -82,7 +85,7 @@ const SearchTraining = () => {
     // centrage de la carte sur le lieu de recherche
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
-    map.flyTo({ center: searchCenter, zoom:10 });
+    map.flyTo({ center: searchCenter, zoom: 10 });
 
     searchForTrainings(values);
     searchForJobs(values);
@@ -98,7 +101,7 @@ const SearchTraining = () => {
       },
     });
 
-    setTrainings(response.data);
+    dispatch(setTrainings(response.data));
 
     setHasSearch(true);
     setIsFormVisible(false);
@@ -142,7 +145,7 @@ const SearchTraining = () => {
 
   const setTrainingMarkers = (trainingList) => {
     // centrage sur formation la plus proche
-    const centerCoords = trainingList[0].coords.split(","); 
+    const centerCoords = trainingList[0].coords.split(",");
     map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: 10 });
 
     trainingList.map((training, idx) => {
@@ -173,7 +176,7 @@ const SearchTraining = () => {
       lbbCompanies: response.data.lbbCompanies,
     };
 
-    setJobs(results);
+    dispatch(setJobs(results));
 
     setJobMarkers(results);
   };
@@ -206,7 +209,11 @@ const SearchTraining = () => {
         currentMarkers.push(
           new mapboxgl.Marker(buildJobMarkerIcon())
             .setLngLat([company.lon, company.lat])
-            .setPopup(new mapboxgl.Popup().setHTML(`<div class="mapboxPopupTitle">${company.name}</div><div class="mapboxPopupAddress">${company.address}</div>`))
+            .setPopup(
+              new mapboxgl.Popup().setHTML(
+                `<div class="mapboxPopupTitle">${company.name}</div><div class="mapboxPopupAddress">${company.address}</div>`
+              )
+            )
             .addTo(map)
         );
       });
@@ -220,7 +227,9 @@ const SearchTraining = () => {
             .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
             .setPopup(
               new mapboxgl.Popup().setHTML(
-                `<div class="mapboxPopupTitle">${job.intitule}</div><div class="mapboxPopupAddress">${job.entreprise ? job.entreprise.nom : ""}<br />${job.lieuTravail.libelle}</div>`
+                `<div class="mapboxPopupTitle">${job.intitule}</div><div class="mapboxPopupAddress">${
+                  job.entreprise ? job.entreprise.nom : ""
+                }<br />${job.lieuTravail.libelle}</div>`
               )
             )
             .addTo(map)
