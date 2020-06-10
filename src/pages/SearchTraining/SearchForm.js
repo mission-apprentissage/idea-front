@@ -76,37 +76,44 @@ const SearchForm = (props) => {
             <Row>
               <Col xs="12">
                 <div className="formGroup">
-                  <AutoCompleteField
-                    items={[]}
-                    itemToStringFunction={autoCompleteToStringFunction}
-                    onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
-                    compareItemFunction={compareAutoCompleteValues}
-                    onInputValueChangeFunction={fetchRomes}
-                    name="jobField"
-                    placeholder="ex: boucherie"
-                  />
+                  <label htmlFor="jobField">Ton projet c'est devenir ...</label>
+                  <div className="fieldContainer">
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchRomes}
+                      name="jobField"
+                      placeholder="ex: boucherie"
+                    />
+                  </div>
+                  <ErrorMessage name="job" className="errorField" component="div" />
                 </div>
-                <ErrorMessage name="job" className="errorField" component="div" />
               </Col>
               <Col xs="12">
+                
                 <div className="formGroup">
-                  <AutoCompleteField
-                    items={[]}
-                    itemToStringFunction={autoCompleteToStringFunction}
-                    onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
-                    compareItemFunction={compareAutoCompleteValues}
-                    onInputValueChangeFunction={fetchAddresses}
-                    name="placeField"
-                    placeholder="ex: Nantes"
-                  />
-                  <img className="inFormIcon" src={mapMarker} alt="" />
-                </div>
-                <ErrorMessage name="location" className="errorField" component="div" />
+                  <label htmlFor="placeField">A proximité de ...</label>
+                  <div className="fieldContainer">
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchAddresses}
+                      name="placeField"
+                      placeholder="Adresse"
+                    />
+                    <img className="inFormIcon" src={mapMarker} alt="" />
+                  </div>
+                  <ErrorMessage name="location" className="errorField" component="div" />
+                </div>                
               </Col>
             </Row>
 
             <Button type="submit" disabled={isSubmitting}>
-              Valider
+              Voir les formations
             </Button>
           </Form>
         )}
