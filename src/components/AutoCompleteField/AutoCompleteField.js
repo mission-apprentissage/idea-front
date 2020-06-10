@@ -65,6 +65,7 @@ export const AutoCompleteField = ({
           {...getInputProps()}
           className={inputValue && inputValue.length > 20 ? "autoCompleteSmallFont" : ""}
           placeholder={props.placeholder}
+          name={props.name}
         />
         {/*<button {...getToggleButtonProps()} aria-label="toggle menu">
           &#8595;   possibilité de poser un bouton toggle avec des props dédiées
