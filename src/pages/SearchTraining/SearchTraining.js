@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import axios from "axios";
 import { Row, Col } from "reactstrap";
 import "./searchtraining.css";
@@ -10,6 +11,7 @@ import ResultLists from "./ResultLists";
 import distance from "@turf/distance";
 import { setTrainings, setJobs } from "../../redux/Training/actions";
 import { useDispatch, useSelector } from "react-redux";
+import Marker from "./Marker";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -17,10 +19,9 @@ const jobsApi = baseUrl + "/jobs";
 let currentMarkers = [];
 
 const SearchTraining = () => {
-
   const dispatch = useDispatch();
   const { trainings, jobs } = useSelector((state) => state.trainings);
-  
+
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
@@ -109,11 +110,11 @@ const SearchTraining = () => {
     if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data));
   };
 
-  const buildTrainingMarkerIcon = (trainingCount = 1) => {
-    const el = document.createElement("div");
-    el.className = `markerIcon trainingMarkerIcon`;
-    if (trainingCount > 1) el.innerHTML = `<div>${trainingCount}</div>`;
-    return el;
+  const buildTrainingMarkerIcon = (training) => {
+    const markerNode = document.createElement("div");
+    ReactDOM.render(<Marker type="training" item={training} flyToMarker={flyToMarker} />, markerNode);
+
+    return markerNode;
   };
 
   // fabrique des clusters de formations
@@ -152,7 +153,8 @@ const SearchTraining = () => {
       const coords = training.coords.split(",");
 
       currentMarkers.push(
-        new mapboxgl.Marker(buildTrainingMarkerIcon(training.trainings.length))
+        //new mapboxgl.Marker(buildTrainingMarkerIcon(training.trainings.length))
+        new mapboxgl.Marker(buildTrainingMarkerIcon(training))
           .setLngLat([coords[1], coords[0]])
           .setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
           .addTo(map)
@@ -172,7 +174,7 @@ const SearchTraining = () => {
     });
 
     let results = {
-      peJobs: computeDistanceFromSearch(response.data.peJobs.resultats, "pe"),
+      peJobs: response.data.peJobs !== "error" ? computeDistanceFromSearch(response.data.peJobs.resultats, "pe") : null,
       lbbCompanies: response.data.lbbCompanies,
     };
 
@@ -194,11 +196,27 @@ const SearchTraining = () => {
     return companies;
   };
 
-  const buildJobMarkerIcon = (withJob) => {
-    const el = document.createElement("div");
-    el.className = `markerIcon jobMarkerIcon`;
-    if (withJob) el.innerHTML = "<div>1</div>";
-    return el;
+  const flyToMarker = (item) => {
+    console.log("item flyToMarker : ", item);
+
+    if (item.origineOffre) {
+      // pe
+      map.flyTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2 });
+    } else if (item.siret)
+      // lbb
+      map.flyTo({ center: [item.lon, item.lat], speed: 0.2 });
+    // formation
+    else {
+      const itemCoords = item.coords.split(",");
+      map.flyTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2 });
+    }
+  };
+
+  const buildJobMarkerIcon = (job) => {
+    const markerNode = document.createElement("div");
+    ReactDOM.render(<Marker type="job" flyToMarker={flyToMarker} item={job} />, markerNode);
+
+    return markerNode;
   };
 
   const setJobMarkers = (jobs) => {
@@ -207,7 +225,7 @@ const SearchTraining = () => {
     if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
       jobs.lbbCompanies.companies.map((company, idx) => {
         currentMarkers.push(
-          new mapboxgl.Marker(buildJobMarkerIcon())
+          new mapboxgl.Marker(buildJobMarkerIcon(company))
             .setLngLat([company.lon, company.lat])
             .setPopup(
               new mapboxgl.Popup().setHTML(
@@ -223,7 +241,7 @@ const SearchTraining = () => {
     if (jobs && jobs.peJobs && jobs.peJobs.length) {
       jobs.peJobs.map((job, idx) => {
         currentMarkers.push(
-          new mapboxgl.Marker(buildJobMarkerIcon("withJob"))
+          new mapboxgl.Marker(buildJobMarkerIcon(job))
             .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
             .setPopup(
               new mapboxgl.Popup().setHTML(
