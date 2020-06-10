@@ -136,15 +136,6 @@ const SearchTraining = () => {
     return resultList;
   };
 
-  const buildTrainingClusterPopup = (trainingCluster) => {
-    const list = trainingCluster.trainings;
-    let schoolInfo = `<div class="mapboxPopupTitle">Formations à : </div><div class="mapboxPopupAddress">${list[0].source.entreprise_raison_sociale.toLowerCase()}<br />${list[0].source.adresse.toLowerCase()}</div>`;
-    let trainingInfo = "";
-    for (let i = 0; i < list.length; ++i)
-      trainingInfo += `<li>${list[i].source.nom ? list[i].source.nom : list[i].source.intitule_long}</li>`;
-    return `${schoolInfo}<ul>${trainingInfo}</ul>`;
-  };
-
   const setTrainingMarkers = (trainingList) => {
     // centrage sur formation la plus proche
     const centerCoords = trainingList[0].coords.split(",");
@@ -157,7 +148,8 @@ const SearchTraining = () => {
         //new mapboxgl.Marker(buildTrainingMarkerIcon(training.trainings.length))
         new mapboxgl.Marker(buildTrainingMarkerIcon(training))
           .setLngLat([coords[1], coords[0]])
-          .setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
+          //.setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
+          .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training")))
           .addTo(map)
       );
     });
@@ -235,11 +227,7 @@ const SearchTraining = () => {
         currentMarkers.push(
           new mapboxgl.Marker(buildJobMarkerIcon(company))
             .setLngLat([company.lon, company.lat])
-            .setPopup(
-              new mapboxgl.Popup().setHTML(
-                `<div class="mapboxPopupTitle">${company.name}</div><div class="mapboxPopupAddress">${company.address}</div>`
-              )
-            )
+            .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb")))
             .addTo(map)
         );
       });
