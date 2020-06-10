@@ -12,6 +12,7 @@ import distance from "@turf/distance";
 import { setTrainings, setJobs } from "../../redux/Training/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Marker from "./Marker";
+import MapPopup from "./MapPopup";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -219,6 +220,13 @@ const SearchTraining = () => {
     return markerNode;
   };
 
+  const buildPopup = (item, type) => {
+    const popupNode = document.createElement("div");
+    ReactDOM.render(<MapPopup type={type} item={item} />, popupNode);
+
+    return popupNode;
+  };
+
   const setJobMarkers = (jobs) => {
     // positionnement des marqueurs bonne boîte
 
@@ -243,13 +251,7 @@ const SearchTraining = () => {
         currentMarkers.push(
           new mapboxgl.Marker(buildJobMarkerIcon(job))
             .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-            .setPopup(
-              new mapboxgl.Popup().setHTML(
-                `<div class="mapboxPopupTitle">${job.intitule}</div><div class="mapboxPopupAddress">${
-                  job.entreprise ? job.entreprise.nom : ""
-                }<br />${job.lieuTravail.libelle}</div>`
-              )
-            )
+            .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe")))
             .addTo(map)
         );
       });

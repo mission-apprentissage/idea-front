@@ -92,7 +92,6 @@ const SearchForm = (props) => {
                 </div>
               </Col>
               <Col xs="12">
-                
                 <div className="formGroup">
                   <label htmlFor="placeField">A proximité de ...</label>
                   <div className="fieldContainer">
@@ -108,7 +107,7 @@ const SearchForm = (props) => {
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
                   <ErrorMessage name="location" className="errorField" component="div" />
-                </div>                
+                </div>
               </Col>
             </Row>
 
