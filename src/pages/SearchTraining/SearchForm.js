@@ -76,7 +76,7 @@ const SearchForm = (props) => {
             <Row>
               <Col xs="12">
                 <div className="formGroup">
-                  <label htmlFor="jobField">Ton projet c'est devenir ...</label>
+                  <label htmlFor="jobField">Votre projet c'est devenir ...</label>
                   <div className="fieldContainer">
                     <AutoCompleteField
                       items={[]}
