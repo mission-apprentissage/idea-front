@@ -13,6 +13,7 @@ import { setTrainings, setJobs } from "../../redux/Training/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Marker from "./Marker";
 import MapPopup from "./MapPopup";
+import ItemDetail from "./ItemDetail";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -26,6 +27,7 @@ const SearchTraining = () => {
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
@@ -92,6 +94,10 @@ const SearchTraining = () => {
     searchForTrainings(values);
     searchForJobs(values);
     setIsFormVisible(false);
+  };
+
+  const handleClose = () => {
+    setSelectedItem(null);
   };
 
   const searchForTrainings = async (values) => {
@@ -194,14 +200,14 @@ const SearchTraining = () => {
 
     if (item.origineOffre) {
       // pe
-      map.flyTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2 });
+      map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2 });
     } else if (item.siret)
       // lbb
-      map.flyTo({ center: [item.lon, item.lat], speed: 0.2 });
+      map.easeTo({ center: [item.lon, item.lat], speed: 0.2 });
     // formation
     else {
       const itemCoords = item.coords.split(",");
-      map.flyTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2 });
+      map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2 });
     }
   };
 
@@ -246,11 +252,17 @@ const SearchTraining = () => {
     }
   };
 
+  const handleSelectItem = (item, type) => {
+    setSelectedItem({item,type});
+  };
+
   const getResultLists = () => {
     return (
       <ResultLists
         hasSearch={hasSearch}
         isFormVisible={isFormVisible}
+        selectedItem={selectedItem}
+        handleSelectItem={handleSelectItem}
         showSearchForm={showSearchForm}
         trainings={trainings}
         jobs={jobs}
@@ -262,11 +274,16 @@ const SearchTraining = () => {
     return (
       <SearchForm
         isFormVisible={isFormVisible}
+        selectedItem={selectedItem}
         hasSearch={hasSearch}
         showResultList={showResultList}
         handleSubmit={handleSubmit}
       />
     );
+  };
+
+  const getSelectedItemDetail = () => {
+    return <ItemDetail selectedItem={selectedItem} handleClose={handleClose} />;
   };
 
   const showResultMap = (e) => {
@@ -305,6 +322,7 @@ const SearchTraining = () => {
           <div className="rightCol">
             {getSearchForm()}
             {getResultLists()}
+            {getSelectedItemDetail()}
           </div>
         </Col>
       </Row>

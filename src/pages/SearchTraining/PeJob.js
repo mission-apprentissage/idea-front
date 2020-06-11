@@ -2,8 +2,13 @@ import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 
-const PeJob = ({ job }) => {
+const PeJob = ({ job, handleSelectItem }) => {
   //console.log("peJob : ", job);
+
+  const onSelectItem = () => 
+  {
+    handleSelectItem(job,"pe");
+  };
 
   return (
     <div className="resultCard">
@@ -27,7 +32,9 @@ const PeJob = ({ job }) => {
         <div className="hasJob">L'entreprise propose 1 offre d'emploi pour cette formation</div>
       </div>
 
-      <div className='knowMore'><a href="#">En savoir plus</a></div>
+      <div onClick={onSelectItem} className="knowMore">
+        <a href="#">En savoir plus</a>
+      </div>
     </div>
   );
 };

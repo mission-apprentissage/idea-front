@@ -19,7 +19,7 @@ const ResultLists = (props) => {
       return (
         <>
           {props.trainings.map((training, idx) => {
-            return <Training key={idx} training={training} />;
+            return <Training key={idx} training={training} handleSelectItem={props.handleSelectItem} />;
           })}
         </>
       );
@@ -44,7 +44,7 @@ const ResultLists = (props) => {
       return (
         <>
           {props.jobs.peJobs.map((job, idx) => {
-            return <PeJob key={idx} job={job} />;
+            return <PeJob key={idx} job={job} handleSelectItem={props.handleSelectItem} />;
           })}
         </>
       );
@@ -56,7 +56,7 @@ const ResultLists = (props) => {
       return (
         <>
           {props.jobs.lbbCompanies.companies.map((company, idx) => {
-            return <LbbCompany key={idx} company={company} />;
+            return <LbbCompany key={idx} company={company} handleSelectItem={props.handleSelectItem} />;
           })}
         </>
       );
@@ -92,12 +92,11 @@ const ResultLists = (props) => {
 
     if (jobs == 0) {
       jobCount = "Aucune";
-    } else if (jobs == 1) {
+    } else if (jobs === 1) {
       jobCountLabel = " entreprise correspond";
     } else {
       jobCountLabel = " entreprises correspondent";
     }
-
 
     return (
       <div className="resultTitle">
@@ -111,7 +110,7 @@ const ResultLists = (props) => {
   };
 
   return (
-    <div className={props.isFormVisible ? "hiddenResultList" : ""}>
+    <div className={props.isFormVisible || props.selectedItem ? "hiddenResultList" : ""}>
       <header>
         <LogoIdea />
         <Button className="blueButton filterButton" onClick={props.showSearchForm}>
