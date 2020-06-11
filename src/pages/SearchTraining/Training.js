@@ -5,10 +5,10 @@ const Training = ({ training }) => {
   return (
     <div className="resultCard trainingCard">
       <div>
-        <img className="cardIcon" src={trainingIcon} />
+        <img className="cardIcon" src={trainingIcon} alt="" />
         <span className="cardDistance">{Math.round(training.sort[0])} km(s) du lieu de recherche</span>
       </div>
-      <div className="title">{training.source.nom?training.source.nom:training.source.intitule_long}</div>
+      <div className="title">{training.source.nom ? training.source.nom : training.source.intitule_long}</div>
       <div className="body">
         {training.source.entreprise_raison_sociale}
         <div className="companyAddress">{training.source.adresse}</div>
