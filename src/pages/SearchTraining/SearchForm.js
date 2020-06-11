@@ -85,7 +85,7 @@ const SearchForm = (props) => {
                       compareItemFunction={compareAutoCompleteValues}
                       onInputValueChangeFunction={fetchRomes}
                       name="jobField"
-                      placeholder="ex: boucherie"
+                      placeholder="ex: plombier"
                     />
                   </div>
                   <ErrorMessage name="job" className="errorField" component="div" />
