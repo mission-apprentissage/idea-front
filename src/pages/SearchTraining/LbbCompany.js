@@ -2,8 +2,13 @@ import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 
-const LbbCompany = ({ company }) => {
+const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
   //console.log("lbb company : ", company);
+
+  const onSelectItem = () => 
+  {
+    handleSelectItem(company,"lbb");
+  };
 
   return (
     <div className="resultCard">
@@ -24,9 +29,9 @@ const LbbCompany = ({ company }) => {
         )}
       </div>
 
-      <div className="knowMore">
+      {showTextOnly?"":<div onClick={onSelectItem} className="knowMore">
         <a href="#">En savoir plus</a>
-      </div>
+      </div>}
     </div>
   );
 };
