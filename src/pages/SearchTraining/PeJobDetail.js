@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 
 const PeJobDetail = ({ job }) => {
-  console.log("peJob : ", job);
+  //console.log("peJob : ", job);
+
+  useEffect(() => {
+    try {
+      document.getElementsByClassName("rightCol")[0].scrollTo(0, 0);
+    } catch (err) {}
+  });
 
   return (
     <>
