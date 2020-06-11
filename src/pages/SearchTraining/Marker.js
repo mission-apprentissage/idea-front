@@ -2,7 +2,6 @@ import React from "react";
 
 const Marker = ({ type, item, flyToMarker }) => {
   const flyTo = () => {
-    console.log("Flyto : ", item);
     flyToMarker(item);
   };
 

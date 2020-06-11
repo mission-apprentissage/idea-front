@@ -207,7 +207,10 @@ const SearchTraining = () => {
       map.easeTo({ center: [item.lon, item.lat], speed: 0.2 });
     // formation
     else {
-      const itemCoords = item.coords.split(",");
+      // l'item peut être un aggrégat de formations ou une formation seule d'où les deux accès différents aux geo points
+      const itemCoords = item.coords
+        ? item.coords.split(",")
+        : item.source.geo_coordonnees_etablissement_reference.split(",");
       map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2 });
     }
   };
@@ -259,6 +262,7 @@ const SearchTraining = () => {
   };
 
   const handleSelectItem = (item, type) => {
+    flyToMarker(item);
     dispatch(setSelectedItem({ item, type }));
   };
 
