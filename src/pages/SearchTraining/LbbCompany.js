@@ -5,9 +5,8 @@ import companySizeIcon from "../../assets/icons/employees.svg";
 const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
   //console.log("lbb company : ", company);
 
-  const onSelectItem = () => 
-  {
-    handleSelectItem(company,"lbb");
+  const onSelectItem = () => {
+    handleSelectItem(company, "lbb");
   };
 
   return (
@@ -29,9 +28,13 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
         )}
       </div>
 
-      {showTextOnly?"":<div onClick={onSelectItem} className="knowMore">
-        <a href="#">En savoir plus</a>
-      </div>}
+      {showTextOnly ? (
+        ""
+      ) : (
+        <div onClick={onSelectItem} className="knowMore">
+          <a href="#">En savoir plus</a>
+        </div>
+      )}
     </div>
   );
 };

@@ -5,9 +5,8 @@ import companySizeIcon from "../../assets/icons/employees.svg";
 const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
   //console.log("peJob : ", job);
 
-  const onSelectItem = () => 
-  {
-    handleSelectItem(job,"pe");
+  const onSelectItem = () => {
+    handleSelectItem(job, "pe");
   };
 
   return (
@@ -32,9 +31,13 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
         <div className="hasJob">L'entreprise propose 1 offre d'emploi pour cette formation</div>
       </div>
 
-      {showTextOnly?"":<div onClick={onSelectItem} className="knowMore">
-        <a href="#">En savoir plus</a>
-      </div>}
+      {showTextOnly ? (
+        ""
+      ) : (
+        <div onClick={onSelectItem} className="knowMore">
+          <a href="#">En savoir plus</a>
+        </div>
+      )}
     </div>
   );
 };

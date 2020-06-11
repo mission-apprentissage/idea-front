@@ -10,7 +10,7 @@ import MapListSwitchButton from "./MapListSwitchButton";
 import ResultLists from "./ResultLists";
 import distance from "@turf/distance";
 import { setTrainings, setJobs, setSelectedItem } from "../../redux/Training/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, useStore, Provider } from "react-redux";
 import Marker from "./Marker";
 import MapPopup from "./MapPopup";
 import ItemDetail from "./ItemDetail";
@@ -21,6 +21,7 @@ const jobsApi = baseUrl + "/jobs";
 let currentMarkers = [];
 
 const SearchTraining = () => {
+  const store = useStore();
   const dispatch = useDispatch();
   const { trainings, jobs, selectedItem } = useSelector((state) => state.trainings);
 
@@ -220,7 +221,12 @@ const SearchTraining = () => {
 
   const buildPopup = (item, type) => {
     const popupNode = document.createElement("div");
-    ReactDOM.render(<MapPopup type={type} item={item} />, popupNode);
+    ReactDOM.render(
+      <Provider store={store}>
+        <MapPopup type={type} item={item} />
+      </Provider>,
+      popupNode
+    );
 
     return popupNode;
   };
@@ -253,7 +259,7 @@ const SearchTraining = () => {
   };
 
   const handleSelectItem = (item, type) => {
-    dispatch(setSelectedItem({item,type}));
+    dispatch(setSelectedItem({ item, type }));
   };
 
   const getResultLists = () => {

@@ -8,7 +8,6 @@ import Training from "./Training";
 import PeJob from "./PeJob";
 
 const ItemDetail = ({ selectedItem, handleClose }) => {
-  console.log("open selectedItem ", selectedItem);
 
   return (
     <div className={`itemDetail ${selectedItem ? "" : "hiddenItemDetail"}`}>

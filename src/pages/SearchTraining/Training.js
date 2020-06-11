@@ -2,10 +2,8 @@ import React from "react";
 import trainingIcon from "../../assets/icons/school.svg";
 
 const Training = ({ training, handleSelectItem, showTextOnly }) => {
-
-  const onSelectItem = () => 
-  {
-    handleSelectItem(training,"training");
+  const onSelectItem = () => {
+    handleSelectItem(training, "training");
   };
 
   return (
@@ -28,9 +26,13 @@ const Training = ({ training, handleSelectItem, showTextOnly }) => {
           ""
         )}
       </div>
-      {showTextOnly?"":<div onClick={onSelectItem} className="knowMore">
-        <a href="#">En savoir plus</a>
-      </div>}
+      {showTextOnly ? (
+        ""
+      ) : (
+        <div onClick={onSelectItem} className="knowMore">
+          <a href="#">En savoir plus</a>
+        </div>
+      )}
     </div>
   );
 };
