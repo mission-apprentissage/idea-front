@@ -9,7 +9,7 @@ import SearchForm from "./SearchForm";
 import MapListSwitchButton from "./MapListSwitchButton";
 import ResultLists from "./ResultLists";
 import distance from "@turf/distance";
-import { setTrainings, setJobs } from "../../redux/Training/actions";
+import { setTrainings, setJobs, setSelectedItem } from "../../redux/Training/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Marker from "./Marker";
 import MapPopup from "./MapPopup";
@@ -22,12 +22,12 @@ let currentMarkers = [];
 
 const SearchTraining = () => {
   const dispatch = useDispatch();
-  const { trainings, jobs } = useSelector((state) => state.trainings);
+  const { trainings, jobs, selectedItem } = useSelector((state) => state.trainings);
 
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(null);
+  //const [selectedItem, setSelectedItem] = useState(null);
 
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
@@ -97,7 +97,7 @@ const SearchTraining = () => {
   };
 
   const handleClose = () => {
-    setSelectedItem(null);
+    dispatch(setSelectedItem(null));
   };
 
   const searchForTrainings = async (values) => {
@@ -253,7 +253,7 @@ const SearchTraining = () => {
   };
 
   const handleSelectItem = (item, type) => {
-    setSelectedItem({item,type});
+    dispatch(setSelectedItem({item,type}));
   };
 
   const getResultLists = () => {

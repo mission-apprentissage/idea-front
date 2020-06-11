@@ -3,6 +3,7 @@ import { types as actionsTypes } from "./actions";
 const initialState = {
   trainings: [],
   jobs: [],
+  selectedItem: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         jobs: action.jobs,
+      };
+    case actionsTypes.SET_SELECTED_ITEM:
+      return {
+        ...state,
+        selectedItem: action.selectedItem,
       };
 
     default:
