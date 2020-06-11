@@ -196,22 +196,22 @@ const SearchTraining = () => {
     return companies;
   };
 
-  const flyToMarker = (item) => {
+  const flyToMarker = (item,zoom = map.getZoom()) => {
     console.log("item flyToMarker : ", item);
 
     if (item.origineOffre) {
       // pe
-      map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2 });
+      map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
     } else if (item.siret)
       // lbb
-      map.easeTo({ center: [item.lon, item.lat], speed: 0.2 });
+      map.easeTo({ center: [item.lon, item.lat], speed: 0.2, zoom });
     // formation
     else {
       // l'item peut être un aggrégat de formations ou une formation seule d'où les deux accès différents aux geo points
       const itemCoords = item.coords
         ? item.coords.split(",")
         : item.source.geo_coordonnees_etablissement_reference.split(",");
-      map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2 });
+      map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2, zoom });
     }
   };
 
@@ -262,7 +262,7 @@ const SearchTraining = () => {
   };
 
   const handleSelectItem = (item, type) => {
-    flyToMarker(item);
+    flyToMarker(item,12);
     dispatch(setSelectedItem({ item, type }));
   };
 
