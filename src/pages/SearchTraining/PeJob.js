@@ -2,7 +2,7 @@ import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 
-const PeJob = ({ job, handleSelectItem }) => {
+const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
   //console.log("peJob : ", job);
 
   const onSelectItem = () => 
@@ -32,9 +32,9 @@ const PeJob = ({ job, handleSelectItem }) => {
         <div className="hasJob">L'entreprise propose 1 offre d'emploi pour cette formation</div>
       </div>
 
-      <div onClick={onSelectItem} className="knowMore">
+      {showTextOnly?"":<div onClick={onSelectItem} className="knowMore">
         <a href="#">En savoir plus</a>
-      </div>
+      </div>}
     </div>
   );
 };
