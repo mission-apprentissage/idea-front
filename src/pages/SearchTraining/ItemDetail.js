@@ -1,10 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { LogoIdea } from "../../components";
 import { Button } from "reactstrap";
 import LbbCompany from "./LbbCompany";
 import Training from "./Training";
+import PeJobDetail from "./PeJobDetail";
 import PeJob from "./PeJob";
 
 const ItemDetail = ({ selectedItem, handleClose }) => {
@@ -28,7 +28,8 @@ const ItemDetail = ({ selectedItem, handleClose }) => {
         )}
       </header>
       <div className="clearBoth" />
-      Le détail sélectionné
+      {selectedItem && selectedItem.type==="pe"?<PeJobDetail job={selectedItem.item} />:"autre type"}
+
     </div>
   );
 };
