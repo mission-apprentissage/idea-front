@@ -192,7 +192,7 @@ const SearchTraining = () => {
     if (source === "pe") {
       // calcule et affectation aux offres PE de la distances du centre de recherche
       companies.map((company) => {
-        if (company.lieuTravail)
+        if (company.lieuTravail && company.lieuTravail.longitude!=undefined)
           company.distance =
             Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
       });
@@ -204,9 +204,10 @@ const SearchTraining = () => {
   const flyToMarker = (item, zoom = map.getZoom()) => {
     console.log("item flyToMarker : ", item);
 
-    if (item.origineOffre) {
+    if (item.lieuTravail) {
       // pe
-      map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
+      if (item.lieuTravail.longitude != undefined)
+        map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
     } else if (item.siret)
       // lbb
       map.easeTo({ center: [item.lon, item.lat], speed: 0.2, zoom });
@@ -256,12 +257,14 @@ const SearchTraining = () => {
     // positionnement des marqueurs PE
     if (jobs && jobs.peJobs && jobs.peJobs.length) {
       jobs.peJobs.map((job, idx) => {
-        currentMarkers.push(
-          new mapboxgl.Marker(buildJobMarkerIcon(job))
-            .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-            .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe")))
-            .addTo(map)
-        );
+        if (job.lieuTravail && job.lieuTravail.longitude != undefined)
+          // certaines offres n'ont pas de lat / long
+          currentMarkers.push(
+            new mapboxgl.Marker(buildJobMarkerIcon(job))
+              .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
+              .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe")))
+              .addTo(map)
+          );
       });
     }
   };
@@ -314,7 +317,7 @@ const SearchTraining = () => {
   const showResultList = (e) => {
     if (e) e.stopPropagation();
     setVisiblePane("resultList");
-    setIsFormVisible(false);    
+    setIsFormVisible(false);
   };
 
   const showSearchForm = (e) => {
