@@ -68,7 +68,7 @@ const PeJobDetail = ({ job }) => {
         ) : (
           ""
         )}
-        <div className="sectionTitle">Retrouver l'offre sur Pôle emploi</div>
+        <div className="sectionTitle">Retrouvez l'offre sur Pôle emploi</div>
         <div className="description">
           <a
             target="poleemploi"
