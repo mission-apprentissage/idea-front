@@ -28,10 +28,20 @@ const ResultLists = (props) => {
 
   const getJobResult = () => {
     if (props.jobs) {
+      const peJobList = getPeJobList();
+      const lbbCompanyList = getLbbCompanyList();
       return (
         <div className="jobResult">
-          {getPeJobList()}
-          {getLbbCompanyList()}
+          {peJobList || lbbCompanyList ? (
+            <>
+              {peJobList}
+              {lbbCompanyList}
+            </>
+          ) : (
+            <div className="listText">
+              Aucune société susceptible de recruter en alternance pour ces critères de recherche
+            </div>
+          )}
         </div>
       );
     } else {
@@ -48,7 +58,8 @@ const ResultLists = (props) => {
           })}
         </>
       );
-    } else return <div className="listText">Aucun poste pour ces critères de recherche</div>;
+      //} else return <div className="listText">Aucun poste pour ces critères de recherche</div>;
+    } else return "";
   };
 
   const getLbbCompanyList = () => {
@@ -60,12 +71,12 @@ const ResultLists = (props) => {
           })}
         </>
       );
-    } else
-      return (
+    } else return "";
+    /*return (
         <div className="listText">
           Aucune société susceptible de recruter en alternance pour ces critères de recherche
         </div>
-      );
+      );*/
   };
 
   const getResultCounts = () => {
@@ -74,7 +85,8 @@ const ResultLists = (props) => {
 
     if (props.jobs) {
       if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
-      if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies) jobs += props.jobs.lbbCompanies.companies.length;
+      if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
+        jobs += props.jobs.lbbCompanies.companies.length;
     }
 
     let trainingCount = trs,
