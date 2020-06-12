@@ -55,7 +55,22 @@ const LbbCompanyDetail = ({ company }) => {
               Mettez en valeur vos qualités en lien avec le métier recherché et indiquez pourquoi vous souhaitez
               réaliser votre apprentissage dans cette entreprise en particulier.
             </li>
-            <li>Besoin d'aide pour concevoir votre CV ? Il existe plusieurs outils gratuits :</li>
+            <li>
+              Besoin d'aide pour concevoir votre CV ? Il existe plusieurs outils gratuits :
+              <br />
+              <a href="https://cv.clicnjob.fr/" target="outilCV">
+                https://cv.clicnjob.fr/
+              </a>
+              <br />
+              <a href="https://cvdesignr.com/fr" target="outilCV">
+                https://cvdesignr.com/fr
+              </a>
+              <br />
+              <a href="https://www.canva.com/fr_fr/creer/cv/" target="outilCV">
+                https://www.canva.com/fr_fr/creer/cv/
+              </a>
+              <br />
+            </li>
           </ul>
         </div>
       </div>
