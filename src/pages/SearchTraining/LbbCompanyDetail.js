@@ -34,13 +34,29 @@ const LbbCompanyDetail = ({ company }) => {
             https://labonnealternance.pole-emploi.fr/details-entreprises
           </a>
         </div>
-
         <div className="blueAdvice">
           <span className="bold">C'est quoi une candidature spontanée ?</span>
           <br />
           <br />
           L'entreprise n'a pas déposé d'offre d'emploi, vous pouvez tout de même lui envoyer votre CV pour lui indiquer
           que vous seriez très intéressé pour intégrer son équipe dans le cadre de votre alternance.
+        </div>
+        <div className="pinkAdvice">
+          <span className="bold">Comment se préparer pour une candidature spontanée ?</span>
+          <br />
+          <ul>
+            <li>
+              Adaptez votre lettre de motivation à l'entreprise aux informations recueillies : Activité, actualités et
+              valeurs.
+              <br />
+              Conseil : Allez voir le site de l'entreprise si elle en a un.
+            </li>
+            <li>
+              Mettez en valeur vos qualités en lien avec le métier recherché et indiquez pourquoi vous souhaitez
+              réaliser votre apprentissage dans cette entreprise en particulier.
+            </li>
+            <li>Besoin d'aide pour concevoir votre CV ? Il existe plusieurs outils gratuits :</li>
+          </ul>
         </div>
       </div>
     </>
