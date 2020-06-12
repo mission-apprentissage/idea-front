@@ -98,7 +98,12 @@ const SearchTraining = () => {
   };
 
   const handleClose = () => {
-    dispatch(setSelectedItem(null));
+    unSelectItem();
+  };
+
+  const unSelectItem = () => {
+    console.log("unselect");
+    if (selectedItem) dispatch(setSelectedItem(null));
   };
 
   const searchForTrainings = async (values) => {
@@ -196,7 +201,7 @@ const SearchTraining = () => {
     return companies;
   };
 
-  const flyToMarker = (item,zoom = map.getZoom()) => {
+  const flyToMarker = (item, zoom = map.getZoom()) => {
     console.log("item flyToMarker : ", item);
 
     if (item.origineOffre) {
@@ -226,7 +231,7 @@ const SearchTraining = () => {
     const popupNode = document.createElement("div");
     ReactDOM.render(
       <Provider store={store}>
-        <MapPopup type={type} item={item} />
+        <MapPopup handleSelectItem={showResultList} type={type} item={item} />
       </Provider>,
       popupNode
     );
@@ -262,7 +267,7 @@ const SearchTraining = () => {
   };
 
   const handleSelectItem = (item, type) => {
-    flyToMarker(item,12);
+    flyToMarker(item, 12);
     dispatch(setSelectedItem({ item, type }));
   };
 
@@ -309,13 +314,14 @@ const SearchTraining = () => {
   const showResultList = (e) => {
     if (e) e.stopPropagation();
     setVisiblePane("resultList");
-    setIsFormVisible(false);
+    setIsFormVisible(false);    
   };
 
   const showSearchForm = (e) => {
     if (e) e.stopPropagation();
     setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
     setIsFormVisible(true);
+    unSelectItem();
   };
 
   return (

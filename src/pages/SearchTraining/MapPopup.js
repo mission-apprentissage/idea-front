@@ -2,15 +2,17 @@ import React from "react";
 import { setSelectedItem } from "../../redux/Training/actions";
 import { useDispatch } from "react-redux";
 
-const MapPopup = ({ type, item }) => {
+const MapPopup = ({ type, item, handleSelectItem }) => {
   const dispatch = useDispatch();
 
   const openItemDetail = () => {
     dispatch(setSelectedItem({ item, type }));
+    handleSelectItem();
   };
 
   const openTrainingDetail = (training) => {
     dispatch(setSelectedItem({ item: training, type: "training" }));
+    handleSelectItem();
   };
 
   const getContent = () => {
