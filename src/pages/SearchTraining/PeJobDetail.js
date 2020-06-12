@@ -62,11 +62,19 @@ const PeJobDetail = ({ job }) => {
               ) : (
                 ""
               )}
+              <br />
             </div>
           </>
         ) : (
           ""
         )}
+        <div className="sectionTitle">Retrouver l'offre sur Pôle emploi</div>
+        <div className="description">
+          <a
+            target="poleemploi"
+            href={`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}
+          >{`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}</a>
+        </div>
         <div className="blueAdvice">
           Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas diffusé
           d’offre !
