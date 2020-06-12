@@ -16,15 +16,6 @@ const Training = ({ training, handleSelectItem, showTextOnly }) => {
       <div className="body">
         {training.source.entreprise_raison_sociale}
         <div className="companyAddress">{training.source.adresse}</div>
-        {training.source.onisep_url ? (
-          <div>
-            <a href={training.source.onisep_url} target="_blank" rel="noopener noreferrer">
-              Lien ONISEP
-            </a>
-          </div>
-        ) : (
-          ""
-        )}
       </div>
       {showTextOnly ? (
         ""

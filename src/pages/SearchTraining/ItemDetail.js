@@ -6,6 +6,8 @@ import LbbCompany from "./LbbCompany";
 import Training from "./Training";
 import PeJobDetail from "./PeJobDetail";
 import PeJob from "./PeJob";
+import LbbCompanyDetail from "./LbbCompanyDetail";
+import TrainingDetail from "./TrainingDetail";
 
 const ItemDetail = ({ selectedItem, handleClose }) => {
 
@@ -28,8 +30,9 @@ const ItemDetail = ({ selectedItem, handleClose }) => {
         )}
       </header>
       <div className="clearBoth" />
-      {selectedItem && selectedItem.type==="pe"?<PeJobDetail job={selectedItem.item} />:"autre type"}
-
+      {selectedItem && selectedItem.type==="pe"?<PeJobDetail job={selectedItem.item} />:""}
+      {selectedItem && selectedItem.type==="lbb"?<LbbCompanyDetail company={selectedItem.item} />:""}
+      {selectedItem && selectedItem.type==="training"?<TrainingDetail training={selectedItem.item} />:""}
     </div>
   );
 };

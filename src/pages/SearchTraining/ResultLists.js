@@ -74,7 +74,7 @@ const ResultLists = (props) => {
 
     if (props.jobs) {
       if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
-      if (props.jobs.lbbCompanies) jobs += props.jobs.lbbCompanies.companies.length;
+      if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies) jobs += props.jobs.lbbCompanies.companies.length;
     }
 
     let trainingCount = trs,
