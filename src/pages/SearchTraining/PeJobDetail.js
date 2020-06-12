@@ -27,40 +27,44 @@ const PeJobDetail = ({ job }) => {
         <div className="description">{job.description}</div>
         <br />
         <div className="sectionTitle">Postuler</div>
-        <div className="description">
-          {job.contact.nom ? (
-            <>
-              {job.contact.nom}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {job.contact.coordonnees1 ? (
-            <>
-              {job.contact.coordonnees1}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {job.contact.coordonnees2 ? (
-            <>
-              {job.contact.coordonnees2}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {job.contact.coordonnees3 ? (
-            <>
-              {job.contact.coordonnees3}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-        </div>
+        {job.contact ? (
+          <div className="description">
+            {job.contact.nom ? (
+              <>
+                {job.contact.nom}
+                <br />
+              </>
+            ) : (
+              ""
+            )}
+            {job.contact.coordonnees1 ? (
+              <>
+                {job.contact.coordonnees1}
+                <br />
+              </>
+            ) : (
+              ""
+            )}
+            {job.contact.coordonnees2 ? (
+              <>
+                {job.contact.coordonnees2}
+                <br />
+              </>
+            ) : (
+              ""
+            )}
+            {job.contact.coordonnees3 ? (
+              <>
+                {job.contact.coordonnees3}
+                <br />
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
         <div className="blueAdvice">
           Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas diffusé
           d’offre !
