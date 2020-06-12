@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 const LbbCompanyDetail = ({ company }) => {
-  console.log("lbb : ", company);
+  //console.log("lbb : ", company);
 
   useEffect(() => {
     try {
@@ -13,55 +13,25 @@ const LbbCompanyDetail = ({ company }) => {
     <>
       <div className="itemDetailBody">
         <div className="title">En savoir plus</div>
-        {/*<div className="sectionTitle">{company.intitule}</div>
-        <br />
-        Durée : {company.typeContratLibelle}
-        <br />
-        Rythme : {company.dureeTravailLibelle}
-        <br />
-        <br />
-        <div className="sectionTitle">Description de l'offre</div>
-        <div className="description">{company.description}</div>
-        <br />
-        <div className="sectionTitle">Postuler</div>
         <div className="description">
-          {company.contact.nom ? (
+          {company.website ? (
             <>
-              {company.contact.nom}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {company.contact.coordonnees1 ? (
-            <>
-              {company.contact.coordonnees1}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {company.contact.coordonnees2 ? (
-            <>
-              {company.contact.coordonnees2}
-              <br />
-            </>
-          ) : (
-            ""
-          )}
-          {company.contact.coordonnees3 ? (
-            <>
-              {company.contact.coordonnees3}
+              Site Internet :{" "}
+              <a href={company.website} target="_blank">
+                {company.website}
+              </a>
               <br />
             </>
           ) : (
             ""
           )}
         </div>
-        <div className="blueAdvice">
-          Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas diffusé
-          d’offre !
-          </div>*/}
+        <div className="sectionTitle">Voir la fiche entreprise sur le site La Bonne Alternance</div>
+        <div className="description">
+          <a target="lbb" href={company.url}>
+            https://labonnealternance.pole-emploi.fr/details-entreprises
+          </a>
+        </div>
       </div>
     </>
   );
