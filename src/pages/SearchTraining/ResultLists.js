@@ -38,9 +38,7 @@ const ResultLists = (props) => {
               {lbbCompanyList}
             </>
           ) : (
-            <div className="listText">
-              Aucune société susceptible de recruter en alternance pour ces critères de recherche
-            </div>
+            ""
           )}
         </div>
       );
