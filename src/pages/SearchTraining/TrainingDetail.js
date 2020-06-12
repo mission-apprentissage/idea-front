@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 const TrainingDetail = ({ training }) => {
-  console.log("training : ", training);
+  //console.log("training : ", training);
 
   useEffect(() => {
     try {
@@ -14,6 +14,18 @@ const TrainingDetail = ({ training }) => {
       <div className="itemDetailBody">
         <div className="title">En savoir plus</div>
 
+        {training.source.onisep_url ? (
+          <div>
+            <a href={training.source.onisep_url} target="_blank" rel="noopener noreferrer">
+              Lien ONISEP
+            </a>
+            <br />
+            <br />
+          </div>
+        ) : (
+          ""
+        )}
+
         {training.source.email ? (
           <>
             <div className="sectionTitle">Email de contact:</div>
@@ -25,13 +37,9 @@ const TrainingDetail = ({ training }) => {
         )}
 
         <div className="blueAdvice">
-          {training.source.onisep_url ? (
-            <a href={training.source.onisep_url} target="_blank" rel="noopener noreferrer">
-              Lien ONISEP
-            </a>
-          ) : (
-            "Pas de lien Onisep on dit quoi ?"
-          )}
+          Idea est en version BETA
+          <br />
+          D'autres informations seront disponibles sur cette page prochainement
         </div>
       </div>
     </>
