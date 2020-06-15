@@ -91,6 +91,15 @@ const SearchTraining = () => {
     // centrage de la carte sur le lieu de recherche
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
+    /*let zoom = map.getZoom();
+    let radius = values.radius || 30;
+    if(radius<=30)
+      zoom = 10;
+    else if(radius<100)
+      zoom = 8;
+    else
+      zoom = 7;*/
+
     map.flyTo({ center: searchCenter, zoom: 10 });
 
     searchForTrainings(values);
@@ -112,7 +121,7 @@ const SearchTraining = () => {
         romes: values.job.rome,
         longitude: values.location.value.coordinates[0],
         latitude: values.location.value.coordinates[1],
-        radius: values.radius,
+        radius: values.radius || 30,
       },
     });
 
@@ -176,7 +185,7 @@ const SearchTraining = () => {
         latitude: values.location.value.coordinates[1],
         insee: values.location.insee,
         zipcode: values.location.zipcode,
-        radius: values.radius,
+        radius: values.radius || 30,
       },
     });
 
@@ -204,7 +213,7 @@ const SearchTraining = () => {
   };
 
   const flyToMarker = (item, zoom = map.getZoom()) => {
-    console.log("item flyToMarker : ", item);
+    //console.log("item flyToMarker : ", item);
 
     if (item.lieuTravail) {
       // pe
