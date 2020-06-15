@@ -97,13 +97,17 @@ const SearchForm = (props) => {
 
       <Formik
         validate={(values) => {
+
           const errors = {};
           if (!values.job || !values.job.label || !values.job.rome) {
-            errors.job = "Sélectionne un métier";
+            errors.job = "Sélectionnez un métier proposé";
+          }
+          if (!values.location || !values.location.label) {
+            errors.location = "Sélectionnez un lieu proposé";
           }
           return errors;
         }}
-        initialValues={{ job: {} }}
+        initialValues={{ job: {}, location: {}, locationRadius: 30 }}
         onSubmit={props.handleSubmit}
       >
         {({ isSubmitting, setFieldValue }) => (
