@@ -49,11 +49,15 @@ const SearchForm = (props) => {
     }, 0);
   };
 
-  const handleChange = (response) => {
-    setLocationRadius(response);
+  const handleRadiusChange = (radius, setFieldValue) => {
+    setLocationRadius(radius);
+
+    setTimeout(() => {
+      setFieldValue("radius", radius);
+    }, 0);
   };
 
-  const getRadioButton = (value, label, selectedValue) => {
+  const getRadioButton = (value, label, selectedValue, setFieldValue) => {
     return (
       <Col xs="3" className="radioButton">
         <FormGroup check>
@@ -61,13 +65,13 @@ const SearchForm = (props) => {
             check
             className={`btn ${selectedValue === value ? "active" : ""}`}
             onClick={() => {
-              handleChange(value);
+              handleRadiusChange(value,setFieldValue);
             }}
           >
             <Input
               type="radio"
               name="locationRadius"
-              onChange={() => handleChange(value)}
+              onChange={() => handleRadiusChange(value,setFieldValue)}
               checked={selectedValue === value}
             />{" "}
             {label}
@@ -102,7 +106,7 @@ const SearchForm = (props) => {
         initialValues={{ job: {} }}
         onSubmit={props.handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form>
             <Row>
               <Col xs="12">
@@ -148,10 +152,10 @@ const SearchForm = (props) => {
                   <div className="buttons">
                     <Container>
                       <Row>
-                        {getRadioButton(10, "10km", locationRadius)}
-                        {getRadioButton(30, "30km", locationRadius)}
-                        {getRadioButton(60, "60km", locationRadius)}
-                        {getRadioButton(100, "100km", locationRadius)}
+                        {getRadioButton(10, "10km", locationRadius, setFieldValue)}
+                        {getRadioButton(30, "30km", locationRadius, setFieldValue)}
+                        {getRadioButton(60, "60km", locationRadius, setFieldValue)}
+                        {getRadioButton(100, "100km", locationRadius, setFieldValue)}
                       </Row>
 
                       <ErrorMessage name="locationRadius" className="errorField" component="div" />

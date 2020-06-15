@@ -86,6 +86,7 @@ const SearchTraining = () => {
   };
 
   const handleSubmit = async (values) => {
+
     clearMarkers();
     // centrage de la carte sur le lieu de recherche
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
@@ -102,7 +103,6 @@ const SearchTraining = () => {
   };
 
   const unSelectItem = () => {
-    console.log("unselect");
     if (selectedItem) dispatch(setSelectedItem(null));
   };
 
@@ -112,6 +112,7 @@ const SearchTraining = () => {
         romes: values.job.rome,
         longitude: values.location.value.coordinates[0],
         latitude: values.location.value.coordinates[1],
+        radius: values.radius,
       },
     });
 
@@ -175,6 +176,7 @@ const SearchTraining = () => {
         latitude: values.location.value.coordinates[1],
         insee: values.location.insee,
         zipcode: values.location.zipcode,
+        radius: values.radius,
       },
     });
 
