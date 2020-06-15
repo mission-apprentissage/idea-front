@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Button, Row, Col } from "reactstrap";
+import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import "./searchtraining.css";
 import mapMarker from "../../assets/icons/pin.svg";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
 import baseUrl from "../../utils/baseUrl";
@@ -20,6 +20,9 @@ export const fetchRomes = async (value) => {
 };
 
 const SearchForm = (props) => {
+
+  const [locationRadius, setLocationRadius] = useState(10);
+
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
     return item ? item.label : "";
@@ -44,6 +47,34 @@ const SearchForm = (props) => {
     setTimeout(() => {
       setFieldValue("location", item);
     }, 0);
+  };
+
+  const handleChange = (response) => {
+    setLocationRadius(response);
+  };
+
+  const getRadioButton = (value, label, selectedValue) => {
+    return (
+      <Col xs="3" className="radioButton">
+        <FormGroup check>
+          <Label
+            check
+            className={`btn ${selectedValue === value ? "active" : ""}`}
+            onClick={() => {
+              handleChange(value);
+            }}
+          >
+            <Input
+              type="radio"
+              name="locationRadius"
+              onChange={() => handleChange(value)}
+              checked={selectedValue === value}
+            />{" "}
+            {label}
+          </Label>
+        </FormGroup>
+      </Col>
+    );
   };
 
   return (
@@ -107,6 +138,25 @@ const SearchForm = (props) => {
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
                   <ErrorMessage name="location" className="errorField" component="div" />
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>Dans un rayon de ...</label>
+                  <Field type="hidden" value={locationRadius} name="locationRadius" />
+                  <div className="buttons">
+                    <Container>
+                      <Row>
+                        {getRadioButton(10, "10km", locationRadius)}
+                        {getRadioButton(30, "30km", locationRadius)}
+                        {getRadioButton(60, "60km", locationRadius)}
+                        {getRadioButton(100, "100km", locationRadius)}
+                      </Row>
+
+                      <ErrorMessage name="locationRadius" className="errorField" component="div" />
+                    </Container>
+                  </div>
                 </div>
               </Col>
             </Row>
