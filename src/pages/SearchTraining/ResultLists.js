@@ -23,7 +23,7 @@ const ResultLists = (props) => {
           })}
         </>
       );
-    } else return <div className="listText">Aucune formation pour ces critères de recherche</div>;
+    } else return "";
   };
 
   const getJobResult = () => {
@@ -110,11 +110,17 @@ const ResultLists = (props) => {
 
     return (
       <div className="resultTitle">
-        <span className="countValue">{trainingCount}</span>
-        {trainingCountLabel} à votre recherche
+        <span className="trainingColor">
+          <span className="countValue">{trainingCount}</span>
+          {trainingCountLabel}
+        </span>{" "}
+        à votre recherche
         <br />
-        <span className="countValue">{jobCount}</span>
-        {jobCountLabel} à votre recherche
+        <span className="jobColor">
+          <span className="countValue">{jobCount}</span>
+          {jobCountLabel}
+        </span>{" "}
+        à votre recherche
       </div>
     );
   };
