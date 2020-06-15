@@ -21,7 +21,7 @@ export const fetchRomes = async (value) => {
 
 const SearchForm = (props) => {
 
-  const [locationRadius, setLocationRadius] = useState(10);
+  const [locationRadius, setLocationRadius] = useState(30);
 
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
