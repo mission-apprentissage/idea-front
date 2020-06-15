@@ -100,7 +100,7 @@ const SearchForm = (props) => {
 
           const errors = {};
           if (!values.job || !values.job.label || !values.job.rome) {
-            errors.job = "Sélectionnez un métier proposé";
+            errors.job = "Sélectionnez un domaine proposé";
           }
           if (!values.location || !values.location.label) {
             errors.location = "Sélectionnez un lieu proposé";
