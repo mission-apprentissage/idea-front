@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Button, Row, Col } from "reactstrap";
+import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import "./searchtraining.css";
 import mapMarker from "../../assets/icons/pin.svg";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
 import baseUrl from "../../utils/baseUrl";
@@ -20,6 +20,9 @@ export const fetchRomes = async (value) => {
 };
 
 const SearchForm = (props) => {
+
+  const [locationRadius, setLocationRadius] = useState(30);
+
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
     return item ? item.label : "";
@@ -46,6 +49,38 @@ const SearchForm = (props) => {
     }, 0);
   };
 
+  const handleRadiusChange = (radius, setFieldValue) => {
+    setLocationRadius(radius);
+
+    setTimeout(() => {
+      setFieldValue("radius", radius);
+    }, 0);
+  };
+
+  const getRadioButton = (value, label, selectedValue, setFieldValue) => {
+    return (
+      <Col xs="3" className="radioButton">
+        <FormGroup check>
+          <Label
+            check
+            className={`btn ${selectedValue === value ? "active" : ""}`}
+            onClick={() => {
+              handleRadiusChange(value,setFieldValue);
+            }}
+          >
+            <Input
+              type="radio"
+              name="locationRadius"
+              onChange={() => handleRadiusChange(value,setFieldValue)}
+              checked={selectedValue === value}
+            />{" "}
+            {label}
+          </Label>
+        </FormGroup>
+      </Col>
+    );
+  };
+
   return (
     <div className={props.isFormVisible ? "" : "hiddenSearchForm"}>
       <header>
@@ -62,16 +97,20 @@ const SearchForm = (props) => {
 
       <Formik
         validate={(values) => {
+
           const errors = {};
           if (!values.job || !values.job.label || !values.job.rome) {
-            errors.job = "Sélectionne un métier";
+            errors.job = "Sélectionnez un métier proposé";
+          }
+          if (!values.location || !values.location.label) {
+            errors.location = "Sélectionnez un lieu proposé";
           }
           return errors;
         }}
-        initialValues={{ job: {} }}
+        initialValues={{ job: {}, location: {}, locationRadius: 30 }}
         onSubmit={props.handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form>
             <Row>
               <Col xs="12">
@@ -107,6 +146,25 @@ const SearchForm = (props) => {
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
                   <ErrorMessage name="location" className="errorField" component="div" />
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>Dans un rayon de ...</label>
+                  <Field type="hidden" value={locationRadius} name="locationRadius" />
+                  <div className="buttons">
+                    <Container>
+                      <Row>
+                        {getRadioButton(10, "10km", locationRadius, setFieldValue)}
+                        {getRadioButton(30, "30km", locationRadius, setFieldValue)}
+                        {getRadioButton(60, "60km", locationRadius, setFieldValue)}
+                        {getRadioButton(100, "100km", locationRadius, setFieldValue)}
+                      </Row>
+
+                      <ErrorMessage name="locationRadius" className="errorField" component="div" />
+                    </Container>
+                  </div>
                 </div>
               </Col>
             </Row>
