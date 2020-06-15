@@ -76,7 +76,7 @@ const SearchForm = (props) => {
             <Row>
               <Col xs="12">
                 <div className="formGroup">
-                  <label htmlFor="jobField">Votre projet c'est devenir ...</label>
+                  <label htmlFor="jobField">Votre projet est dans le domaine ...</label>
                   <div className="fieldContainer">
                     <AutoCompleteField
                       items={[]}
@@ -85,7 +85,7 @@ const SearchForm = (props) => {
                       compareItemFunction={compareAutoCompleteValues}
                       onInputValueChangeFunction={fetchRomes}
                       name="jobField"
-                      placeholder="ex: plombier"
+                      placeholder="ex: plomberie"
                     />
                   </div>
                   <ErrorMessage name="job" className="errorField" component="div" />
