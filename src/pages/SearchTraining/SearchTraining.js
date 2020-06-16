@@ -282,7 +282,14 @@ const SearchTraining = () => {
 
   const handleSelectItem = (item, type) => {
     flyToMarker(item, 12);
+    closeMapPopups();
     dispatch(setSelectedItem({ item, type }));
+  };
+
+  const closeMapPopups = () => {
+    currentMarkers.forEach((marker) => {
+      if (marker.getPopup().isOpen()) marker.togglePopup();
+    });
   };
 
   const getResultLists = () => {
