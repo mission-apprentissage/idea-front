@@ -73,7 +73,7 @@ const SearchTraining = () => {
     };
 
     if (!map) initializeMap({ setMap, mapContainer });
-  }, [map]);
+  }, [map, mapState.lon, mapState.lat, mapState.zoom]);
 
   const getMap = () => {
     return <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />;
@@ -174,6 +174,7 @@ const SearchTraining = () => {
           .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training")))
           .addTo(map)
       );
+      return currentMarkers;
     });
   };
 
@@ -206,6 +207,8 @@ const SearchTraining = () => {
         if (company.lieuTravail && company.lieuTravail.longitude !== undefined)
           company.distance =
             Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
+
+        return company;
       });
     }
 
@@ -262,6 +265,7 @@ const SearchTraining = () => {
             .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb")))
             .addTo(map)
         );
+        return company;
       });
     }
 
@@ -276,6 +280,7 @@ const SearchTraining = () => {
               .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe")))
               .addTo(map)
           );
+        return job;
       });
     }
   };
