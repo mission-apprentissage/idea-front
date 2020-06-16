@@ -30,6 +30,7 @@ const SearchTraining = () => {
   const [isFormVisible, setIsFormVisible] = useState(true);
   //const [selectedItem, setSelectedItem] = useState(null);
 
+  const [searchRadius, setSearchRadius] = useState(30);
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
     lat: 48.85341,
@@ -98,6 +99,8 @@ const SearchTraining = () => {
       zoom = 8;
     else
       zoom = 7;*/
+
+    setSearchRadius(values.radius || 30);
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
@@ -300,6 +303,7 @@ const SearchTraining = () => {
         selectedItem={selectedItem}
         handleSelectItem={handleSelectItem}
         showSearchForm={showSearchForm}
+        searchRadius={searchRadius}
         trainings={trainings}
         jobs={jobs}
       />

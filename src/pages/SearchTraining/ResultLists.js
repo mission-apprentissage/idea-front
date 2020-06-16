@@ -15,9 +15,13 @@ const ResultLists = (props) => {
   };
 
   const getTrainingList = () => {
+
     if (props.trainings.length) {
       return (
         <>
+          {props.searchRadius<props.trainings[0].sort[0]?
+          <div className="trainingColor bold">Aucune formation en correspondait à votre zone de recherche, nous avons trouvé les plus proches</div>
+          :""}
           {props.trainings.map((training, idx) => {
             return <Training key={idx} training={training} handleSelectItem={props.handleSelectItem} />;
           })}
