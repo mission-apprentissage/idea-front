@@ -47,7 +47,7 @@
     "build": "cross-env GENERATE_SOURCEMAP=false run-s -n build-css build-js",
     "test": "run-s -n build-css test-js",
     "start-js": "PORT=3003 react-app-rewired start",
-    "build-js": "react-app-rewired build",
+    "build-js": "CI=false react-app-rewired build",
     "test-js": "react-app-rewired test --env=jsdom",
     "build-css": "node-less-chokidar src",
     "watch-css": "node-less-chokidar src --watch",
