@@ -86,7 +86,6 @@ const SearchTraining = () => {
   };
 
   const handleSubmit = async (values) => {
-
     clearMarkers();
     // centrage de la carte sur le lieu de recherche
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
@@ -122,6 +121,7 @@ const SearchTraining = () => {
         longitude: values.location.value.coordinates[0],
         latitude: values.location.value.coordinates[1],
         radius: values.radius || 30,
+        diploma: values.diploma,
       },
     });
 

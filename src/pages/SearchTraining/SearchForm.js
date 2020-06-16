@@ -20,7 +20,6 @@ export const fetchRomes = async (value) => {
 };
 
 const SearchForm = (props) => {
-
   const [locationRadius, setLocationRadius] = useState(30);
 
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
@@ -57,6 +56,13 @@ const SearchForm = (props) => {
     }, 0);
   };
 
+  const handleDiplomaChange = (evt, setFieldValue) => {
+    const value = evt.currentTarget.value;
+    setTimeout(() => {
+      setFieldValue("diploma", value);
+    }, 0);
+  };
+
   const getRadioButton = (value, label, selectedValue, setFieldValue) => {
     return (
       <Col xs="3" className="radioButton">
@@ -65,13 +71,13 @@ const SearchForm = (props) => {
             check
             className={`btn ${selectedValue === value ? "active" : ""}`}
             onClick={() => {
-              handleRadiusChange(value,setFieldValue);
+              handleRadiusChange(value, setFieldValue);
             }}
           >
             <Input
               type="radio"
               name="locationRadius"
-              onChange={() => handleRadiusChange(value,setFieldValue)}
+              onChange={() => handleRadiusChange(value, setFieldValue)}
               checked={selectedValue === value}
             />{" "}
             {label}
@@ -97,7 +103,6 @@ const SearchForm = (props) => {
 
       <Formik
         validate={(values) => {
-
           const errors = {};
           if (!values.job || !values.job.label || !values.job.rome) {
             errors.job = "Sélectionnez un domaine proposé";
@@ -107,7 +112,7 @@ const SearchForm = (props) => {
           }
           return errors;
         }}
-        initialValues={{ job: {}, location: {}, locationRadius: 30 }}
+        initialValues={{ job: {}, location: {}, locationRadius: 30, diploma: "" }}
         onSubmit={props.handleSubmit}
       >
         {({ isSubmitting, setFieldValue }) => (
@@ -130,6 +135,23 @@ const SearchForm = (props) => {
                   <ErrorMessage name="job" className="errorField" component="div" />
                 </div>
               </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label htmlFor="diplomaField">Le diplôme que vous souhaitez obtenir ...</label>
+                  <div className="fieldContainer">
+                    <Input onChange={(evt) => handleDiplomaChange(evt, setFieldValue)} type="select" name="diploma">
+                      <option value="">Indifférent</option>
+                      <option value="3 (CAP...)">CAP</option>
+                      <option value="4 (Bac...)">Bac</option>
+                      <option value="5 (BTS, DUT...)">BTS, DUT</option>
+                      <option value="6 (Licence...)">Licence</option>
+                      <option value="7 (Master, titre ingénieur...)">Master, titre ingénieur</option>
+                    </Input>
+                  </div>
+                </div>
+              </Col>
+
               <Col xs="12">
                 <div className="formGroup">
                   <label htmlFor="placeField">A proximité de ...</label>
