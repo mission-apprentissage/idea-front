@@ -16,9 +16,11 @@ const TrainingDetail = ({ training }) => {
 
         {training.source.onisep_url ? (
           <div>
+            Descriptif du{" "}
             <a href={training.source.onisep_url} target="_blank" rel="noopener noreferrer">
-              Lien ONISEP
-            </a>
+              {training.source.nom ? training.source.nom : training.source.intitule_long}
+            </a>{" "}
+            sur le site Onisep
             <br />
             <br />
           </div>
