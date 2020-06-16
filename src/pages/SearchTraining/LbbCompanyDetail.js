@@ -19,7 +19,7 @@ const LbbCompanyDetail = ({ company }) => {
         {company.website ? (
           <>
             Site Internet :{" "}
-            <a href={company.website} target="_blank">
+            <a href={company.website} target="_blank" rel="noopener noreferrer">
               {company.website}
             </a>
             <br />
