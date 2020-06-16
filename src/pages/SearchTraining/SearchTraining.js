@@ -203,7 +203,7 @@ const SearchTraining = () => {
     if (source === "pe") {
       // calcule et affectation aux offres PE de la distances du centre de recherche
       companies.map((company) => {
-        if (company.lieuTravail && company.lieuTravail.longitude!=undefined)
+        if (company.lieuTravail && company.lieuTravail.longitude !== undefined)
           company.distance =
             Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
       });
@@ -217,7 +217,7 @@ const SearchTraining = () => {
 
     if (item.lieuTravail) {
       // pe
-      if (item.lieuTravail.longitude != undefined)
+      if (item.lieuTravail.longitude !== undefined)
         map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
     } else if (item.siret)
       // lbb
@@ -268,7 +268,7 @@ const SearchTraining = () => {
     // positionnement des marqueurs PE
     if (jobs && jobs.peJobs && jobs.peJobs.length) {
       jobs.peJobs.map((job, idx) => {
-        if (job.lieuTravail && job.lieuTravail.longitude != undefined)
+        if (job.lieuTravail && job.lieuTravail.longitude !== undefined)
           // certaines offres n'ont pas de lat / long
           currentMarkers.push(
             new mapboxgl.Marker(buildJobMarkerIcon(job))

@@ -6,7 +6,7 @@ import "./logoidea.css";
 const LogoIdea = () => {
   return (
     <div className="logoIdea">
-      <img src={logoIdea} />
+      <img src={logoIdea} alt="" />
       Idea
     </div>
   );

@@ -92,15 +92,15 @@ const ResultLists = (props) => {
       jobCount = jobs,
       jobCountLabel = " entreprise ne correspond";
 
-    if (trs == 0) {
+    if (trs === 0) {
       trainingCount = "Aucune";
-    } else if (trs == 1) {
+    } else if (trs === 1) {
       trainingCountLabel = " formation correspond";
     } else {
       trainingCountLabel = " formations correspondent";
     }
 
-    if (jobs == 0) {
+    if (jobs === 0) {
       jobCount = "Aucune";
     } else if (jobs === 1) {
       jobCountLabel = " entreprise correspond";
