@@ -52,7 +52,7 @@ const SearchTraining = () => {
         center: [mapState.lon, mapState.lat],
         zoom: mapState.zoom,
         maxZoom: 15,
-        minZoom: 5,
+        minZoom: 3,
         dragRotate: false,
       });
 
