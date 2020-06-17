@@ -192,7 +192,7 @@ const SearchForm = (props) => {
             </Row>
 
             <Button className="submitButton" type="submit" disabled={isSubmitting}>
-              Voir les formations
+              Voir les résultats
             </Button>
           </Form>
         )}
