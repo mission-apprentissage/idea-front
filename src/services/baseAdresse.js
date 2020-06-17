@@ -2,13 +2,25 @@ import axios from "axios";
 
 export const fetchAddresses = (value) => {
   if (value) {
+    let term = value;
     const limit = 10;
-    let addressURL = `https://api-adresse.data.gouv.fr/search/?limit=${limit}&q=${value}`;
+    let filter = "";
 
-    if (value.length < 6 && isNaN(value[0])) addressURL += "&type=municipality";
+    if (term.length < 6) {
+      // sur courte recherche on ne demande que des villes
+      filter = "&type=municipality";
+
+      if (!isNaN(term)) {
+        // si le début est un nombre on complète à 5 chiffes avec des 0 pour rechercher sur un CP
+        let zipLengthDiff = 5 - term.length;
+        for (let i = 0; i < zipLengthDiff; ++i) term += "0";
+      }
+    }
+    let addressURL = `https://api-adresse.data.gouv.fr/search/?limit=${limit}&q=${term}${filter}`;
 
     return axios.get(addressURL).then((response) => {
-      response.data.features.sort((a, b) => { // tri des résultats avec mise en avant des villes de plus grande taille en premier
+      response.data.features.sort((a, b) => {
+        // tri des résultats avec mise en avant des villes de plus grande taille en premier
         if (a.properties.population && b.properties.population)
           return b.properties.population - a.properties.population;
         else if (a.properties.population) return -1;
