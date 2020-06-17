@@ -91,15 +91,6 @@ const SearchTraining = () => {
     // centrage de la carte sur le lieu de recherche
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
-    /*let zoom = map.getZoom();
-    let radius = values.radius || 30;
-    if(radius<=30)
-      zoom = 10;
-    else if(radius<100)
-      zoom = 8;
-    else
-      zoom = 7;*/
-
     setSearchRadius(values.radius || 30);
 
     map.flyTo({ center: searchCenter, zoom: 10 });
@@ -161,10 +152,29 @@ const SearchTraining = () => {
     return resultList;
   };
 
+  const getZoomLevelForDistance = (distance) => {
+    let zoom = 10;
+
+    if (distance > 10) {
+      if (distance < 20) zoom = 9;
+      else if (distance < 50) zoom = 8;
+      else if (distance < 100) zoom = 7;
+      else if (distance < 250) zoom = 6;
+      else if (distance < 500) zoom = 5;
+      else if (distance >= 500) zoom = 4;
+    }
+
+    return zoom;
+  };
+
   const setTrainingMarkers = (trainingList) => {
     // centrage sur formation la plus proche
     const centerCoords = trainingList[0].coords.split(",");
-    map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: 10 });
+
+    let newZoom = getZoomLevelForDistance(trainingList[0].trainings[0].sort[0]);
+
+    //setTimeout(() => {map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom })},2500);
+    map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom });
 
     trainingList.map((training, idx) => {
       const coords = training.coords.split(",");
@@ -216,7 +226,6 @@ const SearchTraining = () => {
   };
 
   const flyToMarker = (item, zoom = map.getZoom()) => {
-    //console.log("item flyToMarker : ", item);
 
     if (item.lieuTravail) {
       // pe
