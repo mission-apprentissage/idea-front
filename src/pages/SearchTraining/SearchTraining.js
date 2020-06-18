@@ -28,15 +28,18 @@ const SearchTraining = () => {
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
+  const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(false);
+  const [isJobSearchLoading, setIsJobSearchLoading] = useState(false);
   //const [selectedItem, setSelectedItem] = useState(null);
 
   const [searchRadius, setSearchRadius] = useState(30);
   const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
-    lat: 48.85341,
-    lon: 2.3488,
-    zoom: 10,
+    lat: 47,
+    lon: 2.2,
+    zoom: 5,
   });
+  
 
   let searchCenter;
 
