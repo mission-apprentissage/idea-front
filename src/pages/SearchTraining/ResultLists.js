@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "reactstrap";
+import { Button, Spinner } from "reactstrap";
 import Training from "./Training";
 import PeJob from "./PeJob";
 import LbbCompany from "./LbbCompany";
@@ -85,7 +85,12 @@ const ResultLists = (props) => {
     let trainingPart = "";
 
     if (props.isTrainingSearchLoading) {
-      trainingPart = "Recherche des formations en cours";
+      trainingPart = (
+        <div className="searchLoading">
+          Recherche des formations en cours
+          <Spinner />
+        </div>
+      );
     } else {
       const trs = props.trainings ? props.trainings.length : "";
       let trainingCount = trs,
@@ -110,7 +115,12 @@ const ResultLists = (props) => {
     let jobPart = "";
 
     if (props.isJobSearchLoading) {
-      jobPart = "Recherche des entreprises en cours";
+      jobPart = (
+        <div className="searchLoading">
+          Recherche des entreprises en cours
+          <Spinner />
+        </div>
+      );
     } else {
       let jobs = 0,
         jobCount,
