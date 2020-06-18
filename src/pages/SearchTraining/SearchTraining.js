@@ -28,8 +28,8 @@ const SearchTraining = () => {
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
   const [visiblePane, setVisiblePane] = useState("resultList");
   const [isFormVisible, setIsFormVisible] = useState(true);
-  const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(false);
-  const [isJobSearchLoading, setIsJobSearchLoading] = useState(false);
+  const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
+  const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   //const [selectedItem, setSelectedItem] = useState(null);
 
   const [searchRadius, setSearchRadius] = useState(30);
@@ -39,7 +39,6 @@ const SearchTraining = () => {
     lon: 2.2,
     zoom: 5,
   });
-  
 
   let searchCenter;
 
@@ -112,6 +111,7 @@ const SearchTraining = () => {
   };
 
   const searchForTrainings = async (values) => {
+    setIsTrainingSearchLoading(true);
     const response = await axios.get(formationsApi, {
       params: {
         romes: values.job.rome,
@@ -126,6 +126,7 @@ const SearchTraining = () => {
 
     setHasSearch(true);
     setIsFormVisible(false);
+    setIsTrainingSearchLoading(false);
 
     if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data));
   };
@@ -194,6 +195,8 @@ const SearchTraining = () => {
   };
 
   const searchForJobs = async (values) => {
+
+    setIsJobSearchLoading(true);
     const response = await axios.get(jobsApi, {
       params: {
         romes: values.job.rome,
@@ -212,6 +215,8 @@ const SearchTraining = () => {
 
     dispatch(setJobs(results));
 
+    setIsJobSearchLoading(false);
+
     setJobMarkers(results);
   };
 
@@ -229,7 +234,6 @@ const SearchTraining = () => {
   };
 
   const flyToMarker = (item, zoom = map.getZoom()) => {
-
     if (item.lieuTravail) {
       // pe
       if (item.lieuTravail.longitude !== undefined)
@@ -315,6 +319,8 @@ const SearchTraining = () => {
         selectedItem={selectedItem}
         handleSelectItem={handleSelectItem}
         showSearchForm={showSearchForm}
+        isTrainingSearchLoading={isTrainingSearchLoading}
+        isJobSearchLoading={isJobSearchLoading}
         searchRadius={searchRadius}
         trainings={trainings}
         jobs={jobs}

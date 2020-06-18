@@ -30,6 +30,8 @@ const ResultLists = (props) => {
           })}
         </>
       );
+    } else if (props.isTrainingSearchLoading) {
+      return "Nous recherchons les formations, merci de patienter...";
     } else return "";
   };
 
@@ -77,57 +79,70 @@ const ResultLists = (props) => {
         </>
       );
     } else return "";
-    /*return (
-        <div className="listText">
-          Aucune société susceptible de recruter en alternance pour ces critères de recherche
-        </div>
-      );*/
   };
 
   const getResultCounts = () => {
-    const trs = props.trainings ? props.trainings.length : "";
-    let jobs = 0;
+    let trainingPart = "";
 
-    if (props.jobs) {
-      if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
-      if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
-        jobs += props.jobs.lbbCompanies.companies.length;
-    }
-
-    let trainingCount = trs,
-      trainingCountLabel = " formation ne correspond",
-      jobCount = jobs,
-      jobCountLabel = " entreprise ne correspond";
-
-    if (trs === 0) {
-      trainingCount = "Aucune";
-    } else if (trs === 1) {
-      trainingCountLabel = " formation correspond";
+    if (props.isTrainingSearchLoading) {
+      trainingPart = "Recherche des formations en cours";
     } else {
-      trainingCountLabel = " formations correspondent";
-    }
+      const trs = props.trainings ? props.trainings.length : "";
+      let trainingCount = trs,
+        trainingCountLabel = " formation ne correspond";
 
-    if (jobs === 0) {
-      jobCount = "Aucune";
-    } else if (jobs === 1) {
-      jobCountLabel = " entreprise correspond";
-    } else {
-      jobCountLabel = " entreprises correspondent";
-    }
+      if (trs === 0) {
+        trainingCount = "Aucune";
+      } else if (trs === 1) {
+        trainingCountLabel = " formation trouvée";
+      } else {
+        trainingCountLabel = " formations trouvées";
+      }
 
-    return (
-      <div className="resultTitle">
-        <span className="trainingColor">
+      trainingPart = (
+        <>
           <span className="countValue">{trainingCount}</span>
           {trainingCountLabel}
-        </span>{" "}
-        à votre recherche
-        <br />
-        <span className="jobColor">
+        </>
+      );
+    }
+
+    let jobPart = "";
+
+    if (props.isJobSearchLoading) {
+      jobPart = "Recherche des entreprises en cours";
+    } else {
+      let jobs = 0,
+        jobCount,
+        jobCountLabel = " entreprise ne correspond";
+
+      if (props.jobs) {
+        if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
+        if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
+          jobs += props.jobs.lbbCompanies.companies.length;
+      }
+
+      jobCount = jobs;
+
+      if (jobs === 0) {
+        jobCount = "Aucune";
+      } else if (jobs === 1) {
+        jobCountLabel = " entreprise trouvée";
+      } else {
+        jobCountLabel = " entreprises trouvées";
+      }
+      jobPart = (
+        <>
           <span className="countValue">{jobCount}</span>
           {jobCountLabel}
-        </span>{" "}
-        à votre recherche
+        </>
+      );
+    }
+    return (
+      <div className="resultTitle">
+        <span className="trainingColor">{trainingPart}</span>
+        <br />
+        <span className="jobColor">{jobPart}</span>
       </div>
     );
   };
