@@ -97,9 +97,18 @@ const SearchTraining = () => {
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
-    searchForTrainings(values);
-    searchForJobs(values);
-    setIsFormVisible(false);
+    setIsTrainingSearchLoading(true);
+    setIsJobSearchLoading(true);
+
+    try {
+      searchForTrainings(values);
+      searchForJobs(values);
+      setIsFormVisible(false);
+    } catch (err) {
+      console.log("error loading data ", err); //TODO: faire un vrai traitement d'erreur
+      setIsTrainingSearchLoading(false);
+      setIsJobSearchLoading(false);
+    }
   };
 
   const handleClose = () => {
@@ -111,7 +120,6 @@ const SearchTraining = () => {
   };
 
   const searchForTrainings = async (values) => {
-    setIsTrainingSearchLoading(true);
     const response = await axios.get(formationsApi, {
       params: {
         romes: values.job.rome,
@@ -195,8 +203,6 @@ const SearchTraining = () => {
   };
 
   const searchForJobs = async (values) => {
-
-    setIsJobSearchLoading(true);
     const response = await axios.get(jobsApi, {
       params: {
         romes: values.job.rome,
