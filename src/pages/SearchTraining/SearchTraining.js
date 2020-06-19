@@ -5,14 +5,12 @@ import { Row, Col } from "reactstrap";
 import "./searchtraining.css";
 import mapboxgl from "mapbox-gl";
 import baseUrl from "../../utils/baseUrl";
-import { SearchForm, MapListSwitchButton } from "./components";
+import { Marker, MapPopup, SearchForm, MapListSwitchButton } from "./components";
 import ResultLists from "./ResultLists";
 import distance from "@turf/distance";
 import { setTrainings, setJobs, setSelectedItem } from "../../redux/Training/actions";
 import { useDispatch, useSelector, useStore, Provider } from "react-redux";
-import Marker from "./Marker";
-import MapPopup from "./MapPopup";
-import ItemDetail from "./ItemDetail";
+import ItemDetail from "../../components/ItemDetail/ItemDetail";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";

@@ -7,5 +7,17 @@ import DatePickerField from "./DatePickerField";
 import AutoCompleteField from "./AutoCompleteField";
 import LogoIdea from "./LogoIdea";
 import RadioButton from "./RadioButton";
+import ItemDetail from "./ItemDetail";
 
-export { RadioButton, AutoCompleteField, DatePickerField, JobAdvice, IdeaHeader, IdeaTitle, Footer, ScrollToTop, LogoIdea };
+export {
+  ItemDetail,
+  RadioButton,
+  AutoCompleteField,
+  DatePickerField,
+  JobAdvice,
+  IdeaHeader,
+  IdeaTitle,
+  Footer,
+  ScrollToTop,
+  LogoIdea,
+};
