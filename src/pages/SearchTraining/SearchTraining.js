@@ -5,7 +5,7 @@ import { Row, Col } from "reactstrap";
 import "./searchtraining.css";
 import mapboxgl from "mapbox-gl";
 import baseUrl from "../../utils/baseUrl";
-import SearchForm from "./SearchForm";
+import SearchForm from "./components/SearchForm";
 import MapListSwitchButton from "./MapListSwitchButton";
 import ResultLists from "./ResultLists";
 import distance from "@turf/distance";

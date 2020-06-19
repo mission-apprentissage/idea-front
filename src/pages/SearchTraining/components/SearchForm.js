@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
-import "./searchtraining.css";
-import mapMarker from "../../assets/icons/pin.svg";
+import "../searchtraining.css";
+import mapMarker from "../../../assets/icons/pin.svg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { AutoCompleteField, LogoIdea } from "../../components";
-import { fetchAddresses } from "../../services/baseAdresse";
-import baseUrl from "../../utils/baseUrl";
+import { AutoCompleteField, LogoIdea } from "../../../components";
+import { fetchAddresses } from "../../../services/baseAdresse";
+import baseUrl from "../../../utils/baseUrl";
 
 const romeLabelsApi = baseUrl + "/romelabels";
 
