@@ -3,38 +3,6 @@
     max-width: 99%;
 
 
-    .markerIcon
-    {
-        width: 30px;
-        height: 30px;        
-    }
-    .jobMarkerIcon
-    {
-        background-image: url(/pic/icons/job.svg);
-        background-repeat: no-repeat;
-    }
-
-    .trainingMarkerIcon
-    {
-        background-image: url(/pic/icons/school.svg);
-        background-repeat: no-repeat;        
-    }
-
-    .markerIcon > div
-    {
-        position: absolute;
-        bottom: -5px;
-        right: -5px;
-        color: #fff;
-        background-color: #000;
-        text-align: left;
-        font-size: 12px;
-        width: 18px;
-        height: 18px;
-        border-radius: 15px !important;
-        text-align: center;
-    }
-
     .autoCompleteMenu
     {
         margin-left: 0px;
@@ -49,8 +17,6 @@
         background: none;
         padding: 0px 10px;
     }
-
-    
     
     .bold
     {
@@ -148,14 +114,10 @@
         overflow-y: auto;
         overflow-x: hidden;
 
-        
-        
         .apiResult{
             text-align: left;
         }
         
-        
-
         .formGroup {
             text-align: left;
             margin: auto;
@@ -181,14 +143,12 @@
             border: 1px solid #006AEB;
         }
 
-
         .errorField
         {
             color: red;
             margin-top: -10px;
             margin-bottom: 25px;
         }
-
 
         .form-check
         {
@@ -200,7 +160,6 @@
             margin:auto;
             max-width: 600px;
         }
-
 
         input,
         select
@@ -355,16 +314,6 @@
             text-align: center;
         }
 
-    .mapContainer {
-        height: 100vh;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-    }
-
     .clearBoth {
         clear:both;
     }
@@ -422,6 +371,48 @@
         }
     }
     
+    .mapContainer {
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+    }
+
+    .markerIcon
+    {
+        width: 30px;
+        height: 30px;        
+    }
+    .jobMarkerIcon
+    {
+        background-image: url(/pic/icons/job.svg);
+        background-repeat: no-repeat;
+    }
+
+    .trainingMarkerIcon
+    {
+        background-image: url(/pic/icons/school.svg);
+        background-repeat: no-repeat;        
+    }
+
+    .markerIcon > div
+    {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        color: #fff;
+        background-color: #000;
+        text-align: left;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        border-radius: 15px !important;
+        text-align: center;
+    }
+
 }
 
 .mapboxgl-popup
