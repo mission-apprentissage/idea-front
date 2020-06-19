@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Spinner } from "reactstrap";
-import Training from "../../components/ItemDetail/Training";
-import PeJob from "../../components/ItemDetail/PeJob";
-import LbbCompany from "../../components/ItemDetail/LbbCompany";
-import { LogoIdea } from "../../components";
+import Training from "../../../components/ItemDetail/Training";
+import PeJob from "../../../components/ItemDetail/PeJob";
+import LbbCompany from "../../../components/ItemDetail/LbbCompany";
+import { LogoIdea } from "../../../components";
 
 const ResultLists = (props) => {
   const getTrainingResult = () => {
