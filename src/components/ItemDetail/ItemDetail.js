@@ -8,6 +8,7 @@ import PeJobDetail from "./PeJobDetail";
 import PeJob from "./PeJob";
 import LbbCompanyDetail from "./LbbCompanyDetail";
 import TrainingDetail from "./TrainingDetail";
+import "./itemdetail.css";
 
 const ItemDetail = ({ selectedItem, handleClose }) => {
   return (
