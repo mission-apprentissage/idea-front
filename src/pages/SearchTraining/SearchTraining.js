@@ -7,11 +7,10 @@ import mapboxgl from "mapbox-gl";
 import baseUrl from "../../utils/baseUrl";
 import { Marker, MapPopup, SearchForm, MapListSwitchButton } from "./components";
 import ResultLists from "./components/ResultLists";
-import distance from "@turf/distance";
 import { setTrainings, setJobs, setSelectedItem } from "../../redux/Training/actions";
 import { useDispatch, useSelector, useStore, Provider } from "react-redux";
 import ItemDetail from "../../components/ItemDetail/ItemDetail";
-import { getZoomLevelForDistance, factorTrainingsForMap } from "../../utils/tools";
+import { getZoomLevelForDistance, factorTrainingsForMap, computeDistanceFromSearch } from "../../utils/mapTools";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -180,7 +179,10 @@ const SearchTraining = () => {
     });
 
     let results = {
-      peJobs: response.data.peJobs !== "error" ? computeDistanceFromSearch(response.data.peJobs.resultats, "pe") : null,
+      peJobs:
+        response.data.peJobs !== "error"
+          ? computeDistanceFromSearch(searchCenter, response.data.peJobs.resultats, "pe")
+          : null,
       lbbCompanies: response.data.lbbCompanies,
     };
 
@@ -189,19 +191,6 @@ const SearchTraining = () => {
     setIsJobSearchLoading(false);
 
     setJobMarkers(results);
-  };
-
-  const computeDistanceFromSearch = (companies, source) => {
-    if (source === "pe") {
-      // calcule et affectation aux offres PE de la distances du centre de recherche
-      companies.map((company) => {
-        if (company.lieuTravail && company.lieuTravail.longitude !== undefined)
-          company.distance =
-            Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
-      });
-    }
-
-    return companies;
   };
 
   const flyToMarker = (item, zoom = map.getZoom()) => {

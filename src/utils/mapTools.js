@@ -1,3 +1,5 @@
+import distance from "@turf/distance";
+
 const getZoomLevelForDistance = (distance) => {
   let zoom = 10;
 
@@ -31,4 +33,17 @@ const factorTrainingsForMap = (list) => {
   return resultList;
 };
 
-export { getZoomLevelForDistance, factorTrainingsForMap };
+const computeDistanceFromSearch = (searchCenter, companies, source) => {
+  if (source === "pe") {
+    // calcule et affectation aux offres PE de la distances du centre de recherche
+    companies.map((company) => {
+      if (company.lieuTravail && company.lieuTravail.longitude !== undefined)
+        company.distance =
+          Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
+    });
+  }
+
+  return companies;
+};
+
+export { getZoomLevelForDistance, factorTrainingsForMap, computeDistanceFromSearch };
