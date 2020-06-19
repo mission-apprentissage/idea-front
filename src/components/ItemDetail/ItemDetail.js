@@ -2,12 +2,12 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
-import LbbCompany from "../../pages/SearchTraining/LbbCompany";
-import Training from "../../pages/SearchTraining/Training";
-import PeJobDetail from "../../pages/SearchTraining/PeJobDetail";
-import PeJob from "../../pages/SearchTraining/PeJob";
-import LbbCompanyDetail from "../../pages/SearchTraining/LbbCompanyDetail";
-import TrainingDetail from "../../pages/SearchTraining/TrainingDetail";
+import LbbCompany from "./LbbCompany";
+import Training from "./Training";
+import PeJobDetail from "./PeJobDetail";
+import PeJob from "./PeJob";
+import LbbCompanyDetail from "./LbbCompanyDetail";
+import TrainingDetail from "./TrainingDetail";
 
 const ItemDetail = ({ selectedItem, handleClose }) => {
   return (

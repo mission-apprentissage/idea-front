@@ -7,7 +7,7 @@ import DatePickerField from "./DatePickerField";
 import AutoCompleteField from "./AutoCompleteField";
 import LogoIdea from "./LogoIdea";
 import RadioButton from "./RadioButton";
-import ItemDetail from "./ItemDetail";
+import { ItemDetail, PeJob, PeJobDetail, Training, TrainingDetail, LbbCompany, LbbCompanyDetail } from "./ItemDetail";
 
 export {
   ItemDetail,
@@ -20,4 +20,10 @@ export {
   Footer,
   ScrollToTop,
   LogoIdea,
+  PeJob,
+  PeJobDetail,
+  Training,
+  TrainingDetail,
+  LbbCompany,
+  LbbCompanyDetail,
 };

@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Spinner } from "reactstrap";
-import Training from "./Training";
-import PeJob from "./PeJob";
-import LbbCompany from "./LbbCompany";
+import Training from "../../components/ItemDetail/Training";
+import PeJob from "../../components/ItemDetail/PeJob";
+import LbbCompany from "../../components/ItemDetail/LbbCompany";
 import { LogoIdea } from "../../components";
 
 const ResultLists = (props) => {
