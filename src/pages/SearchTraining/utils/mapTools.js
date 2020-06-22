@@ -46,7 +46,6 @@ const setTrainingMarkers = (trainingList, store, showResultList) => {
 
   let newZoom = getZoomLevelForDistance(trainingList[0].trainings[0].sort[0]);
 
-  //setTimeout(() => {map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom })},2500);
   map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom });
 
   trainingList.map((training, idx) => {

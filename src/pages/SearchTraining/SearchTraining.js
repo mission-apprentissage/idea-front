@@ -11,10 +11,9 @@ import ItemDetail from "../../components/ItemDetail/ItemDetail";
 import { factorTrainingsForMap, computeDistanceFromSearch } from "../../utils/mapTools";
 import { setJobMarkers, setTrainingMarkers } from "./utils/mapTools";
 import { map, initializeMap, flyToMarker, closeMapPopups, clearMarkers } from "../../utils/mapTools";
+
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
-
-//let currentMarkers = [];
 
 const SearchTraining = () => {
   const store = useStore();
@@ -29,12 +28,6 @@ const SearchTraining = () => {
   //const [selectedItem, setSelectedItem] = useState(null);
 
   const [searchRadius, setSearchRadius] = useState(30);
-  /*const [map, setMap] = useState(null);
-  const [mapState, setMapState] = useState({
-    lat: 47,
-    lon: 2.2,
-    zoom: 5,
-  });*/
 
   let searchCenter;
 

@@ -41,6 +41,7 @@ const initializeMap = ({ mapContainer }) => {
   map.addControl(nav, "top-right");
 };
 
+// todo: affecter un type aux différents items pour effectuer un test propre
 const flyToMarker = (item, zoom = map.getZoom()) => {
   if (item.lieuTravail) {
     // pe
