@@ -9,16 +9,8 @@ import { setTrainings, setJobs, setSelectedItem } from "../../redux/Training/act
 import { useDispatch, useSelector, useStore } from "react-redux";
 import ItemDetail from "../../components/ItemDetail/ItemDetail";
 import { factorTrainingsForMap, computeDistanceFromSearch } from "../../utils/mapTools";
-import {
-  map,
-  initializeMap,
-  clearMarkers,
-  setJobMarkers,
-  setTrainingMarkers,
-  flyToMarker,
-  closeMapPopups,
-} from "./utils/mapTools";
-
+import { setJobMarkers, setTrainingMarkers } from "./utils/mapTools";
+import { map, initializeMap, flyToMarker, closeMapPopups, clearMarkers } from "../../utils/mapTools";
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
@@ -107,36 +99,6 @@ const SearchTraining = () => {
     if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
   };
 
-  /*const buildTrainingMarkerIcon = (training) => {
-    const markerNode = document.createElement("div");
-    ReactDOM.render(<Marker type="training" item={training} flyToMarker={flyToMarker} />, markerNode);
-
-    return markerNode;
-  };*/
-
-  /*const setTrainingMarkers = (trainingList) => {
-    // centrage sur formation la plus proche
-    const centerCoords = trainingList[0].coords.split(",");
-
-    let newZoom = getZoomLevelForDistance(trainingList[0].trainings[0].sort[0]);
-
-    //setTimeout(() => {map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom })},2500);
-    map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom });
-
-    trainingList.map((training, idx) => {
-      const coords = training.coords.split(",");
-
-      currentMarkers.push(
-        //new mapboxgl.Marker(buildTrainingMarkerIcon(training.trainings.length))
-        new mapboxgl.Marker(buildTrainingMarkerIcon(training))
-          .setLngLat([coords[1], coords[0]])
-          //.setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
-          .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training")))
-          .addTo(map)
-      );
-    });
-  };*/
-
   const searchForJobs = async (values) => {
     const response = await axios.get(jobsApi, {
       params: {
@@ -164,83 +126,11 @@ const SearchTraining = () => {
     setJobMarkers(results, map, store, showResultList);
   };
 
-  /*const flyToMarker = (item, zoom = map.getZoom()) => {
-    if (item.lieuTravail) {
-      // pe
-      if (item.lieuTravail.longitude !== undefined)
-        map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
-    } else if (item.siret)
-      // lbb
-      map.easeTo({ center: [item.lon, item.lat], speed: 0.2, zoom });
-    // formation
-    else {
-      // l'item peut être un aggrégat de formations ou une formation seule d'où les deux accès différents aux geo points
-      const itemCoords = item.coords
-        ? item.coords.split(",")
-        : item.source.geo_coordonnees_etablissement_reference.split(",");
-      map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2, zoom });
-    }
-  };*/
-
-  /*const buildJobMarkerIcon = (job) => {
-    const markerNode = document.createElement("div");
-    ReactDOM.render(<Marker type="job" flyToMarker={flyToMarker} item={job} />, markerNode);
-
-    return markerNode;
-  };*/
-
-  /*const buildPopup = (item, type) => {
-    const popupNode = document.createElement("div");
-    ReactDOM.render(
-      <Provider store={store}>
-        <MapPopup handleSelectItem={showResultList} type={type} item={item} />
-      </Provider>,
-      popupNode
-    );
-
-    return popupNode;
-  };*/
-
-  /*const setJobMarkers = (jobs) => {
-    // positionnement des marqueurs bonne boîte
-
-    if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
-      jobs.lbbCompanies.companies.map((company, idx) => {
-        currentMarkers.push(
-          new mapboxgl.Marker(buildJobMarkerIcon(company))
-            .setLngLat([company.lon, company.lat])
-            .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb")))
-            .addTo(map)
-        );
-      });
-    }
-
-    // positionnement des marqueurs PE
-    if (jobs && jobs.peJobs && jobs.peJobs.length) {
-      jobs.peJobs.map((job, idx) => {
-        if (job.lieuTravail && job.lieuTravail.longitude !== undefined)
-          // certaines offres n'ont pas de lat / long
-          currentMarkers.push(
-            new mapboxgl.Marker(buildJobMarkerIcon(job))
-              .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-              .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe")))
-              .addTo(map)
-          );
-      });
-    }
-  };*/
-
   const handleSelectItem = (item, type) => {
     flyToMarker(item, 12);
     closeMapPopups();
     dispatch(setSelectedItem({ item, type }));
   };
-
-  /*const closeMapPopups = () => {
-    currentMarkers.forEach((marker) => {
-      if (marker.getPopup().isOpen()) marker.togglePopup();
-    });
-  };*/
 
   const getResultLists = () => {
     return (

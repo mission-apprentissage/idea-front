@@ -1,4 +1,87 @@
+import React from "react";
 import distance from "@turf/distance";
+import { MapPopup } from "../pages/SearchTraining/components";
+import ReactDOM from "react-dom";
+import mapboxgl from "mapbox-gl";
+import { Provider } from "react-redux";
+
+let currentMarkers = [];
+let map = null;
+
+const initializeMap = ({ mapContainer }) => {
+  mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
+
+  /*lat: 47,    affichage centre France plus zoom France métropolitaine en entier
+    lon: 2.2,
+    zoom: 5,*/
+
+  map = new mapboxgl.Map({
+    container: mapContainer.current,
+    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+    center: [2.2, 47],
+    zoom: 5,
+    maxZoom: 15,
+    minZoom: 3,
+    dragRotate: false,
+  });
+
+  map.on("load", () => {
+    map.resize();
+  });
+
+  map.on("move", () => {
+    /*setMapState({
+      lon: map.getCenter().lng.toFixed(4),
+      lat: map.getCenter().lat.toFixed(4),
+      zoom: map.getZoom().toFixed(2),
+    });*/
+  });
+
+  const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
+  map.addControl(nav, "top-right");
+};
+
+const flyToMarker = (item, zoom = map.getZoom()) => {
+  if (item.lieuTravail) {
+    // pe
+    if (item.lieuTravail.longitude !== undefined)
+      map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
+  } else if (item.siret)
+    // lbb
+    map.easeTo({ center: [item.lon, item.lat], speed: 0.2, zoom });
+  // formation
+  else {
+    // l'item peut être un aggrégat de formations ou une formation seule d'où les deux accès différents aux geo points
+    const itemCoords = item.coords
+      ? item.coords.split(",")
+      : item.source.geo_coordonnees_etablissement_reference.split(",");
+    map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2, zoom });
+  }
+};
+
+const clearMarkers = () => {
+  for (let i = 0; i < currentMarkers.length; ++i) currentMarkers[i].remove();
+  currentMarkers = [];
+};
+
+const buildPopup = (item, type, store, showResultList) => {
+  const popupNode = document.createElement("div");
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <MapPopup handleSelectItem={showResultList} type={type} item={item} />
+    </Provider>,
+    popupNode
+  );
+
+  return popupNode;
+};
+
+const closeMapPopups = () => {
+  currentMarkers.forEach((marker) => {
+    if (marker.getPopup().isOpen()) marker.togglePopup();
+  });
+};
 
 const getZoomLevelForDistance = (distance) => {
   let zoom = 10;
@@ -46,4 +129,15 @@ const computeDistanceFromSearch = (searchCenter, companies, source) => {
   return companies;
 };
 
-export { getZoomLevelForDistance, factorTrainingsForMap, computeDistanceFromSearch };
+export {
+  map,
+  currentMarkers,
+  buildPopup,
+  initializeMap,
+  clearMarkers,
+  flyToMarker,
+  closeMapPopups,
+  getZoomLevelForDistance,
+  factorTrainingsForMap,
+  computeDistanceFromSearch,
+};
