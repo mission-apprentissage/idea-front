@@ -1,21 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
 import axios from "axios";
 import { Row, Col } from "reactstrap";
 import "./searchtraining.css";
-import mapboxgl from "mapbox-gl";
 import baseUrl from "../../utils/baseUrl";
-import { Marker, MapPopup, SearchForm, MapListSwitchButton } from "./components";
+import { SearchForm, MapListSwitchButton } from "./components";
 import ResultLists from "./components/ResultLists";
 import { setTrainings, setJobs, setSelectedItem } from "../../redux/Training/actions";
-import { useDispatch, useSelector, useStore, Provider } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import ItemDetail from "../../components/ItemDetail/ItemDetail";
-import { getZoomLevelForDistance, factorTrainingsForMap, computeDistanceFromSearch } from "../../utils/mapTools";
+import { factorTrainingsForMap, computeDistanceFromSearch } from "../../utils/mapTools";
+import {
+  map,
+  initializeMap,
+  clearMarkers,
+  setJobMarkers,
+  setTrainingMarkers,
+  flyToMarker,
+  closeMapPopups,
+} from "./utils/mapTools";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
-let currentMarkers = [];
+//let currentMarkers = [];
 
 const SearchTraining = () => {
   const store = useStore();
@@ -30,59 +37,23 @@ const SearchTraining = () => {
   //const [selectedItem, setSelectedItem] = useState(null);
 
   const [searchRadius, setSearchRadius] = useState(30);
-  const [map, setMap] = useState(null);
+  /*const [map, setMap] = useState(null);
   const [mapState, setMapState] = useState({
     lat: 47,
     lon: 2.2,
     zoom: 5,
-  });
+  });*/
 
   let searchCenter;
 
   const mapContainer = useRef(null);
 
   useEffect(() => {
-    mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
-
-    const initializeMap = ({ setMap, mapContainer }) => {
-      const map = new mapboxgl.Map({
-        container: mapContainer.current,
-        style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-        center: [mapState.lon, mapState.lat],
-        zoom: mapState.zoom,
-        maxZoom: 15,
-        minZoom: 3,
-        dragRotate: false,
-      });
-
-      map.on("load", () => {
-        setMap(map);
-        map.resize();
-      });
-
-      map.on("move", () => {
-        setMapState({
-          lon: map.getCenter().lng.toFixed(4),
-          lat: map.getCenter().lat.toFixed(4),
-          zoom: map.getZoom().toFixed(2),
-        });
-      });
-
-      const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
-      map.addControl(nav, "top-right");
-    };
-
-    if (!map) initializeMap({ setMap, mapContainer });
-  }, [map, mapState.lon, mapState.lat, mapState.zoom]);
+    if (!map) initializeMap({ mapContainer });
+  });
 
   const getMap = () => {
     return <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />;
-  };
-
-  const clearMarkers = () => {
-    for (let i = 0; i < currentMarkers.length; ++i) currentMarkers[i].remove();
-
-    currentMarkers = [];
   };
 
   const handleSubmit = async (values) => {
@@ -133,17 +104,17 @@ const SearchTraining = () => {
     setIsFormVisible(false);
     setIsTrainingSearchLoading(false);
 
-    if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data));
+    if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
   };
 
-  const buildTrainingMarkerIcon = (training) => {
+  /*const buildTrainingMarkerIcon = (training) => {
     const markerNode = document.createElement("div");
     ReactDOM.render(<Marker type="training" item={training} flyToMarker={flyToMarker} />, markerNode);
 
     return markerNode;
-  };
+  };*/
 
-  const setTrainingMarkers = (trainingList) => {
+  /*const setTrainingMarkers = (trainingList) => {
     // centrage sur formation la plus proche
     const centerCoords = trainingList[0].coords.split(",");
 
@@ -164,7 +135,7 @@ const SearchTraining = () => {
           .addTo(map)
       );
     });
-  };
+  };*/
 
   const searchForJobs = async (values) => {
     const response = await axios.get(jobsApi, {
@@ -190,10 +161,10 @@ const SearchTraining = () => {
 
     setIsJobSearchLoading(false);
 
-    setJobMarkers(results);
+    setJobMarkers(results, map, store, showResultList);
   };
 
-  const flyToMarker = (item, zoom = map.getZoom()) => {
+  /*const flyToMarker = (item, zoom = map.getZoom()) => {
     if (item.lieuTravail) {
       // pe
       if (item.lieuTravail.longitude !== undefined)
@@ -209,16 +180,16 @@ const SearchTraining = () => {
         : item.source.geo_coordonnees_etablissement_reference.split(",");
       map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2, zoom });
     }
-  };
+  };*/
 
-  const buildJobMarkerIcon = (job) => {
+  /*const buildJobMarkerIcon = (job) => {
     const markerNode = document.createElement("div");
     ReactDOM.render(<Marker type="job" flyToMarker={flyToMarker} item={job} />, markerNode);
 
     return markerNode;
-  };
+  };*/
 
-  const buildPopup = (item, type) => {
+  /*const buildPopup = (item, type) => {
     const popupNode = document.createElement("div");
     ReactDOM.render(
       <Provider store={store}>
@@ -228,9 +199,9 @@ const SearchTraining = () => {
     );
 
     return popupNode;
-  };
+  };*/
 
-  const setJobMarkers = (jobs) => {
+  /*const setJobMarkers = (jobs) => {
     // positionnement des marqueurs bonne boîte
 
     if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
@@ -257,7 +228,7 @@ const SearchTraining = () => {
           );
       });
     }
-  };
+  };*/
 
   const handleSelectItem = (item, type) => {
     flyToMarker(item, 12);
@@ -265,11 +236,11 @@ const SearchTraining = () => {
     dispatch(setSelectedItem({ item, type }));
   };
 
-  const closeMapPopups = () => {
+  /*const closeMapPopups = () => {
     currentMarkers.forEach((marker) => {
       if (marker.getPopup().isOpen()) marker.togglePopup();
     });
-  };
+  };*/
 
   const getResultLists = () => {
     return (
