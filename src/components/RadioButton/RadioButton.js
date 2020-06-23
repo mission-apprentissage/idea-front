@@ -1,7 +1,7 @@
 import React from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 
-const RadioButton = ({ handleChange, value, label, selectedValue, setFieldValue }) => {
+const RadioButton = React.memo(({ handleChange, value, label, selectedValue, setFieldValue }) => {
   return (
     <FormGroup check>
       <Label
@@ -21,6 +21,6 @@ const RadioButton = ({ handleChange, value, label, selectedValue, setFieldValue 
       </Label>
     </FormGroup>
   );
-};
+});
 
 export default RadioButton;
