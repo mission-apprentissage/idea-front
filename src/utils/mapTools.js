@@ -1,6 +1,6 @@
 import React from "react";
 import distance from "@turf/distance";
-import { MapPopup } from "../pages/SearchTraining/components";
+import { MapPopup } from "../pages/SearchForTrainingsAndJobs/components";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Row, Col } from "reactstrap";
-import "./searchtraining.css";
+import "./searchfortrainingsandjobs.css";
 import baseUrl from "../../utils/baseUrl";
 import { SearchForm, MapListSwitchButton } from "./components";
 import ResultLists from "./components/ResultLists";
@@ -15,7 +15,7 @@ import { map, initializeMap, flyToMarker, closeMapPopups, clearMarkers } from ".
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
-const SearchTraining = () => {
+const SearchForTrainingsAndJobs = () => {
   const store = useStore();
   const dispatch = useDispatch();
   const { trainings, jobs, selectedItem } = useSelector((state) => state.trainings);
@@ -210,4 +210,4 @@ const SearchTraining = () => {
   );
 };
 
-export default SearchTraining;
+export default SearchForTrainingsAndJobs;

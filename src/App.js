@@ -16,7 +16,7 @@ import {
   NotFound,
   TrainingList,
   ApiTester,
-  SearchTraining,
+  SearchForTrainingsAndJobs,
 } from "./pages";
 
 import routes from "./routes.json";
@@ -39,7 +39,7 @@ const App = () => {
         <Route path={routes.TRAININGLIST + "/:rank"} component={TrainingList} />
         <Route exact path={routes.CHANGELOG} component={Journal} />
         <Route exact path={routes.APITESTER} component={ApiTester} />
-        <Route exact path={routes.SEARCHTRAINING} component={SearchTraining} />
+        <Route exact path={routes.SEARCHFORTRAININGSANDJOBS} component={SearchForTrainingsAndJobs} />
         <Route exact path={routes.HELPFORUSERPROJECT} component={HelpForUserProject} />
         <Route component={NotFound} />
       </Switch>

@@ -10,7 +10,7 @@ import LocationSelection from "./LocationSelection";
 import HelpForUserProject from "./HelpForUserProject";
 import TrainingList from "./TrainingList";
 import ApiTester from "./ApiTester";
-import SearchTraining from "./SearchTraining";
+import SearchForTrainingsAndJobs from "./SearchForTrainingsAndJobs";
 
 export {
   Landing,
@@ -25,5 +25,5 @@ export {
   HelpForUserProject,
   TrainingList,
   ApiTester,
-  SearchTraining,
+  SearchForTrainingsAndJobs,
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button, Container, Row, Col, Input } from "reactstrap";
-import "../searchtraining.css";
+import "../searchfortrainingsandjobs.css";
 import mapMarker from "../../../assets/icons/pin.svg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
