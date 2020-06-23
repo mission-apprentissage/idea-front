@@ -22,9 +22,9 @@ const jobsApi = baseUrl + "/jobs";
 const RightColumn = ({
   showResultList,
   unSelectItem,
+  showSearchForm,
   setHasSearch,
   hasSearch,
-  showSearchForm,
   isFormVisible,
   setIsFormVisible,
 }) => {
@@ -33,10 +33,9 @@ const RightColumn = ({
   const store = useStore();
 
   const { trainings, jobs, selectedItem } = useSelector((state) => state.trainings);
+
   const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
-  //const [selectedItem, setSelectedItem] = useState(null);
-
   const [searchRadius, setSearchRadius] = useState(30);
 
   let searchCenter;
