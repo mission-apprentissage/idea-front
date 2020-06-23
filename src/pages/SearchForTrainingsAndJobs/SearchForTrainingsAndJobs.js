@@ -11,6 +11,7 @@ import ItemDetail from "../../components/ItemDetail/ItemDetail";
 import { factorTrainingsForMap, computeDistanceFromSearch } from "../../utils/mapTools";
 import { setJobMarkers, setTrainingMarkers } from "./utils/mapTools";
 import { map, initializeMap, flyToMarker, closeMapPopups, clearMarkers } from "../../utils/mapTools";
+import Map from "../../components/Map";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -31,15 +32,15 @@ const SearchForTrainingsAndJobs = () => {
 
   let searchCenter;
 
-  const mapContainer = useRef(null);
+  //const mapContainer = useRef(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!map) initializeMap({ mapContainer });
-  });
+  });*/
 
-  const getMap = () => {
+  /*const getMap = () => {
     return <div ref={(el) => (mapContainer.current = el)} className="mapContainer" />;
-  };
+  };*/
 
   const handleSubmit = async (values) => {
     clearMarkers();
@@ -185,7 +186,7 @@ const SearchForTrainingsAndJobs = () => {
     <div className="page demoPage">
       <Row>
         <Col className={visiblePane === "resultMap" ? "activeXSPane" : "inactiveXSPane"} xs="12" md="8">
-          <div className="mapContainer">{getMap()}</div>
+          <Map />
         </Col>
         <Col
           className={`leftShadow ${visiblePane === "resultList" ? "activeXSPane" : "inactiveXSPane"}`}
