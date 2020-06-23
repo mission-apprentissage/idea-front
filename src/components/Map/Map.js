@@ -1,6 +1,6 @@
-import React, { /*useState, */useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-import { map, initializeMap/*, flyToMarker, closeMapPopups, clearMarkers*/ } from "../../utils/mapTools";
+import { map, initializeMap } from "../../utils/mapTools";
 
 const Map = () => {
   const mapContainer = useRef(null);
