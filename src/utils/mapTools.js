@@ -23,6 +23,7 @@ const initializeMap = ({ mapContainer }) => {
     maxZoom: 15,
     minZoom: 3,
     dragRotate: false,
+    touchZoomRotate: false,
   });
 
   map.on("load", () => {
