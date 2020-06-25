@@ -107,10 +107,13 @@ const RightColumn = ({
 
     let results = {
       peJobs:
-        response.data.peJobs !== "error"
-          ? computeDistanceFromSearch(searchCenter, response.data.peJobs.resultats, "pe")
-          : null,
-      lbbCompanies: response.data.lbbCompanies,
+        response.data.peJobs.result && response.data.peJobs.result === "error"
+          ? null
+          : computeDistanceFromSearch(searchCenter, response.data.peJobs.resultats, "pe"),
+      lbbCompanies:
+        response.data.lbbCompanies.result && response.data.lbbCompanies.result === "error"
+          ? null
+          : response.data.lbbCompanies,
     };
 
     dispatch(setJobs(results));
