@@ -122,9 +122,16 @@ const computeDistanceFromSearch = (searchCenter, companies, source) => {
   if (source === "pe") {
     // calcule et affectation aux offres PE de la distances du centre de recherche
     companies.map((company) => {
-      if (company.lieuTravail && company.lieuTravail.longitude !== undefined)
-        company.distance =
-          Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;
+      if (company.lieuTravail && !company.lieuTravail.longitude && !company.lieuTravail.latitude)
+      {
+        console.log("company : ",company);
+
+        console.log("ici on a lieudetravail.libelle à récupérer via ban");
+
+        console.log("puis calculer distance à partir des coordonnées gps récupérées puis affecter coordonénes gps ou l'inverse");
+        /*company.distance =
+          Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;*/
+      }
     });
   }
 
