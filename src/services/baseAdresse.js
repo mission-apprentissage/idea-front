@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchAddresses = (value) => {
+export const fetchAddresses = (value, type) => {
   if (value) {
     let term = value;
     const limit = 10;
@@ -8,7 +8,7 @@ export const fetchAddresses = (value) => {
 
     if (term.length < 6) {
       // sur courte recherche on ne demande que des villes
-      filter = "&type=municipality";
+      if (!type) filter = "&type=municipality";
 
       if (!isNaN(term)) {
         // si le début est un nombre on complète à 5 chiffes avec des 0 pour rechercher sur un CP
@@ -16,6 +16,8 @@ export const fetchAddresses = (value) => {
         for (let i = 0; i < zipLengthDiff; ++i) term += "0";
       }
     }
+    if (type) filter = "&type=" + type;
+
     let addressURL = `https://api-adresse.data.gouv.fr/search/?limit=${limit}&q=${term}${filter}`;
 
     return axios.get(addressURL).then((response) => {
