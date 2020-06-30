@@ -13,7 +13,7 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
     <div className="resultCard">
       <div>
         <img className="cardIcon" src={jobIcon} alt="" />
-        <span className="cardDistance">{job.distance} km(s) du lieu de recherche</span>
+        <span className="cardDistance">{job.lieuTravail.distance} km(s) du lieu de recherche</span>
       </div>
 
       <div className="title">{job.entreprise ? job.entreprise.nom : ""}</div>
