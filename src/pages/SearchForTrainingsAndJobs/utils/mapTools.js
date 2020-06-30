@@ -2,7 +2,15 @@ import React from "react";
 import { Marker } from "../components";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
-import { map, currentMarkers, buildPopup, flyToMarker, getZoomLevelForDistance } from "../../../utils/mapTools";
+import {
+  map,
+  currentMarkers,
+  buildPopup,
+  flyToMarker,
+  getZoomLevelForDistance,
+  addJobMarkerIfPosition,
+  buildJobMarkerIcon,
+} from "../../../utils/mapTools";
 
 const setJobMarkers = (jobs, map, store, showResultList) => {
   // positionnement des marqueurs bonne boîte
@@ -21,23 +29,9 @@ const setJobMarkers = (jobs, map, store, showResultList) => {
   // positionnement des marqueurs PE
   if (jobs && jobs.peJobs && jobs.peJobs.length) {
     jobs.peJobs.map((job, idx) => {
-      if (job.lieuTravail && job.lieuTravail.longitude !== undefined)
-        // certaines offres n'ont pas de lat / long
-        currentMarkers.push(
-          new mapboxgl.Marker(buildJobMarkerIcon(job))
-            .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-            .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe", store, showResultList)))
-            .addTo(map)
-        );
+      addJobMarkerIfPosition(job, map, store, showResultList);
     });
   }
-};
-
-const buildJobMarkerIcon = (job) => {
-  const markerNode = document.createElement("div");
-  ReactDOM.render(<Marker type="job" flyToMarker={flyToMarker} item={job} />, markerNode);
-
-  return markerNode;
 };
 
 const setTrainingMarkers = (trainingList, store, showResultList) => {

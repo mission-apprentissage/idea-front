@@ -1,10 +1,10 @@
 import React from "react";
 import distance from "@turf/distance";
-import { MapPopup } from "../pages/SearchForTrainingsAndJobs/components";
+import { Marker, MapPopup } from "../pages/SearchForTrainingsAndJobs/components";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";
-
+import { fetchAddresses } from "../services/baseAdresse";
 let currentMarkers = [];
 let map = null;
 
@@ -118,24 +118,58 @@ const factorTrainingsForMap = (list) => {
   return resultList;
 };
 
-const computeDistanceFromSearch = (searchCenter, companies, source) => {
+const computeMissingPositionAndDistance = async (searchCenter, companies, source, map, store, showResultList) => {
   if (source === "pe") {
-    // calcule et affectation aux offres PE de la distances du centre de recherche
-    companies.map((company) => {
-      if (company.lieuTravail && !company.lieuTravail.longitude && !company.lieuTravail.latitude)
-      {
-        console.log("company : ",company);
+    // calcule et affectation aux offres PE de la distances du centre de recherche dans les cas où la donnée est incomplète
 
-        console.log("ici on a lieudetravail.libelle à récupérer via ban");
+    await Promise.all(
+      companies.map(async (company) => {
+        if (
+          company.lieuTravail &&
+          !company.lieuTravail.longitude &&
+          !company.lieuTravail.latitude &&
+          company.lieuTravail.libelle
+        ) {
+          let place = company.lieuTravail.libelle; // complétion du numéro du département pour réduire les résultats erronés (ex : Saint Benoit à la réunion pour 86 - ST BENOIT)
+          let dpt = place.substring(0, 2);
+          dpt += "000";
+          place = dpt + place.substring(2);
 
-        console.log("puis calculer distance à partir des coordonnées gps récupérées puis affecter coordonénes gps ou l'inverse");
-        /*company.distance =
-          Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) / 10;*/
-      }
-    });
+          const addresses = await fetchAddresses(place, "municipality"); // on force à Municipality pour ne pas avoir des rues dans de mauvaise localités
+
+          if (addresses.length) {
+            company.lieuTravail.longitude = addresses[0].value.coordinates[0];
+            company.lieuTravail.latitude = addresses[0].value.coordinates[1];
+            company.lieuTravail.distance =
+              Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) /
+              10;
+
+            addJobMarkerIfPosition(company, map, store, showResultList);
+          }
+        }
+      })
+    );
   }
 
   return companies;
+};
+
+const addJobMarkerIfPosition = (job, map, store, showResultList) => {
+  if (job.lieuTravail && (job.lieuTravail.longitude || job.lieuTravail.latitude))
+    // certaines offres n'ont pas de lat / long
+    currentMarkers.push(
+      new mapboxgl.Marker(buildJobMarkerIcon(job))
+        .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
+        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe", store, showResultList)))
+        .addTo(map)
+    );
+};
+
+const buildJobMarkerIcon = (job) => {
+  const markerNode = document.createElement("div");
+  ReactDOM.render(<Marker type="job" flyToMarker={flyToMarker} item={job} />, markerNode);
+
+  return markerNode;
 };
 
 export {
@@ -145,8 +179,10 @@ export {
   initializeMap,
   clearMarkers,
   flyToMarker,
+  buildJobMarkerIcon,
   closeMapPopups,
   getZoomLevelForDistance,
   factorTrainingsForMap,
-  computeDistanceFromSearch,
+  computeMissingPositionAndDistance,
+  addJobMarkerIfPosition,
 };

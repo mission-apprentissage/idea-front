@@ -13,7 +13,7 @@ import {
   closeMapPopups,
   clearMarkers,
   factorTrainingsForMap,
-  computeDistanceFromSearch,
+  computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
 
 const formationsApi = baseUrl + "/formations";
@@ -105,11 +105,19 @@ const RightColumn = ({
       },
     });
 
+    let peJobs = null;
+    if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
+      peJobs = await computeMissingPositionAndDistance(
+        searchCenter,
+        response.data.peJobs.resultats,
+        "pe",
+        map,
+        store,
+        showResultList
+      );
+
     let results = {
-      peJobs:
-        response.data.peJobs.result && response.data.peJobs.result === "error"
-          ? null
-          : computeDistanceFromSearch(searchCenter, response.data.peJobs.resultats, "pe"),
+      peJobs,
       lbbCompanies:
         response.data.lbbCompanies.result && response.data.lbbCompanies.result === "error"
           ? null
