@@ -1,33 +1,15 @@
 const config = {
   local: {
-    urls: ["localhost:3003"],
-    aws: {
-      apiGateway: {
-        name: "api",
-        region: "local",
-        endpoint: "http://localhost:3001/local",
-      }
-    },
+    urls: [/^"localhost"$/g],
+    baseUrl: "http://localhost:3000",
   },
   dev: {
-    urls: [/^idea-front-dev.netlify.com$/g, /^deploy-preview-[0-9]+--idea-front-dev.netlify.com$/g],
-    aws: {
-      apiGateway: {
-        name: "api",
-        region: "",
-        endpoint: "",
-      },
-    },
+    urls: [/^develop--idea-mna.netlify.app$/g /*, /^deploy-preview-[0-9]+--idea-front-dev.netlify.com$/g*/],
+    baseUrl: "https://idea-mna-api-dev.herokuapp.com/",
   },
   prod: {
-    urls: [/^idea-front-prod.netlify.com$/g],
-    aws: {
-      apiGateway: {
-        name: "api",
-        region: "",
-        endpoint: "",
-      },
-    },
+    urls: [/^idea-mna.netlify.app$/g],
+    baseUrl: "https://idea-mna-api.herokuapp.com",
   },
 };
 
@@ -39,17 +21,18 @@ export const getEnvName = () => {
   } else if (config.prod.urls.some((regexp) => regexp.test(hostname))) {
     return "prod";
   }
+
   return "local";
 };
 
 export const getConfig = (envName) => {
   switch (envName) {
     case "prod":
-      return config.prod.aws;
+      return config.prod.baseUrl;
     case "dev":
-      return config.dev.aws;
+      return config.dev.baseUrl;
     default:
-      return config.local.aws;
+      return config.local.baseUrl;
   }
 };
 
