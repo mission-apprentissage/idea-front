@@ -1,0 +1,154 @@
+{
+    "trainings" : [
+        {
+            "id" : "T1",
+            "title" : "CAP Maçon",
+            "school" : "BTP CFA DE LA GIRONDE BLANQUEFORT",
+            "address" : "26 Avenue du Port du Roy, Blanquefort (33)",
+            "description" : "Objectif de la formation\n\nL'obtention du CAP permet d'exercer le métier de maçon, en petite entreprise artisanale. L'objectif est de maîtriser les opérations de préparation de chantier, réalisation de bâtis et préparation de mortier et ciment ...",
+            "duration" : "2 ans",
+            "startTime" : "septembre ou mars",
+            "seats" : "30",
+            "seatPerClass" : "15",
+            "teachings" : "Enseignement professionnel :\n- Préparation enduit et ciment\n- Connaissance des matériaux\n\nEnseignement général :\n- Français et histoire géographie\n- Mathématiques et sciences\n- Éducation physique et sportive\n- Langue vivante",
+            "contact" : {
+                "phone":"05-56-35-12-28",
+                "email":"cfabtp.blanquefort@ccca-btp.fr"
+            },
+            "url" : "http://www.btpcfa-aquitaine.fr/fr/",
+            "teachingLocation" : "BTP CFA BLANQUEFORT\n26, Avnue du POrt du Roy\n33291 Blanquefort",
+            "teachingPhone" : "05-56-35-12-28",
+            "teachingUrl" : "http://www.btpcfa-aquitaine.fr/fr/blanquefort-gironde.html/",
+            "services" : "Résidence avec chambres individuelles ou chambres de 3 à 4 lits, cafétéria, salle informatique, salle de billard",
+            "jobs" : [
+                {
+                    "id" : "J1",
+                    "score" : "100%",
+                    "company": "EXANO",
+                    "address": "23 rue Robert Mathieu, Bruges (33)",
+                    "people": "0 salarié",
+                    "jobTitle": "Maçon/Maçonne (H/F)",
+                    "published": "23 avril 2020",
+                    "contractDuration": "12 mois",
+                    "trainingRythm": "non communiqué",
+                    "jobDescription": "Vous serez en charge de:\n- Intervenir sur des constructions neuves et anciennes\n- Poser des bordures\n-Réaliser des joints\n- Maintenit la propreté du chantier\nPostuler : 05-86-02-02-02 ou fvandeville@gmail.com",
+                    "contact" : {
+                        "phone" : "0586020202",
+                        "email" : "fvandeville@gmail.com"
+                    },
+                    "companyEmail": "contact@exano.fr",
+                    "url": "https://exano.fr/"
+                },
+                {
+                    "id" : "J2",
+                    "score" : "90%",
+                    "company" : "SIREMS SERVICE",
+                    "address" : "rue Jean Giroudoux, Le Pian Medoc (33)",
+                    "people" : "20 à 49 salariés",
+                    "contact" : {
+                        "phone" : "0586030303",
+                        "email" : "ledouxt@sirems.fr"
+                    },
+                    "companyEmail": "contact@sirems.fr",
+                    "url": "non communiqué"
+                },
+                {
+                    "id" : "J3",
+                    "score" : "90%",
+                    "company" : "EIFFAGE CONSTRUCTION NORD AQUITAINE",
+                    "address" : "5 place Ravezies, Bordeaux (33)",
+                    "people" : "199 à 250 salariés"
+                },
+                {
+                    "id" : "J4",
+                    "score" : "80%",
+                    "company" : "SARL DO CASAL",
+                    "address" : "10 rue du Maréchal de Lattre de Tassigny, Bassens (33)",
+                    "people" : "6 à 9 salariés"                                 
+                }
+            ]
+        },
+        {
+            "id" : "T1",
+            "title" : "CAP Maçon",
+            "school" : "CFA LES COMPAGNONS DU DEVOIR",
+            "address" : "22 rue du stade, Lamothe-Landerron (33)",
+            "description" : "Objectif de la formation\n\nLe bâtissuer-maçon contribue à façonner le paysage urbain et créé des espaces de vie. Il, elle bâtit des infrastructures telles que des logements, des bureaux, des écoles, des salles de concert et bien d'autres encore.Il, elle assemble des éléments de construction pour réaliser des ouvrages structurels (bâtiments et ouvrages d'art), mais aussi décoratifs (revêtements, aménagements de sols et de façades, aménagements extérieurs).",
+            "duration" : "2 ans",
+            "startTime" : "septembre ou mars",
+            "seats" : "30",
+            "seatPerClass" : "15",
+            "teachings" : "Préparation, organisation et gestion de chantier, relation client",
+            "contact" : {
+                "phone":"05-56-52-69-19",
+                "email":"contact@cdd-aquitaine.fr"
+            },
+            "url" : "https://www.compagnons-du-devoir.com/",
+            "teachingLocation" : "CFA LES COMPAGNONS DU DEVOIR Lamothe Landerron\n2, rue du stade\n33190 Lamothe-Landerron",
+            "teachingPhone" : "05-56-52-69-19",
+            "teachingUrl" : "https://www.compagnons-du-devoir.com/la-maison-de-marmande-lamothe-landerron/",
+            "services" : "Internat, Cantine",
+            "jobs" : [
+                {
+                    "id" : "J1",
+                    "score" : "90%",
+                    "company": "LES BATISSEURS MARMANDAIS",
+                    "address": "Le Chemin neuf, Lagupie (33)",
+                    "people": "3 à 5 salariés",
+                    "jobTitle": "Maçon/maçonne (H/F)",
+                    "published": "16 avril 2020",
+                    "contractDuration": "2 ans",
+                    "trainingRythm": "1 semaine école/ 1 semaine entreprise",
+                    "jobDescription": "Vos missions :\n- Maçonner les murs par assemblage des matériaux (briques, parpaings, carreaux de platre, etc)\n- Préparer et appliquer les enduits sur les différentes surfaces intérieures ou extérieures (façades)\n- Réaliser des ouvertures dans une maçonneire (porte, fenêtres)\n\nPostuler : se présenter à l'adresse indiquée",
+                    "contact" : {
+                        "phone" : "non communiqué",
+                        "email" : "non communiqué"
+                    },
+                    "companyEmail": "contact@batisseurs-marmandais.fr",
+                    "url": "https://lesbatisseursmarmandais.fr/"
+                },
+                {
+                    "id" : "J2",
+                    "score" : "80%",
+                    "company" : "ALPBATI",
+                    "address" : "4 lieudit Blanchard, Saint Seve (33)",
+                    "people" : "6 à 9 salariés",
+                    "contact" : {
+                        "phone" : "0607080910",
+                        "email" : "john.doe@hotmail.fr"
+                    },
+                    "companyEmail": "alpbati@hotmail.fr",
+                    "url": "non communiqué"
+                },
+                {
+                    "id" : "J3",
+                    "score" : "80%",
+                    "company" : "LEGLISE MACONNERIE",
+                    "address" : "3 lieudit Camgran (33)",
+                    "people" : "1 à 2 salariés"
+                },
+                {
+                    "id" : "J4",
+                    "score" : "55%",
+                    "company" : "SARL SOTRABAT",
+                    "address" : "25, rue du notaire, Saint Morillon (33)",
+                    "people" : "6 à 9 salariés"
+                },
+                {
+                    "id" : "J5",
+                    "score" : "50%",
+                    "company" : "RUIZ ERIC",
+                    "address" : "11B avenue Aristide Briand, Pessac (33)",
+                    "people" : "3 à 5 salariés"
+                },
+                {
+                    "id" : "J6",
+                    "score" : "50%",
+                    "company" : "GSS TP",
+                    "address" : "25 avenue du Quercy, Cancon (47)",
+                    "people" : "0 salarié"               
+                }
+            ]
+        }
+    ]
+}

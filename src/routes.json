@@ -1,3 +1,15 @@
 {
-    
+    "LANDING": "/",    
+    "NOTFOUND": "/404",    
+    "CHANGELOG": "/journal",
+    "JOBSELECTION": "/selectionner-metier",
+    "DIPLOMASELECTION": "/selectionner-diplome",
+    "HASDIPLOMASELECTION": "/diplome",
+    "TRAININGDURATIONSELECTION": "/duree-formation",
+    "STARTTIMESELECTION": "/debut-formation",
+    "LOCATIONSELECTION": "/lieu-formation",
+    "TRAININGLIST": "/formations",
+    "APITESTER": "/test-api",
+    "SEARCHFORTRAININGSANDJOBS": "/recherche-apprentissage",
+    "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }

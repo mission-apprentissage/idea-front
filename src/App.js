@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Switch, Route, withRouter } from "react-router-dom";
 
-function App() {
+import Layout from "./components/Layout";
+import { ScrollToTop } from "./components";
+import {
+  Landing,
+  JobSelection,
+  HasDiplomaSelection,
+  DiplomaSelection,
+  TrainingDurationSelection,
+  StartTimeSelection,
+  LocationSelection,
+  HelpForUserProject,
+  Journal,
+  NotFound,
+  TrainingList,
+  ApiTester,
+  SearchForTrainingsAndJobs,
+} from "./pages";
+
+import routes from "./routes.json";
+
+import "./App.css";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <ScrollToTop />
+      <Switch>
+        <Route exact path="/" component={Landing} />
+        <Route exact path={routes.JOBSELECTION} component={JobSelection} />
+        <Route exact path={routes.HASDIPLOMASELECTION} component={HasDiplomaSelection} />
+        <Route exact path={routes.DIPLOMASELECTION} component={DiplomaSelection} />
+        <Route exact path={routes.TRAININGDURATIONSELECTION} component={TrainingDurationSelection} />
+        <Route exact path={routes.STARTTIMESELECTION} component={StartTimeSelection} />
+        <Route exact path={routes.LOCATIONSELECTION} component={LocationSelection} />
+        <Route exact path={routes.TRAININGLIST} component={TrainingList} />
+        <Route path={routes.TRAININGLIST + "/:rank"} component={TrainingList} />
+        <Route exact path={routes.CHANGELOG} component={Journal} />
+        <Route exact path={routes.APITESTER} component={ApiTester} />
+        <Route exact path={routes.SEARCHFORTRAININGSANDJOBS} component={SearchForTrainingsAndJobs} />
+        <Route exact path={routes.HELPFORUSERPROJECT} component={HelpForUserProject} />
+        <Route component={NotFound} />
+      </Switch>
+    </Layout>
   );
-}
+};
 
-export default App;
+export default withRouter(App);

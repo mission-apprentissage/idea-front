@@ -1,0 +1,256 @@
+.trainingList {
+
+    .row
+    {
+        text-align: center;
+    }
+
+    .loadingResults{
+        margin: auto;
+        margin-top: 50px;
+        margin-bottom: 50px;
+
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+    }
+
+    .resultList
+    {
+        .matchLevel
+        {
+            color: #000;
+            font-weight: bold;
+            font-size: 12px;
+            border-bottom: 3px solid #000;
+            padding-left: 0;
+            padding-right: 0;
+            margin-top: 15px;
+            padding-bottom: 2px;
+        }
+
+        .resultListHeader
+        {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #828282;
+            text-align: left;
+            padding-left: 0;
+
+            .svg-inline--fa
+            {
+                margin-right: 5px;
+            }
+        }
+
+        .resultCardCol
+        {
+            padding-left:0;
+            padding-right:0;
+        }
+
+        .resultCard
+        {
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #E0E0E0;
+            color: #333;
+            text-align: left;
+            padding: 10px;
+            margin-top: 7px;
+            font-size: 14px;
+            white-space: pre-wrap;
+
+            .hasJob
+            {
+                font-weight: bold;
+                margin-top: 15px;                
+            }
+
+            .trainingTitle
+            {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .jobScore
+            {
+                float:right;
+                font-size: 12px;
+                color: #000;
+                font-weight: bold;
+            }
+
+            .company
+            {
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .expandButton
+            {
+                text-decoration: underline;
+                float: left;
+                margin-top: 20px;
+                background: none;
+                border:none;
+                color:#333;
+            }
+
+            .favoriteButton
+            {
+                float: right;
+                margin-top: 20px;
+            }
+
+            .detailTitle
+            {
+                margin-top: 20px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .item
+            {
+                margin-top: 10px;
+            }
+
+            .leftIcon
+            {
+                float: left;
+                width: 20px;
+            }
+
+            .rightText
+            {
+                padding-left: 25px;
+            }
+        }
+
+        .resultCardCol.sticky
+        {
+            padding-top: 130px;
+        }
+        .sticky 
+        {
+            .resultCard
+            {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                margin-top: 0;
+                margin-left: -15px;
+                z-index: 1;
+                max-width: 1140px;
+                border: none;
+                border-bottom: 2px solid;
+                background: #f9f9f9;
+                padding-bottom: 20px;
+                transition: all 0.5s ease-out;
+            }
+
+            .expandButton,
+            .favoriteButton
+            {
+                display: none;
+            }
+        }
+
+        .unsticky 
+        {
+            .resultCard
+            {
+                transition: all 0.5s ease-out;
+            }
+        }
+
+    }
+
+
+    .resultNav
+    {
+        width: 100%;
+        max-width: 600px;
+        margin:auto;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 20px;
+
+        .btn
+        {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            color: #000;
+            margin-top: 6px;
+            width: 40px;
+            height: 40px;
+            padding-top: 9px;
+        }
+
+        .left
+        {
+            padding-left: 11px;
+        }
+
+        .right
+        {            
+            padding-right: 9px;
+        }
+
+    }
+
+    .activeFilters
+    {
+        width: 100%;
+        max-width: 600px;
+        margin:auto;
+        border: 1px solid #E0E0E0;
+        height: 56px;
+        background: #fff;
+
+        .left
+        {
+            float:left;
+            width: 10%;
+            padding-left: 5px;
+        }
+
+        .inputText
+        {
+            float:left;
+            width: 70%;
+        }
+
+        .fa-icon
+        {
+            font-size: 22px;
+            padding-top: 10px;
+        }
+        .right
+        {
+            float: right;
+            color: #000;
+            background: #E0E0E0;
+            height: 54px;
+            width: 20%;
+            text-align: center;
+        }
+        input
+        {
+            height: 53px;
+            border:none;
+            width:100%;
+
+        }
+        input:focus
+        {
+            outline: none;
+        }
+
+        
+
+    }
+
+}
