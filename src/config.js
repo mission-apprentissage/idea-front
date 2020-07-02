@@ -5,7 +5,7 @@ const config = {
   },
   dev: {
     urls: [/^develop--idea-mna.netlify.app$/g /*, /^deploy-preview-[0-9]+--idea-front-dev.netlify.com$/g*/],
-    baseUrl: "https://idea-mna-api-dev.herokuapp.com/",
+    baseUrl: "https://idea-mna-api-dev.herokuapp.com",
   },
   prod: {
     urls: [/^idea-mna.netlify.app$/g],
