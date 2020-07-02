@@ -8,9 +8,9 @@ import PeJobDetail from "./PeJobDetail";
 import PeJob from "./PeJob";
 import LbbCompanyDetail from "./LbbCompanyDetail";
 import TrainingDetail from "./TrainingDetail";
+import "./itemdetail.css";
 
 const ItemDetail = ({ selectedItem, handleClose }) => {
-
   return (
     <div className={`itemDetail ${selectedItem ? "" : "hiddenItemDetail"}`}>
       <header>
@@ -30,9 +30,9 @@ const ItemDetail = ({ selectedItem, handleClose }) => {
         )}
       </header>
       <div className="clearBoth" />
-      {selectedItem && selectedItem.type==="pe"?<PeJobDetail job={selectedItem.item} />:""}
-      {selectedItem && selectedItem.type==="lbb"?<LbbCompanyDetail company={selectedItem.item} />:""}
-      {selectedItem && selectedItem.type==="training"?<TrainingDetail training={selectedItem.item} />:""}
+      {selectedItem && selectedItem.type === "pe" ? <PeJobDetail job={selectedItem.item} /> : ""}
+      {selectedItem && selectedItem.type === "lbb" ? <LbbCompanyDetail company={selectedItem.item} /> : ""}
+      {selectedItem && selectedItem.type === "training" ? <TrainingDetail training={selectedItem.item} /> : ""}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { setSelectedItem } from "../../redux/Training/actions";
+import { setSelectedItem } from "../../../redux/Training/actions";
 import { useDispatch } from "react-redux";
 
 const MapPopup = ({ type, item, handleSelectItem }) => {
@@ -47,9 +47,9 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
         <>
           <div className="mapboxPopupTitle">Formations à : </div>
           <div className="mapboxPopupAddress">
-            {list[0].source.entreprise_raison_sociale?list[0].source.entreprise_raison_sociale.toLowerCase():""}
+            {list[0].source.entreprise_raison_sociale ? list[0].source.entreprise_raison_sociale.toLowerCase() : ""}
             <br />
-            {list[0].source.adresse?list[0].source.adresse.toLowerCase():""}
+            {list[0].source.adresse ? list[0].source.adresse.toLowerCase() : ""}
           </div>
           <ul>{getTrainings(list)}</ul>
         </>

@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "reactstrap";
 
-const MapListSwitchButton = (props) => {
-  if (props.visiblePane === "resultList") {
+const MapListSwitchButton = ({ visiblePane, hasSearch, showResultMap, showSearchForm, showResultList }) => {
+  if (visiblePane === "resultList") {
     return (
       <div className="floatingButtons resultList">
-        <Button onClick={props.showResultMap}>
+        <Button onClick={showResultMap}>
           <FontAwesomeIcon icon={faMapMarkerAlt} /> Carte
         </Button>
       </div>
@@ -15,8 +15,8 @@ const MapListSwitchButton = (props) => {
   } else {
     return (
       <div className="floatingButtons resultMap">
-        <Button onClick={props.showSearchForm}>Filtres</Button>
-        {props.hasSearch ? <Button onClick={props.showResultList}>Liste</Button> : ""}
+        <Button onClick={showSearchForm}>Filtres</Button>
+        {hasSearch ? <Button onClick={showResultList}>Liste</Button> : ""}
       </div>
     );
   }
