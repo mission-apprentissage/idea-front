@@ -122,6 +122,10 @@ const RightColumn = ({
         response.data.lbbCompanies.result && response.data.lbbCompanies.result === "error"
           ? null
           : response.data.lbbCompanies,
+      lbaCompanies:
+        response.data.lbaCompanies.result && response.data.lbaCompanies.result === "error"
+          ? null
+          : response.data.lbaCompanies,
     };
 
     dispatch(setJobs(results));
