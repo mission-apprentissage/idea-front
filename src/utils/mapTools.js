@@ -42,14 +42,13 @@ const initializeMap = ({ mapContainer }) => {
   map.addControl(nav, "top-right");
 };
 
-// todo: affecter un type aux différents items pour effectuer un test propre
 const flyToMarker = (item, zoom = map.getZoom()) => {
-  if (item.lieuTravail) {
+  if (item.type === "peJob") {
     // pe
     if (item.lieuTravail.longitude !== undefined)
       map.easeTo({ center: [item.lieuTravail.longitude, item.lieuTravail.latitude], speed: 0.2, zoom });
-  } else if (item.siret)
-    // lbb
+  } else if (item.type === "lbb" || item.type === "lba")
+    // lbb / lba
     map.easeTo({ center: [item.lon, item.lat], speed: 0.2, zoom });
   // formation
   else {
@@ -160,7 +159,7 @@ const addJobMarkerIfPosition = (job, map, store, showResultList) => {
     currentMarkers.push(
       new mapboxgl.Marker(buildJobMarkerIcon(job))
         .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "pe", store, showResultList)))
+        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "peJob", store, showResultList)))
         .addTo(map)
     );
 };
