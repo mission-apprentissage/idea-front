@@ -70,15 +70,42 @@ const ResultLists = (props) => {
   };
 
   const getLbbCompanyList = () => {
-    if (props.jobs && props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies_count) {
+    const mergedLbaLbbCompanies = getMergedLbaLbbCompanies();
+    if (mergedLbaLbbCompanies.length) {
       return (
         <>
-          {props.jobs.lbbCompanies.companies.map((company, idx) => {
+          {mergedLbaLbbCompanies.map((company, idx) => {
             return <LbbCompany key={idx} company={company} handleSelectItem={props.handleSelectItem} />;
           })}
         </>
       );
     } else return "";
+  };
+
+  // fusionne les résultats lbb et lba et les trie par ordre croissant de distance
+  const getMergedLbaLbbCompanies = () => {
+    let mergedArray = [];
+    let resultSources = 0;
+    if (props.jobs) {
+      if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies_count) {
+        mergedArray = props.jobs.lbbCompanies.companies;
+        resultSources++;
+      }
+
+      if (props.jobs.lbaCompanies && props.jobs.lbaCompanies.companies_count) {
+        mergedArray = mergedArray.concat(props.jobs.lbaCompanies.companies);
+        resultSources++;
+      }
+
+      if (resultSources > 1)
+        mergedArray.sort((a, b) => {
+          if (a.distance > b.distance) return 1;
+          if (a.distance < b.distance) return -1;
+          return 0;
+        });
+    }
+
+    return mergedArray;
   };
 
   const getResultCounts = () => {
@@ -130,6 +157,8 @@ const ResultLists = (props) => {
         if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
         if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
           jobs += props.jobs.lbbCompanies.companies.length;
+        if (props.jobs.lbaCompanies && props.jobs.lbaCompanies.companies)
+          jobs += props.jobs.lbaCompanies.companies.length;
       }
 
       jobCount = jobs;
