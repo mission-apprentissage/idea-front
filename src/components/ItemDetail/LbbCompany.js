@@ -6,7 +6,7 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
   //console.log("lbb company : ", company);
 
   const onSelectItem = () => {
-    handleSelectItem(company, "lbb");
+    handleSelectItem(company, company.type);
   };
 
   return (
