@@ -16,7 +16,7 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
         <span className="cardDistance">{company.distance} km(s) du lieu de recherche</span>
       </div>
 
-      <div className="title">{company.name}</div>
+      <div className="title">{company.type} {company.name}</div>
       <div className="body">
         <div className="companyAddress">{company.address}</div>
         {company.headcount_text ? (
