@@ -26,6 +26,17 @@ const setJobMarkers = (jobs, map, store, showResultList) => {
     });
   }
 
+  if (jobs && jobs.lbaCompanies && jobs.lbaCompanies.companies_count) {
+    jobs.lbaCompanies.companies.map((company, idx) => {
+      currentMarkers.push(
+        new mapboxgl.Marker(buildJobMarkerIcon(company))
+          .setLngLat([company.lon, company.lat])
+          .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb", store, showResultList)))
+          .addTo(map)
+      );
+    });
+  }
+
   // positionnement des marqueurs PE
   if (jobs && jobs.peJobs && jobs.peJobs.length) {
     jobs.peJobs.map((job, idx) => {
