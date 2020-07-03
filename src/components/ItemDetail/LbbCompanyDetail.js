@@ -13,7 +13,8 @@ const LbbCompanyDetail = ({ company }) => {
     <>
       <div className="itemDetailBody">
         <div className="title">En savoir plus</div>
-        <span className="bold">{company.name}</span> a déjà pris des apprenti-e-s par le passé !
+        <span className="bold">{company.name}</span>{" "}
+        {company.type === "lba" ? "a déjà pris des apprenti-e-s par le passé !" : "est une bonne boîte"}
         <br />
         <br />
         {company.website ? (
@@ -28,10 +29,12 @@ const LbbCompanyDetail = ({ company }) => {
         ) : (
           ""
         )}
-        <div className="sectionTitle">Voir la fiche entreprise sur le site La Bonne Alternance</div>
+        <div className="sectionTitle">
+          Voir la fiche entreprise sur le site {company.type === "lba" ? "La Bonne Alternance" : "La Bonne Boîte"}
+        </div>
         <div className="description">
           <a target="lbb" href={company.url}>
-            https://labonnealternance.pole-emploi.fr/details-entreprises
+            https://{company.type === "lba" ? "labonnealternance" : "labonneboite"}.pole-emploi.fr/details-entreprises
           </a>
         </div>
         <div className="blueAdvice">
