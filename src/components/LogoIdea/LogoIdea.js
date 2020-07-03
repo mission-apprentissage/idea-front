@@ -1,14 +1,19 @@
 import React from "react";
-import logoIdea from "../../assets/logoIdea.svg";
+import logoLBA from "../../assets/logo-noir-lba.svg";
 
 import "./logoidea.css";
+import { Row, Col } from "reactstrap";
 
 const LogoIdea = () => {
   return (
-    <div className="logoIdea">
-      <img src={logoIdea} alt="" />
-      Idea
-    </div>
+    <Row className="logoIdea">
+      <Col xs="4">
+        <img src={logoLBA} alt="La Bonne Alternance" />
+      </Col>
+      <Col xs="8">
+        <h1>Trouvez votre formation</h1>
+      </Col>
+    </Row>
   );
 };
 
