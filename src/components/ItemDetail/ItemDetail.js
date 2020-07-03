@@ -17,7 +17,7 @@ const ItemDetail = ({ selectedItem, handleClose }) => {
         <Button className="closeButton" onClick={handleClose}>
           <FontAwesomeIcon icon={faTimes} />
         </Button>
-        {selectedItem && selectedItem.type === "pe" ? <PeJob job={selectedItem.item} showTextOnly={true} /> : ""}
+        {selectedItem && selectedItem.type === "peJob" ? <PeJob job={selectedItem.item} showTextOnly={true} /> : ""}
         {selectedItem && (selectedItem.item.type === "lbb" || selectedItem.item.type === "lba") ? (
           <LbbCompany company={selectedItem.item} showTextOnly={true} />
         ) : (
