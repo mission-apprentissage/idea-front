@@ -18,7 +18,7 @@ const ItemDetail = ({ selectedItem, handleClose }) => {
           <FontAwesomeIcon icon={faTimes} />
         </Button>
         {selectedItem && selectedItem.type === "pe" ? <PeJob job={selectedItem.item} showTextOnly={true} /> : ""}
-        {selectedItem && selectedItem.type === "lbb" ? (
+        {selectedItem && (selectedItem.item.type === "lbb" || selectedItem.item.type === "lba") ? (
           <LbbCompany company={selectedItem.item} showTextOnly={true} />
         ) : (
           ""
@@ -30,8 +30,12 @@ const ItemDetail = ({ selectedItem, handleClose }) => {
         )}
       </header>
       <div className="clearBoth" />
-      {selectedItem && selectedItem.type === "pe" ? <PeJobDetail job={selectedItem.item} /> : ""}
-      {selectedItem && selectedItem.type === "lbb" ? <LbbCompanyDetail company={selectedItem.item} /> : ""}
+      {selectedItem && selectedItem.item.type === "peJob" ? <PeJobDetail job={selectedItem.item} /> : ""}
+      {selectedItem && (selectedItem.item.type === "lbb" || selectedItem.item.type === "lba") ? (
+        <LbbCompanyDetail company={selectedItem.item} />
+      ) : (
+        ""
+      )}
       {selectedItem && selectedItem.type === "training" ? <TrainingDetail training={selectedItem.item} /> : ""}
     </div>
   );
