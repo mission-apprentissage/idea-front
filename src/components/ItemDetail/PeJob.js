@@ -6,7 +6,7 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
   //console.log("peJob : ", job);
 
   const onSelectItem = () => {
-    handleSelectItem(job, "pe");
+    handleSelectItem(job, "peJob");
   };
 
   return (
