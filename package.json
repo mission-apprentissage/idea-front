@@ -1,7 +1,11 @@
 {
   "name": "idea-front",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.3.0",
+  "module": "build/bundle.js",
+  "files": [
+    "build",
+    "README.md"
+  ],
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
@@ -44,7 +48,7 @@
   },
   "scripts": {
     "start": "yarn run build-css && run-p -ncr watch-css start-js",
-    "build": "cross-env GENERATE_SOURCEMAP=false run-s -n build-css build-js",
+    "build": "cross-env GENERATE_SOURCEMAP=false shouldInlineRuntimeChunk=false run-s -n build-css build-js",
     "test": "run-s -n build-css test-js",
     "start-js": "PORT=3003 react-app-rewired start",
     "build-js": "CI=false react-app-rewired build",
