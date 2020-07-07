@@ -1,9 +1,11 @@
 import { types as actionsTypes } from "./actions";
+import { getValueFromPath } from "../../utils/tools";
 
 const initialState = {
   trainings: [],
   jobs: [],
   selectedItem: null,
+  trainingOnly: getValueFromPath("trainingOnly") ? true : false,
 };
 
 const reducer = (state = initialState, action) => {

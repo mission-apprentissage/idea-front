@@ -141,41 +141,43 @@ const ResultLists = (props) => {
 
     let jobPart = "";
 
-    if (props.isJobSearchLoading) {
-      jobPart = (
-        <div className="searchLoading">
-          Recherche des entreprises en cours
-          <Spinner />
-        </div>
-      );
-    } else {
-      let jobs = 0,
-        jobCount,
-        jobCountLabel = " entreprise ne correspond";
-
-      if (props.jobs) {
-        if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
-        if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
-          jobs += props.jobs.lbbCompanies.companies.length;
-        if (props.jobs.lbaCompanies && props.jobs.lbaCompanies.companies)
-          jobs += props.jobs.lbaCompanies.companies.length;
-      }
-
-      jobCount = jobs;
-
-      if (jobs === 0) {
-        jobCount = "Aucune";
-      } else if (jobs === 1) {
-        jobCountLabel = " entreprise trouvée";
+    if (!props.trainingOnly) {
+      if (props.isJobSearchLoading) {
+        jobPart = (
+          <div className="searchLoading">
+            Recherche des entreprises en cours
+            <Spinner />
+          </div>
+        );
       } else {
-        jobCountLabel = " entreprises trouvées";
+        let jobs = 0,
+          jobCount,
+          jobCountLabel = " entreprise ne correspond";
+
+        if (props.jobs) {
+          if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
+          if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
+            jobs += props.jobs.lbbCompanies.companies.length;
+          if (props.jobs.lbaCompanies && props.jobs.lbaCompanies.companies)
+            jobs += props.jobs.lbaCompanies.companies.length;
+        }
+
+        jobCount = jobs;
+
+        if (jobs === 0) {
+          jobCount = "Aucune";
+        } else if (jobs === 1) {
+          jobCountLabel = " entreprise trouvée";
+        } else {
+          jobCountLabel = " entreprises trouvées";
+        }
+        jobPart = (
+          <>
+            <span className="countValue">{jobCount}</span>
+            {jobCountLabel}
+          </>
+        );
       }
-      jobPart = (
-        <>
-          <span className="countValue">{jobCount}</span>
-          {jobCountLabel}
-        </>
-      );
     }
     return (
       <div className="resultTitle">
