@@ -1,0 +1,9 @@
+{
+    "presets": [
+        [
+          "@babel/preset-react",
+          { "helpers": true, "absoluteRuntime": false }
+        ]
+      ],
+    "plugins": ["@babel/plugin-proposal-class-properties"]
+}

@@ -1,9 +1,10 @@
 {
   "name": "idea-front",
-  "version": "0.3.0",
-  "module": "build/bundle.js",
+  "version": "0.4.0",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
-    "build",
+    "dist",
     "README.md"
   ],
   "dependencies": {
@@ -49,6 +50,7 @@
   "scripts": {
     "start": "yarn run build-css && run-p -ncr watch-css start-js",
     "build": "cross-env GENERATE_SOURCEMAP=false shouldInlineRuntimeChunk=false run-s -n build-css build-js",
+    "build-lib": "NODE_ENV=production babel src/ --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__",
     "test": "run-s -n build-css test-js",
     "start-js": "PORT=3003 react-app-rewired start",
     "build-js": "CI=false react-app-rewired build",
@@ -77,6 +79,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.3",
     "less": "^3.10.3",
