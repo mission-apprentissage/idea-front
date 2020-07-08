@@ -141,7 +141,7 @@ const ResultLists = (props) => {
 
     let jobPart = "";
 
-    if (!props.trainingOnly) {
+    if (!props.isTrainingOnly) {
       if (props.isJobSearchLoading) {
         jobPart = (
           <div className="searchLoading">
