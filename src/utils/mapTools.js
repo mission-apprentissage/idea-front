@@ -55,7 +55,7 @@ const flyToMarker = (item, zoom = map.getZoom()) => {
     // l'item peut être un aggrégat de formations ou une formation seule d'où les deux accès différents aux geo points
     const itemCoords = item.coords
       ? item.coords.split(",")
-      : item.source.geo_coordonnees_idea_etablissement.split(",");
+      : item.source.idea_geo_coordonnees_etablissement.split(",");
     map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2, zoom });
   }
 };
@@ -105,11 +105,11 @@ const factorTrainingsForMap = (list) => {
   let resultList = [];
   for (let i = 0; i < list.length; ++i) {
     if (!currentMarker)
-      currentMarker = { coords: list[i].source.geo_coordonnees_idea_etablissement, trainings: [list[i]] };
+      currentMarker = { coords: list[i].source.idea_geo_coordonnees_etablissement, trainings: [list[i]] };
     else {
-      if (currentMarker.coords !== list[i].source.geo_coordonnees_idea_etablissement) {
+      if (currentMarker.coords !== list[i].source.idea_geo_coordonnees_etablissement) {
         resultList.push(currentMarker);
-        currentMarker = { coords: list[i].source.geo_coordonnees_idea_etablissement, trainings: [list[i]] };
+        currentMarker = { coords: list[i].source.idea_geo_coordonnees_etablissement, trainings: [list[i]] };
       } else currentMarker.trainings.push(list[i]);
     }
   }
