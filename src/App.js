@@ -23,7 +23,7 @@ import routes from "./routes.json";
 
 import "./App.css";
 
-const App = () => {
+const App = ({ isTrainingOnly }) => {
   return (
     <Layout>
       <ScrollToTop />
@@ -39,7 +39,11 @@ const App = () => {
         <Route path={routes.TRAININGLIST + "/:rank"} component={TrainingList} />
         <Route exact path={routes.CHANGELOG} component={Journal} />
         <Route exact path={routes.APITESTER} component={ApiTester} />
-        <Route exact path={routes.SEARCHFORTRAININGSANDJOBS} component={SearchForTrainingsAndJobs} />
+        <Route
+          exact
+          path={routes.SEARCHFORTRAININGSANDJOBS}
+          render={(props) => <SearchForTrainingsAndJobs {...props} isTrainingOnly={isTrainingOnly} />}
+        />
         <Route exact path={routes.HELPFORUSERPROJECT} component={HelpForUserProject} />
         <Route component={NotFound} />
       </Switch>
