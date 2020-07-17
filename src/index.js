@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
+import { getValueFromPath } from "./utils/tools";
 //import * as Sentry from "@sentry/browser";
 
 import configureStore, { history } from "./redux";
@@ -24,10 +25,12 @@ async function init() {
   // });
   //Sentry.configureScope(scope => scope.setUser({ id: user._id }));
 
+  const isTrainingOnly = getValueFromPath("isTrainingOnly") ? true : false;
+
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <App />
+        <App isTrainingOnly={isTrainingOnly} />
       </ConnectedRouter>
     </Provider>,
     document.getElementById("root")

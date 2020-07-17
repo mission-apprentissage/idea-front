@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { map } from "../../utils/mapTools";
 import Map from "../../components/Map";
 
-const SearchForTrainingsAndJobs = () => {
+const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   const dispatch = useDispatch();
 
   const { selectedItem } = useSelector((state) => state.trainings);
@@ -65,6 +65,7 @@ const SearchForTrainingsAndJobs = () => {
             setHasSearch={setHasSearch}
             hasSearch={hasSearch}
             unSelectItem={unSelectItem}
+            isTrainingOnly={isTrainingOnly}
           />
         </Col>
       </Row>

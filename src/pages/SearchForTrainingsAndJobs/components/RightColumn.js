@@ -27,13 +27,13 @@ const RightColumn = ({
   hasSearch,
   isFormVisible,
   setIsFormVisible,
+  isTrainingOnly,
 }) => {
   const dispatch = useDispatch();
 
   const store = useStore();
 
   const { trainings, jobs, selectedItem } = useSelector((state) => state.trainings);
-
   const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
@@ -54,7 +54,7 @@ const RightColumn = ({
 
     try {
       searchForTrainings(values);
-      searchForJobs(values);
+      if (!isTrainingOnly) searchForJobs(values);
       setIsFormVisible(false);
     } catch (err) {
       console.log("error loading data ", err); //TODO: faire un vrai traitement d'erreur
@@ -147,6 +147,7 @@ const RightColumn = ({
         isJobSearchLoading={isJobSearchLoading}
         searchRadius={searchRadius}
         trainings={trainings}
+        isTrainingOnly={isTrainingOnly}
         jobs={jobs}
       />
     );
