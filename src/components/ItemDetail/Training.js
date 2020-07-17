@@ -1,6 +1,6 @@
 import React from "react";
 import trainingIcon from "../../assets/icons/school.svg";
-
+import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations"; 
 const Training = ({ training, handleSelectItem, showTextOnly }) => {
   const onSelectItem = () => {
     handleSelectItem(training, "training");
@@ -14,8 +14,8 @@ const Training = ({ training, handleSelectItem, showTextOnly }) => {
       </div>
       <div className="title">{training.source.nom ? training.source.nom : training.source.intitule_long}</div>
       <div className="body">
-        {training.source.entreprise_raison_sociale}
-        <div className="companyAddress">{training.source.adresse}</div>
+        {getTrainingSchoolName(training.source)}
+        <div className="companyAddress">{getTrainingAddress(training.source)}</div>
       </div>
       {showTextOnly ? (
         ""
