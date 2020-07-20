@@ -7,6 +7,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 import baseUrl from "../../../utils/baseUrl";
+import { ReactiveBase, DataSearch } from "@appbaseio/reactivesearch";
+import config from "../../../config";
 
 const romeLabelsApi = baseUrl + "/romelabels";
 
@@ -122,6 +124,34 @@ const SearchForm = (props) => {
                       placeholder="ex: plomberie"
                     />
                   </div>
+                  <ErrorMessage name="job" className="errorField" component="div" />
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  
+                  <label htmlFor="jobField">Votre projet est dans le domaine ...</label>
+                  
+
+                  <br /><br /><br /><br /><br /><br />
+                  <ReactiveBase
+                      app="pivotromesmetiers"
+                      url={`${config.aws.apiGateway.endpoint}/es/search`}
+                    >
+                          <DataSearch
+                            title="Métier"
+                            placeholder="Choisissez votre métier"
+                            dataField={['domaine', 'motfs_clefs']}
+                            fieldWeights={[1,1]}
+                            componentId="SEARCH"
+                            autosuggest={true}
+                            showFilter={true}
+                          />
+                      
+                  </ReactiveBase>
+                  <br /><br /><br /><br /><br /><br />  
+                  
                   <ErrorMessage name="job" className="errorField" component="div" />
                 </div>
               </Col>
