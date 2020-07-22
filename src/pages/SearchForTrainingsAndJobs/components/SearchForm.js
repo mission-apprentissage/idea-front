@@ -94,7 +94,7 @@ const SearchForm = (props) => {
       <Formik
         validate={(values) => {
           const errors = {};
-          if (!values.job || !values.job.label || !values.job.rome) {
+          if (!values.job || !values.job.label || !values.job.romes || !values.job.romes.length > 0) {
             errors.job = "Sélectionnez un domaine proposé";
           }
           if (!values.location || !values.location.label) {

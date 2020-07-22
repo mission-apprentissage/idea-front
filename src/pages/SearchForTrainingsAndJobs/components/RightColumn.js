@@ -37,6 +37,8 @@ const RightColumn = ({
   const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
+  const [jobSearchError, setJobSearchError] = useState("");
+  const [formationSearchError, setFormationSearchError] = useState("");
 
   let searchCenter;
 
@@ -51,13 +53,14 @@ const RightColumn = ({
 
     setIsTrainingSearchLoading(true);
     setIsJobSearchLoading(true);
+    setJobSearchError("");
+    setFormationSearchError("");
 
     try {
       searchForTrainings(values);
       if (!isTrainingOnly) searchForJobs(values);
       setIsFormVisible(false);
     } catch (err) {
-      console.log("error loading data ", err); //TODO: faire un vrai traitement d'erreur
       setIsTrainingSearchLoading(false);
       setIsJobSearchLoading(false);
     }
@@ -74,65 +77,99 @@ const RightColumn = ({
   };
 
   const searchForTrainings = async (values) => {
-    const response = await axios.get(formationsApi, {
-      params: {
-        romes: values.job.rome,
-        longitude: values.location.value.coordinates[0],
-        latitude: values.location.value.coordinates[1],
-        radius: values.radius || 30,
-        diploma: values.diploma,
-      },
-    });
+    try {
+      const response = await axios.get(formationsApi, {
+        params: {
+          romes: values.job.romes.join(","),
+          longitude: values.location.value.coordinates[0],
+          latitude: values.location.value.coordinates[1],
+          radius: values.radius || 30,
+          diploma: values.diploma,
+        },
+      });
 
-    dispatch(setTrainings(response.data));
+      dispatch(setTrainings(response.data));
 
-    setHasSearch(true);
-    setIsFormVisible(false);
+      setHasSearch(true);
+      setIsFormVisible(false);
+
+      if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
+    } catch (err) {
+      console.log(
+        `Erreur interne lors de la recherche de formations (${err.response.status} : ${
+          err.response.data ? err.response.data.error : ""
+        })`
+      );
+      setFormationSearchError(
+        `Erreur interne lors de la recherche de formations (${err.response.status} : ${
+          err.response.data ? err.response.data.error : ""
+        })`
+      );
+    }
+
     setIsTrainingSearchLoading(false);
-
-    if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
   };
 
   const searchForJobs = async (values) => {
-    const response = await axios.get(jobsApi, {
-      params: {
-        romes: values.job.rome,
-        longitude: values.location.value.coordinates[0],
-        latitude: values.location.value.coordinates[1],
-        insee: values.location.insee,
-        zipcode: values.location.zipcode,
-        radius: values.radius || 30,
-      },
-    });
+    try {
+      const response = await axios.get(jobsApi, {
+        params: {
+          romes: values.job.romes.join(","),
+          longitude: values.location.value.coordinates[0],
+          latitude: values.location.value.coordinates[1],
+          insee: values.location.insee,
+          zipcode: values.location.zipcode,
+          radius: values.radius || 30,
+        },
+      });
 
-    let peJobs = null;
-    if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
-      peJobs = await computeMissingPositionAndDistance(
-        searchCenter,
-        response.data.peJobs.resultats,
-        "pe",
-        map,
-        store,
-        showResultList
+      let peJobs = null;
+
+      let results = {};
+
+      if (response.data === "romes_missing") {
+        console.log("faire un traitement d'erreur");
+        setJobSearchError(`Erreur interne lors de la recherche d'emplois  (400 : romes manquants)`);
+      } else {
+        if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
+          peJobs = await computeMissingPositionAndDistance(
+            searchCenter,
+            response.data.peJobs.resultats,
+            "pe",
+            map,
+            store,
+            showResultList
+          );
+
+        results = {
+          peJobs: response.data.peJobs.result && response.data.peJobs.result === "error" ? null : peJobs,
+          lbbCompanies:
+            response.data.lbbCompanies.result && response.data.lbbCompanies.result === "error"
+              ? null
+              : response.data.lbbCompanies,
+          lbaCompanies:
+            response.data.lbaCompanies.result && response.data.lbaCompanies.result === "error"
+              ? null
+              : response.data.lbaCompanies,
+        };
+      }
+      dispatch(setJobs(results));
+
+      setJobMarkers(results, map, store, showResultList);
+    } catch (err) {
+      console.log(
+        `Erreur interne lors de la recherche d'emplois ' (${
+          err.response && err.response.status ? err.response.status : ""
+        } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
-
-    let results = {
-      peJobs,
-      lbbCompanies:
-        response.data.lbbCompanies.result && response.data.lbbCompanies.result === "error"
-          ? null
-          : response.data.lbbCompanies,
-      lbaCompanies:
-        response.data.lbaCompanies.result && response.data.lbaCompanies.result === "error"
-          ? null
-          : response.data.lbaCompanies,
-    };
-
-    dispatch(setJobs(results));
+      setJobSearchError(
+        `Erreur interne lors de la recherche d'emplois  (${
+          err.response && err.response.status ? err.response.status : ""
+        } : ${err.response && err.response.data ? err.response.data.error : err.message})`
+      );
+    }
 
     setIsJobSearchLoading(false);
-
-    setJobMarkers(results, map, store, showResultList);
   };
 
   const getResultLists = () => {
