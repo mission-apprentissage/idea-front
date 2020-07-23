@@ -132,11 +132,13 @@ const SearchForm = (props) => {
                   <div className="fieldContainer">
                     <Input onChange={(evt) => handleDiplomaChange(evt, setFieldValue)} type="select" name="diploma">
                       <option value="">Indifférent</option>
-                      <option value="3 (CAP...)">CAP</option>
-                      <option value="4 (Bac...)">Bac</option>
-                      <option value="5 (BTS, DUT...)">BTS, DUT</option>
-                      <option value="6 (Licence...)">Licence</option>
-                      <option value="7 (Master, titre ingénieur...)">Master, titre ingénieur</option>
+                      <option value="3 (CAP...)">Cap, autres formations niveau 3</option>
+                      <option value="4 (Bac...)">Bac, autres formations niveau 4</option>
+                      <option value="5 (BTS, DUT...)">BTS, DUT, autres formations niveaux 5 (Bac+2)</option>
+                      <option value="6 (Licence...)">Licence, autres formations niveaux 6 (bac+3)</option>
+                      <option value="7 (Master, titre ingénieur...)">
+                        Master, titre ingénieur, autres formations niveaux 7 ou 8 (bac+5)
+                      </option>
                     </Input>
                   </div>
                 </div>
