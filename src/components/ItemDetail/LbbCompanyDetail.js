@@ -14,7 +14,9 @@ const LbbCompanyDetail = ({ company }) => {
       <div className="itemDetailBody">
         <div className="title">En savoir plus</div>
         <span className="bold">{company.name}</span>{" "}
-        {company.type === "lba" ? "a déjà pris des apprenti-e-s par le passé !" : "est une bonne boîte"}
+        {company.type === "lba"
+          ? "a déjà pris des apprenti-e-s par le passé !"
+          : "a des salariés qui exercent le métier auquel vous vous destinez !"}
         <br />
         <br />
         {company.website ? (
@@ -76,6 +78,25 @@ const LbbCompanyDetail = ({ company }) => {
             </li>
           </ul>
         </div>
+        {company.type === "lbb" ? (
+          <div className="blueAdvice">
+            <span className="bold">Les avantages que cet employeur va obtenir en vous recrutant en apprentissage</span>
+            <br />
+            <br />
+            Faites découvrir à cette entreprise les avantages d'un recrutement en apprentissage :
+            <br />
+            <ul>
+              <li>une embauche à coût très réduit car des aides existent</li>
+              <li>un moyen de former à vos métiers et d'anticiper un besoin de main d'oeuvre</li>
+              <li>
+                la reconnaissance de la capacité de transmettre un métier et valoriser les compétences de vos salariés
+                en leur confiant un apprenti.
+              </li>
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );
