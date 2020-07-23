@@ -11,7 +11,7 @@ const LogoIdea = () => {
         <img src={logoLBA} alt="La Bonne Alternance" />
       </Col>
       <Col xs="8">
-        <h1>Trouvez votre formation</h1>
+        <h1>Trouvez votre apprentissage</h1>
       </Col>
     </Row>
   );
