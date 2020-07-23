@@ -49,8 +49,8 @@ const LbbCompanyDetail = ({ company }) => {
           <br />
           <ul>
             <li>
-              Adaptez votre lettre de motivation à l'entreprise aux informations recueillies : Activité, actualités et
-              valeurs.
+              Adaptez votre lettre de motivation à l'entreprise et aux informations recueillies : activité, actualités
+              et valeurs.
               <br />
               Conseil : Allez voir le site de l'entreprise si elle en a un.
             </li>
