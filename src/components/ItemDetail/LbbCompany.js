@@ -17,7 +17,7 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
       </div>
 
       <div className="title">
-        {company.type} {company.name}
+        {company.name}
       </div>
       <div className="body">
         <div className="companyAddress">{company.address}</div>
