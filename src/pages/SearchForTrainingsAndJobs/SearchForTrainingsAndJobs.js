@@ -3,7 +3,7 @@ import { Row, Col } from "reactstrap";
 import "./searchfortrainingsandjobs.css";
 
 import { MapListSwitchButton, RightColumn } from "./components";
-import { setSelectedItem } from "../../redux/Training/actions";
+import { setSelectedItem, setItemToScrollTo } from "../../redux/Training/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { map } from "../../utils/mapTools";
 import Map from "../../components/Map";
@@ -41,7 +41,10 @@ const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   };
 
   const unSelectItem = () => {
-    if (selectedItem) dispatch(setSelectedItem(null));
+    if (selectedItem) {
+      dispatch(setSelectedItem(null));
+      dispatch(setItemToScrollTo(selectedItem));
+    }
   };
 
   return (
