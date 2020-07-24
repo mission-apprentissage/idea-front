@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import axios from "axios";
 import baseUrl from "../../../utils/baseUrl";
@@ -6,7 +6,7 @@ import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
 import ResultLists from "./ResultLists";
-import { setTrainings, setJobs, setSelectedItem } from "../../../redux/Training/actions";
+import { setTrainings, setJobs, setSelectedItem, setItemToScrollTo } from "../../../redux/Training/actions";
 import {
   map,
   flyToMarker,
@@ -33,12 +33,37 @@ const RightColumn = ({
 
   const store = useStore();
 
-  const { trainings, jobs, selectedItem } = useSelector((state) => state.trainings);
+  const { trainings, jobs, selectedItem, itemToScrollTo } = useSelector((state) => state.trainings);
   const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
   const [jobSearchError, setJobSearchError] = useState("");
   const [formationSearchError, setFormationSearchError] = useState("");
+
+  useEffect(() => {
+    if (itemToScrollTo) {
+      const itemElement = getItemElement(itemToScrollTo);
+
+      if (itemElement) {
+        document.getElementById("rightColumn").scrollTo({
+          top: itemElement.offsetTop - 50,
+          left: 0,
+        });
+        dispatch(setItemToScrollTo(null));
+      }
+    }
+  });
+
+  const getItemElement = (item) => {
+    let id = "";
+    if (item.type === "lbb" || item.type === "lba") id = `${item.type}${item.item.siret}`;
+    else if (item.type === "training") id = `id${item.item.id}`;
+    else if (item.type === "peJob") id = `id${item.item.id}`;
+
+    let res = document.getElementById(id);
+
+    return res;
+  };
 
   let searchCenter;
 
