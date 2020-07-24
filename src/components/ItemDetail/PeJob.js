@@ -11,7 +11,7 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
 
   return (
     <div className="resultCard">
-      <div>
+      <div id={`id${job.id}`}>
         <img className="cardIcon" src={jobIcon} alt="" />
         <span className="cardDistance">{job.lieuTravail.distance} km(s) du lieu de recherche</span>
       </div>

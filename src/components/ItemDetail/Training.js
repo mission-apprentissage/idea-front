@@ -1,6 +1,6 @@
 import React from "react";
 import trainingIcon from "../../assets/icons/school.svg";
-import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations"; 
+import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations";
 const Training = ({ training, handleSelectItem, showTextOnly }) => {
   const onSelectItem = () => {
     handleSelectItem(training, "training");
@@ -8,7 +8,7 @@ const Training = ({ training, handleSelectItem, showTextOnly }) => {
 
   return (
     <div className="resultCard trainingCard">
-      <div>
+      <div id={`id${training.id}`}>
         <img className="cardIcon" src={trainingIcon} alt="" />
         <span className="cardDistance">{Math.round(training.sort[0])} km(s) du lieu de recherche</span>
       </div>

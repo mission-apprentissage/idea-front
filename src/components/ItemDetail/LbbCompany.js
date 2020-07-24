@@ -11,14 +11,12 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
 
   return (
     <div className="resultCard">
-      <div>
+      <div id={`${company.type}${company.siret}`}>
         <img className="cardIcon" src={jobIcon} alt="" />
         <span className="cardDistance">{company.distance} km(s) du lieu de recherche</span>
       </div>
 
-      <div className="title">
-        {company.name}
-      </div>
+      <div className="title">{company.name}</div>
       <div className="body">
         <div className="companyAddress">{company.address}</div>
         {company.headcount_text ? (
