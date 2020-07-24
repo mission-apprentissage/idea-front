@@ -207,7 +207,7 @@ const RightColumn = ({
   };
 
   return (
-    <div className="rightCol">
+    <div id="rightColumn" className="rightCol">
       {getSearchForm()}
       {getResultLists()}
       {getSelectedItemDetail()}
