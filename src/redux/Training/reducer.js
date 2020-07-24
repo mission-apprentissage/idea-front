@@ -28,6 +28,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedItem: action.selectedItem,
       };
+    case actionsTypes.SET_ITEM_TO_SCROLL_TO:
+      return {
+        ...state,
+        itemToScrollTo: action.itemToScrollTo,
+      };
 
     default:
       return state;

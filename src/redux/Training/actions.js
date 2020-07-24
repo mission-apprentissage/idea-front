@@ -3,6 +3,7 @@ export const types = {
   SET_TRAININGS: "trainings/SET_TRAININGS",
   SET_JOBS: "trainings/SET_JOBS",
   SET_SELECTED_ITEM: "trainings/SET_SELECTED_ITEM",
+  SET_ITEM_TO_SCROLL_TO: "trainings/SET_ITEM_TO_SCROLL_TO",
 };
 
 export const setResults = (trainings = [], jobs = []) => {
@@ -31,5 +32,12 @@ export const setSelectedItem = (selectedItem = null) => {
   return {
     type: types.SET_SELECTED_ITEM,
     selectedItem,
+  };
+};
+
+export const setItemToScrollTo = (itemToScrollTo = null) => {
+  return {
+    type: types.SET_ITEM_TO_SCROLL_TO,
+    itemToScrollTo,
   };
 };
