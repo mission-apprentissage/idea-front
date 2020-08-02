@@ -4,8 +4,11 @@ import Training from "../../../components/ItemDetail/Training";
 import PeJob from "../../../components/ItemDetail/PeJob";
 import LbbCompany from "../../../components/ItemDetail/LbbCompany";
 import { LogoIdea } from "../../../components";
+import { useSelector } from "react-redux";
 
 const ResultLists = (props) => {
+  const { extendedSearch } = useSelector((state) => state.trainings);
+
   const getTrainingResult = () => {
     if (props.hasSearch) {
       return <div className="trainingResult">{getTrainingList()}</div>;
@@ -36,7 +39,11 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
-    if (props.jobs) {
+    console.log("props.jobs : ", props.jobs);
+
+    const jobCount = getJobCount(props.jobs);
+
+    if (jobCount) {
       const peJobList = getPeJobList();
       const lbbCompanyList = getLbbCompanyList();
       return (
@@ -52,8 +59,23 @@ const ResultLists = (props) => {
         </div>
       );
     } else {
-      return "";
+      if (extendedSearch) return "";
+      else return "étendre la recherche";
     }
+  };
+
+  const getJobCount = (jobs) => {
+    let jobCount = 0;
+
+    if (jobs) {
+      if (jobs.peJobs) jobCount += jobs.peJobs.length;
+
+      if (jobs.lbbCompanies) jobCount += jobs.lbbCompanies.companies.length;
+
+      if (jobs.lbaCompanies) jobCount += jobs.lbaCompanies.companies.length;
+    }
+
+    return jobCount;
   };
 
   const getPeJobList = () => {
@@ -150,17 +172,9 @@ const ResultLists = (props) => {
           </div>
         );
       } else {
-        let jobs = 0,
+        let jobs = getJobCount(props.jobs),
           jobCount,
           jobCountLabel = " entreprise ne correspond";
-
-        if (props.jobs) {
-          if (props.jobs.peJobs) jobs += props.jobs.peJobs.length;
-          if (props.jobs.lbbCompanies && props.jobs.lbbCompanies.companies)
-            jobs += props.jobs.lbbCompanies.companies.length;
-          if (props.jobs.lbaCompanies && props.jobs.lbaCompanies.companies)
-            jobs += props.jobs.lbaCompanies.companies.length;
-        }
 
         jobCount = jobs;
 
