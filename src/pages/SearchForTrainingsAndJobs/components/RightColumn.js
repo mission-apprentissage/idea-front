@@ -12,6 +12,7 @@ import {
   setSelectedItem,
   setItemToScrollTo,
   setFormValues,
+  setExtendedSearch,
 } from "../../../redux/Training/actions";
 import {
   map,
@@ -80,6 +81,7 @@ const RightColumn = ({
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
     setSearchRadius(values.radius || 30);
+    setExtendedSearch(false);
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
