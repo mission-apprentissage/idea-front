@@ -6,7 +6,13 @@ import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
 import ResultLists from "./ResultLists";
-import { setTrainings, setJobs, setSelectedItem, setItemToScrollTo } from "../../../redux/Training/actions";
+import {
+  setTrainings,
+  setJobs,
+  setSelectedItem,
+  setItemToScrollTo,
+  setFormValues,
+} from "../../../redux/Training/actions";
 import {
   map,
   flyToMarker,
@@ -84,7 +90,10 @@ const RightColumn = ({
 
     try {
       searchForTrainings(values);
-      if (!isTrainingOnly) searchForJobs(values);
+      if (!isTrainingOnly) {
+        dispatch(setFormValues(values));
+        searchForJobsWithStrictRadius(values);
+      }
       setIsFormVisible(false);
     } catch (err) {
       setIsTrainingSearchLoading(false);
@@ -136,7 +145,15 @@ const RightColumn = ({
     setIsTrainingSearchLoading(false);
   };
 
-  const searchForJobs = async (values) => {
+  const searchForJobsWithStrictRadius = async (values) => {
+    searchForJobs(values, "strict");
+  };
+
+  const searchForJobsWithLooseRadius = async (values) => {
+    searchForJobs(values, null);
+  };
+
+  const searchForJobs = async (values, strictRadius) => {
     try {
       const response = await axios.get(jobsApi, {
         params: {
@@ -146,6 +163,7 @@ const RightColumn = ({
           insee: values.location.insee,
           zipcode: values.location.zipcode,
           radius: values.radius || 30,
+          strictRadius: strictRadius ? "strict" : null,
         },
       });
 
@@ -179,6 +197,7 @@ const RightColumn = ({
               : response.data.lbaCompanies,
         };
       }
+
       dispatch(setJobs(results));
 
       setJobMarkers(results, map, store, showResultList);
