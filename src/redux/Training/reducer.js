@@ -6,6 +6,7 @@ const initialState = {
   itemToScrollTo: null,
   selectedItem: null,
   formValues: null,
+  extendedSearch: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +40,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         formValues: action.formValues,
+      };
+    case actionsTypes.SET_EXTENDED_SEARCH:
+      return {
+        ...state,
+        formValues: action.extendedSearch,
       };
     default:
       return state;

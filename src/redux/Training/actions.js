@@ -5,6 +5,7 @@ export const types = {
   SET_SELECTED_ITEM: "trainings/SET_SELECTED_ITEM",
   SET_ITEM_TO_SCROLL_TO: "trainings/SET_ITEM_TO_SCROLL_TO",
   SET_FORM_VALUES: "trainings/SET_FORM_VALUES",
+  SET_EXTENDED_SEARCH: "trainings/SET_EXTENDED_SEARCH",
 };
 
 export const setResults = (trainings = [], jobs = []) => {
@@ -47,5 +48,12 @@ export const setFormValues = (formValues = null) => {
   return {
     type: types.SET_FORM_VALUES,
     formValues,
+  };
+};
+
+export const setExtendedSearch = (extendedSearch = false) => {
+  return {
+    type: types.SET_EXTENDED_SEARCH,
+    extendedSearch,
   };
 };
