@@ -44,23 +44,29 @@ const ResultLists = (props) => {
     const jobCount = getJobCount(props.jobs);
 
     if (jobCount) {
-      const peJobList = getPeJobList();
-      const lbbCompanyList = getLbbCompanyList();
-      return (
-        <div className="jobResult">
-          {peJobList || lbbCompanyList ? (
-            <>
-              {peJobList}
-              {lbbCompanyList}
-            </>
-          ) : (
-            ""
-          )}
-        </div>
-      );
+      if (extendedSearch) {
+        const mergedJobList = getMergedJobList();
+        return <div className="jobResult">{mergedJobList ? <>{mergedJobList}</> : ""}</div>;
+      } else {
+        const peJobList = getPeJobList();
+        const lbbCompanyList = getLbbCompanyList();
+        return (
+          <div className="jobResult">
+            {peJobList || lbbCompanyList ? (
+              <>
+                {peJobList}
+                {lbbCompanyList}
+                {jobCount<100?"voir plus de résultats":""}
+              </>
+            ) : (
+              "étendre la recherche 2222"
+            )}
+          </div>
+        );
+      }
     } else {
       if (extendedSearch) return "";
-      else return "étendre la recherche";
+      else return "étendre la recherche 11111";
     }
   };
 
@@ -128,6 +134,11 @@ const ResultLists = (props) => {
     }
 
     return mergedArray;
+  };
+
+  // fusionne les résultats lbb et lba et les trie par ordre croissant de distance
+  const getMergedJobList = () => {
+    return "merged pe, lbb, lba et tri selon distance uniquement";
   };
 
   const getResultCounts = () => {
