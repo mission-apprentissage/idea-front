@@ -4,6 +4,7 @@ export const types = {
   SET_JOBS: "trainings/SET_JOBS",
   SET_SELECTED_ITEM: "trainings/SET_SELECTED_ITEM",
   SET_ITEM_TO_SCROLL_TO: "trainings/SET_ITEM_TO_SCROLL_TO",
+  SET_FORM_VALUES: "trainings/SET_FORM_VALUES",
 };
 
 export const setResults = (trainings = [], jobs = []) => {
@@ -39,5 +40,12 @@ export const setItemToScrollTo = (itemToScrollTo = null) => {
   return {
     type: types.SET_ITEM_TO_SCROLL_TO,
     itemToScrollTo,
+  };
+};
+
+export const setFormValues = (formValues = null) => {
+  return {
+    type: types.SET_FORM_VALUES,
+    formValues,
   };
 };

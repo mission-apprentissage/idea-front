@@ -3,7 +3,9 @@ import { types as actionsTypes } from "./actions";
 const initialState = {
   trainings: [],
   jobs: [],
+  itemToScrollTo: null,
   selectedItem: null,
+  formValues: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,7 +35,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         itemToScrollTo: action.itemToScrollTo,
       };
-
+    case actionsTypes.SET_FORM_VALUES:
+      return {
+        ...state,
+        formValues: action.formValues,
+      };
     default:
       return state;
   }
