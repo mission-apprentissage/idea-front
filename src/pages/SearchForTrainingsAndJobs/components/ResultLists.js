@@ -6,6 +6,7 @@ import LbbCompany from "../../../components/ItemDetail/LbbCompany";
 import { LogoIdea } from "../../../components";
 import { useSelector } from "react-redux";
 import ExtendedSearchButton from "./ExtendedSearchButton";
+import NoJobResult from "./NoJobResult";
 
 const ResultLists = (props) => {
   const { extendedSearch } = useSelector((state) => state.trainings);
@@ -62,28 +63,34 @@ const ResultLists = (props) => {
                     isTrainingOnly={props.isTrainingOnly}
                   />
                 ) : (
-                  ""
+                  <NoJobResult />
                 )}
               </>
             ) : (
-              <ExtendedSearchButton
-                title="Etendre la selection"
-                handleExtendedSearch={props.handleExtendedSearch}
-                isTrainingOnly={props.isTrainingOnly}
-              />
+              <>
+                <NoJobResult />
+                <ExtendedSearchButton
+                  title="Etendre la sélection"
+                  handleExtendedSearch={props.handleExtendedSearch}
+                  isTrainingOnly={props.isTrainingOnly}
+                />
+              </>
             )}
           </div>
         );
       }
     } else {
-      if (extendedSearch) return "";
+      if (extendedSearch) return <NoJobResult />;
       else
         return (
-          <ExtendedSearchButton
-            title="Etendre la selection"
-            handleExtendedSearch={props.handleExtendedSearch}
-            isTrainingOnly={props.isTrainingOnly}
-          />
+          <>
+            <NoJobResult />
+            <ExtendedSearchButton
+              title="Etendre la sélection"
+              handleExtendedSearch={props.handleExtendedSearch}
+              isTrainingOnly={props.isTrainingOnly}
+            />
+          </>
         );
     }
   };
