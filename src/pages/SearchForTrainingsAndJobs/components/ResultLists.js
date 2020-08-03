@@ -150,13 +150,26 @@ const ResultLists = (props) => {
     return mergedArray;
   };
 
-  // fusionne les résultats lbb et lba et les trie par ordre croissant de distance
+  // retourne le bloc construit des items lbb, lba et pe triés par ordre de distance
   const getMergedJobList = () => {
-    const mergedOpportunities = getMergedOpportunities();
+    const mergedOpportunities = mergeOpportunities();
     console.log("mergedLbbPe ", mergedOpportunities.length, mergedOpportunities);
-    return "merged pe, lbb, lba et tri selon distance uniquement";
+    //return "merged pe, lbb, lba et tri selon distance uniquement";
+
+    if (mergedOpportunities.length) {
+      return (
+        <>
+          {mergedOpportunities.map((opportunity, idx) => {
+            if (opportunity.type === "peJob")
+              return <PeJob key={idx} job={opportunity} handleSelectItem={props.handleSelectItem} />;
+            else return <LbbCompany key={idx} company={opportunity} handleSelectItem={props.handleSelectItem} />;
+          })}
+        </>
+      );
+    } else return "";
   };
 
+  // construit le bloc formaté avec les décomptes de formations et d'opportunités d'emploi
   const getResultCounts = () => {
     let trainingPart = "";
 
