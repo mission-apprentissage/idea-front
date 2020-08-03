@@ -22,7 +22,10 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
         <div className="companyAddress">{job.lieuTravail.libelle}</div>
         {job.trancheEffectifEtab ? (
           <div className="companySize">
-            <img src={companySizeIcon} alt="" /> {job.trancheEffectifEtab}
+            <img src={companySizeIcon} alt="" />
+            {job.trancheEffectifEtab && job.trancheEffectifEtab === "0 salarié"
+              ? "petite entreprise"
+              : job.trancheEffectifEtab}
           </div>
         ) : (
           ""
