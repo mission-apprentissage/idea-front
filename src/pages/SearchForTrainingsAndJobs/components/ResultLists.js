@@ -43,6 +43,8 @@ const ResultLists = (props) => {
 
     const jobCount = getJobCount(props.jobs);
 
+    getMergedJobList(); // à effacer
+
     if (jobCount) {
       if (extendedSearch) {
         const mergedJobList = getMergedJobList();
@@ -56,7 +58,7 @@ const ResultLists = (props) => {
               <>
                 {peJobList}
                 {lbbCompanyList}
-                {jobCount<100?"voir plus de résultats":""}
+                {jobCount < 100 ? "voir plus de résultats" : ""}
               </>
             ) : (
               "étendre la recherche 2222"
@@ -98,7 +100,7 @@ const ResultLists = (props) => {
   };
 
   const getLbbCompanyList = () => {
-    const mergedLbaLbbCompanies = getMergedLbaLbbCompanies();
+    const mergedLbaLbbCompanies = getMergedOpportunities("onlyLbbLba");
     if (mergedLbaLbbCompanies.length) {
       return (
         <>
@@ -110,8 +112,8 @@ const ResultLists = (props) => {
     } else return "";
   };
 
-  // fusionne les résultats lbb et lba et les trie par ordre croissant de distance
-  const getMergedLbaLbbCompanies = () => {
+  // fusionne les résultats lbb et lba et les trie par ordre croissant de distance, optionnellement intègre aussi les offres PE
+  const getMergedOpportunities = (onlyLbbLbaCompanies) => {
     let mergedArray = [];
     let resultSources = 0;
     if (props.jobs) {
@@ -125,10 +127,22 @@ const ResultLists = (props) => {
         resultSources++;
       }
 
+      if (!onlyLbbLbaCompanies && props.jobs.peJobs && props.jobs.peJobs.length > 0) {
+        mergedArray = mergedArray.concat(props.jobs.peJobs);
+        resultSources++;
+      }
+
       if (resultSources > 1)
         mergedArray.sort((a, b) => {
-          if (a.distance > b.distance) return 1;
-          if (a.distance < b.distance) return -1;
+          let distanceA, distanceB;
+          if (a.type === "peJob") distanceA = a.lieuTravail.distance;
+          else distanceA = a.distance;
+
+          if (b.type === "peJob") distanceB = b.lieuTravail.distance;
+          else distanceB = b.distance;
+
+          if (distanceA > distanceB) return 1;
+          if (distanceA < distanceB) return -1;
           return 0;
         });
     }
@@ -138,6 +152,8 @@ const ResultLists = (props) => {
 
   // fusionne les résultats lbb et lba et les trie par ordre croissant de distance
   const getMergedJobList = () => {
+    const mergedOpportunities = getMergedOpportunities();
+    console.log("mergedLbbPe ", mergedOpportunities.length, mergedOpportunities);
     return "merged pe, lbb, lba et tri selon distance uniquement";
   };
 
