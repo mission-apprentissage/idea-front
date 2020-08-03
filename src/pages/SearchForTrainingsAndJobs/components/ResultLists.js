@@ -5,6 +5,7 @@ import PeJob from "../../../components/ItemDetail/PeJob";
 import LbbCompany from "../../../components/ItemDetail/LbbCompany";
 import { LogoIdea } from "../../../components";
 import { useSelector } from "react-redux";
+import ExtendedSearchButton from "./ExtendedSearchButton";
 
 const ResultLists = (props) => {
   const { extendedSearch } = useSelector((state) => state.trainings);
@@ -39,11 +40,7 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
-    console.log("props.jobs : ", props.jobs);
-
     const jobCount = getJobCount(props.jobs);
-
-    getMergedJobList(); // à effacer
 
     if (jobCount) {
       if (extendedSearch) {
@@ -58,17 +55,36 @@ const ResultLists = (props) => {
               <>
                 {peJobList}
                 {lbbCompanyList}
-                {jobCount < 100 ? "voir plus de résultats" : ""}
+                {jobCount < 100 ? (
+                  <ExtendedSearchButton
+                    title="Voir plus de résultats"
+                    handleExtendedSearch={props.handleExtendedSearch}
+                    isTrainingOnly={props.isTrainingOnly}
+                  />
+                ) : (
+                  ""
+                )}
               </>
             ) : (
-              "étendre la recherche 2222"
+              <ExtendedSearchButton
+                title="Etendre la selection"
+                handleExtendedSearch={props.handleExtendedSearch}
+                isTrainingOnly={props.isTrainingOnly}
+              />
             )}
           </div>
         );
       }
     } else {
       if (extendedSearch) return "";
-      else return "étendre la recherche 11111";
+      else
+        return (
+          <ExtendedSearchButton
+            title="Etendre la selection"
+            handleExtendedSearch={props.handleExtendedSearch}
+            isTrainingOnly={props.isTrainingOnly}
+          />
+        );
     }
   };
 
@@ -153,9 +169,7 @@ const ResultLists = (props) => {
   // retourne le bloc construit des items lbb, lba et pe triés par ordre de distance
   const getMergedJobList = () => {
     const mergedOpportunities = mergeOpportunities();
-    console.log("mergedLbbPe ", mergedOpportunities.length, mergedOpportunities);
-    //return "merged pe, lbb, lba et tri selon distance uniquement";
-
+    
     if (mergedOpportunities.length) {
       return (
         <>
