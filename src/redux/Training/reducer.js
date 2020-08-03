@@ -44,7 +44,7 @@ const reducer = (state = initialState, action) => {
     case actionsTypes.SET_EXTENDED_SEARCH:
       return {
         ...state,
-        formValues: action.extendedSearch,
+        extendedSearch: action.extendedSearch,
       };
     default:
       return state;
