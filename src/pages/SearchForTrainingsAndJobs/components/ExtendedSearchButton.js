@@ -1,15 +1,18 @@
 import React from "react";
 import { Button } from "reactstrap";
 
-const ExtendedSearchButton = ({ title }) => {
-  const handleClick = () => {
-    console.log("yeah");
+const ExtendedSearchButton = ({ title, handleExtendedSearch, isTrainingOnly }) => {
+  
+  const handleClick = async () => {
+    handleExtendedSearch();    
   };
 
-  return (
+  return !isTrainingOnly ? (
     <Button className="submitButton" onClick={handleClick}>
       {title}
     </Button>
+  ) : (
+    ""
   );
 };
 
