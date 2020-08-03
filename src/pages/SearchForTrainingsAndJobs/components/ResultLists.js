@@ -100,7 +100,7 @@ const ResultLists = (props) => {
   };
 
   const getLbbCompanyList = () => {
-    const mergedLbaLbbCompanies = getMergedOpportunities("onlyLbbLba");
+    const mergedLbaLbbCompanies = mergeOpportunities("onlyLbbLba");
     if (mergedLbaLbbCompanies.length) {
       return (
         <>
@@ -113,7 +113,7 @@ const ResultLists = (props) => {
   };
 
   // fusionne les résultats lbb et lba et les trie par ordre croissant de distance, optionnellement intègre aussi les offres PE
-  const getMergedOpportunities = (onlyLbbLbaCompanies) => {
+  const mergeOpportunities = (onlyLbbLbaCompanies) => {
     let mergedArray = [];
     let resultSources = 0;
     if (props.jobs) {
