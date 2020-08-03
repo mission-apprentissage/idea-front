@@ -40,7 +40,7 @@ const RightColumn = ({
 
   const store = useStore();
 
-  const { trainings, jobs, selectedItem, itemToScrollTo } = useSelector((state) => state.trainings);
+  const { trainings, jobs, selectedItem, itemToScrollTo, formValues } = useSelector((state) => state.trainings);
   const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
@@ -81,7 +81,7 @@ const RightColumn = ({
     searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
     setSearchRadius(values.radius || 30);
-    setExtendedSearch(false);
+    dispatch(setExtendedSearch(false));
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
@@ -151,8 +151,19 @@ const RightColumn = ({
     searchForJobs(values, "strict");
   };
 
-  const searchForJobsWithLooseRadius = async (values) => {
-    searchForJobs(values, null);
+  const searchForJobsWithLooseRadius = async () => {
+    clearMarkers();
+
+    dispatch(setExtendedSearch(true));
+
+    setIsJobSearchLoading(true);
+    setJobSearchError("");
+
+    try {
+      searchForJobs(formValues, null);
+    } catch (err) {
+      setIsJobSearchLoading(false);
+    }
   };
 
   const searchForJobs = async (values, strictRadius) => {
@@ -232,6 +243,7 @@ const RightColumn = ({
         searchRadius={searchRadius}
         trainings={trainings}
         isTrainingOnly={isTrainingOnly}
+        handleExtendedSearch={searchForJobsWithLooseRadius}
         jobs={jobs}
       />
     );
