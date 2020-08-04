@@ -1,9 +1,25 @@
 import React from "react";
 import trainingIcon from "../../assets/icons/school.svg";
 import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations";
-const Training = ({ training, handleSelectItem, showTextOnly }) => {
+import { useSelector } from "react-redux";
+
+const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsCenteredOnTraining, isTrainingOnly }) => {
+  const { formValues } = useSelector((state) => state.trainings);
+
   const onSelectItem = () => {
     handleSelectItem(training, "training");
+  };
+
+  const getCenterSearchOnTrainingButton = () => {
+    return (
+      <button className="extendedJobSearchButton" onClick={centerSearchOnTraining}>
+        Voir les entreprises proches proches du lieu de formation
+      </button>
+    );
+  };
+
+  const centerSearchOnTraining = () => {
+    searchForJobsCenteredOnTraining(training);
   };
 
   return (
@@ -20,9 +36,14 @@ const Training = ({ training, handleSelectItem, showTextOnly }) => {
       {showTextOnly ? (
         ""
       ) : (
-        <div onClick={onSelectItem} className="knowMore">
-          <a href="#">En savoir plus</a>
-        </div>
+        <>
+          {Math.round(training.sort[0]) > formValues.locationRadius && !isTrainingOnly
+            ? getCenterSearchOnTrainingButton()
+            : ""}
+          <div onClick={onSelectItem} className="knowMore">
+            <a href="#">En savoir plus</a>
+          </div>
+        </>
       )}
     </div>
   );
