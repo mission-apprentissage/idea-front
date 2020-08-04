@@ -31,7 +31,15 @@ const ResultLists = (props) => {
             ""
           )}
           {props.trainings.map((training, idx) => {
-            return <Training key={idx} training={training} handleSelectItem={props.handleSelectItem} />;
+            return (
+              <Training
+                key={idx}
+                training={training}
+                handleSelectItem={props.handleSelectItem}
+                searchForJobsCenteredOnTraining={props.searchForJobsCenteredOnTraining}
+                isTrainingOnly={props.isTrainingOnly}
+              />
+            );
           })}
         </>
       );
@@ -176,7 +184,7 @@ const ResultLists = (props) => {
   // retourne le bloc construit des items lbb, lba et pe triés par ordre de distance
   const getMergedJobList = () => {
     const mergedOpportunities = mergeOpportunities();
-    
+
     if (mergedOpportunities.length) {
       return (
         <>
