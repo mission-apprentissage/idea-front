@@ -2,9 +2,8 @@ import React from "react";
 import { Button } from "reactstrap";
 
 const ExtendedSearchButton = ({ title, handleExtendedSearch, isTrainingOnly }) => {
-  
   const handleClick = async () => {
-    handleExtendedSearch();    
+    handleExtendedSearch();
   };
 
   return !isTrainingOnly ? (
