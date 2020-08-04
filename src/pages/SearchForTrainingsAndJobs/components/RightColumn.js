@@ -113,6 +113,35 @@ const RightColumn = ({
     unSelectItem();
   };
 
+  const searchForJobsCenteredOnTraining = async (training) => {
+    //clearMarkers();
+
+    //dispatch(setExtendedSearch(false));
+
+    //setIsJobSearchLoading(true);
+    //setJobSearchError("");
+
+    console.log("formValues : ", formValues, "Training : ", training);
+
+    formValues.location = {
+      insee: null,
+      label: `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`,
+      zipcode: training.source.etablissement_formateur_code_postal,
+      value: {
+        type: "Point",
+        coordinates: [training.source.idea_geo_coordonnees_etablissement.split(",")[1],training.source.idea_geo_coordonnees_etablissement.split(",")[0]],
+      },
+    };
+
+    console.log("after form values ", formValues);
+
+    try {
+      //searchForJobs(formValues, null);
+    } catch (err) {
+      setIsJobSearchLoading(false);
+    }
+  };
+
   const searchForTrainings = async (values) => {
     try {
       const response = await axios.get(formationsApi, {
@@ -244,6 +273,7 @@ const RightColumn = ({
         trainings={trainings}
         isTrainingOnly={isTrainingOnly}
         handleExtendedSearch={searchForJobsWithLooseRadius}
+        searchForJobsCenteredOnTraining={searchForJobsCenteredOnTraining}
         jobs={jobs}
       />
     );
