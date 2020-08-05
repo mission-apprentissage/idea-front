@@ -19,9 +19,11 @@ import {
   flyToMarker,
   closeMapPopups,
   clearMarkers,
+  clearJobMarkers,
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
+import { fetchAddresses } from "../../../services/baseAdresse";
 
 const formationsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -114,29 +116,37 @@ const RightColumn = ({
   };
 
   const searchForJobsCenteredOnTraining = async (training) => {
-    //clearMarkers();
+    clearJobMarkers();
 
-    //dispatch(setExtendedSearch(false));
+    dispatch(setExtendedSearch(false));
 
-    //setIsJobSearchLoading(true);
-    //setJobSearchError("");
+    setIsJobSearchLoading(true);
+    setJobSearchError("");
 
-    console.log("formValues : ", formValues, "Training : ", training);
+    // reconstruction des paramètres d'adresse selon l'adresse du centre de formation
+    const label = `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`;
+    // récupération du code insee depuis la base d'adresse
+    const addresses = await fetchAddresses(label, "municipality");
+    let insee = formValues.location.insee;
+    if (addresses.length) {
+      insee = addresses[0].insee;
+    }
 
     formValues.location = {
-      insee: null,
-      label: `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`,
+      insee,
+      label,
       zipcode: training.source.etablissement_formateur_code_postal,
       value: {
         type: "Point",
-        coordinates: [training.source.idea_geo_coordonnees_etablissement.split(",")[1],training.source.idea_geo_coordonnees_etablissement.split(",")[0]],
+        coordinates: [
+          training.source.idea_geo_coordonnees_etablissement.split(",")[1],
+          training.source.idea_geo_coordonnees_etablissement.split(",")[0],
+        ],
       },
     };
 
-    console.log("after form values ", formValues);
-
     try {
-      //searchForJobs(formValues, null);
+      searchForJobs(formValues, "strict");
     } catch (err) {
       setIsJobSearchLoading(false);
     }
