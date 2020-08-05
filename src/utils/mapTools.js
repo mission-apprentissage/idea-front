@@ -53,9 +53,7 @@ const flyToMarker = (item, zoom = map.getZoom()) => {
   // formation
   else {
     // l'item peut être un aggrégat de formations ou une formation seule d'où les deux accès différents aux geo points
-    const itemCoords = item.coords
-      ? item.coords.split(",")
-      : item.source.idea_geo_coordonnees_etablissement.split(",");
+    const itemCoords = item.coords ? item.coords.split(",") : item.source.idea_geo_coordonnees_etablissement.split(",");
     map.easeTo({ center: [itemCoords[1], itemCoords[0]], speed: 0.2, zoom });
   }
 };
@@ -154,14 +152,18 @@ const computeMissingPositionAndDistance = async (searchCenter, companies, source
 };
 
 const addJobMarkerIfPosition = (job, map, store, showResultList) => {
-  if (job.lieuTravail && (job.lieuTravail.longitude || job.lieuTravail.latitude))
+  if (job.lieuTravail && (job.lieuTravail.longitude || job.lieuTravail.latitude)) {
     // certaines offres n'ont pas de lat / long
-    currentMarkers.push(
-      new mapboxgl.Marker(buildJobMarkerIcon(job))
-        .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "peJob", store, showResultList)))
-        .addTo(map)
-    );
+
+    let marker = new mapboxgl.Marker(buildJobMarkerIcon(job))
+      .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
+      .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "peJob", store, showResultList)))
+      .addTo(map);
+
+    marker.ideaType = "peJob";
+
+    currentMarkers.push(marker);
+  }
 };
 
 const buildJobMarkerIcon = (job) => {
