@@ -17,23 +17,23 @@ const setJobMarkers = (jobs, map, store, showResultList) => {
 
   if (jobs && jobs.lbbCompanies && jobs.lbbCompanies.companies_count) {
     jobs.lbbCompanies.companies.map((company, idx) => {
-      currentMarkers.push(
-        new mapboxgl.Marker(buildJobMarkerIcon(company))
-          .setLngLat([company.lon, company.lat])
-          .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb", store, showResultList)))
-          .addTo(map)
-      );
+      let marker = new mapboxgl.Marker(buildJobMarkerIcon(company))
+        .setLngLat([company.lon, company.lat])
+        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb", store, showResultList)))
+        .addTo(map);
+      marker.ideaType = "lbb";
+      currentMarkers.push(marker);
     });
   }
 
   if (jobs && jobs.lbaCompanies && jobs.lbaCompanies.companies_count) {
     jobs.lbaCompanies.companies.map((company, idx) => {
-      currentMarkers.push(
-        new mapboxgl.Marker(buildJobMarkerIcon(company))
-          .setLngLat([company.lon, company.lat])
-          .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb", store, showResultList)))
-          .addTo(map)
-      );
+      let marker = new mapboxgl.Marker(buildJobMarkerIcon(company))
+        .setLngLat([company.lon, company.lat])
+        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(company, "lbb", store, showResultList)))
+        .addTo(map);
+      marker.ideaType = "lba";
+      currentMarkers.push(marker);
     });
   }
 
@@ -56,14 +56,12 @@ const setTrainingMarkers = (trainingList, store, showResultList) => {
   trainingList.map((training, idx) => {
     const coords = training.coords.split(",");
 
-    currentMarkers.push(
-      //new mapboxgl.Marker(buildTrainingMarkerIcon(training.trainings.length))
-      new mapboxgl.Marker(buildTrainingMarkerIcon(training))
-        .setLngLat([coords[1], coords[0]])
-        //.setPopup(new mapboxgl.Popup().setHTML(buildTrainingClusterPopup(training)))
-        .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training", store, showResultList)))
-        .addTo(map)
-    );
+    let marker = new mapboxgl.Marker(buildTrainingMarkerIcon(training))
+      .setLngLat([coords[1], coords[0]])
+      .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training", store, showResultList)))
+      .addTo(map);
+    marker.ideaType = "training";
+    currentMarkers.push(marker);
   });
 };
 
