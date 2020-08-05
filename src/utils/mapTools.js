@@ -63,6 +63,15 @@ const clearMarkers = () => {
   currentMarkers = [];
 };
 
+const clearJobMarkers = () => {
+  let newCurrentMarkers = [];
+  for (let i = 0; i < currentMarkers.length; ++i) {
+    if (currentMarkers[i].ideaType !== "training") currentMarkers[i].remove();
+    else newCurrentMarkers.push(currentMarkers[i]);
+  }
+  currentMarkers = newCurrentMarkers;
+};
+
 const buildPopup = (item, type, store, showResultList) => {
   const popupNode = document.createElement("div");
 
@@ -186,4 +195,5 @@ export {
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
   addJobMarkerIfPosition,
+  clearJobMarkers,
 };
