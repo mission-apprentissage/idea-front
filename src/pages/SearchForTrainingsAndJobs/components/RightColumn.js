@@ -181,7 +181,7 @@ const RightColumn = ({
   };
 
   const searchForJobsWithLooseRadius = async () => {
-    clearMarkers();
+    clearJobMarkers();
 
     dispatch(setExtendedSearch(true));
 
@@ -244,13 +244,14 @@ const RightColumn = ({
 
       setJobMarkers(results, map, store, showResultList);
     } catch (err) {
+      console.log(err);
       console.log(
-        `Erreur interne lors de la recherche d'emplois ' (${
+        `Erreur interne lors de la recherche d'emplois (${
           err.response && err.response.status ? err.response.status : ""
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
       setJobSearchError(
-        `Erreur interne lors de la recherche d'emplois  (${
+        `Erreur interne lors de la recherche d'emplois (${
           err.response && err.response.status ? err.response.status : ""
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
