@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import axios from "axios";
+import distance from "@turf/distance";
 import baseUrl from "../../../utils/baseUrl";
+import { scrollToTop } from "../../../utils/tools";
 import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
@@ -122,8 +124,9 @@ const RightColumn = ({
 
     setIsJobSearchLoading(true);
     setJobSearchError("");
-
-    // reconstruction des paramètres d'adresse selon l'adresse du centre de formation
+    scrollToTop("rightColumn");
+    
+    // reconstruction des critères d'adresse selon l'adresse du centre de formation
     const label = `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`;
     // récupération du code insee depuis la base d'adresse
     const addresses = await fetchAddresses(label, "municipality");
@@ -145,11 +148,26 @@ const RightColumn = ({
       },
     };
 
+    dispatch(setFormValues(formValues));
+
+    // mise à jour des infos de distance des formations par rapport au nouveau centre de recherche
+    updateTrainingDistanceWithNewCenter(formValues.location.value.coordinates);
+
+    map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
+
     try {
       searchForJobs(formValues, "strict");
     } catch (err) {
       setIsJobSearchLoading(false);
     }
+  };
+
+  const updateTrainingDistanceWithNewCenter = (coordinates) => {
+    for (let i = 0; i < trainings.length; ++i) {
+      const trainingCoords = trainings[i].source.idea_geo_coordonnees_etablissement.split(",");
+      trainings[i].sort[0] = Math.round(10 * distance(coordinates, [trainingCoords[1], trainingCoords[0]])) / 10;
+    }
+    dispatch(setTrainings(trainings));
   };
 
   const searchForTrainings = async (values) => {
@@ -194,6 +212,8 @@ const RightColumn = ({
     clearJobMarkers();
 
     dispatch(setExtendedSearch(true));
+    scrollToTop("rightColumn");
+    dispatch(setJobs([]));
 
     setIsJobSearchLoading(true);
     setJobSearchError("");
@@ -254,7 +274,6 @@ const RightColumn = ({
 
       setJobMarkers(results, map, store, showResultList);
     } catch (err) {
-      console.log(err);
       console.log(
         `Erreur interne lors de la recherche d'emplois (${
           err.response && err.response.status ? err.response.status : ""
