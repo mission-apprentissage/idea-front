@@ -97,7 +97,7 @@ const RightColumn = ({
     try {
       searchForTrainings(values);
       if (!isTrainingOnly) {
-        dispatch(setFormValues(values));
+        dispatch(setFormValues({ ...values }));
         searchForJobsWithStrictRadius(values);
       }
       setIsFormVisible(false);
@@ -125,7 +125,7 @@ const RightColumn = ({
     setIsJobSearchLoading(true);
     setJobSearchError("");
     scrollToTop("rightColumn");
-    
+
     // reconstruction des critères d'adresse selon l'adresse du centre de formation
     const label = `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`;
     // récupération du code insee depuis la base d'adresse
