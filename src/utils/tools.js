@@ -7,4 +7,11 @@ const getValueFromPath = (key) => {
   return res;
 };
 
-export { getValueFromPath };
+const scrollToTop = (elementId) => {
+  document.getElementById(elementId).scrollTo({
+    top: 0,
+    left: 0,
+  });
+};
+
+export { getValueFromPath, scrollToTop };
