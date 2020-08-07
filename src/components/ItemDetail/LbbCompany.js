@@ -1,12 +1,26 @@
 import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
+import { useSelector } from "react-redux";
 
-const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
+const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTrainingsCenteredOnCompany }) => {
   //console.log("lbb company : ", company);
+  const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
     handleSelectItem(company, company.type);
+  };
+
+  const getCenterSearchOnCompanyButton = () => {
+    return (
+      <button className="extendedTrainingSearchButton" onClick={centerSearchOnCompany}>
+        Chercher les formations proches de cette entreprise
+      </button>
+    );
+  };
+
+  const centerSearchOnCompany = () => {
+    searchForTrainingsCenteredOnCompany(company);
   };
 
   return (
@@ -34,9 +48,12 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
       {showTextOnly ? (
         ""
       ) : (
-        <div onClick={onSelectItem} className="knowMore">
-          <a href="#">En savoir plus</a>
-        </div>
+        <>
+          {Math.round(company.distance) > formValues.locationRadius ? getCenterSearchOnCompanyButton() : ""}
+          <div onClick={onSelectItem} className="knowMore">
+            <a href="#">En savoir plus</a>
+          </div>
+        </>
       )}
     </div>
   );

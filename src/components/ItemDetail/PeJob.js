@@ -1,12 +1,26 @@
 import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
+import { useSelector } from "react-redux";
 
-const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
+const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsCenteredOnPeJob }) => {
   //console.log("peJob : ", job);
+  const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
     handleSelectItem(job, "peJob");
+  };
+
+  const getCenterSearchOnPeJobButton = () => {
+    return (
+      <button className="extendedTrainingSearchButton" onClick={centerSearchOnPeJob}>
+        Chercher les formations proches de cette entreprise
+      </button>
+    );
+  };
+
+  const centerSearchOnPeJob = () => {
+    searchForTrainingsCenteredOnPeJob(job);
   };
 
   return (
@@ -37,9 +51,12 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
       {showTextOnly ? (
         ""
       ) : (
-        <div onClick={onSelectItem} className="knowMore">
-          <a href="#">En savoir plus</a>
-        </div>
+        <>
+          {Math.round(job.lieuTravail.distance) > formValues.locationRadius ? getCenterSearchOnPeJobButton() : ""}
+          <div onClick={onSelectItem} className="knowMore">
+            <a href="#">En savoir plus</a>
+          </div>
+        </>
       )}
     </div>
   );
