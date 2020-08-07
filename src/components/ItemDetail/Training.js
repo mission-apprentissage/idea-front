@@ -13,7 +13,7 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsCente
   const getCenterSearchOnTrainingButton = () => {
     return (
       <button className="extendedJobSearchButton" onClick={centerSearchOnTraining}>
-        Voir les entreprises proches proches du lieu de formation
+        Voir les entreprises proches du lieu de formation
       </button>
     );
   };
