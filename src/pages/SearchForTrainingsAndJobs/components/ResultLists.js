@@ -71,7 +71,7 @@ const ResultLists = (props) => {
                     isTrainingOnly={props.isTrainingOnly}
                   />
                 ) : (
-                  <NoJobResult isTrainingOnly={props.isTrainingOnly} />
+                  ""
                 )}
               </>
             ) : (
