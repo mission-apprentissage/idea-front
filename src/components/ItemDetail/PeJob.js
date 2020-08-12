@@ -3,8 +3,7 @@ import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 import { useSelector } from "react-redux";
 
-const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsCenteredOnPeJob }) => {
-  //console.log("peJob : ", job);
+const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsOnNewCenter }) => {
   const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
@@ -20,7 +19,27 @@ const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsCentered
   };
 
   const centerSearchOnPeJob = () => {
-    searchForTrainingsCenteredOnPeJob(job);
+    /* job contient . commune est le code insee
+    lieuTravail:
+      codePostal: "15000"
+      commune: "15267"
+      distance: 43
+      latitude: 44.91194444
+      libelle: "15 - YTRAC"
+      longitude: 2.3625*/
+    let lT = job.lieuTravail;
+
+    const newCenter = {
+      insee: lT.commune,
+      label: lT.libelle,
+      zipcode: lT.codePostal,
+      value: {
+        type: "Point",
+        coordinates: [lT.longitude, lT.latitude],
+      },
+    };
+
+    searchForTrainingsOnNewCenter(newCenter);
   };
 
   return (

@@ -162,6 +162,32 @@ const RightColumn = ({
     }
   };
 
+  const searchForTrainingsOnNewCenter = async (newCenter) => {
+    clearMarkers();
+
+    dispatch(setExtendedSearch(false));
+
+    setIsJobSearchLoading(true);
+    setIsTrainingSearchLoading(true);
+    setJobSearchError("");
+    setFormationSearchError("");
+    scrollToTop("rightColumn");
+
+    formValues.location = newCenter;
+
+    dispatch(setFormValues(formValues));
+
+    map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
+
+    try {
+      searchForJobsWithStrictRadius(formValues);
+      searchForTrainings(formValues);
+    } catch (err) {
+      setIsJobSearchLoading(false);
+      setIsTrainingSearchLoading(false);
+    }
+  };
+
   const updateTrainingDistanceWithNewCenter = (coordinates) => {
     for (let i = 0; i < trainings.length; ++i) {
       const trainingCoords = trainings[i].source.idea_geo_coordonnees_etablissement.split(",");
@@ -304,6 +330,7 @@ const RightColumn = ({
         isTrainingOnly={isTrainingOnly}
         handleExtendedSearch={searchForJobsWithLooseRadius}
         searchForJobsCenteredOnTraining={searchForJobsCenteredOnTraining}
+        searchForTrainingsOnNewCenter={searchForTrainingsOnNewCenter}
         jobs={jobs}
       />
     );
