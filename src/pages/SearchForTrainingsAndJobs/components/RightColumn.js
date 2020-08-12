@@ -77,6 +77,16 @@ const RightColumn = ({
     return res;
   };
 
+  const handleSelectItem = (item, type) => {
+    flyToMarker(item, 12);
+    closeMapPopups();
+    dispatch(setSelectedItem({ item, type }));
+  };
+
+  const handleClose = () => {
+    unSelectItem();
+  };
+
   let searchCenter;
 
   const handleSubmit = async (values) => {
@@ -107,17 +117,7 @@ const RightColumn = ({
     }
   };
 
-  const handleSelectItem = (item, type) => {
-    flyToMarker(item, 12);
-    closeMapPopups();
-    dispatch(setSelectedItem({ item, type }));
-  };
-
-  const handleClose = () => {
-    unSelectItem();
-  };
-
-  const searchForJobsCenteredOnTraining = async (training) => {
+  const searchForJobsCenteredOnTraining = async (newCenter) => {
     clearJobMarkers();
 
     dispatch(setExtendedSearch(false));
@@ -126,27 +126,7 @@ const RightColumn = ({
     setJobSearchError("");
     scrollToTop("rightColumn");
 
-    // reconstruction des critères d'adresse selon l'adresse du centre de formation
-    const label = `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`;
-    // récupération du code insee depuis la base d'adresse
-    const addresses = await fetchAddresses(label, "municipality");
-    let insee = formValues.location.insee;
-    if (addresses.length) {
-      insee = addresses[0].insee;
-    }
-
-    formValues.location = {
-      insee,
-      label,
-      zipcode: training.source.etablissement_formateur_code_postal,
-      value: {
-        type: "Point",
-        coordinates: [
-          training.source.idea_geo_coordonnees_etablissement.split(",")[1],
-          training.source.idea_geo_coordonnees_etablissement.split(",")[0],
-        ],
-      },
-    };
+    formValues.location = newCenter;
 
     dispatch(setFormValues(formValues));
 
