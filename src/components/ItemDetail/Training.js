@@ -4,7 +4,7 @@ import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formation
 import { useSelector } from "react-redux";
 import { fetchAddresses } from "../../services/baseAdresse";
 
-const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsCenteredOnTraining, isTrainingOnly }) => {
+const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNewCenter, isTrainingOnly }) => {
   const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
@@ -43,7 +43,7 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsCente
       },
     };
 
-    searchForJobsCenteredOnTraining(newCenter);
+    searchForJobsOnNewCenter(newCenter);
   };
 
   return (

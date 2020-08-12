@@ -117,7 +117,7 @@ const RightColumn = ({
     }
   };
 
-  const searchForJobsCenteredOnTraining = async (newCenter) => {
+  const searchForJobsOnNewCenter = async (newCenter) => {
     clearJobMarkers();
 
     dispatch(setExtendedSearch(false));
@@ -310,7 +310,7 @@ const RightColumn = ({
         trainings={trainings}
         isTrainingOnly={isTrainingOnly}
         handleExtendedSearch={searchForJobsWithLooseRadius}
-        searchForJobsCenteredOnTraining={searchForJobsCenteredOnTraining}
+        searchForJobsOnNewCenter={searchForJobsOnNewCenter}
         searchForTrainingsOnNewCenter={searchForTrainingsOnNewCenter}
         jobs={jobs}
       />
