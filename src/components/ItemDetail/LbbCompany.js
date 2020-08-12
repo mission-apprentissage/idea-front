@@ -1,12 +1,54 @@
 import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
+import { useSelector } from "react-redux";
+import { fetchAddresses } from "../../services/baseAdresse";
 
-const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
+const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTrainingsOnNewCenter }) => {
   //console.log("lbb company : ", company);
+  const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
     handleSelectItem(company, company.type);
+  };
+
+  const getCenterSearchOnCompanyButton = () => {
+    return (
+      <button className="extendedTrainingSearchButton" onClick={centerSearchOnCompany}>
+        Chercher les formations proches de cette entreprise
+      </button>
+    );
+  };
+
+  const centerSearchOnCompany = async () => {
+    /* 
+    company contient :
+    address: "72 AVENUE VICTOR HUGO, 24120 TERRASSON-LAVILLEDIEU"
+    city: "TERRASSON-LAVILLEDIEU"
+    lat: 45.1304
+    lon: 1.29579
+    */
+
+    // récupération du code insee depuis la base d'adresse
+    const addresses = await fetchAddresses(company.address, "municipality");
+    let insee = "";
+    let zipcode = "";
+    if (addresses.length) {
+      insee = addresses[0].insee;
+      zipcode = addresses[0].zipcode;
+    }
+
+    const newCenter = {
+      insee,
+      label: company.address,
+      zipcode,
+      value: {
+        type: "Point",
+        coordinates: [company.lon, company.lat],
+      },
+    };
+
+    searchForTrainingsOnNewCenter(newCenter);
   };
 
   return (
@@ -34,9 +76,12 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly }) => {
       {showTextOnly ? (
         ""
       ) : (
-        <div onClick={onSelectItem} className="knowMore">
-          <a href="#">En savoir plus</a>
-        </div>
+        <>
+          {Math.round(company.distance) > formValues.locationRadius ? getCenterSearchOnCompanyButton() : ""}
+          <div onClick={onSelectItem} className="knowMore">
+            <a href="#">En savoir plus</a>
+          </div>
+        </>
       )}
     </div>
   );

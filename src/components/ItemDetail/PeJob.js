@@ -1,12 +1,45 @@
 import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
+import { useSelector } from "react-redux";
 
-const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
-  //console.log("peJob : ", job);
+const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsOnNewCenter }) => {
+  const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
     handleSelectItem(job, "peJob");
+  };
+
+  const getCenterSearchOnPeJobButton = () => {
+    return (
+      <button className="extendedTrainingSearchButton" onClick={centerSearchOnPeJob}>
+        Chercher les formations proches de cette entreprise
+      </button>
+    );
+  };
+
+  const centerSearchOnPeJob = () => {
+    /* job contient . commune est le code insee
+    lieuTravail:
+      codePostal: "15000"
+      commune: "15267"
+      distance: 43
+      latitude: 44.91194444
+      libelle: "15 - YTRAC"
+      longitude: 2.3625*/
+    let lT = job.lieuTravail;
+
+    const newCenter = {
+      insee: lT.commune,
+      label: lT.libelle,
+      zipcode: lT.codePostal,
+      value: {
+        type: "Point",
+        coordinates: [lT.longitude, lT.latitude],
+      },
+    };
+
+    searchForTrainingsOnNewCenter(newCenter);
   };
 
   return (
@@ -37,9 +70,12 @@ const PeJob = ({ job, handleSelectItem, showTextOnly }) => {
       {showTextOnly ? (
         ""
       ) : (
-        <div onClick={onSelectItem} className="knowMore">
-          <a href="#">En savoir plus</a>
-        </div>
+        <>
+          {Math.round(job.lieuTravail.distance) > formValues.locationRadius ? getCenterSearchOnPeJobButton() : ""}
+          <div onClick={onSelectItem} className="knowMore">
+            <a href="#">En savoir plus</a>
+          </div>
+        </>
       )}
     </div>
   );

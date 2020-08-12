@@ -71,7 +71,7 @@ const ResultLists = (props) => {
                     isTrainingOnly={props.isTrainingOnly}
                   />
                 ) : (
-                  <NoJobResult isTrainingOnly={props.isTrainingOnly} />
+                  ""
                 )}
               </>
             ) : (
@@ -122,7 +122,14 @@ const ResultLists = (props) => {
       return (
         <>
           {props.jobs.peJobs.map((job, idx) => {
-            return <PeJob key={idx} job={job} handleSelectItem={props.handleSelectItem} />;
+            return (
+              <PeJob
+                key={idx}
+                job={job}
+                handleSelectItem={props.handleSelectItem}
+                searchForTrainingsOnNewCenter={props.searchForTrainingsOnNewCenter}
+              />
+            );
           })}
         </>
       );
@@ -136,7 +143,14 @@ const ResultLists = (props) => {
       return (
         <>
           {mergedLbaLbbCompanies.map((company, idx) => {
-            return <LbbCompany key={idx} company={company} handleSelectItem={props.handleSelectItem} />;
+            return (
+              <LbbCompany
+                key={idx}
+                company={company}
+                handleSelectItem={props.handleSelectItem}
+                searchForTrainingsOnNewCenter={props.searchForTrainingsOnNewCenter}
+              />
+            );
           })}
         </>
       );
@@ -190,8 +204,23 @@ const ResultLists = (props) => {
         <>
           {mergedOpportunities.map((opportunity, idx) => {
             if (opportunity.type === "peJob")
-              return <PeJob key={idx} job={opportunity} handleSelectItem={props.handleSelectItem} />;
-            else return <LbbCompany key={idx} company={opportunity} handleSelectItem={props.handleSelectItem} />;
+              return (
+                <PeJob
+                  key={idx}
+                  job={opportunity}
+                  handleSelectItem={props.handleSelectItem}
+                  searchForTrainingsOnNewCenter={props.searchForTrainingsOnNewCenter}
+                />
+              );
+            else
+              return (
+                <LbbCompany
+                  key={idx}
+                  company={opportunity}
+                  handleSelectItem={props.handleSelectItem}
+                  searchForTrainingsOnNewCenter={props.searchForTrainingsOnNewCenter}
+                />
+              );
           })}
         </>
       );
