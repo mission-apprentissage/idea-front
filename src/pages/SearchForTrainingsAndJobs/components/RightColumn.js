@@ -300,6 +300,7 @@ const RightColumn = ({
 
       setJobMarkers(results, map, store, showResultList);
     } catch (err) {
+      console.log(err);
       console.log(
         `Erreur interne lors de la recherche d'emplois (${
           err.response && err.response.status ? err.response.status : ""
