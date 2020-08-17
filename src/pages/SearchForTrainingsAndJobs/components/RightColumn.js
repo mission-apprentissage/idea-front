@@ -27,7 +27,7 @@ import {
 } from "../../../utils/mapTools";
 import { fetchAddresses } from "../../../services/baseAdresse";
 
-const formationsApi = baseUrl + "/formations";
+const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
 const RightColumn = ({
@@ -49,7 +49,7 @@ const RightColumn = ({
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
   const [jobSearchError, setJobSearchError] = useState("");
-  const [formationSearchError, setFormationSearchError] = useState("");
+  const [trainingSearchError, setTrainingSearchError] = useState("");
 
   useEffect(() => {
     if (itemToScrollTo) {
@@ -77,6 +77,16 @@ const RightColumn = ({
     return res;
   };
 
+  const handleSelectItem = (item, type) => {
+    flyToMarker(item, 12);
+    closeMapPopups();
+    dispatch(setSelectedItem({ item, type }));
+  };
+
+  const handleClose = () => {
+    unSelectItem();
+  };
+
   let searchCenter;
 
   const handleSubmit = async (values) => {
@@ -89,103 +99,43 @@ const RightColumn = ({
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
-    setIsTrainingSearchLoading(true);
-    setIsJobSearchLoading(true);
-    setJobSearchError("");
-    setFormationSearchError("");
-
-    try {
-      searchForTrainings(values);
-      if (!isTrainingOnly) {
-        dispatch(setFormValues({ ...values }));
-        searchForJobsWithStrictRadius(values);
-      }
-      setIsFormVisible(false);
-    } catch (err) {
-      setIsTrainingSearchLoading(false);
-      setIsJobSearchLoading(false);
-    }
-  };
-
-  const handleSelectItem = (item, type) => {
-    flyToMarker(item, 12);
-    closeMapPopups();
-    dispatch(setSelectedItem({ item, type }));
-  };
-
-  const handleClose = () => {
-    unSelectItem();
-  };
-
-  const searchForJobsCenteredOnTraining = async (training) => {
-    clearJobMarkers();
-
-    dispatch(setExtendedSearch(false));
-
-    setIsJobSearchLoading(true);
-    setJobSearchError("");
-    scrollToTop("rightColumn");
-
-    // reconstruction des critères d'adresse selon l'adresse du centre de formation
-    const label = `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`;
-    // récupération du code insee depuis la base d'adresse
-    const addresses = await fetchAddresses(label, "municipality");
-    let insee = formValues.location.insee;
-    if (addresses.length) {
-      insee = addresses[0].insee;
+    searchForTrainings(values);
+    if (!isTrainingOnly) {
+      dispatch(setFormValues({ ...values }));
+      searchForJobsWithStrictRadius(values);
     }
 
-    formValues.location = {
-      insee,
-      label,
-      zipcode: training.source.etablissement_formateur_code_postal,
-      value: {
-        type: "Point",
-        coordinates: [
-          training.source.idea_geo_coordonnees_etablissement.split(",")[1],
-          training.source.idea_geo_coordonnees_etablissement.split(",")[0],
-        ],
-      },
-    };
+    setIsFormVisible(false);
+  };
 
-    dispatch(setFormValues(formValues));
-
-    // mise à jour des infos de distance des formations par rapport au nouveau centre de recherche
-    updateTrainingDistanceWithNewCenter(formValues.location.value.coordinates);
-
-    map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
-
-    try {
-      searchForJobs(formValues, "strict");
-    } catch (err) {
-      setIsJobSearchLoading(false);
-    }
+  const searchForJobsOnNewCenter = async (newCenter) => {
+    searchOnNewCenter(newCenter, null, "jobs");
   };
 
   const searchForTrainingsOnNewCenter = async (newCenter) => {
-    clearMarkers();
+    searchOnNewCenter(newCenter, "trainings", null);
+  };
+
+  const searchOnNewCenter = async (newCenter, isTrainingSearch, isJobSearch) => {
+    if (isJobSearch) clearJobMarkers();
+    else clearMarkers();
 
     dispatch(setExtendedSearch(false));
 
-    setIsJobSearchLoading(true);
-    setIsTrainingSearchLoading(true);
-    setJobSearchError("");
-    setFormationSearchError("");
     scrollToTop("rightColumn");
 
     formValues.location = newCenter;
 
     dispatch(setFormValues(formValues));
 
+    // mise à jour des infos de distance des formations par rapport au nouveau centre de recherche
+    if (isJobSearch) updateTrainingDistanceWithNewCenter(formValues.location.value.coordinates);
+
     map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
 
-    try {
-      searchForJobsWithStrictRadius(formValues);
-      searchForTrainings(formValues);
-    } catch (err) {
-      setIsJobSearchLoading(false);
-      setIsTrainingSearchLoading(false);
-    }
+    searchForJobsWithStrictRadius(formValues);
+
+    if (isTrainingSearch) searchForTrainings(formValues);
   };
 
   const updateTrainingDistanceWithNewCenter = (coordinates) => {
@@ -197,8 +147,10 @@ const RightColumn = ({
   };
 
   const searchForTrainings = async (values) => {
+    setIsTrainingSearchLoading(true);
+    setTrainingSearchError("");
     try {
-      const response = await axios.get(formationsApi, {
+      const response = await axios.get(trainingsApi, {
         params: {
           romes: values.job.romes.join(","),
           longitude: values.location.value.coordinates[0],
@@ -220,7 +172,7 @@ const RightColumn = ({
           err.response.data ? err.response.data.error : ""
         })`
       );
-      setFormationSearchError(
+      setTrainingSearchError(
         `Erreur interne lors de la recherche de formations (${err.response.status} : ${
           err.response.data ? err.response.data.error : ""
         })`
@@ -241,17 +193,13 @@ const RightColumn = ({
     scrollToTop("rightColumn");
     dispatch(setJobs([]));
 
-    setIsJobSearchLoading(true);
-    setJobSearchError("");
-
-    try {
-      searchForJobs(formValues, null);
-    } catch (err) {
-      setIsJobSearchLoading(false);
-    }
+    searchForJobs(formValues, null);
   };
 
   const searchForJobs = async (values, strictRadius) => {
+    setIsJobSearchLoading(true);
+    setJobSearchError("");
+
     try {
       const response = await axios.get(jobsApi, {
         params: {
@@ -330,7 +278,7 @@ const RightColumn = ({
         trainings={trainings}
         isTrainingOnly={isTrainingOnly}
         handleExtendedSearch={searchForJobsWithLooseRadius}
-        searchForJobsCenteredOnTraining={searchForJobsCenteredOnTraining}
+        searchForJobsOnNewCenter={searchForJobsOnNewCenter}
         searchForTrainingsOnNewCenter={searchForTrainingsOnNewCenter}
         jobs={jobs}
       />

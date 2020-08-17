@@ -36,7 +36,7 @@ const ResultLists = (props) => {
                 key={idx}
                 training={training}
                 handleSelectItem={props.handleSelectItem}
-                searchForJobsCenteredOnTraining={props.searchForJobsCenteredOnTraining}
+                searchForJobsOnNewCenter={props.searchForJobsOnNewCenter}
                 isTrainingOnly={props.isTrainingOnly}
               />
             );

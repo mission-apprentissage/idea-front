@@ -2,8 +2,9 @@ import React from "react";
 import trainingIcon from "../../assets/icons/school.svg";
 import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations";
 import { useSelector } from "react-redux";
+import { fetchAddresses } from "../../services/baseAdresse";
 
-const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsCenteredOnTraining, isTrainingOnly }) => {
+const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNewCenter, isTrainingOnly }) => {
   const { formValues } = useSelector((state) => state.trainings);
 
   const onSelectItem = () => {
@@ -18,8 +19,31 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsCente
     );
   };
 
-  const centerSearchOnTraining = () => {
-    searchForJobsCenteredOnTraining(training);
+  const centerSearchOnTraining = async () => {
+
+    // reconstruction des critères d'adresse selon l'adresse du centre de formation
+    const label = `${training.source.etablissement_formateur_localite} ${training.source.etablissement_formateur_code_postal}`;
+    // récupération du code insee depuis la base d'adresse
+    const addresses = await fetchAddresses(label, "municipality");
+    let insee = "";
+    if (addresses.length) {
+      insee = addresses[0].insee;
+    }
+
+    const newCenter = {
+      insee,
+      label,
+      zipcode: training.source.etablissement_formateur_code_postal,
+      value: {
+        type: "Point",
+        coordinates: [
+          training.source.idea_geo_coordonnees_etablissement.split(",")[1],
+          training.source.idea_geo_coordonnees_etablissement.split(",")[0],
+        ],
+      },
+    };
+
+    searchForJobsOnNewCenter(newCenter);
   };
 
   return (
