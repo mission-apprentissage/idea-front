@@ -10,3 +10,4 @@ export const gtag = (category, action, label) => {
     window.gtag("event", action, params);
   } else console.log("gtag pas là ", category, action, label);
 };
+console.log("tes");
