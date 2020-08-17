@@ -99,22 +99,13 @@ const RightColumn = ({
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
-    setIsTrainingSearchLoading(true);
-    setIsJobSearchLoading(true);
-    setJobSearchError("");
-    setFormationSearchError("");
-
-    try {
-      searchForTrainings(values);
-      if (!isTrainingOnly) {
-        dispatch(setFormValues({ ...values }));
-        searchForJobsWithStrictRadius(values);
-      }
-      setIsFormVisible(false);
-    } catch (err) {
-      setIsTrainingSearchLoading(false);
-      setIsJobSearchLoading(false);
+    searchForTrainings(values);
+    if (!isTrainingOnly) {
+      dispatch(setFormValues({ ...values }));
+      searchForJobsWithStrictRadius(values);
     }
+
+    setIsFormVisible(false);
   };
 
   const searchForJobsOnNewCenter = async (newCenter) => {
@@ -122,8 +113,6 @@ const RightColumn = ({
 
     dispatch(setExtendedSearch(false));
 
-    setIsJobSearchLoading(true);
-    setJobSearchError("");
     scrollToTop("rightColumn");
 
     formValues.location = newCenter;
@@ -135,11 +124,7 @@ const RightColumn = ({
 
     map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
 
-    try {
-      searchForJobs(formValues, "strict");
-    } catch (err) {
-      setIsJobSearchLoading(false);
-    }
+    searchForJobs(formValues, "strict");
   };
 
   const searchForTrainingsOnNewCenter = async (newCenter) => {
@@ -147,10 +132,6 @@ const RightColumn = ({
 
     dispatch(setExtendedSearch(false));
 
-    setIsJobSearchLoading(true);
-    setIsTrainingSearchLoading(true);
-    setJobSearchError("");
-    setFormationSearchError("");
     scrollToTop("rightColumn");
 
     formValues.location = newCenter;
@@ -159,13 +140,8 @@ const RightColumn = ({
 
     map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
 
-    try {
-      searchForJobsWithStrictRadius(formValues);
-      searchForTrainings(formValues);
-    } catch (err) {
-      setIsJobSearchLoading(false);
-      setIsTrainingSearchLoading(false);
-    }
+    searchForJobsWithStrictRadius(formValues);
+    searchForTrainings(formValues);
   };
 
   const updateTrainingDistanceWithNewCenter = (coordinates) => {
@@ -177,6 +153,8 @@ const RightColumn = ({
   };
 
   const searchForTrainings = async (values) => {
+    setIsTrainingSearchLoading(true);
+    setFormationSearchError("");
     try {
       const response = await axios.get(formationsApi, {
         params: {
@@ -221,17 +199,13 @@ const RightColumn = ({
     scrollToTop("rightColumn");
     dispatch(setJobs([]));
 
-    setIsJobSearchLoading(true);
-    setJobSearchError("");
-
-    try {
-      searchForJobs(formValues, null);
-    } catch (err) {
-      setIsJobSearchLoading(false);
-    }
+    searchForJobs(formValues, null);
   };
 
   const searchForJobs = async (values, strictRadius) => {
+    setIsJobSearchLoading(true);
+    setJobSearchError("");
+
     try {
       const response = await axios.get(jobsApi, {
         params: {
