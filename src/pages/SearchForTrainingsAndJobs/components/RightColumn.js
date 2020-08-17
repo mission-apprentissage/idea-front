@@ -87,12 +87,10 @@ const RightColumn = ({
     unSelectItem();
   };
 
-  let searchCenter;
-
   const handleSubmit = async (values) => {
     clearMarkers();
     // centrage de la carte sur le lieu de recherche
-    searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
+    const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
     setSearchRadius(values.radius || 30);
     dispatch(setExtendedSearch(false));
@@ -191,8 +189,8 @@ const RightColumn = ({
 
     dispatch(setExtendedSearch(true));
     scrollToTop("rightColumn");
-    dispatch(setJobs([]));
 
+    dispatch(setJobs([]));
     searchForJobs(formValues, null);
   };
 
@@ -201,6 +199,8 @@ const RightColumn = ({
     setJobSearchError("");
 
     try {
+      const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
+
       const response = await axios.get(jobsApi, {
         params: {
           romes: values.job.romes.join(","),
@@ -218,7 +218,6 @@ const RightColumn = ({
       let results = {};
 
       if (response.data === "romes_missing") {
-        console.log("faire un traitement d'erreur");
         setJobSearchError(`Erreur interne lors de la recherche d'emplois  (400 : romes manquants)`);
       } else {
         if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
@@ -248,7 +247,6 @@ const RightColumn = ({
 
       setJobMarkers(results, map, store, showResultList);
     } catch (err) {
-      console.log(err);
       console.log(
         `Erreur interne lors de la recherche d'emplois (${
           err.response && err.response.status ? err.response.status : ""
