@@ -27,7 +27,7 @@ import {
 } from "../../../utils/mapTools";
 import { fetchAddresses } from "../../../services/baseAdresse";
 
-const formationsApi = baseUrl + "/formations";
+const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
 const RightColumn = ({
@@ -49,7 +49,7 @@ const RightColumn = ({
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
   const [jobSearchError, setJobSearchError] = useState("");
-  const [formationSearchError, setFormationSearchError] = useState("");
+  const [trainingSearchError, setTrainingSearchError] = useState("");
 
   useEffect(() => {
     if (itemToScrollTo) {
@@ -148,9 +148,9 @@ const RightColumn = ({
 
   const searchForTrainings = async (values) => {
     setIsTrainingSearchLoading(true);
-    setFormationSearchError("");
+    setTrainingSearchError("");
     try {
-      const response = await axios.get(formationsApi, {
+      const response = await axios.get(trainingsApi, {
         params: {
           romes: values.job.romes.join(","),
           longitude: values.location.value.coordinates[0],
@@ -172,7 +172,7 @@ const RightColumn = ({
           err.response.data ? err.response.data.error : ""
         })`
       );
-      setFormationSearchError(
+      setTrainingSearchError(
         `Erreur interne lors de la recherche de formations (${err.response.status} : ${
           err.response.data ? err.response.data.error : ""
         })`
