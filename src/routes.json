@@ -1,5 +1,6 @@
 {
     "LANDING": "/",    
+    "TUNNELDEMO": "/demo-tunnel",
     "NOTFOUND": "/404",    
     "CHANGELOG": "/journal",
     "JOBSELECTION": "/selectionner-metier",

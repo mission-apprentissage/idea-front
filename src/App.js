@@ -28,7 +28,12 @@ const App = ({ isTrainingOnly }) => {
     <Layout>
       <ScrollToTop />
       <Switch>
-        <Route exact path="/" component={Landing} />
+        <Route
+          exact
+          path={routes.LANDING}
+          render={(props) => <SearchForTrainingsAndJobs {...props} isTrainingOnly={isTrainingOnly} />}
+        />
+        <Route exact path={routes.TUNNELDEMO} component={Landing} />
         <Route exact path={routes.JOBSELECTION} component={JobSelection} />
         <Route exact path={routes.HASDIPLOMASELECTION} component={HasDiplomaSelection} />
         <Route exact path={routes.DIPLOMASELECTION} component={DiplomaSelection} />
