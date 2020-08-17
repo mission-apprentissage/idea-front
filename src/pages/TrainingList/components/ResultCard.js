@@ -11,21 +11,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart, faClock } from "@fortawesome/free-regular-svg-icons";
 import "../trainingList.css";
-import { logEvent } from "../../../services/amplitude";
+import { gtag } from "../../../services/googleAnalytics";
 
 const ResultCard = ({ item, type, handleOpenedItem, openedItem }) => {
   //const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
     if (!isOpen) {
-      let eventParameters = { type };
-      if (type === "training") eventParameters.title = item.title;
-      else {
-        eventParameters.company = item.company;
-        eventParameters.jobTitle = item.jobTitle ? item.jobTitle : "";
-      }
-
-      logEvent("openDetail", { eventParameters });
+      gtag("openDetail", type, type === "training" ? item.title : item.company);
     }
     handleOpenedItem(openedItem === item.id ? null : item.id);
   };

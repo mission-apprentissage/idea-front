@@ -8,7 +8,7 @@ import "./locationSelectionForm.css";
 import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setLocation } from "../../../redux/Filter/actions";
-import { logEvent } from "../../../services/amplitude";
+import { gtag } from "../../../services/googleAnalytics";
 import { AutoCompleteField } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 
@@ -79,11 +79,7 @@ const LocationSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        logEvent("tunnelNextStep", {
-          currentStep: "locationSelection",
-          location: values.location,
-          locationRadius: lR + "km",
-        });
+        gtag("tunnelNextStep", "locationSelection", values.location);
         dispatch(setLocation(values.location, lR));
         dispatch(push(routes.TRAININGLIST));
       }}

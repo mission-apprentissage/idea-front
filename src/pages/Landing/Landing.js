@@ -4,7 +4,7 @@ import { Container, Row, Col, Button } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import routes from "../../routes.json";
-import { logEvent } from "../../services/amplitude";
+import { gtag } from "../../services/googleAnalytics";
 import "./landing.css";
 
 const Landing = () => {
@@ -24,7 +24,7 @@ const Landing = () => {
             <div className="cta">
               <Button
                 onClick={() => {
-                  logEvent("tunnelNextStep", { currentStep: "landing" });
+                  gtag("tunnelNextStep", "landing", "");
                   dispatch(push(routes.JOBSELECTION));
                 }}
               >
