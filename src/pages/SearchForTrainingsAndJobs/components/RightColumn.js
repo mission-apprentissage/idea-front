@@ -25,7 +25,6 @@ import {
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
-import { fetchAddresses } from "../../../services/baseAdresse";
 
 const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
