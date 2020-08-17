@@ -109,7 +109,16 @@ const RightColumn = ({
   };
 
   const searchForJobsOnNewCenter = async (newCenter) => {
-    clearJobMarkers();
+    searchOnNewCenter(newCenter, null, "jobs");
+  };
+
+  const searchForTrainingsOnNewCenter = async (newCenter) => {
+    searchOnNewCenter(newCenter, "trainings", null);
+  };
+
+  const searchOnNewCenter = async (newCenter, isTrainingSearch, isJobSearch) => {
+    if (isJobSearch) clearJobMarkers();
+    else clearMarkers();
 
     dispatch(setExtendedSearch(false));
 
@@ -120,28 +129,13 @@ const RightColumn = ({
     dispatch(setFormValues(formValues));
 
     // mise à jour des infos de distance des formations par rapport au nouveau centre de recherche
-    updateTrainingDistanceWithNewCenter(formValues.location.value.coordinates);
-
-    map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
-
-    searchForJobs(formValues, "strict");
-  };
-
-  const searchForTrainingsOnNewCenter = async (newCenter) => {
-    clearMarkers();
-
-    dispatch(setExtendedSearch(false));
-
-    scrollToTop("rightColumn");
-
-    formValues.location = newCenter;
-
-    dispatch(setFormValues(formValues));
+    if (isJobSearch) updateTrainingDistanceWithNewCenter(formValues.location.value.coordinates);
 
     map.flyTo({ center: formValues.location.value.coordinates, zoom: 10 });
 
     searchForJobsWithStrictRadius(formValues);
-    searchForTrainings(formValues);
+
+    if (isTrainingSearch) searchForTrainings(formValues);
   };
 
   const updateTrainingDistanceWithNewCenter = (coordinates) => {
