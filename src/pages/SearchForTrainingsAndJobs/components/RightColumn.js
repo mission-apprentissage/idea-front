@@ -96,11 +96,9 @@ const RightColumn = ({
 
     map.flyTo({ center: searchCenter, zoom: 10 });
 
+    dispatch(setFormValues({ ...values }));
     searchForTrainings(values);
-    if (!isTrainingOnly) {
-      dispatch(setFormValues({ ...values }));
-      searchForJobsWithStrictRadius(values);
-    }
+    if (!isTrainingOnly) searchForJobsWithStrictRadius(values);
 
     setIsFormVisible(false);
   };
