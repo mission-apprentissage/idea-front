@@ -13,7 +13,6 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@turf/distance": "^6.0.1",
-    "amplitude-js": "^6.1.0",
     "aws-amplify": "^3.0.8",
     "bootstrap": "^4.4.1",
     "chokidar": "^3.3.1",
