@@ -1,8 +1,10 @@
 import React from "react";
+import { gtag } from "../../../services/googleAnalytics";
 
 const Marker = ({ type, item, flyToMarker }) => {
   const flyTo = () => {
     flyToMarker(item);
+    gtag("Marker", "Clic", "Ouverture popup", { source: "map", type });
   };
 
   const getCount = () => {
