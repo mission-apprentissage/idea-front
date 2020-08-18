@@ -129,8 +129,14 @@ const RightColumn = ({
     if (type === "newCenter") gaLabel += " - nouveau centre";
     else if (type === "extendedSearch") gaLabel += " - recherche étendue";
     else if (type === "submit") gaLabel += " - formulaire";
+    else if (type === "outRadiusTrainings") gaLabel = "Formations hors perimetre";
 
-    gtag("Bouton", "Clic", gaLabel, gaParams);
+    gtag(
+      type !== "outRadiusTrainings" ? "Bouton" : "Resultat",
+      type !== "outRadiusTrainings" ? "Clic" : "Implicite",
+      gaLabel,
+      gaParams
+    );
   };
 
   const searchForJobsOnNewCenter = async (newCenter) => {
@@ -192,7 +198,11 @@ const RightColumn = ({
       setHasSearch(true);
       setIsFormVisible(false);
 
-      if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
+      if (response.data.length) {
+        setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
+        if (values.locationRadius < response.data[0].sort[0])
+          logSearchEvent("outRadiusTrainings", null, null, null, values);
+      }
     } catch (err) {
       console.log(
         `Erreur interne lors de la recherche de formations (${err.response.status} : ${
