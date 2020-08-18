@@ -25,6 +25,7 @@ import {
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
+import { gtag } from "../../../services/googleAnalytics";
 
 const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -80,6 +81,7 @@ const RightColumn = ({
     flyToMarker(item, 12);
     closeMapPopups();
     dispatch(setSelectedItem({ item, type }));
+    gtag("Bouton", "Clic", "Ouverture fiche - " + type);
   };
 
   const handleClose = () => {
