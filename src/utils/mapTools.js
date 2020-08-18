@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";
 import { fetchAddresses } from "../services/baseAdresse";
+import { gtag } from "../services/googleAnalytics";
 let currentMarkers = [];
 let map = null;
 
@@ -30,12 +31,16 @@ const initializeMap = ({ mapContainer }) => {
     map.resize();
   });
 
-  map.on("move", () => {
-    /*setMapState({
+  /*map.on("move", () => {
+    setMapState({
       lon: map.getCenter().lng.toFixed(4),
       lat: map.getCenter().lat.toFixed(4),
       zoom: map.getZoom().toFixed(2),
-    });*/
+    });
+  });*/
+
+  map.on("zoomend", (e) => {
+    if (e.originalEvent) gtag("Bouton", "Clic", "Zoom", { niveauZoom: map.getZoom() });
   });
 
   const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
