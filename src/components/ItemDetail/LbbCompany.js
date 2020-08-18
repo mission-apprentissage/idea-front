@@ -3,6 +3,7 @@ import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 import { useSelector } from "react-redux";
 import { fetchAddresses } from "../../services/baseAdresse";
+import { gtag } from "../../services/googleAnalytics";
 
 const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTrainingsOnNewCenter }) => {
   //console.log("lbb company : ", company);
@@ -47,6 +48,8 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTraining
         coordinates: [company.lon, company.lat],
       },
     };
+
+    gtag("Bouton", "Clic", "Centrage recherche - " + company.type);
 
     searchForTrainingsOnNewCenter(newCenter);
   };
