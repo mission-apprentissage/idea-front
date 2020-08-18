@@ -2,7 +2,6 @@ import React from "react";
 import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 import { useSelector } from "react-redux";
-import { gtag } from "../../services/googleAnalytics";
 
 const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsOnNewCenter }) => {
   const { formValues } = useSelector((state) => state.trainings);
@@ -39,8 +38,6 @@ const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsOnNewCen
         coordinates: [lT.longitude, lT.latitude],
       },
     };
-
-    gtag("Bouton", "Clic", "Centrage recherche - peJob");
 
     searchForTrainingsOnNewCenter(newCenter);
   };

@@ -3,7 +3,6 @@ import trainingIcon from "../../assets/icons/school.svg";
 import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations";
 import { useSelector } from "react-redux";
 import { fetchAddresses } from "../../services/baseAdresse";
-import { gtag } from "../../services/googleAnalytics";
 
 const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNewCenter, isTrainingOnly }) => {
   const { formValues } = useSelector((state) => state.trainings);
@@ -44,8 +43,6 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
     };
 
     searchForJobsOnNewCenter(newCenter);
-
-    gtag("Bouton", "Clic", "Centrage recherche - training");
   };
 
   return (
