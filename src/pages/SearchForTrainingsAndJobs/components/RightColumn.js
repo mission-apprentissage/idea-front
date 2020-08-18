@@ -100,9 +100,37 @@ const RightColumn = ({
 
     dispatch(setFormValues({ ...values }));
     searchForTrainings(values);
-    if (!isTrainingOnly) searchForJobsWithStrictRadius(values);
+
+    if (!isTrainingOnly) {
+      searchForJobsWithStrictRadius(values);
+    }
 
     setIsFormVisible(false);
+
+    logSearchEvent("submit", isTrainingOnly ? null : "jobs", "trainings", "strict", values);
+  };
+
+  const logSearchEvent = (type, isJobSearch, isTrainingSearch, isStrictJobSearch, values) => {
+    let gaParams = {
+      rayon: values.locationRadius,
+      metier: values.job.label,
+      diplome: values.diploma,
+      lieu: values.location.label,
+      codePostal: values.location.zipcode,
+      strictRadius: isStrictJobSearch ? true : false,
+    };
+
+    let gaLabel = "Rechercher - ";
+
+    if (isJobSearch && isTrainingSearch) gaLabel += "formation et emploi";
+    else if (isJobSearch) gaLabel += "emploi";
+    else gaLabel += "formation";
+
+    if (type === "newCenter") gaLabel += " - nouveau centre";
+    else if (type === "extendedSearch") gaLabel += " - recherche étendue";
+    else if (type === "submit") gaLabel += " - formulaire";
+
+    gtag("Bouton", "Clic", gaLabel, gaParams);
   };
 
   const searchForJobsOnNewCenter = async (newCenter) => {
@@ -133,6 +161,8 @@ const RightColumn = ({
     searchForJobsWithStrictRadius(formValues);
 
     if (isTrainingSearch) searchForTrainings(formValues);
+
+    logSearchEvent("newCenter", "jobs", isTrainingSearch ? "trainings" : null, "strict", formValues);
   };
 
   const updateTrainingDistanceWithNewCenter = (coordinates) => {
@@ -191,6 +221,8 @@ const RightColumn = ({
 
     dispatch(setJobs([]));
     searchForJobs(formValues, null);
+
+    logSearchEvent("extendedSearch", "jobs", null, null, formValues);
   };
 
   const searchForJobs = async (values, strictRadius) => {
