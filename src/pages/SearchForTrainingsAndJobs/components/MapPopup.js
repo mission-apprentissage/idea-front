@@ -10,14 +10,14 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
   const openItemDetail = () => {
     dispatch(setSelectedItem({ item, type }));
 
-    gtag("Bouton", "Clic", "Ouverture fiche - map - " + type);
+    gtag("Bouton", "Clic", "Ouverture fiche", { source: "map", type });
     handleSelectItem();
   };
 
   const openTrainingDetail = (training) => {
     dispatch(setSelectedItem({ item: training, type: "training" }));
 
-    gtag("Bouton", "Clic", "Ouverture fiche - map - training");
+    gtag("Bouton", "Clic", "Ouverture fiche", { source: "map", type: "training" });
     handleSelectItem();
   };
 

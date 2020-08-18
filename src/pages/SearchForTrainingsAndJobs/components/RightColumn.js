@@ -81,7 +81,7 @@ const RightColumn = ({
     flyToMarker(item, 12);
     closeMapPopups();
     dispatch(setSelectedItem({ item, type }));
-    gtag("Bouton", "Clic", "Ouverture fiche - " + type);
+    gtag("Bouton", "Clic", "Ouverture fiche", { source: "liste", type });
   };
 
   const handleClose = () => {
