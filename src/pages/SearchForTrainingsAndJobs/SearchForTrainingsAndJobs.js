@@ -7,6 +7,7 @@ import { setSelectedItem, setItemToScrollTo } from "../../redux/Training/actions
 import { useDispatch, useSelector } from "react-redux";
 import { map } from "../../utils/mapTools";
 import Map from "../../components/Map";
+import { gtag } from "../../services/googleAnalytics";
 
 const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
     setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
     setIsFormVisible(true);
     unSelectItem();
+    gtag("Bouton", "Clic", "Affichage filtres");
   };
 
   const showResultMap = (e) => {
@@ -32,12 +34,15 @@ const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
     setTimeout(() => {
       map.resize();
     }, 50);
+
+    gtag("Bouton", "Clic", "Affichage carte");
   };
 
   const showResultList = (e) => {
     if (e) e.stopPropagation();
     setVisiblePane("resultList");
     setIsFormVisible(false);
+    gtag("Bouton", "Clic", "Affichage liste résultats");
   };
 
   const unSelectItem = () => {
