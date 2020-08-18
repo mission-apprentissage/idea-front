@@ -19,30 +19,36 @@ const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
 
   const showSearchForm = (e) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+      gtag("Bouton", "Clic", "Affichage filtres");
+    }
     setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
     setIsFormVisible(true);
     unSelectItem();
-    gtag("Bouton", "Clic", "Affichage filtres");
   };
 
   const showResultMap = (e) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+      gtag("Bouton", "Clic", "Affichage carte");
+    }
+
     setVisiblePane("resultMap");
 
     // hack : force le redimensionnement de la carte qui peut n'occuper qu'une fraction de l'écran en mode mobile
     setTimeout(() => {
       map.resize();
     }, 50);
-
-    gtag("Bouton", "Clic", "Affichage carte");
   };
 
   const showResultList = (e) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+      gtag("Bouton", "Clic", "Affichage liste résultats");
+    }
     setVisiblePane("resultList");
     setIsFormVisible(false);
-    gtag("Bouton", "Clic", "Affichage liste résultats");
   };
 
   const unSelectItem = () => {
