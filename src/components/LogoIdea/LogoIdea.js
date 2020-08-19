@@ -15,7 +15,7 @@ const LogoIdea = () => {
     <Row className="logoIdea">
       <Col xs="4">
         <a href="#" onClick={goToLbaHome}>
-          <img src={logoLBA} alt="La Bonne Alternance" />
+          <img src={logoLBA} alt="Retour page d'accueil de La Bonne Alternance" />
         </a>
       </Col>
       <Col xs="8">
