@@ -7,7 +7,7 @@ export const gtag = (category, action, label, params) => {
     if (label) p.event_label = label;
 
     if (window.gtag) {
-      console.log("gtag : ", category, action, p);
+      //console.log("gtag : ", category, action, p);
       window.gtag("event", action, p);
     }
   } catch (err) {
