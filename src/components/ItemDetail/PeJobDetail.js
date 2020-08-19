@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import moment from "moment";
+import { gtag } from "../../services/googleAnalytics";
 
 const PeJobDetail = ({ job }) => {
   //console.log("peJob : ", job);
@@ -9,6 +10,10 @@ const PeJobDetail = ({ job }) => {
       document.getElementsByClassName("rightCol")[0].scrollTo(0, 0);
     } catch (err) {}
   });
+
+  const logClickedLink = (label) => {
+    gtag("Lien", "Clic", label, { type: "peJob" });
+  };
 
   return (
     <>
@@ -73,6 +78,9 @@ const PeJobDetail = ({ job }) => {
           <a
             target="poleemploi"
             href={`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}
+            onClick={() => {
+              logClickedLink("Offre Pôle emploi");
+            }}
           >{`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}</a>
         </div>
         <div className="blueAdvice">

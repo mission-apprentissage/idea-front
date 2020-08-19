@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 import routes from "../../routes.json";
 import { setHasDiploma } from "../../redux/Filter/actions";
 import "./hasDiplomaSelection.css";
-import { logEvent } from "../../services/amplitude";
+import { gtag } from "../../services/googleAnalytics";
 
 const HasDiplomaSelection = () => {
   const { job, hasDiploma } = useSelector((state) => state.filters);
@@ -30,7 +30,7 @@ const HasDiplomaSelection = () => {
     } else {
       setHasError(false);
 
-      logEvent("tunnelNextStep", { currentStep: "hasDiplomaSelection", hasDiploma: hD ? "yes" : "no" });
+      gtag("tunnelNextStep", "hasDiplomaSelection", hD ? "yes" : "no");
 
       if (hD) dispatch(push(routes.DIPLOMASELECTION));
       else dispatch(push(routes.TRAININGDURATIONSELECTION));

@@ -11,7 +11,7 @@ import { ReducedResultFilter, ResultNav, ResultList } from "./components";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import routes from "../../routes.json";
-import { logEvent } from "../../services/amplitude";
+import { gtag } from "../../services/googleAnalytics";
 
 const getRank = (props) => {
   let rank = props.match.params.rank;
@@ -47,7 +47,7 @@ const TrainingList = (props) => {
   useEffect(() => {
     if (loading)
       // quick'n dirty only happen once
-      logEvent("searchResult", { job });
+      gtag("searchResult", "", "");
 
     setTimeout(() => {
       setLoading(false);

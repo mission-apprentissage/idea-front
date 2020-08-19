@@ -8,7 +8,7 @@ import "./jobSelectionForm.css";
 import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setJob } from "../../../redux/Filter/actions";
-import { logEvent } from "../../../services/amplitude";
+import { gtag } from "../../../services/googleAnalytics";
 import { AutoCompleteField } from "../../../components";
 
 const JobSelectionForm = (props) => {
@@ -52,7 +52,7 @@ const JobSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values, { setSubmitting }) => {
-        logEvent("tunnelNextStep", { currentStep: "jobSelection", job: values.jobSelectorLabel });
+        gtag("tunnelNextStep", "jobSelection", values.jobSelectorLabel);
         dispatch(setJob(values.jobSelectorLabel, values.jobSelectorValue));
         dispatch(push(routes.HASDIPLOMASELECTION));
       }}

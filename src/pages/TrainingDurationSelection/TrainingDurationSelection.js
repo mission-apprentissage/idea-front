@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 import routes from "../../routes.json";
 import { setTrainingDuration } from "../../redux/Filter/actions";
 import "./trainingDurationSelection.css";
-import { logEvent } from "../../services/amplitude";
+import { gtag } from "../../services/googleAnalytics";
 
 const TrainingDurationSelection = () => {
   const { job, hasDiploma, trainingDuration } = useSelector((state) => state.filters);
@@ -44,7 +44,7 @@ const TrainingDurationSelection = () => {
       setHasError(true);
     } else {
       setHasError(false);
-      logEvent("tunnelNextStep", { currentStep: "trainingDurationSelection", duration: getDurationFromValue(tD) });
+      gtag("tunnelNextStep", "trainingDurationSelection", getDurationFromValue(tD));
       dispatch(push(routes.STARTTIMESELECTION));
     }
   };

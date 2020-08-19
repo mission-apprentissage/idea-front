@@ -9,7 +9,7 @@ import { push } from "connected-react-router";
 import routes from "../../../routes.json";
 import { setTrainingStartTime } from "../../../redux/Filter/actions";
 import { DatePickerField } from "../../../components";
-import { logEvent } from "../../../services/amplitude";
+import { gtag } from "../../../services/googleAnalytics";
 
 const StartTimeSelectionForm = (props) => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const StartTimeSelectionForm = (props) => {
         return errors;
       }}
       onSubmit={(values) => {
-        logEvent("tunnelNextStep", { currentStep: "startTimeSelection" });
+        gtag("tunnelNextStep", "startTimeSelection", "");
         dispatch(setTrainingStartTime(values.startTime));
         dispatch(push(routes.LOCATIONSELECTION));
       }}

@@ -7,6 +7,7 @@ import { setSelectedItem, setItemToScrollTo } from "../../redux/Training/actions
 import { useDispatch, useSelector } from "react-redux";
 import { map } from "../../utils/mapTools";
 import Map from "../../components/Map";
+import { gtag } from "../../services/googleAnalytics";
 
 const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   const dispatch = useDispatch();
@@ -18,14 +19,21 @@ const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   const [hasSearch, setHasSearch] = useState(false); // booléen s'il y a un résultat de recherche
 
   const showSearchForm = (e) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+      gtag("Bouton", "Clic", "Affichage filtres");
+    }
     setVisiblePane("resultList"); // affichage de la colonne resultList / searchForm
     setIsFormVisible(true);
     unSelectItem();
   };
 
   const showResultMap = (e) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+      gtag("Bouton", "Clic", "Affichage carte");
+    }
+
     setVisiblePane("resultMap");
 
     // hack : force le redimensionnement de la carte qui peut n'occuper qu'une fraction de l'écran en mode mobile
@@ -35,7 +43,10 @@ const SearchForTrainingsAndJobs = ({ isTrainingOnly }) => {
   };
 
   const showResultList = (e) => {
-    if (e) e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+      gtag("Bouton", "Clic", "Affichage liste résultats");
+    }
     setVisiblePane("resultList");
     setIsFormVisible(false);
   };

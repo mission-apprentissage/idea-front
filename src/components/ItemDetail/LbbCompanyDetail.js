@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { gtag } from "../../services/googleAnalytics";
 
 const LbbCompanyDetail = ({ company }) => {
   //console.log("lbb : ", company);
@@ -8,6 +9,10 @@ const LbbCompanyDetail = ({ company }) => {
       document.getElementsByClassName("rightCol")[0].scrollTo(0, 0);
     } catch (err) {}
   });
+
+  const logClickedLink = (label) => {
+    gtag("Lien", "Clic", label, { type: company.type });
+  };
 
   return (
     <>
@@ -22,7 +27,14 @@ const LbbCompanyDetail = ({ company }) => {
         {company.website ? (
           <>
             Site Internet :{" "}
-            <a href={company.website} target="_blank" rel="noopener noreferrer">
+            <a
+              href={company.website}
+              onClick={() => {
+                logClickedLink("Site société");
+              }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {company.website}
             </a>
             <br />
@@ -35,7 +47,13 @@ const LbbCompanyDetail = ({ company }) => {
           Voir la fiche entreprise sur le site {company.type === "lba" ? "La Bonne Alternance" : "La Bonne Boîte"}
         </div>
         <div className="description">
-          <a target="lbb" href={company.url}>
+          <a
+            target="lbb"
+            href={company.url}
+            onClick={() => {
+              logClickedLink("Fiche société");
+            }}
+          >
             https://{company.type === "lba" ? "labonnealternance" : "labonneboite"}.pole-emploi.fr/details-entreprises
           </a>
         </div>
@@ -63,15 +81,33 @@ const LbbCompanyDetail = ({ company }) => {
             <li>
               Besoin d'aide pour concevoir votre CV ? Il existe plusieurs outils gratuits :
               <br />
-              <a href="https://cv.clicnjob.fr/" target="outilCV">
+              <a
+                href="https://cv.clicnjob.fr/"
+                target="outilCV"
+                onClick={() => {
+                  logClickedLink("clicnjob");
+                }}
+              >
                 https://cv.clicnjob.fr/
               </a>
               <br />
-              <a href="https://cvdesignr.com/fr" target="outilCV">
+              <a
+                href="https://cvdesignr.com/fr"
+                target="outilCV"
+                onClick={() => {
+                  logClickedLink("cvdesignr");
+                }}
+              >
                 https://cvdesignr.com/fr
               </a>
               <br />
-              <a href="https://www.canva.com/fr_fr/creer/cv/" target="outilCV">
+              <a
+                href="https://www.canva.com/fr_fr/creer/cv/"
+                target="outilCV"
+                onClick={() => {
+                  logClickedLink("canva");
+                }}
+              >
                 https://www.canva.com/fr_fr/creer/cv/
               </a>
               <br />

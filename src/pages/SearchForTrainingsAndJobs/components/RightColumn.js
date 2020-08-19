@@ -25,6 +25,7 @@ import {
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
+import { gtag } from "../../../services/googleAnalytics";
 
 const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -80,6 +81,7 @@ const RightColumn = ({
     flyToMarker(item, 12);
     closeMapPopups();
     dispatch(setSelectedItem({ item, type }));
+    gtag("Bouton", "Clic", "Ouverture fiche", { source: "liste", type });
   };
 
   const handleClose = () => {
@@ -98,9 +100,43 @@ const RightColumn = ({
 
     dispatch(setFormValues({ ...values }));
     searchForTrainings(values);
-    if (!isTrainingOnly) searchForJobsWithStrictRadius(values);
+
+    if (!isTrainingOnly) {
+      searchForJobsWithStrictRadius(values);
+    }
 
     setIsFormVisible(false);
+
+    logSearchEvent("submit", isTrainingOnly ? null : "jobs", "trainings", "strict", values);
+  };
+
+  const logSearchEvent = (type, isJobSearch, isTrainingSearch, isStrictJobSearch, values) => {
+    let gaParams = {
+      rayon: values.locationRadius,
+      metier: values.job.label,
+      diplome: values.diploma,
+      lieu: values.location.label,
+      codePostal: values.location.zipcode,
+      strictRadius: isStrictJobSearch ? true : false,
+    };
+
+    let gaLabel = "Rechercher - ";
+
+    if (isJobSearch && isTrainingSearch) gaLabel += "formation et emploi";
+    else if (isJobSearch) gaLabel += "emploi";
+    else gaLabel += "formation";
+
+    if (type === "newCenter") gaLabel += " - nouveau centre";
+    else if (type === "extendedSearch") gaLabel += " - recherche étendue";
+    else if (type === "submit") gaLabel += " - formulaire";
+    else if (type === "outRadiusTrainings") gaLabel = "Formations hors perimetre";
+
+    gtag(
+      type !== "outRadiusTrainings" ? "Bouton" : "Resultat",
+      type !== "outRadiusTrainings" ? "Clic" : "Implicite",
+      gaLabel,
+      gaParams
+    );
   };
 
   const searchForJobsOnNewCenter = async (newCenter) => {
@@ -131,6 +167,8 @@ const RightColumn = ({
     searchForJobsWithStrictRadius(formValues);
 
     if (isTrainingSearch) searchForTrainings(formValues);
+
+    logSearchEvent("newCenter", "jobs", isTrainingSearch ? "trainings" : null, "strict", formValues);
   };
 
   const updateTrainingDistanceWithNewCenter = (coordinates) => {
@@ -160,7 +198,11 @@ const RightColumn = ({
       setHasSearch(true);
       setIsFormVisible(false);
 
-      if (response.data.length) setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
+      if (response.data.length) {
+        setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
+        if (values.locationRadius < response.data[0].sort[0])
+          logSearchEvent("outRadiusTrainings", null, null, null, values);
+      }
     } catch (err) {
       console.log(
         `Erreur interne lors de la recherche de formations (${err.response.status} : ${
@@ -189,6 +231,8 @@ const RightColumn = ({
 
     dispatch(setJobs([]));
     searchForJobs(formValues, null);
+
+    logSearchEvent("extendedSearch", "jobs", null, null, formValues);
   };
 
   const searchForJobs = async (values, strictRadius) => {
