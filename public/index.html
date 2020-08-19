@@ -34,7 +34,18 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', '%REACT_APP_GOOGLE_ANALYTICS_UA_CODE%');
+        gtag('config', '%REACT_APP_GOOGLE_ANALYTICS_UA_CODE%', {
+          'custom_map': {
+            'dimension1': 'niveauZoom',
+            'dimension2': 'rayon',
+            'dimension3': 'metier',
+            'dimension4': 'diplome',
+            'dimension5': 'lieu',
+            'dimension6': 'codePostal',
+            'dimension7': 'strictRadius',
+            'dimension8': 'source',
+            'dimension9': 'type',
+          }});
     </script>
 
 
