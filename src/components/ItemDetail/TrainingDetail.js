@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { gtag } from "../../services/googleAnalytics";
 
 const TrainingDetail = ({ training }) => {
   //console.log("training : ", training);
@@ -9,6 +10,10 @@ const TrainingDetail = ({ training }) => {
     } catch (err) {}
   });
 
+  const logClickedLink = (label) => {
+    gtag("Lien", "Clic", label, { type: "training" });
+  };
+
   return (
     <>
       <div className="itemDetailBody">
@@ -17,7 +22,14 @@ const TrainingDetail = ({ training }) => {
         {training.source.onisep_url ? (
           <div>
             Descriptif du{" "}
-            <a href={training.source.onisep_url} target="_blank" rel="noopener noreferrer">
+            <a
+              href={training.source.onisep_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                logClickedLink("Fiche Onisep");
+              }}
+            >
               {training.source.nom ? training.source.nom : training.source.intitule_long}
             </a>{" "}
             sur le site Onisep
@@ -32,7 +44,14 @@ const TrainingDetail = ({ training }) => {
           <>
             <div className="sectionTitle">Email de contact:</div>
             <br />
-            <a href={`mailto://${training.source.email}`}>{training.source.email}</a>
+            <a
+              href={`mailto://${training.source.email}`}
+              onClick={() => {
+                logClickedLink("Email de contact");
+              }}
+            >
+              {training.source.email}
+            </a>
           </>
         ) : (
           ""
