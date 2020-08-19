@@ -8,7 +8,6 @@ const LogoIdea = () => {
   const goToLbaHome = () => {
     let p = { type: "goToPage", page: "/" };
     window.parent.postMessage(p, "*");
-    //console.log("sentMessageToParent : ",p);
   };
 
   return (
