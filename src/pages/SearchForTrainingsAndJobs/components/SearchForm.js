@@ -9,6 +9,7 @@ import { fetchAddresses } from "../../../services/baseAdresse";
 import baseUrl from "../../../utils/baseUrl";
 
 const romeLabelsApi = baseUrl + "/romelabels";
+const romeDiplomasApi = baseUrl + "/jobsdiplomas";
 
 export const fetchRomes = async (value) => {
   if (value) {
@@ -19,8 +20,49 @@ export const fetchRomes = async (value) => {
   } else return [];
 };
 
+export const fetchDiplomas = async (romes) => {
+  if (romes && romes.length) {
+    const response = await axios.get(romeDiplomasApi, { params: { romes: romes.join(",") } });
+
+    if (response.data instanceof Array) return response.data;
+    else return [];
+  } else return [];
+};
+
 const SearchForm = (props) => {
   const [locationRadius, setLocationRadius] = useState(30);
+  const [diplomas, setDiplomas] = useState([]);
+
+  const diplomaMap = {
+    "3 (CAP...)": "Cap, autres formations niveau 3",
+    "4 (Bac...)": "Bac, autres formations niveau 4",
+    "5 (BTS, DUT...)": "BTS, DUT, autres formations niveaux 5 (Bac+2)",
+    "6 (Licence...)": "Licence, autres formations niveaux 6 (bac+3)",
+    "7 (Master, titre ingénieur...)": "Master, titre ingénieur, autres formations niveaux 7 ou 8 (bac+5)",
+  };
+
+  const buildAvailableDiplomas = () => {
+    return (
+      <>
+        <option value="">Indifférent</option>
+        {diplomas.length
+          ? diplomas.sort().map((diploma) => {
+              return (
+                <option key={diploma} value={diploma}>
+                  {diplomaMap[diploma]}
+                </option>
+              );
+            })
+          : Object.keys(diplomaMap).map((key) => {
+              return (
+                <option key={key} value={key}>
+                  {diplomaMap[key]}
+                </option>
+              );
+            })}
+      </>
+    );
+  };
 
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
@@ -38,6 +80,8 @@ const SearchForm = (props) => {
     setTimeout(() => {
       setFieldValue("job", item);
     }, 0);
+
+    updateDiplomaSelectionFromJobChange(item);
   };
 
   // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
@@ -75,6 +119,17 @@ const SearchForm = (props) => {
         />
       </Col>
     );
+  };
+
+  const updateDiplomaSelectionFromJobChange = async (job) => {
+    let diplomas = [];
+    if (job) {
+      diplomas = await fetchDiplomas(job.romes);
+    }
+
+    setTimeout(() => {
+      setDiplomas(diplomas);
+    }, 0);
   };
 
   return (
@@ -131,14 +186,7 @@ const SearchForm = (props) => {
                   <label htmlFor="diplomaField">Le diplôme que vous souhaitez obtenir ...</label>
                   <div className="fieldContainer">
                     <Input onChange={(evt) => handleDiplomaChange(evt, setFieldValue)} type="select" name="diploma">
-                      <option value="">Indifférent</option>
-                      <option value="3 (CAP...)">Cap, autres formations niveau 3</option>
-                      <option value="4 (Bac...)">Bac, autres formations niveau 4</option>
-                      <option value="5 (BTS, DUT...)">BTS, DUT, autres formations niveaux 5 (Bac+2)</option>
-                      <option value="6 (Licence...)">Licence, autres formations niveaux 6 (bac+3)</option>
-                      <option value="7 (Master, titre ingénieur...)">
-                        Master, titre ingénieur, autres formations niveaux 7 ou 8 (bac+5)
-                      </option>
+                      {buildAvailableDiplomas()}
                     </Input>
                   </div>
                 </div>
