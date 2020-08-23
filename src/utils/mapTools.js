@@ -39,7 +39,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       },
       cluster: true,
       clusterMaxZoom: 14, // Max zoom to cluster points on
-      clusterRadius: 50
+      clusterRadius: 50,
     });
 
     // Ajout de la layer des formations
@@ -57,17 +57,14 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     map.on("click", "training-points-layer", function (e) {
       let coordinates = e.features[0].geometry.coordinates.slice();
 
-      console.log("cluster : ",e.features);
+      console.log("cluster : ", e.features);
       // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
       // sinon on a properties : { training: }
 
-      if(e.features[0].properties.cluster)
-      {
-        map.setZoom(map.getZoom()+1);
-        // ajouter un fly to :)
-      }
-      else
-      {
+      if (e.features[0].properties.cluster) {
+        //map.setZoom(map.getZoom()+1);
+        map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
+      } else {
         let training = JSON.parse(e.features[0].properties.training);
 
         // Ensure that if the map is zoomed out such that multiple
@@ -81,8 +78,8 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
           .setLngLat(coordinates)
           .setDOMContent(buildPopup(training, "training", store, showResultList))
           .addTo(map);
-      }      
-    });    
+      }
+    });
   });
 
   /*map.on("move", () => {
