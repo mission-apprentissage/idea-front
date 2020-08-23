@@ -30,6 +30,11 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
   map.on("load", async () => {
     map.resize();
 
+    map.loadImage("/pic/icons/school.png", function (error, image) {
+      if (error) throw error;
+      map.addImage("training", image);
+    });
+
     // add the data source for new a feature collection with no features
     map.addSource("training-points", {
       type: "geojson",
@@ -48,7 +53,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       source: "training-points",
       type: "symbol",
       layout: {
-        "icon-image": "bakery-15", // this will put little croissants on our map
+        "icon-image": "training", // this will put little croissants on our map
         "icon-padding": 0,
         "icon-allow-overlap": true,
       },
