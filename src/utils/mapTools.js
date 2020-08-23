@@ -67,8 +67,15 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       layout: {
         "text-field": "{point_count_abbreviated}",
         "text-font": ["Arial Unicode MS Bold"],
-        "text-size": 16,
+        "text-size": 14,
         "text-anchor": "top-left",
+        "text-allow-overlap": true,
+        "text-offset": [0.4, 0.2],
+      },
+      paint: {
+        "text-color": "#fff",
+        "text-halo-color": "#000",
+        "text-halo-width": 3,
       },
     });
 
