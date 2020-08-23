@@ -9,7 +9,7 @@ import { gtag } from "../services/googleAnalytics";
 let currentMarkers = [];
 let map = null;
 
-const initializeMap = ({ mapContainer }) => {
+const initializeMap = ({ mapContainer, store, showResultList }) => {
   mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
 
   /*lat: 47,    affichage centre France plus zoom France métropolitaine en entier
