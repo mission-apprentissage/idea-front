@@ -27,8 +27,62 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     touchZoomRotate: false,
   });
 
-  map.on("load", () => {
+  map.on("load", async () => {
     map.resize();
+
+    // add the data source for new a feature collection with no features
+    map.addSource("training-points", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50
+    });
+
+    // Ajout de la layer des formations
+    map.addLayer({
+      id: "training-points-layer",
+      source: "training-points",
+      type: "symbol",
+      layout: {
+        "icon-image": "bakery-15", // this will put little croissants on our map
+        "icon-padding": 0,
+        "icon-allow-overlap": true,
+      },
+    });
+
+    map.on("click", "training-points-layer", function (e) {
+      let coordinates = e.features[0].geometry.coordinates.slice();
+
+      console.log("cluster : ",e.features);
+      // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
+      // sinon on a properties : { training: }
+
+      if(e.features[0].properties.cluster)
+      {
+        map.setZoom(map.getZoom()+1);
+        // ajouter un fly to :)
+      }
+      else
+      {
+        let training = JSON.parse(e.features[0].properties.training);
+
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+
+        new mapboxgl.Popup()
+          .setLngLat(coordinates)
+          .setDOMContent(buildPopup(training, "training", store, showResultList))
+          .addTo(map);
+      }      
+    });    
   });
 
   /*map.on("move", () => {
@@ -39,6 +93,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     });
   });*/
 
+  // log vers google analytics de l'utilisation du bouton zoom / dézoom
   map.on("zoomend", (e) => {
     if (e.originalEvent) gtag("Bouton", "Clic", "Zoom", { niveauZoom: map.getZoom() });
   });
