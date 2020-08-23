@@ -53,16 +53,36 @@ const setTrainingMarkers = (trainingList, store, showResultList) => {
 
   map.flyTo({ center: [centerCoords[1], centerCoords[0]], zoom: newZoom });
 
+  let features = [];
+
   trainingList.map((training, idx) => {
     const coords = training.coords.split(",");
 
-    let marker = new mapboxgl.Marker(buildTrainingMarkerIcon(training))
+    /*let marker = new mapboxgl.Marker(buildTrainingMarkerIcon(training))
       .setLngLat([coords[1], coords[0]])
       .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training", store, showResultList)))
       .addTo(map);
     marker.ideaType = "training";
     currentMarkers.push(marker);
+    */
+    features.push({
+      type: "Feature",
+      geometry: {
+        type: "Point",
+        coordinates: [coords[1], coords[0]],
+      },
+      properties: {
+        id: idx,
+        name: "formation",
+        training,
+      },
+    });
   });
+
+  let results = { type: "FeatureCollection", features };
+
+  console.log(map.getSource("training-points"),results);
+  map.getSource("training-points").setData(results);
 };
 
 const buildTrainingMarkerIcon = (training) => {
