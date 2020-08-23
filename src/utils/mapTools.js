@@ -54,6 +54,19 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       },
     });
 
+    map.addLayer({
+      id: "training-points-cluster-count",
+      type: "symbol",
+      source: "training-points",
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["Arial Unicode MS Bold"],
+        "text-size": 16,
+        "text-anchor": "top-left",
+      },
+    });
+
     map.on("click", "training-points-layer", function (e) {
       let coordinates = e.features[0].geometry.coordinates.slice();
 
