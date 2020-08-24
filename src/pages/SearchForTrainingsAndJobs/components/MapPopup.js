@@ -36,7 +36,7 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
           </div>
         </>
       );
-    else if (type === "lbb")
+    else if (type === "lbb") {
       return (
         <>
           <div className="mapboxPopupTitle">{item.name}</div>
@@ -46,7 +46,7 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
           </div>
         </>
       );
-    else if (type === "lba")
+    } else if (type === "lba")
       return (
         <>
           <div className="mapboxPopupTitle">{item.name}</div>
