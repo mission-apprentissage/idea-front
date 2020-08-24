@@ -144,9 +144,8 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
 const onLayerClick = (e, layer, store, showResultList) => {
   let coordinates = e.features[0].geometry.coordinates.slice();
 
-  console.log("cluster : ", layer, e.features);
   // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
-  // sinon on a properties : { training: }
+  // sinon on a properties : { training|job }
 
   if (e.features[0].properties.cluster) {
     //map.setZoom(map.getZoom()+1);
@@ -233,7 +232,7 @@ const getZoomLevelForDistance = (distance) => {
   return zoom;
 };
 
-// fabrique des clusters de formations
+// rassemble les formations ayant lieu dans un même établissement pour avoir une seule icône sur la map
 const factorTrainingsForMap = (list) => {
   let currentMarker = null;
   let resultList = [];
