@@ -81,7 +81,7 @@ const setTrainingMarkers = (trainingList, store, showResultList) => {
 
   let results = { type: "FeatureCollection", features };
 
-  console.log(map.getSource("training-points"),results);
+  console.log(map.getSource("training-points"), results);
   map.getSource("training-points").setData(results);
 };
 

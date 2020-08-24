@@ -80,30 +80,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     });
 
     map.on("click", "training-points-layer", function (e) {
-      let coordinates = e.features[0].geometry.coordinates.slice();
-
-      console.log("cluster : ", e.features);
-      // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
-      // sinon on a properties : { training: }
-
-      if (e.features[0].properties.cluster) {
-        //map.setZoom(map.getZoom()+1);
-        map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
-      } else {
-        let training = JSON.parse(e.features[0].properties.training);
-
-        // Ensure that if the map is zoomed out such that multiple
-        // copies of the feature are visible, the popup appears
-        // over the copy being pointed to.
-        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-          coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-        }
-
-        new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          .setDOMContent(buildPopup(training, "training", store, showResultList))
-          .addTo(map);
-      }
+      onLayerClick(e, "training", store, showResultList);
     });
   });
 
@@ -122,6 +99,33 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
 
   const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
   map.addControl(nav, "top-right");
+};
+
+const onLayerClick = (e, layer, store, showResultList) => {
+  let coordinates = e.features[0].geometry.coordinates.slice();
+
+  console.log("cluster : ", layer, e.features);
+  // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
+  // sinon on a properties : { training: }
+
+  if (e.features[0].properties.cluster) {
+    //map.setZoom(map.getZoom()+1);
+    map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
+  } else {
+    let item = layer === "training" ? JSON.parse(e.features[0].properties.training) : "";
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setDOMContent(buildPopup(item, layer === "training" ? "training" : "", store, showResultList))
+      .addTo(map);
+  }
 };
 
 const flyToMarker = (item, zoom = map.getZoom()) => {
