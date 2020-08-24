@@ -235,8 +235,6 @@ const computeMissingPositionAndDistance = async (searchCenter, companies, source
             company.lieuTravail.distance =
               Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) /
               10;
-
-            addJobMarkerIfPosition(company, map, store, showResultList);
           }
         }
       })
@@ -244,21 +242,6 @@ const computeMissingPositionAndDistance = async (searchCenter, companies, source
   }
 
   return companies;
-};
-
-const addJobMarkerIfPosition = (job, map, store, showResultList) => {
-  if (job.lieuTravail && (job.lieuTravail.longitude || job.lieuTravail.latitude)) {
-    // certaines offres n'ont pas de lat / long
-
-    let marker = new mapboxgl.Marker(buildJobMarkerIcon(job))
-      .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-      .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "peJob", store, showResultList)))
-      .addTo(map);
-
-    marker.ideaType = "peJob";
-
-    currentMarkers.push(marker);
-  }
 };
 
 const buildJobMarkerIcon = (job) => {
@@ -280,6 +263,5 @@ export {
   getZoomLevelForDistance,
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
-  addJobMarkerIfPosition,
   clearJobMarkers,
 };
