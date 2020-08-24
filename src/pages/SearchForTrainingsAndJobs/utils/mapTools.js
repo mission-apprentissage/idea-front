@@ -80,13 +80,7 @@ const setTrainingMarkers = (trainingList) => {
   trainingList.map((training, idx) => {
     const coords = training.coords.split(",");
 
-    /*let marker = new mapboxgl.Marker(buildTrainingMarkerIcon(training))
-      .setLngLat([coords[1], coords[0]])
-      .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(training, "training", store, showResultList)))
-      .addTo(map);
-    marker.ideaType = "training";
-    currentMarkers.push(marker);
-    */
+    training.ideaType = "training";
     features.push({
       type: "Feature",
       geometry: {
