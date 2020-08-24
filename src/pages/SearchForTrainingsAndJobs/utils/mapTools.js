@@ -1,7 +1,4 @@
-import React from "react";
-import { Marker } from "../components";
-import ReactDOM from "react-dom";
-import { map, flyToMarker, getZoomLevelForDistance } from "../../../utils/mapTools";
+import { map, getZoomLevelForDistance } from "../../../utils/mapTools";
 
 const setJobMarkers = (jobs, map) => {
   let features = [];
@@ -97,13 +94,6 @@ const setTrainingMarkers = (trainingList) => {
   let results = { type: "FeatureCollection", features };
 
   map.getSource("training-points").setData(results);
-};
-
-const buildTrainingMarkerIcon = (training) => {
-  const markerNode = document.createElement("div");
-  ReactDOM.render(<Marker type="training" item={training} flyToMarker={flyToMarker} />, markerNode);
-
-  return markerNode;
 };
 
 export { setTrainingMarkers, setJobMarkers };
