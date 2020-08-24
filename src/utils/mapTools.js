@@ -40,57 +40,6 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       map.addImage("job", image);
     });
 
-    // ajout des layers et events liés aux formations
-    map.addSource("training-points", {
-      type: "geojson",
-      data: {
-        type: "FeatureCollection",
-        features: [],
-      },
-      cluster: true,
-      clusterMaxZoom: 14, // Max zoom to cluster points on
-      clusterRadius: 50,
-    });
-
-    // Ajout de la layer des formations
-    map.addLayer({
-      id: "training-points-layer",
-      source: "training-points",
-      type: "symbol",
-      layout: {
-        "icon-image": "training", // cf. images chargées plus haut
-        "icon-padding": 0,
-        "icon-allow-overlap": true,
-      },
-    });
-
-    // layer contenant les pastilles de compte des
-    let clusterCountParams = {
-      id: "training-points-cluster-count",
-      source: "training-points",
-      type: "symbol",
-      filter: ["has", "point_count"],
-      layout: {
-        "text-field": "{point_count_abbreviated}",
-        "text-font": ["Arial Unicode MS Bold"],
-        "text-size": 14,
-        "text-anchor": "top-left",
-        "text-allow-overlap": true,
-        "text-offset": [0.4, 0.2],
-      },
-      paint: {
-        "text-color": "#fff",
-        "text-halo-color": "#000",
-        "text-halo-width": 3,
-      },
-    };
-
-    map.addLayer(clusterCountParams);
-
-    map.on("click", "training-points-layer", function (e) {
-      onLayerClick(e, "training", store, showResultList);
-    });
-
     // ajout layers et events liés aux jobs
     map.addSource("job-points", {
       type: "geojson",
@@ -119,9 +68,60 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       onLayerClick(e, "job", store, showResultList);
     });
 
-    clusterCountParams.id = "job-points-cluster-count";
-    clusterCountParams.source = "job-points";
+    // layer contenant les pastilles de compte des
+    let clusterCountParams = {
+      id: "job-points-cluster-count",
+      source: "job-points",
+      type: "symbol",
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["Arial Unicode MS Bold"],
+        "text-size": 14,
+        "text-anchor": "top-left",
+        "text-allow-overlap": true,
+        "text-offset": [0.4, 0.2],
+      },
+      paint: {
+        "text-color": "#fff",
+        "text-halo-color": "#000",
+        "text-halo-width": 3,
+      },
+    };
     map.addLayer(clusterCountParams);
+
+    // ajout des layers et events liés aux formations
+    map.addSource("training-points", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50,
+    });
+
+    // Ajout de la layer des formations
+    map.addLayer({
+      id: "training-points-layer",
+      source: "training-points",
+      type: "symbol",
+      layout: {
+        "icon-image": "training", // cf. images chargées plus haut
+        "icon-padding": 0,
+        "icon-allow-overlap": true,
+      },
+    });
+
+    clusterCountParams.id = "training-points-cluster-count";
+    clusterCountParams.source = "training-points";
+
+    map.addLayer(clusterCountParams);
+
+    map.on("click", "training-points-layer", function (e) {
+      onLayerClick(e, "training", store, showResultList);
+    });
   });
 
   /*map.on("move", () => {
