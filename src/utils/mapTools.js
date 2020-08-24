@@ -35,7 +35,12 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       map.addImage("training", image);
     });
 
-    // add the data source for new a feature collection with no features
+    map.loadImage("/pic/icons/job.png", function (error, image) {
+      if (error) throw error;
+      map.addImage("job", image);
+    });
+
+    // ajout des layers et events liés aux formations
     map.addSource("training-points", {
       type: "geojson",
       data: {
@@ -53,16 +58,17 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       source: "training-points",
       type: "symbol",
       layout: {
-        "icon-image": "training", // this will put little croissants on our map
+        "icon-image": "training", // cf. images chargées plus haut
         "icon-padding": 0,
         "icon-allow-overlap": true,
       },
     });
 
-    map.addLayer({
+    // layer contenant les pastilles de compte des
+    let clusterCountParams = {
       id: "training-points-cluster-count",
-      type: "symbol",
       source: "training-points",
+      type: "symbol",
       filter: ["has", "point_count"],
       layout: {
         "text-field": "{point_count_abbreviated}",
@@ -77,11 +83,45 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
         "text-halo-color": "#000",
         "text-halo-width": 3,
       },
-    });
+    };
+
+    map.addLayer(clusterCountParams);
 
     map.on("click", "training-points-layer", function (e) {
       onLayerClick(e, "training", store, showResultList);
     });
+
+    // ajout layers et events liés aux jobs
+    map.addSource("job-points", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50,
+    });
+
+    // Ajout de la layer des emplois
+    map.addLayer({
+      id: "job-points-layer",
+      source: "job-points",
+      type: "symbol",
+      layout: {
+        "icon-image": "job", // cf. images chargées plus haut
+        "icon-padding": 0,
+        "icon-allow-overlap": true,
+      },
+    });
+
+    map.on("click", "job-points-layer", function (e) {
+      onLayerClick(e, "job", store, showResultList);
+    });
+
+    clusterCountParams.id = "job-points-cluster-count";
+    clusterCountParams.source = "job-points";
+    map.addLayer(clusterCountParams);
   });
 
   /*map.on("move", () => {
@@ -112,7 +152,8 @@ const onLayerClick = (e, layer, store, showResultList) => {
     //map.setZoom(map.getZoom()+1);
     map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
   } else {
-    let item = layer === "training" ? JSON.parse(e.features[0].properties.training) : "";
+    let item =
+      layer === "training" ? JSON.parse(e.features[0].properties.training) : JSON.parse(e.features[0].properties.job);
 
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
@@ -123,7 +164,7 @@ const onLayerClick = (e, layer, store, showResultList) => {
 
     new mapboxgl.Popup()
       .setLngLat(coordinates)
-      .setDOMContent(buildPopup(item, layer === "training" ? "training" : "", store, showResultList))
+      .setDOMContent(buildPopup(item, item.ideaType, store, showResultList))
       .addTo(map);
   }
 };
