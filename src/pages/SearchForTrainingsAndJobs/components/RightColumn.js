@@ -66,7 +66,7 @@ const RightColumn = ({
   const getItemElement = (item) => {
     let id = "";
 
-    if (item.type === "lbb") id = `${item.item.type}${item.item.siret}`;
+    if (item.type === "lbb" || item.type === "lba") id = `${item.item.type}${item.item.siret}`;
     else if (item.type === "training") id = `id${item.item.id}`;
     else if (item.type === "peJob") id = `id${item.item.id}`;
 
