@@ -6,7 +6,7 @@ import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";
 import { fetchAddresses } from "../services/baseAdresse";
 import { gtag } from "../services/googleAnalytics";
-let currentMarkers = [];
+let currentPopup = null;
 let map = null;
 
 const initializeMap = ({ mapContainer, store, showResultList }) => {
@@ -161,7 +161,7 @@ const onLayerClick = (e, layer, store, showResultList) => {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     }
 
-    new mapboxgl.Popup()
+    currentPopup = new mapboxgl.Popup()
       .setLngLat(coordinates)
       .setDOMContent(buildPopup(item, item.ideaType, store, showResultList))
       .addTo(map);
@@ -198,9 +198,7 @@ const buildPopup = (item, type, store, showResultList) => {
 };
 
 const closeMapPopups = () => {
-  currentMarkers.forEach((marker) => {
-    if (marker.getPopup().isOpen()) marker.togglePopup();
-  });
+  currentPopup.remove();
 };
 
 const getZoomLevelForDistance = (distance) => {
