@@ -78,8 +78,8 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTraining
       ) : (
         <>
           {Math.round(company.distance) > formValues.locationRadius ? getCenterSearchOnCompanyButton() : ""}
-          <div onClick={onSelectItem} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={onSelectItem}>En savoir plus</button>
           </div>
         </>
       )}

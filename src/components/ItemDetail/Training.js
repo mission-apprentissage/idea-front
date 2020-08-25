@@ -63,8 +63,8 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
           {Math.round(training.sort[0]) > formValues.locationRadius && !isTrainingOnly
             ? getCenterSearchOnTrainingButton()
             : ""}
-          <div onClick={onSelectItem} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={onSelectItem}>En savoir plus</button>
           </div>
         </>
       )}

@@ -31,8 +31,8 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
             <br />
             {item.lieuTravail.libelle}
           </div>
-          <div onClick={openItemDetail} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={openItemDetail}>En savoir plus</button>
           </div>
         </>
       );
@@ -41,8 +41,8 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
         <>
           <div className="mapboxPopupTitle">{item.name}</div>
           <div className="mapboxPopupAddress">{item.address}</div>
-          <div onClick={openItemDetail} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={openItemDetail}>En savoir plus</button>
           </div>
         </>
       );
@@ -51,8 +51,8 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
         <>
           <div className="mapboxPopupTitle">{item.name}</div>
           <div className="mapboxPopupAddress">{item.address}</div>
-          <div onClick={openItemDetail} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={openItemDetail}>En savoir plus</button>
           </div>
         </>
       );

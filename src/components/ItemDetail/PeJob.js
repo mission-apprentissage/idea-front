@@ -72,8 +72,8 @@ const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsOnNewCen
       ) : (
         <>
           {Math.round(job.lieuTravail.distance) > formValues.locationRadius ? getCenterSearchOnPeJobButton() : ""}
-          <div onClick={onSelectItem} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={onSelectItem}>En savoir plus</button>
           </div>
         </>
       )}

@@ -143,20 +143,31 @@
     margin-top: 5px;
 }
 
+.knowMoreButton() {
+    button{
+        cursor: pointer;
+        color: #4A4A4A;
+        text-decoration: underline;
+        background:none;
+        border:none;
+        padding: 10px 20px;
+        width: fit-content;
+    }
+
+    button:hover
+    {
+        color: #000;
+    }
+}
+
 .resultCard .knowMore
 {
     text-align: right;
     width: 100%;
 
-    a {
-        text-decoration: underline;
-        cursor: pointer;
-        color: #4A4A4A;
-    }
-    a:hover {
-        color: #000;
-    }
+    .knowMoreButton() !important;
 }
+
 
 .resultCard .hasJob
 {
