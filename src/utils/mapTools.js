@@ -198,7 +198,7 @@ const buildPopup = (item, type, store, showResultList) => {
 };
 
 const closeMapPopups = () => {
-  currentPopup.remove();
+  if (currentPopup) currentPopup.remove();
 };
 
 const getZoomLevelForDistance = (distance) => {
