@@ -184,20 +184,6 @@ const flyToMarker = (item, zoom = map.getZoom()) => {
   }
 };
 
-const clearMarkers = () => {
-  for (let i = 0; i < currentMarkers.length; ++i) currentMarkers[i].remove();
-  currentMarkers = [];
-};
-
-const clearJobMarkers = () => {
-  let newCurrentMarkers = [];
-  for (let i = 0; i < currentMarkers.length; ++i) {
-    if (currentMarkers[i].ideaType !== "training") currentMarkers[i].remove();
-    else newCurrentMarkers.push(currentMarkers[i]);
-  }
-  currentMarkers = newCurrentMarkers;
-};
-
 const buildPopup = (item, type, store, showResultList) => {
   const popupNode = document.createElement("div");
 
@@ -293,15 +279,12 @@ const buildJobMarkerIcon = (job) => {
 
 export {
   map,
-  currentMarkers,
   buildPopup,
   initializeMap,
-  clearMarkers,
   flyToMarker,
   buildJobMarkerIcon,
   closeMapPopups,
   getZoomLevelForDistance,
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
-  clearJobMarkers,
 };
