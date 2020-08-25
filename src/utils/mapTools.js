@@ -135,6 +135,8 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
   // log vers google analytics de l'utilisation du bouton zoom / dézoom
   map.on("zoomend", (e) => {
     if (e.originalEvent) gtag("Bouton", "Clic", "Zoom", { niveauZoom: map.getZoom() });
+
+    if (map.getZoom() < 9) closeMapPopups();
   });
 
   const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
