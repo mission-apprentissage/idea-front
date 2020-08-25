@@ -31,28 +31,28 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
             <br />
             {item.lieuTravail.libelle}
           </div>
-          <div onClick={openItemDetail} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={openItemDetail}>En savoir plus</button>
           </div>
         </>
       );
-    else if (type === "lbb")
+    else if (type === "lbb") {
       return (
         <>
           <div className="mapboxPopupTitle">{item.name}</div>
           <div className="mapboxPopupAddress">{item.address}</div>
-          <div onClick={openItemDetail} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={openItemDetail}>En savoir plus</button>
           </div>
         </>
       );
-    else if (type === "lba")
+    } else if (type === "lba")
       return (
         <>
           <div className="mapboxPopupTitle">{item.name}</div>
           <div className="mapboxPopupAddress">{item.address}</div>
-          <div onClick={openItemDetail} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={openItemDetail}>En savoir plus</button>
           </div>
         </>
       );

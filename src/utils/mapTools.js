@@ -6,10 +6,10 @@ import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";
 import { fetchAddresses } from "../services/baseAdresse";
 import { gtag } from "../services/googleAnalytics";
-let currentMarkers = [];
+let currentPopup = null;
 let map = null;
 
-const initializeMap = ({ mapContainer }) => {
+const initializeMap = ({ mapContainer, store, showResultList }) => {
   mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
 
   /*lat: 47,    affichage centre France plus zoom France métropolitaine en entier
@@ -27,8 +27,101 @@ const initializeMap = ({ mapContainer }) => {
     touchZoomRotate: false,
   });
 
-  map.on("load", () => {
+  map.on("load", async () => {
     map.resize();
+
+    map.loadImage("/pic/icons/school.png", function (error, image) {
+      if (error) throw error;
+      map.addImage("training", image);
+    });
+
+    map.loadImage("/pic/icons/job.png", function (error, image) {
+      if (error) throw error;
+      map.addImage("job", image);
+    });
+
+    // ajout layers et events liés aux jobs
+    map.addSource("job-points", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50,
+    });
+
+    // Ajout de la layer des emplois
+    map.addLayer({
+      id: "job-points-layer",
+      source: "job-points",
+      type: "symbol",
+      layout: {
+        "icon-image": "job", // cf. images chargées plus haut
+        "icon-padding": 0,
+        "icon-allow-overlap": true,
+      },
+    });
+
+    map.on("click", "job-points-layer", function (e) {
+      onLayerClick(e, "job", store, showResultList);
+    });
+
+    // layer contenant les pastilles de compte des
+    let clusterCountParams = {
+      id: "job-points-cluster-count",
+      source: "job-points",
+      type: "symbol",
+      filter: ["has", "point_count"],
+      layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["Arial Unicode MS Bold"],
+        "text-size": 14,
+        "text-anchor": "top-left",
+        "text-allow-overlap": true,
+        "text-offset": [0.4, 0.2],
+      },
+      paint: {
+        "text-color": "#fff",
+        "text-halo-color": "#000",
+        "text-halo-width": 3,
+      },
+    };
+    map.addLayer(clusterCountParams);
+
+    // ajout des layers et events liés aux formations
+    map.addSource("training-points", {
+      type: "geojson",
+      data: {
+        type: "FeatureCollection",
+        features: [],
+      },
+      cluster: true,
+      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterRadius: 50,
+    });
+
+    // Ajout de la layer des formations
+    map.addLayer({
+      id: "training-points-layer",
+      source: "training-points",
+      type: "symbol",
+      layout: {
+        "icon-image": "training", // cf. images chargées plus haut
+        "icon-padding": 0,
+        "icon-allow-overlap": true,
+      },
+    });
+
+    clusterCountParams.id = "training-points-cluster-count";
+    clusterCountParams.source = "training-points";
+
+    map.addLayer(clusterCountParams);
+
+    map.on("click", "training-points-layer", function (e) {
+      onLayerClick(e, "training", store, showResultList);
+    });
   });
 
   /*map.on("move", () => {
@@ -39,12 +132,40 @@ const initializeMap = ({ mapContainer }) => {
     });
   });*/
 
+  // log vers google analytics de l'utilisation du bouton zoom / dézoom
   map.on("zoomend", (e) => {
     if (e.originalEvent) gtag("Bouton", "Clic", "Zoom", { niveauZoom: map.getZoom() });
   });
 
   const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
   map.addControl(nav, "top-right");
+};
+
+const onLayerClick = (e, layer, store, showResultList) => {
+  let coordinates = e.features[0].geometry.coordinates.slice();
+
+  // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
+  // sinon on a properties : { training|job }
+
+  if (e.features[0].properties.cluster) {
+    //map.setZoom(map.getZoom()+1);
+    map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
+  } else {
+    let item =
+      layer === "training" ? JSON.parse(e.features[0].properties.training) : JSON.parse(e.features[0].properties.job);
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    currentPopup = new mapboxgl.Popup()
+      .setLngLat(coordinates)
+      .setDOMContent(buildPopup(item, item.ideaType, store, showResultList))
+      .addTo(map);
+  }
 };
 
 const flyToMarker = (item, zoom = map.getZoom()) => {
@@ -63,20 +184,6 @@ const flyToMarker = (item, zoom = map.getZoom()) => {
   }
 };
 
-const clearMarkers = () => {
-  for (let i = 0; i < currentMarkers.length; ++i) currentMarkers[i].remove();
-  currentMarkers = [];
-};
-
-const clearJobMarkers = () => {
-  let newCurrentMarkers = [];
-  for (let i = 0; i < currentMarkers.length; ++i) {
-    if (currentMarkers[i].ideaType !== "training") currentMarkers[i].remove();
-    else newCurrentMarkers.push(currentMarkers[i]);
-  }
-  currentMarkers = newCurrentMarkers;
-};
-
 const buildPopup = (item, type, store, showResultList) => {
   const popupNode = document.createElement("div");
 
@@ -91,9 +198,7 @@ const buildPopup = (item, type, store, showResultList) => {
 };
 
 const closeMapPopups = () => {
-  currentMarkers.forEach((marker) => {
-    if (marker.getPopup().isOpen()) marker.togglePopup();
-  });
+  if (currentPopup) currentPopup.remove();
 };
 
 const getZoomLevelForDistance = (distance) => {
@@ -111,7 +216,7 @@ const getZoomLevelForDistance = (distance) => {
   return zoom;
 };
 
-// fabrique des clusters de formations
+// rassemble les formations ayant lieu dans un même établissement pour avoir une seule icône sur la map
 const factorTrainingsForMap = (list) => {
   let currentMarker = null;
   let resultList = [];
@@ -154,8 +259,6 @@ const computeMissingPositionAndDistance = async (searchCenter, companies, source
             company.lieuTravail.distance =
               Math.round(10 * distance(searchCenter, [company.lieuTravail.longitude, company.lieuTravail.latitude])) /
               10;
-
-            addJobMarkerIfPosition(company, map, store, showResultList);
           }
         }
       })
@@ -163,21 +266,6 @@ const computeMissingPositionAndDistance = async (searchCenter, companies, source
   }
 
   return companies;
-};
-
-const addJobMarkerIfPosition = (job, map, store, showResultList) => {
-  if (job.lieuTravail && (job.lieuTravail.longitude || job.lieuTravail.latitude)) {
-    // certaines offres n'ont pas de lat / long
-
-    let marker = new mapboxgl.Marker(buildJobMarkerIcon(job))
-      .setLngLat([job.lieuTravail.longitude, job.lieuTravail.latitude])
-      .setPopup(new mapboxgl.Popup().setDOMContent(buildPopup(job, "peJob", store, showResultList)))
-      .addTo(map);
-
-    marker.ideaType = "peJob";
-
-    currentMarkers.push(marker);
-  }
 };
 
 const buildJobMarkerIcon = (job) => {
@@ -189,16 +277,12 @@ const buildJobMarkerIcon = (job) => {
 
 export {
   map,
-  currentMarkers,
   buildPopup,
   initializeMap,
-  clearMarkers,
   flyToMarker,
   buildJobMarkerIcon,
   closeMapPopups,
   getZoomLevelForDistance,
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
-  addJobMarkerIfPosition,
-  clearJobMarkers,
 };

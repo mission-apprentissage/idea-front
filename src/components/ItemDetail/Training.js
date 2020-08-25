@@ -3,6 +3,7 @@ import trainingIcon from "../../assets/icons/school.svg";
 import { getTrainingSchoolName, getTrainingAddress } from "../../utils/formations";
 import { useSelector } from "react-redux";
 import { fetchAddresses } from "../../services/baseAdresse";
+import extendedSearchPin from "../../assets/icons/jobPin.svg";
 
 const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNewCenter, isTrainingOnly }) => {
   const { formValues } = useSelector((state) => state.trainings);
@@ -14,7 +15,7 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
   const getCenterSearchOnTrainingButton = () => {
     return (
       <button className="extendedJobSearchButton" onClick={centerSearchOnTraining}>
-        Voir les entreprises proches du lieu de formation
+        <img src={extendedSearchPin} alt="" /> <span>Voir les entreprises proches</span>
       </button>
     );
   };
@@ -63,9 +64,10 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
           {Math.round(training.sort[0]) > formValues.locationRadius && !isTrainingOnly
             ? getCenterSearchOnTrainingButton()
             : ""}
-          <div onClick={onSelectItem} className="knowMore">
-            <a href="#">En savoir plus</a>
+          <div className="knowMore">
+            <button onClick={onSelectItem}>En savoir plus</button>
           </div>
+          <div style={{ clear: "both" }} />
         </>
       )}
     </div>

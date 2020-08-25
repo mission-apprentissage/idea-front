@@ -20,8 +20,6 @@ import {
   map,
   flyToMarker,
   closeMapPopups,
-  clearMarkers,
-  clearJobMarkers,
   factorTrainingsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
@@ -68,7 +66,7 @@ const RightColumn = ({
   const getItemElement = (item) => {
     let id = "";
 
-    if (item.type === "lbb") id = `${item.item.type}${item.item.siret}`;
+    if (item.type === "lbb" || item.type === "lba") id = `${item.item.type}${item.item.siret}`;
     else if (item.type === "training") id = `id${item.item.id}`;
     else if (item.type === "peJob") id = `id${item.item.id}`;
 
@@ -89,7 +87,6 @@ const RightColumn = ({
   };
 
   const handleSubmit = async (values) => {
-    clearMarkers();
     // centrage de la carte sur le lieu de recherche
     const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
@@ -148,9 +145,6 @@ const RightColumn = ({
   };
 
   const searchOnNewCenter = async (newCenter, isTrainingSearch, isJobSearch) => {
-    if (isJobSearch) clearJobMarkers();
-    else clearMarkers();
-
     dispatch(setExtendedSearch(false));
 
     scrollToTop("rightColumn");
@@ -224,8 +218,6 @@ const RightColumn = ({
   };
 
   const searchForJobsWithLooseRadius = async () => {
-    clearJobMarkers();
-
     dispatch(setExtendedSearch(true));
     scrollToTop("rightColumn");
 
