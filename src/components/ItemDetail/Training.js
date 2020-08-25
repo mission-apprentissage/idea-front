@@ -15,7 +15,7 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
   const getCenterSearchOnTrainingButton = () => {
     return (
       <button className="extendedJobSearchButton" onClick={centerSearchOnTraining}>
-        <img src={extendedSearchPin} /> <span>Voir les entreprises proches</span>
+        <img src={extendedSearchPin} alt="" /> <span>Voir les entreprises proches</span>
       </button>
     );
   };

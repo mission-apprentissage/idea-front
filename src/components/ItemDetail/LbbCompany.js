@@ -3,6 +3,7 @@ import jobIcon from "../../assets/icons/job.svg";
 import companySizeIcon from "../../assets/icons/employees.svg";
 import { useSelector } from "react-redux";
 import { fetchAddresses } from "../../services/baseAdresse";
+import extendedSearchPin from "../../assets/icons/trainingPin.svg";
 
 const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTrainingsOnNewCenter }) => {
   //console.log("lbb company : ", company);
@@ -15,7 +16,7 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTraining
   const getCenterSearchOnCompanyButton = () => {
     return (
       <button className="extendedTrainingSearchButton" onClick={centerSearchOnCompany}>
-        Chercher les formations proches de cette entreprise
+        <img src={extendedSearchPin} alt="" /> <span>Voir les formations proches</span>
       </button>
     );
   };
@@ -81,6 +82,7 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTraining
           <div className="knowMore">
             <button onClick={onSelectItem}>En savoir plus</button>
           </div>
+          <div style={{ clear: "both" }} />
         </>
       )}
     </div>
