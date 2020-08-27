@@ -21,6 +21,7 @@ import {
   flyToMarker,
   closeMapPopups,
   factorTrainingsForMap,
+  factorJobsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
 import { gtag } from "../../../services/googleAnalytics";
@@ -263,7 +264,7 @@ const RightColumn = ({
 
       dispatch(setJobs(results));
 
-      setJobMarkers(results);
+      setJobMarkers(factorJobsForMap(results));
     } catch (err) {
       console.log(
         `Erreur interne lors de la recherche d'emplois (${

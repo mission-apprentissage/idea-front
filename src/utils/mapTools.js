@@ -249,6 +249,61 @@ const factorTrainingsForMap = (list) => {
   return resultList;
 };
 
+// rassemble les emplois ayant une même géoloc pour avoir une seule icône sur la map
+const factorJobsForMap = (lists) => {
+  console.log(lists);
+  let currentMarker = null;
+  let resultList = [];
+  let sortedList = [];
+
+  if (lists.peJobs) sortedList = lists.peJobs;
+
+  if (lists.lbbCompanies)
+    sortedList = sortedList.length ? sortedList.concat(lists.lbbCompanies.companies) : lists.lbbCompanies.companies;
+
+  if (lists.lbaCompanies)
+    sortedList = sortedList.length ? sortedList.concat(lists.lbaCompanies.companies) : lists.lbbCompanies.companies;
+
+  sortedList.sort((a, b) => {
+    const coordA = getFlatCoords(a);
+    const coordB = getFlatCoords(b);
+
+    if (coordA < coordB) return -1;
+    else return 1;
+  });
+
+  console.log(sortedList);
+
+  /*
+  suite :
+  parcourir le tableau trié
+  merger les jobs dans resultList
+  retourner resultList
+  traiter resultList
+  modifier l'affichage des popups type job pour prendre en compte les différents cas
+  - lba / lbb seul
+  - peJob seul
+  - liste avec job + entreprise ou entreprise seule
+
+  */
+
+  return lists;
+};
+
+// utile uniquement pour le tri par coordonnées
+const getFlatCoords = (item) => {
+  let coords = "";
+
+  if (item.type === "lba" || item.type === "lbb") coords = "" + item.lon + "," + item.lat;
+  else {
+    // peJob
+    if (item.lieuTravail.longitude !== undefined)
+      coords = "" + item.lieuTravail.longitude + "," + item.lieuTravail.latitude;
+  }
+
+  return coords;
+};
+
 const computeMissingPositionAndDistance = async (searchCenter, companies, source, map, store, showResultList) => {
   if (source === "pe") {
     // calcule et affectation aux offres PE de la distances du centre de recherche dans les cas où la donnée est incomplète
@@ -299,5 +354,6 @@ export {
   closeMapPopups,
   getZoomLevelForDistance,
   factorTrainingsForMap,
+  factorJobsForMap,
   computeMissingPositionAndDistance,
 };
