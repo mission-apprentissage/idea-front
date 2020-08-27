@@ -10,7 +10,7 @@ import { scrollToElementInContainer, getItemElement } from "./tools";
 let currentPopup = null;
 let map = null;
 
-const initializeMap = ({ mapContainer, store, showResultList }) => {
+const initializeMap = ({ mapContainer, store, showResultList, unselectItem }) => {
   mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
 
   /*lat: 47,    affichage centre France plus zoom France métropolitaine en entier
@@ -66,7 +66,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     });
 
     map.on("click", "job-points-layer", function (e) {
-      onLayerClick(e, "job", store, showResultList);
+      onLayerClick(e, "job", store, showResultList, unselectItem);
     });
 
     // layer contenant les pastilles de compte des
@@ -121,7 +121,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     map.addLayer(clusterCountParams);
 
     map.on("click", "training-points-layer", function (e) {
-      onLayerClick(e, "training", store, showResultList);
+      onLayerClick(e, "training", store, showResultList, unselectItem);
     });
   });
 
@@ -144,7 +144,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
   map.addControl(nav, "top-right");
 };
 
-const onLayerClick = (e, layer, store, showResultList) => {
+const onLayerClick = (e, layer, store, showResultList, unselectItem) => {
   let coordinates = e.features[0].geometry.coordinates.slice();
 
   //console.log("e : ", e.features);
@@ -175,6 +175,7 @@ const onLayerClick = (e, layer, store, showResultList) => {
       .setDOMContent(buildPopup(item, item.ideaType, store, showResultList))
       .addTo(map);
 
+    unselectItem();
     scrollToElementInContainer("rightColumn", getItemElement({ item, type: item.ideaType }), 50, "smooth");
   }
 };
