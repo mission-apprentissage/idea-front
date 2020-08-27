@@ -263,7 +263,7 @@ const RightColumn = ({
 
       dispatch(setJobs(results));
 
-      setJobMarkers(results, map, store, showResultList);
+      setJobMarkers(results);
     } catch (err) {
       console.log(
         `Erreur interne lors de la recherche d'emplois (${

@@ -1,6 +1,6 @@
 import { map, getZoomLevelForDistance } from "../../../utils/mapTools";
 
-const setJobMarkers = (jobs, map) => {
+const setJobMarkers = (jobs) => {
   let features = [];
 
   // positionnement des lbb
