@@ -146,12 +146,18 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
 const onLayerClick = (e, layer, store, showResultList) => {
   let coordinates = e.features[0].geometry.coordinates.slice();
 
+  console.log("e : ", e.features);
   // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
   // sinon on a properties : { training|job }
 
   if (e.features[0].properties.cluster) {
-    //map.setZoom(map.getZoom()+1);
-    map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
+    let zoom = map.getZoom();
+
+    if (zoom > 11) zoom += 1;
+    else if (zoom > 9) zoom += 2;
+    else zoom += 3;
+
+    map.easeTo({ center: coordinates, speed: 0.2, zoom });
   } else {
     let item =
       layer === "training" ? JSON.parse(e.features[0].properties.training) : JSON.parse(e.features[0].properties.job);
