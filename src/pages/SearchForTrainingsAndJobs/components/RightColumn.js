@@ -178,7 +178,7 @@ const RightColumn = ({
       setIsFormVisible(false);
 
       if (response.data.length) {
-        setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
+        setTrainingMarkers(factorTrainingsForMap(response.data));
         if (values.locationRadius < response.data[0].sort[0])
           logSearchEvent("outRadiusTrainings", null, null, null, values);
       }
