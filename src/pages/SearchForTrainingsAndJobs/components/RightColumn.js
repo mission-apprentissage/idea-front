@@ -54,7 +54,7 @@ const RightColumn = ({
       const itemElement = getItemElement(itemToScrollTo);
 
       if (itemElement) {
-        scrollToElementInContainer("rightColumn", itemElement, 50);
+        scrollToElementInContainer("rightColumn", itemElement, 50, "auto");
         dispatch(setItemToScrollTo(null));
       }
     }
