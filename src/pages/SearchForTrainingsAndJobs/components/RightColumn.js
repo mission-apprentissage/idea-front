@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import axios from "axios";
 import distance from "@turf/distance";
 import baseUrl from "../../../utils/baseUrl";
-import { scrollToTop } from "../../../utils/tools";
+import { scrollToTop, scrollToElementInContainer, getItemElement } from "../../../utils/tools";
 import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
@@ -54,26 +54,11 @@ const RightColumn = ({
       const itemElement = getItemElement(itemToScrollTo);
 
       if (itemElement) {
-        document.getElementById("rightColumn").scrollTo({
-          top: itemElement.offsetTop - 50,
-          left: 0,
-        });
+        scrollToElementInContainer("rightColumn", itemElement, 50);
         dispatch(setItemToScrollTo(null));
       }
     }
   });
-
-  const getItemElement = (item) => {
-    let id = "";
-
-    if (item.type === "lbb" || item.type === "lba") id = `${item.item.type}${item.item.siret}`;
-    else if (item.type === "training") id = `id${item.item.id}`;
-    else if (item.type === "peJob") id = `id${item.item.id}`;
-
-    let res = document.getElementById(id);
-
-    return res;
-  };
 
   const handleSelectItem = (item, type) => {
     flyToMarker(item, 12);

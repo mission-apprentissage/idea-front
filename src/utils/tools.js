@@ -14,4 +14,23 @@ const scrollToTop = (elementId) => {
   });
 };
 
-export { getValueFromPath, scrollToTop };
+const scrollToElementInContainer = (containerId, el, yOffsett) => {
+  document.getElementById(containerId).scrollTo({
+    top: el.offsetTop - yOffsett,
+    left: 0,
+  });
+};
+
+const getItemElement = (item) => {
+  let id = "";
+
+  if (item.type === "lbb" || item.type === "lba") id = `${item.item.type}${item.item.siret}`;
+  else if (item.type === "training") id = `id${item.item.id}`;
+  else if (item.type === "peJob") id = `id${item.item.id}`;
+
+  let res = document.getElementById(id);
+
+  return res;
+};
+
+export { getValueFromPath, scrollToTop, scrollToElementInContainer, getItemElement };
