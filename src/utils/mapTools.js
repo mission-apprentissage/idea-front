@@ -6,6 +6,7 @@ import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";
 import { fetchAddresses } from "../services/baseAdresse";
 import { gtag } from "../services/googleAnalytics";
+import { scrollToElementInContainer, getItemElement } from "./tools";
 let currentPopup = null;
 let map = null;
 
@@ -146,7 +147,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
 const onLayerClick = (e, layer, store, showResultList) => {
   let coordinates = e.features[0].geometry.coordinates.slice();
 
-  console.log("e : ", e.features);
+  //console.log("e : ", e.features);
   // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
   // sinon on a properties : { training|job }
 
@@ -173,6 +174,8 @@ const onLayerClick = (e, layer, store, showResultList) => {
       .setLngLat(coordinates)
       .setDOMContent(buildPopup(item, item.ideaType, store, showResultList))
       .addTo(map);
+
+    scrollToElementInContainer("rightColumn", getItemElement({ item, type: item.ideaType }), 50, "smooth");
   }
 };
 
