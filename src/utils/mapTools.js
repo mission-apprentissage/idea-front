@@ -158,7 +158,6 @@ const initializeMap = ({ mapContainer, store, showResultList, unselectItem }) =>
 const onLayerClick = (e, layer, store, showResultList, unselectItem) => {
   let coordinates = e.features[0].geometry.coordinates.slice();
 
-  //console.log("e : ", e.features);
   // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
   // sinon on a properties : { training|job }
 
@@ -263,10 +262,9 @@ const factorTrainingsForMap = (list) => {
 
 // rassemble les emplois ayant une même géoloc pour avoir une seule icône sur la map
 const factorJobsForMap = (lists) => {
-  //console.log(lists);
   let sortedList = [];
 
-  //let cpTime = new Date().getTime();
+  // concaténation des trois sources d'emploi
   if (lists.peJobs) sortedList = lists.peJobs;
 
   if (lists.lbbCompanies)
@@ -275,6 +273,7 @@ const factorJobsForMap = (lists) => {
   if (lists.lbaCompanies)
     sortedList = sortedList.length ? sortedList.concat(lists.lbaCompanies.companies) : lists.lbbCompanies.companies;
 
+  // tri de la liste de tous les emplois selon les coordonnées geo (l'objectif est d'avoir les emplois au même lieu proches)
   sortedList.sort((a, b) => {
     const coordA = getFlatCoords(a);
     const coordB = getFlatCoords(b);
@@ -283,8 +282,7 @@ const factorJobsForMap = (lists) => {
     else return 1;
   });
 
-  //console.log(sortedList);
-
+  // réduction de la liste en rassemblant les emplois au même endroit sous un seul item
   let currentMarker = null;
   let resultList = [];
 
@@ -301,23 +299,7 @@ const factorJobsForMap = (lists) => {
   }
   resultList.push(currentMarker);
 
-  //console.log("resultList : ", resultList);
-  /*let finishTime = new Date().getTime();
-  console.log("durée : ",finishTime-cpTime,cpTime,finishTime);*/
-
-  /*
-  suite :
-  
-  retourner resultList
-  traiter resultList
-  modifier l'affichage des popups type job pour prendre en compte les différents cas
-  - lba / lbb seul
-  - peJob seul
-  - liste avec job + entreprise ou entreprise seule
-
-  */
-
-  return lists;
+  return resultList;
 };
 
 // en entrée tableaux [lon,lat]
