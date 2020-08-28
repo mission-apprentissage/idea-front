@@ -2,6 +2,7 @@ import React from "react";
 import { setSelectedItem } from "../../../redux/Training/actions";
 import { useDispatch } from "react-redux";
 import { getTrainingSchoolName, getTrainingAddress } from "../../../utils/formations";
+import { getJobAddress } from "../../../utils/jobs";
 import { gtag } from "../../../services/googleAnalytics";
 
 const MapPopup = ({ type, item, handleSelectItem }) => {
@@ -26,18 +27,14 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
       const list = item.jobs;
 
       if (list.length > 1) {
-        return <ul>{getJobs(list)}</ul>;
+        return getJobs(list);
       } else {
         const job = list[0];
         if (job.type === "peJob")
           return (
             <>
               <div className="mapboxPopupTitle">{job.intitule}</div>
-              <div className="mapboxPopupAddress">
-                {job.entreprise ? job.entreprise.nom : ""}
-                <br />
-                {job.lieuTravail.libelle}
-              </div>
+              <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
               <div className="knowMore">
                 <button onClick={() => openJobDetail(job)}>En savoir plus</button>
               </div>
@@ -47,7 +44,7 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
           return (
             <>
               <div className="mapboxPopupTitle">{job.name}</div>
-              <div className="mapboxPopupAddress">{job.address}</div>
+              <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
               <div className="knowMore">
                 <button onClick={() => openJobDetail(job)}>En savoir plus</button>
               </div>
@@ -74,13 +71,16 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
   const getJobs = (list) => {
     let result = (
       <>
-        Plusieurs opportunités d'emploi à l'adresse :
-        <br />
-        {list.map((job, idx) => (
-          <li onClick={() => openJobDetail(job)} key={idx}>
-            {job.type === "peJob" ? `${job.intitule}` : `${job.name}`}
-          </li>
-        ))}
+        <div className="mapboxPopupTitle">Opportunités d'emploi : </div>
+        <div className="mapboxPopupAddress">{getJobAddress(list[0])}</div>
+
+        <ul>
+          {list.map((job, idx) => (
+            <li onClick={() => openJobDetail(job)} key={idx}>
+              {job.type === "peJob" ? `${job.intitule}` : `${job.name}`}
+            </li>
+          ))}
+        </ul>
       </>
     );
     return result;
