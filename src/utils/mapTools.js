@@ -246,16 +246,16 @@ const factorTrainingsForMap = (list) => {
     }
   }
   resultList.push(currentMarker);
+
   return resultList;
 };
 
 // rassemble les emplois ayant une même géoloc pour avoir une seule icône sur la map
 const factorJobsForMap = (lists) => {
-  console.log(lists);
-  let currentMarker = null;
-  let resultList = [];
+  //console.log(lists);
   let sortedList = [];
 
+  //let cpTime = new Date().getTime();
   if (lists.peJobs) sortedList = lists.peJobs;
 
   if (lists.lbbCompanies)
@@ -272,12 +272,31 @@ const factorJobsForMap = (lists) => {
     else return 1;
   });
 
-  console.log(sortedList);
+  //console.log(sortedList);
+
+  let currentMarker = null;
+  let resultList = [];
+
+  for (let i = 0; i < sortedList.length; ++i) {
+    let coords = getCoordsFromJob(sortedList[i]);
+
+    if (!currentMarker) currentMarker = { coords, jobs: [sortedList[i]] };
+    else {
+      if (!isEqualCoords(currentMarker.coords, coords)) {
+        resultList.push(currentMarker);
+        currentMarker = { coords, jobs: [sortedList[i]] };
+      } else currentMarker.jobs.push(sortedList[i]);
+    }
+  }
+  resultList.push(currentMarker);
+
+  //console.log("resultList : ", resultList);
+  /*let finishTime = new Date().getTime();
+  console.log("durée : ",finishTime-cpTime,cpTime,finishTime);*/
 
   /*
   suite :
-  parcourir le tableau trié
-  merger les jobs dans resultList
+  
   retourner resultList
   traiter resultList
   modifier l'affichage des popups type job pour prendre en compte les différents cas
@@ -290,18 +309,28 @@ const factorJobsForMap = (lists) => {
   return lists;
 };
 
-// utile uniquement pour le tri par coordonnées
-const getFlatCoords = (item) => {
-  let coords = "";
+// en entrée tableaux [lon,lat]
+const isEqualCoords = (coordsA, coordsB) => {
+  if (coordsA && coordsB && coordsA[0] === coordsB[0] && coordsA[1] === coordsB[1]) return true;
+  else return false;
+};
 
-  if (item.type === "lba" || item.type === "lbb") coords = "" + item.lon + "," + item.lat;
+const getCoordsFromJob = (item) => {
+  let coords = null;
+  if (item.type === "lba" || item.type === "lbb") coords = [item.lon, item.lat];
   else {
     // peJob
-    if (item.lieuTravail.longitude !== undefined)
-      coords = "" + item.lieuTravail.longitude + "," + item.lieuTravail.latitude;
+    if (item.lieuTravail.longitude !== undefined) coords = [item.lieuTravail.longitude, item.lieuTravail.latitude];
   }
 
   return coords;
+};
+
+// utile uniquement pour le tri par coordonnées
+const getFlatCoords = (item) => {
+  const coords = getCoordsFromJob(item);
+
+  return coords ? "" + coords[0] + "," + coords[1] : null;
 };
 
 const computeMissingPositionAndDistance = async (searchCenter, companies, source, map, store, showResultList) => {
