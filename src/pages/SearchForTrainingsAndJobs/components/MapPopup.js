@@ -7,10 +7,10 @@ import { gtag } from "../../../services/googleAnalytics";
 const MapPopup = ({ type, item, handleSelectItem }) => {
   const dispatch = useDispatch();
 
-  const openItemDetail = () => {
-    dispatch(setSelectedItem({ item, type }));
+  const openJobDetail = (job) => {
+    dispatch(setSelectedItem({ item: job, type: job.type }));
 
-    gtag("Bouton", "Clic", "Ouverture fiche", { source: "map", type });
+    gtag("Bouton", "Clic", "Ouverture fiche", { source: "map", type: job.type });
     handleSelectItem();
   };
 
@@ -22,41 +22,39 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
   };
 
   const getContent = () => {
-    if (type === "peJob")
-      return (
-        <>
-          <div className="mapboxPopupTitle">{item.intitule}</div>
-          <div className="mapboxPopupAddress">
-            {item.entreprise ? item.entreprise.nom : ""}
-            <br />
-            {item.lieuTravail.libelle}
-          </div>
-          <div className="knowMore">
-            <button onClick={openItemDetail}>En savoir plus</button>
-          </div>
-        </>
-      );
-    else if (type === "lbb") {
-      return (
-        <>
-          <div className="mapboxPopupTitle">{item.name}</div>
-          <div className="mapboxPopupAddress">{item.address}</div>
-          <div className="knowMore">
-            <button onClick={openItemDetail}>En savoir plus</button>
-          </div>
-        </>
-      );
-    } else if (type === "lba")
-      return (
-        <>
-          <div className="mapboxPopupTitle">{item.name}</div>
-          <div className="mapboxPopupAddress">{item.address}</div>
-          <div className="knowMore">
-            <button onClick={openItemDetail}>En savoir plus</button>
-          </div>
-        </>
-      );
-    else {
+    if (type === "job") {
+      const list = item.jobs;
+
+      if (list.length > 1) {
+        return <ul>{getJobs(list)}</ul>;
+      } else {
+        const job = list[0];
+        if (job.type === "peJob")
+          return (
+            <>
+              <div className="mapboxPopupTitle">{job.intitule}</div>
+              <div className="mapboxPopupAddress">
+                {job.entreprise ? job.entreprise.nom : ""}
+                <br />
+                {job.lieuTravail.libelle}
+              </div>
+              <div className="knowMore">
+                <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+              </div>
+            </>
+          );
+        else if (job.type === "lbb" || job.type === "lba")
+          return (
+            <>
+              <div className="mapboxPopupTitle">{job.name}</div>
+              <div className="mapboxPopupAddress">{job.address}</div>
+              <div className="knowMore">
+                <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+              </div>
+            </>
+          );
+      }
+    } else {
       const list = item.trainings;
 
       return (
@@ -71,6 +69,21 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
         </>
       );
     }
+  };
+
+  const getJobs = (list) => {
+    let result = (
+      <>
+        Plusieurs opportunités d'emploi à l'adresse :
+        <br />
+        {list.map((job, idx) => (
+          <li onClick={() => openJobDetail(job)} key={idx}>
+            {job.type === "peJob" ? `${job.intitule}` : `${job.name}`}
+          </li>
+        ))}
+      </>
+    );
+    return result;
   };
 
   const getTrainings = (list) => {
