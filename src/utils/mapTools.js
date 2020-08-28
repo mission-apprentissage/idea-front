@@ -53,7 +53,7 @@ const initializeMap = ({ mapContainer, store, showResultList, unselectItem }) =>
       clusterRadius: 50,
     });
 
-    // Ajout de la layer des emplois
+    // Ajout de la layer des emplois en premier pour que les points soient en dessous des formations
     map.addLayer({
       id: "job-points-layer",
       source: "job-points",
@@ -66,7 +66,17 @@ const initializeMap = ({ mapContainer, store, showResultList, unselectItem }) =>
     });
 
     map.on("click", "job-points-layer", function (e) {
-      onLayerClick(e, "job", store, showResultList, unselectItem);
+      const features = e.features;
+      setTimeout(() => {
+        // setTimeout de 5 ms pour que l'event soit traité au niveau de la layer training et que le flag stop puisse être posé
+        // en effet la layer job reçoit l'event en premier du fait de son positionnement dans la liste des layers de la map
+        if (e && e.originalEvent) {
+          if (!e.originalEvent.STOP) {
+            e.features = features; // on réinsert les features de l'event qui sinon sont perdues en raison du setTimeout
+            onLayerClick(e, "job", store, showResultList, unselectItem);
+          }
+        }
+      }, 5);
     });
 
     // layer contenant les pastilles de compte des
@@ -121,6 +131,7 @@ const initializeMap = ({ mapContainer, store, showResultList, unselectItem }) =>
     map.addLayer(clusterCountParams);
 
     map.on("click", "training-points-layer", function (e) {
+      e.originalEvent.STOP = "STOP"; // un classique stopPropagation ne suffit pour empêcher d'ouvrir deux popups si des points de deux layers se superposent
       onLayerClick(e, "training", store, showResultList, unselectItem);
     });
   });
