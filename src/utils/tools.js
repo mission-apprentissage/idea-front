@@ -25,9 +25,13 @@ const scrollToElementInContainer = (containerId, el, yOffsett, behavior) => {
 const getItemElement = (item) => {
   let id = "";
 
-  if (item.type === "lbb" || item.type === "lba") id = `${item.item.type}${item.item.siret}`;
-  else if (item.type === "training") id = `id${item.item.trainings ? item.item.trainings[0].id : item.item.id}`;
-  else if (item.type === "peJob") id = `id${item.item.id}`;
+  if (item.type === "training") id = `id${item.item.trainings ? item.item.trainings[0].id : item.item.id}`;
+  else {
+    let realItem = item.item.jobs ? item.item.jobs[0] : item.item;
+
+    if (realItem.type === "peJob") id = `id${realItem.id}`;
+    else id = `${realItem.type}${realItem.siret}`;
+  }
 
   let res = document.getElementById(id);
 
