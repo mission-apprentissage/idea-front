@@ -1,15 +1,15 @@
 import React from "react";
 
-const getJobAddress = (job) => {
-  if (job.type === "peJob")
+const getJobAddress = ({ type, lieuTravail, address, entreprise }) => {
+  if (type === "peJob")
     return (
       <>
-        {job.entreprise ? job.entreprise.nom : ""}
+        {entreprise && entreprise.nom ? entreprise.nom : ""}
         <br />
-        {job.lieuTravail.libelle}
+        {lieuTravail.libelle}
       </>
     );
-  else return job.address;
+  else return address;
 };
 
 export { getJobAddress };
