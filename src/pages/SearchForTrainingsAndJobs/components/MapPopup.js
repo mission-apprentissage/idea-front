@@ -23,47 +23,61 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
   };
 
   const getContent = () => {
-    if (type === "job") {
-      const list = item.jobs;
+    try {
+      if (type === "job") {
+        const list = item.jobs;
 
-      if (list.length > 1) {
-        return getJobs(list);
+        if (list.length > 1) {
+          return getJobs(list);
+        } else {
+          const job = list[0];
+          if (job.type === "peJob")
+            return (
+              <>
+                <div className="mapboxPopupTitle">{job.intitule}</div>
+                <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
+                <div className="knowMore">
+                  <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+                </div>
+              </>
+            );
+          else if (job.type === "lbb" || job.type === "lba")
+            return (
+              <>
+                <div className="mapboxPopupTitle">{job.name}</div>
+                <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
+                <div className="knowMore">
+                  <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+                </div>
+              </>
+            );
+        }
       } else {
-        const job = list[0];
-        if (job.type === "peJob")
-          return (
-            <>
-              <div className="mapboxPopupTitle">{job.intitule}</div>
-              <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
-              <div className="knowMore">
-                <button onClick={() => openJobDetail(job)}>En savoir plus</button>
-              </div>
-            </>
-          );
-        else if (job.type === "lbb" || job.type === "lba")
-          return (
-            <>
-              <div className="mapboxPopupTitle">{job.name}</div>
-              <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
-              <div className="knowMore">
-                <button onClick={() => openJobDetail(job)}>En savoir plus</button>
-              </div>
-            </>
-          );
-      }
-    } else {
-      const list = item.trainings;
+        const list = item.trainings;
 
+        return (
+          <>
+            <div className="mapboxPopupTitle">Formations à : </div>
+            <div className="mapboxPopupAddress">
+              {getTrainingSchoolName(list[0].source, "lowerCase")}
+              <br />
+              {getTrainingAddress(list[0].source, "lowerCase")}
+            </div>
+            <ul>{getTrainings(list)}</ul>
+          </>
+        );
+      }
+    } catch (err) {
+      console.log("Erreur de format des éléments emplois : ", type, item);
       return (
-        <>
-          <div className="mapboxPopupTitle">Formations à : </div>
-          <div className="mapboxPopupAddress">
-            {getTrainingSchoolName(list[0].source, "lowerCase")}
-            <br />
-            {getTrainingAddress(list[0].source, "lowerCase")}
-          </div>
-          <ul>{getTrainings(list)}</ul>
-        </>
+        <div className="popupError">
+          Le format de l'élément sélectionné est erroné.
+          <br />
+          <br />
+          Veuillez accepter nos excuses. <br />
+          <br />
+          L'équipe Labonnealternance.
+        </div>
       );
     }
   };
