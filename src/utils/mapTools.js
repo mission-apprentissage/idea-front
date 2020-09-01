@@ -6,10 +6,11 @@ import mapboxgl from "mapbox-gl";
 import { Provider } from "react-redux";
 import { fetchAddresses } from "../services/baseAdresse";
 import { gtag } from "../services/googleAnalytics";
+import { scrollToElementInContainer, getItemElement } from "./tools";
 let currentPopup = null;
 let map = null;
 
-const initializeMap = ({ mapContainer, store, showResultList }) => {
+const initializeMap = ({ mapContainer, store, showResultList, unselectItem }) => {
   mapboxgl.accessToken = "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA";
 
   /*lat: 47,    affichage centre France plus zoom France métropolitaine en entier
@@ -52,7 +53,7 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
       clusterRadius: 50,
     });
 
-    // Ajout de la layer des emplois
+    // Ajout de la layer des emplois en premier pour que les points soient en dessous des formations
     map.addLayer({
       id: "job-points-layer",
       source: "job-points",
@@ -65,7 +66,17 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     });
 
     map.on("click", "job-points-layer", function (e) {
-      onLayerClick(e, "job", store, showResultList);
+      const features = e.features;
+      setTimeout(() => {
+        // setTimeout de 5 ms pour que l'event soit traité au niveau de la layer training et que le flag stop puisse être posé
+        // en effet la layer job reçoit l'event en premier du fait de son positionnement dans la liste des layers de la map
+        if (e && e.originalEvent) {
+          if (!e.originalEvent.STOP) {
+            e.features = features; // on réinsert les features de l'event qui sinon sont perdues en raison du setTimeout
+            onLayerClick(e, "job", store, showResultList, unselectItem);
+          }
+        }
+      }, 5);
     });
 
     // layer contenant les pastilles de compte des
@@ -120,7 +131,8 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
     map.addLayer(clusterCountParams);
 
     map.on("click", "training-points-layer", function (e) {
-      onLayerClick(e, "training", store, showResultList);
+      e.originalEvent.STOP = "STOP"; // un classique stopPropagation ne suffit pour empêcher d'ouvrir deux popups si des points de deux layers se superposent
+      onLayerClick(e, "training", store, showResultList, unselectItem);
     });
   });
 
@@ -135,21 +147,28 @@ const initializeMap = ({ mapContainer, store, showResultList }) => {
   // log vers google analytics de l'utilisation du bouton zoom / dézoom
   map.on("zoomend", (e) => {
     if (e.originalEvent) gtag("Bouton", "Clic", "Zoom", { niveauZoom: map.getZoom() });
+
+    if (map.getZoom() < 9) closeMapPopups();
   });
 
   const nav = new mapboxgl.NavigationControl({ showCompass: false, visualizePitch: false });
   map.addControl(nav, "top-right");
 };
 
-const onLayerClick = (e, layer, store, showResultList) => {
+const onLayerClick = (e, layer, store, showResultList, unselectItem) => {
   let coordinates = e.features[0].geometry.coordinates.slice();
 
   // si cluster on a properties: {cluster: true, cluster_id: 125, point_count: 3, point_count_abbreviated: 3}
   // sinon on a properties : { training|job }
 
   if (e.features[0].properties.cluster) {
-    //map.setZoom(map.getZoom()+1);
-    map.easeTo({ center: coordinates, speed: 0.2, zoom: map.getZoom() + 1 });
+    let zoom = map.getZoom();
+
+    if (zoom > 11) zoom += 1;
+    else if (zoom > 9) zoom += 2;
+    else zoom += 3;
+
+    map.easeTo({ center: coordinates, speed: 0.2, zoom });
   } else {
     let item =
       layer === "training" ? JSON.parse(e.features[0].properties.training) : JSON.parse(e.features[0].properties.job);
@@ -165,6 +184,9 @@ const onLayerClick = (e, layer, store, showResultList) => {
       .setLngLat(coordinates)
       .setDOMContent(buildPopup(item, item.ideaType, store, showResultList))
       .addTo(map);
+
+    unselectItem();
+    scrollToElementInContainer("rightColumn", getItemElement({ item, type: item.ideaType }), 50, "smooth");
   }
 };
 
@@ -198,7 +220,10 @@ const buildPopup = (item, type, store, showResultList) => {
 };
 
 const closeMapPopups = () => {
-  if (currentPopup) currentPopup.remove();
+  if (currentPopup) {
+    currentPopup.remove();
+    currentPopup = null;
+  }
 };
 
 const getZoomLevelForDistance = (distance) => {
@@ -231,7 +256,74 @@ const factorTrainingsForMap = (list) => {
     }
   }
   resultList.push(currentMarker);
+
   return resultList;
+};
+
+// rassemble les emplois ayant une même géoloc pour avoir une seule icône sur la map
+const factorJobsForMap = (lists) => {
+  let sortedList = [];
+
+  // concaténation des trois sources d'emploi
+  if (lists.peJobs) sortedList = lists.peJobs;
+
+  if (lists.lbbCompanies)
+    sortedList = sortedList.length ? sortedList.concat(lists.lbbCompanies.companies) : lists.lbbCompanies.companies;
+
+  if (lists.lbaCompanies)
+    sortedList = sortedList.length ? sortedList.concat(lists.lbaCompanies.companies) : lists.lbbCompanies.companies;
+
+  // tri de la liste de tous les emplois selon les coordonnées geo (l'objectif est d'avoir les emplois au même lieu proches)
+  sortedList.sort((a, b) => {
+    const coordA = getFlatCoords(a);
+    const coordB = getFlatCoords(b);
+
+    if (coordA < coordB) return -1;
+    else return 1;
+  });
+
+  // réduction de la liste en rassemblant les emplois au même endroit sous un seul item
+  let currentMarker = null;
+  let resultList = [];
+
+  for (let i = 0; i < sortedList.length; ++i) {
+    let coords = getCoordsFromJob(sortedList[i]);
+
+    if (!currentMarker) currentMarker = { coords, jobs: [sortedList[i]] };
+    else {
+      if (!isEqualCoords(currentMarker.coords, coords)) {
+        resultList.push(currentMarker);
+        currentMarker = { coords, jobs: [sortedList[i]] };
+      } else currentMarker.jobs.push(sortedList[i]);
+    }
+  }
+  resultList.push(currentMarker);
+
+  return resultList;
+};
+
+// en entrée tableaux [lon,lat]
+const isEqualCoords = (coordsA, coordsB) => {
+  if (coordsA && coordsB && coordsA[0] === coordsB[0] && coordsA[1] === coordsB[1]) return true;
+  else return false;
+};
+
+const getCoordsFromJob = (item) => {
+  let coords = null;
+  if (item.type === "lba" || item.type === "lbb") coords = [item.lon, item.lat];
+  else {
+    // peJob
+    if (item.lieuTravail.longitude !== undefined) coords = [item.lieuTravail.longitude, item.lieuTravail.latitude];
+  }
+
+  return coords;
+};
+
+// utile uniquement pour le tri par coordonnées
+const getFlatCoords = (item) => {
+  const coords = getCoordsFromJob(item);
+
+  return coords ? "" + coords[0] + "," + coords[1] : null;
 };
 
 const computeMissingPositionAndDistance = async (searchCenter, companies, source, map, store, showResultList) => {
@@ -284,5 +376,6 @@ export {
   closeMapPopups,
   getZoomLevelForDistance,
   factorTrainingsForMap,
+  factorJobsForMap,
   computeMissingPositionAndDistance,
 };

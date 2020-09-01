@@ -72,7 +72,7 @@ const PeJob = ({ job, handleSelectItem, showTextOnly, searchForTrainingsOnNewCen
         ""
       ) : (
         <>
-          {Math.round(job.lieuTravail.distance) > formValues.locationRadius ? getCenterSearchOnPeJobButton() : ""}
+          {Math.round(job.lieuTravail.distance) > formValues.radius ? getCenterSearchOnPeJobButton() : ""}
           <div className="knowMore">
             <button onClick={onSelectItem}>En savoir plus</button>
           </div>

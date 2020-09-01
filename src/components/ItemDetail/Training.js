@@ -61,7 +61,7 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
         ""
       ) : (
         <>
-          {Math.round(training.sort[0]) > formValues.locationRadius && !isTrainingOnly
+          {Math.round(training.sort[0]) > formValues.radius && !isTrainingOnly
             ? getCenterSearchOnTrainingButton()
             : ""}
           <div className="knowMore">

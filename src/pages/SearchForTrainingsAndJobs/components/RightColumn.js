@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import axios from "axios";
 import distance from "@turf/distance";
 import baseUrl from "../../../utils/baseUrl";
-import { scrollToTop } from "../../../utils/tools";
+import { scrollToTop, scrollToElementInContainer, getItemElement } from "../../../utils/tools";
 import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
@@ -21,6 +21,7 @@ import {
   flyToMarker,
   closeMapPopups,
   factorTrainingsForMap,
+  factorJobsForMap,
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
 import { gtag } from "../../../services/googleAnalytics";
@@ -54,26 +55,11 @@ const RightColumn = ({
       const itemElement = getItemElement(itemToScrollTo);
 
       if (itemElement) {
-        document.getElementById("rightColumn").scrollTo({
-          top: itemElement.offsetTop - 50,
-          left: 0,
-        });
+        scrollToElementInContainer("rightColumn", itemElement, 50, "auto");
         dispatch(setItemToScrollTo(null));
       }
     }
   });
-
-  const getItemElement = (item) => {
-    let id = "";
-
-    if (item.type === "lbb" || item.type === "lba") id = `${item.item.type}${item.item.siret}`;
-    else if (item.type === "training") id = `id${item.item.id}`;
-    else if (item.type === "peJob") id = `id${item.item.id}`;
-
-    let res = document.getElementById(id);
-
-    return res;
-  };
 
   const handleSelectItem = (item, type) => {
     flyToMarker(item, 12);
@@ -109,7 +95,7 @@ const RightColumn = ({
 
   const logSearchEvent = (type, isJobSearch, isTrainingSearch, isStrictJobSearch, values) => {
     let gaParams = {
-      rayon: values.locationRadius,
+      rayon: values.radius,
       metier: values.job.label,
       diplome: values.diploma,
       lieu: values.location.label,
@@ -193,8 +179,8 @@ const RightColumn = ({
       setIsFormVisible(false);
 
       if (response.data.length) {
-        setTrainingMarkers(factorTrainingsForMap(response.data), store, showResultList);
-        if (values.locationRadius < response.data[0].sort[0])
+        setTrainingMarkers(factorTrainingsForMap(response.data));
+        if (values.radius < response.data[0].sort[0])
           logSearchEvent("outRadiusTrainings", null, null, null, values);
       }
     } catch (err) {
@@ -278,7 +264,7 @@ const RightColumn = ({
 
       dispatch(setJobs(results));
 
-      setJobMarkers(results, map, store, showResultList);
+      setJobMarkers(factorJobsForMap(results));
     } catch (err) {
       console.log(
         `Erreur interne lors de la recherche d'emplois (${

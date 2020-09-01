@@ -157,7 +157,7 @@ const SearchForm = (props) => {
           }
           return errors;
         }}
-        initialValues={{ job: {}, location: {}, locationRadius: 30, diploma: "" }}
+        initialValues={{ job: {}, location: {}, radius: 30, diploma: "" }}
         onSubmit={props.handleSubmit}
       >
         {({ isSubmitting, setFieldValue }) => (
