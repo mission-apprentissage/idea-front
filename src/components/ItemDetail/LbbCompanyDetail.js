@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { gtag } from "../../services/googleAnalytics";
 import infoIcon from "../../assets/icons/info.svg";
 import lightbulbIcon from "../../assets/icons/lightbulb.svg";
+import linkIcon from "../../assets/icons/link.svg";
 
 const LbbCompanyDetail = ({ company }) => {
   //console.log("lbb : ", company);
@@ -48,7 +49,8 @@ const LbbCompanyDetail = ({ company }) => {
         <div className="sectionTitle">
           Voir la fiche entreprise sur le site {company.type === "lba" ? "La Bonne Alternance" : "La Bonne Boîte"}
         </div>
-        <div className="description">
+        <div>
+          <img className="linkIcon" src={linkIcon} alt="" />
           <a
             target="lbb"
             href={company.url}
