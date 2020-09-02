@@ -84,7 +84,7 @@ const PeJobDetail = ({ job }) => {
               logClickedLink("Offre Pôle emploi");
             }}
           >
-            <img className="linkIcon" src={linkIcon} alt="" />{" "}
+            <img className="linkIcon" src={linkIcon} alt="" />
             {`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}
           </a>
         </div>
