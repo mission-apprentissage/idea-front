@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import moment from "moment";
 import { gtag } from "../../services/googleAnalytics";
+import infoIcon from "../../assets/icons/info.svg";
 
 const PeJobDetail = ({ job }) => {
   //console.log("peJob : ", job);
@@ -84,7 +85,7 @@ const PeJobDetail = ({ job }) => {
           >{`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}</a>
         </div>
         <div className="blueAdvice">
-          Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas diffusé
+          <img src={infoIcon} alt="" /> Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas diffusé
           d’offre !
         </div>
       </div>
