@@ -85,8 +85,13 @@ const PeJobDetail = ({ job }) => {
           >{`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}</a>
         </div>
         <div className="blueAdvice">
-          <img src={infoIcon} alt="" /> Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas diffusé
-          d’offre !
+          <div className="floatLeft">
+            <img src={infoIcon} alt="" />
+          </div>
+          <div className="paragraph">
+            Optimisez votre recherche en envoyant aussi des candidatures spontanées aux entreprises qui n’ont pas
+            diffusé d’offre !
+          </div>
         </div>
       </div>
     </>
