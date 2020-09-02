@@ -180,8 +180,7 @@ const RightColumn = ({
 
       if (response.data.length) {
         setTrainingMarkers(factorTrainingsForMap(response.data));
-        if (values.radius < response.data[0].sort[0])
-          logSearchEvent("outRadiusTrainings", null, null, null, values);
+        if (values.radius < response.data[0].sort[0]) logSearchEvent("outRadiusTrainings", null, null, null, values);
       }
     } catch (err) {
       console.log(
