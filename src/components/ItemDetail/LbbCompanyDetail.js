@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { gtag } from "../../services/googleAnalytics";
+import infoIcon from "../../assets/icons/info.svg";
+import lightbulbIcon from "../../assets/icons/lightbulb.svg";
 
 const LbbCompanyDetail = ({ company }) => {
   //console.log("lbb : ", company);
@@ -58,6 +60,7 @@ const LbbCompanyDetail = ({ company }) => {
           </a>
         </div>
         <div className="blueAdvice">
+          <img src={infoIcon} alt="" />
           <span className="bold">C'est quoi une candidature spontanée ?</span>
           <br />
           <br />
@@ -65,6 +68,7 @@ const LbbCompanyDetail = ({ company }) => {
           que vous seriez très intéressé pour intégrer son équipe dans le cadre de votre alternance.
         </div>
         <div className="pinkAdvice">
+          <img src={lightbulbIcon} alt="" />
           <span className="bold">Comment se préparer pour une candidature spontanée ?</span>
           <br />
           <ul>
