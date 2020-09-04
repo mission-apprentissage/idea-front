@@ -3,10 +3,10 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
 import { getValueFromPath } from "./utils/tools";
-//import * as Sentry from "@sentry/browser";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
 
 import configureStore, { history } from "./redux";
-//import awsConfigure from "./services/aws";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -17,13 +17,11 @@ import "./index.css";
 const store = configureStore();
 
 async function init() {
-  //await awsConfigure();
-
-  // Sentry.init({
-  //   dsn: "https://SENKEY@sentry.io/KEY",
-  //   environment: "ENVNAME",
-  // });
-  //Sentry.configureScope(scope => scope.setUser({ id: user._id }));
+  Sentry.init({
+    dsn: "https://57ef0b6bede14fbe8449e584a1044047@o154210.ingest.sentry.io/5417811",
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: 1.0,
+  });
 
   const isTrainingOnly = getValueFromPath("isTrainingOnly") ? true : false;
 
