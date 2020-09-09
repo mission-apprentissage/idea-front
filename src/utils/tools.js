@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react";
+
 const getValueFromPath = (key) => {
   const url = new URL(window.location);
   const searchParams = new URLSearchParams(url.search);
@@ -38,4 +40,10 @@ const getItemElement = (item) => {
   return res;
 };
 
-export { getValueFromPath, scrollToTop, scrollToElementInContainer, getItemElement };
+const logError = (title, message) => {
+  let err = new Error(message);
+  err.name = title;
+  Sentry.captureException(err);
+};
+
+export { getValueFromPath, scrollToTop, scrollToElementInContainer, getItemElement, logError };
