@@ -7,6 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 import baseUrl from "../../../utils/baseUrl";
+import { logError } from "../../../utils/tools";
 
 const romeLabelsApi = baseUrl + "/romelabels";
 const romeDiplomasApi = baseUrl + "/jobsdiplomas";
@@ -15,8 +16,14 @@ export const fetchRomes = async (value) => {
   if (value) {
     const response = await axios.get(romeLabelsApi, { params: { title: value } });
 
-    if (response.data instanceof Array) return response.data;
-    else return [];
+    if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
+    else {
+      if (response.data.error) {
+        logError("Rome API error", `Rome API error ${response.data.error}`);
+      }
+
+      return [];
+    }
   } else return [];
 };
 
