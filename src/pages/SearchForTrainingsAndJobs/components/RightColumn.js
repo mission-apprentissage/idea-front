@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import axios from "axios";
 import distance from "@turf/distance";
 import baseUrl from "../../../utils/baseUrl";
-import { scrollToTop, scrollToElementInContainer, getItemElement } from "../../../utils/tools";
+import { scrollToTop, scrollToElementInContainer, logError, getItemElement } from "../../../utils/tools";
 import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
@@ -242,6 +242,7 @@ const RightColumn = ({
 
       if (response.data === "romes_missing") {
         setJobSearchError(`Erreur interne lors de la recherche d'emplois  (400 : romes manquants)`);
+        logError("Job search error", `Missing romes`);
       } else {
         if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
           peJobs = await computeMissingPositionAndDistance(
