@@ -40,8 +40,8 @@ const getItemElement = (item) => {
   return res;
 };
 
-const logError = (title, message) => {
-  let err = new Error(message);
+const logError = (title, error) => {
+  let err = error instanceof Error ? error : new Error(error);
   err.name = title;
   Sentry.captureException(err);
 };
