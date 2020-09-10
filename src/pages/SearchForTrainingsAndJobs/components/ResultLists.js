@@ -306,7 +306,9 @@ const ResultLists = (props) => {
 
   // construit le bloc formaté avec les erreurs remontées
   const getErrorMessages = () => {
-    return (
+    return props.trainingSearchError && props.allJobSearchError ? (
+      <ErrorMessage message="Erreur technique momentanée" type="column" />
+    ) : (
       <>
         {props.trainingSearchError ? <ErrorMessage message={props.trainingSearchError} /> : ""}
         {props.jobSearchError ? <ErrorMessage message={props.jobSearchError} /> : ""}
