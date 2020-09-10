@@ -49,6 +49,8 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
+    if (props.allJobSearchError) return "";
+
     const jobCount = getJobCount(props.jobs);
 
     if (jobCount) {
@@ -229,6 +231,8 @@ const ResultLists = (props) => {
 
   // construit le bloc formaté avec les décomptes de formations et d'opportunités d'emploi
   const getResultCounts = () => {
+    if (props.allJobSearchError && props.trainingSearchError) return "";
+
     let trainingPart = "";
 
     if (props.isTrainingSearchLoading) {
