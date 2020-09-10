@@ -48,6 +48,10 @@ const RightColumn = ({
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
   const [jobSearchError, setJobSearchError] = useState("");
+  const [allJobSearchError, setAllJobSearchError] = useState(false);
+
+  //TODO: définition niveau d'erreur JOB partiel  ou total
+
   const [trainingSearchError, setTrainingSearchError] = useState("");
 
   useEffect(() => {
@@ -215,6 +219,7 @@ const RightColumn = ({
   const searchForJobs = async (values, strictRadius) => {
     setIsJobSearchLoading(true);
     setJobSearchError("");
+    setAllJobSearchError(false);
 
     try {
       const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
