@@ -238,7 +238,7 @@ const ResultLists = (props) => {
           <Spinner />
         </div>
       );
-    } else {
+    } else if (!props.trainingSearchError) {
       const trs = props.trainings ? props.trainings.length : "";
       let trainingCount = trs,
         trainingCountLabel = " formation ne correspond";
@@ -269,7 +269,7 @@ const ResultLists = (props) => {
             <Spinner />
           </div>
         );
-      } else {
+      } else if (!props.allJobSearchError) {
         let jobs = getJobCount(props.jobs),
           jobCount,
           jobCountLabel = " entreprise ne correspond";
