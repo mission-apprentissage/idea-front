@@ -338,7 +338,6 @@ const RightColumn = ({
         jobSearchError={jobSearchError}
         allJobSearchError={allJobSearchError}
         trainingSearchError={trainingSearchError}
-
       />
     );
   };
