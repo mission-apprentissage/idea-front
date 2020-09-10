@@ -4,8 +4,7 @@ import errorAlertIcon from "../../assets/icons/errorAlert.svg";
 import searchingPeople from "../../assets/icons/searchingPeople.svg";
 
 const ErrorMessage = ({ type, message }) => {
-  console.log("message : ", message);
-
+  
   return (
     <>
       {type === "column" ? <img src={searchingPeople} alt="" /> : ""}
