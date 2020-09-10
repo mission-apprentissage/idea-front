@@ -177,6 +177,11 @@ const RightColumn = ({
         },
       });
 
+      if (response.data.result === "error") {
+        logError("Training Search Error", `${response.data.message}`);
+        setTrainingSearchError("Oups ! Les résultats formation ne sont pas disponibles actuellement !");
+      }
+
       dispatch(setTrainings(response.data));
 
       setHasSearch(true);
@@ -192,11 +197,8 @@ const RightColumn = ({
           err.response.data ? err.response.data.error : ""
         })`
       );
-      setTrainingSearchError(
-        `Erreur interne lors de la recherche de formations (${err.response.status} : ${
-          err.response.data ? err.response.data.error : ""
-        })`
-      );
+      logError("Training search error", err);
+      setTrainingSearchError("Oups ! Les résultats formation ne sont pas disponibles actuellement !");
     }
 
     setIsTrainingSearchLoading(false);
@@ -241,7 +243,7 @@ const RightColumn = ({
       let results = {};
 
       if (response.data === "romes_missing") {
-        setJobSearchError(`Erreur interne lors de la recherche d'emplois  (400 : romes manquants)`);
+        setJobSearchError(`Error technique momentanée`);
         logError("Job search error", `Missing romes`);
       } else {
         if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
@@ -309,11 +311,7 @@ const RightColumn = ({
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
       logError("Job search error", err);
-      setJobSearchError(
-        `Erreur interne lors de la recherche d'emplois (${
-          err.response && err.response.status ? err.response.status : ""
-        } : ${err.response && err.response.data ? err.response.data.error : err.message})`
-      );
+      setJobSearchError(`Problème momentané d'accès aux opportunités d'emploi`);
       setAllJobSearchError(true);
     }
 
