@@ -267,6 +267,38 @@ const RightColumn = ({
         };
       }
 
+      // gestion des erreurs
+      let jobErrorMessage = "";
+      if (
+        response.data.peJobs.result === "error" &&
+        response.data.lbbCompanies.result === "error" &&
+        response.data.lbaCompanies.result === "error"
+      ) {
+        //TODO: définition niveau d'erreur JOB total
+        setAllJobSearchError(true);
+        jobErrorMessage = "Problème momentané d'accès aux opportunités d'emploi";
+        logError(
+          "Job Search Error",
+          `All job sources in error. PE : ${response.data.peJobs.message} - LBB : ${response.data.lbbCompanies.message} - LBA : ${response.data.lbaCompanies.message}`
+        );
+      } else {
+        if (
+          response.data.peJobs.result === "error" ||
+          response.data.lbbCompanies.result === "error" ||
+          response.data.lbaCompanies.result === "error"
+        ) {
+          jobErrorMessage = "Problème momentané d'accès à certaines opportunités d'emploi";
+          if (response.data.peJobs.result === "error")
+            logError("Job Search Error", `PE Error : ${response.data.peJobs.message}`);
+          if (response.data.lbbCompanies.result === "error")
+            logError("Job Search Error", `LBB Error : ${response.data.lbbCompanies.message}`);
+          if (response.data.lbaCompanies.result === "error")
+            logError("Job Search Error", `LBA Error : ${response.data.lbaCompanies.message}`);
+        }
+      }
+
+      if (jobErrorMessage) setJobSearchError(jobErrorMessage);
+
       dispatch(setJobs(results));
 
       setJobMarkers(factorJobsForMap(results));
@@ -276,11 +308,13 @@ const RightColumn = ({
           err.response && err.response.status ? err.response.status : ""
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
+      logError("Job search error", err);
       setJobSearchError(
         `Erreur interne lors de la recherche d'emplois (${
           err.response && err.response.status ? err.response.status : ""
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
+      setAllJobSearchError(true);
     }
 
     setIsJobSearchLoading(false);
