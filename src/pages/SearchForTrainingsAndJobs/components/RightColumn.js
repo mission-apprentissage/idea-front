@@ -163,9 +163,16 @@ const RightColumn = ({
     dispatch(setTrainings(trainings));
   };
 
+  const clearTrainings = () => {
+    dispatch(setTrainings([]));
+    setTrainingMarkers(null);
+    closeMapPopups();
+  };
+
   const searchForTrainings = async (values) => {
     setIsTrainingSearchLoading(true);
     setTrainingSearchError("");
+    clearTrainings();
     try {
       const response = await axios.get(trainingsApi, {
         params: {
