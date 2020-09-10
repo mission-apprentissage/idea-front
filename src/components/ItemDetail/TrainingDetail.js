@@ -63,7 +63,7 @@ const TrainingDetail = ({ training }) => {
             <img src={infoIcon} alt="" />
           </div>
           <div className="paragraph">
-            Idea est en version BETA
+            Vous consultez une version BETA
             <br />
             D'autres informations seront disponibles sur cette page prochainement
           </div>
