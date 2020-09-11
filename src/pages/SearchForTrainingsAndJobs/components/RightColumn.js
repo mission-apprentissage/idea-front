@@ -26,6 +26,11 @@ import {
 } from "../../../utils/mapTools";
 import { gtag } from "../../../services/googleAnalytics";
 
+const allJobSearchErrorText = "Problème momentané d'accès aux opportunités d'emploi";
+const partialJobSearchErrorText = "Problème momentané d'accès à certaines opportunités d'emploi";
+const trainingErrorText = "Oups ! Les résultats formation ne sont pas disponibles actuellement !";
+const technicalErrorText = "Error technique momentanée";
+
 const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
 
@@ -186,7 +191,7 @@ const RightColumn = ({
 
       if (response.data.result === "error") {
         logError("Training Search Error", `${response.data.message}`);
-        setTrainingSearchError("Oups ! Les résultats formation ne sont pas disponibles actuellement !");
+        setTrainingSearchError(trainingErrorText);
       }
 
       dispatch(setTrainings(response.data));
@@ -205,7 +210,7 @@ const RightColumn = ({
         })`
       );
       logError("Training search error", err);
-      setTrainingSearchError("Oups ! Les résultats formation ne sont pas disponibles actuellement !");
+      setTrainingSearchError(trainingErrorText);
     }
 
     setIsTrainingSearchLoading(false);
@@ -250,7 +255,7 @@ const RightColumn = ({
       let results = {};
 
       if (response.data === "romes_missing") {
-        setJobSearchError(`Error technique momentanée`);
+        setJobSearchError(technicalErrorText);
         logError("Job search error", `Missing romes`);
       } else {
         if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
@@ -285,7 +290,7 @@ const RightColumn = ({
       ) {
         //TODO: définition niveau d'erreur JOB total
         setAllJobSearchError(true);
-        jobErrorMessage = "Problème momentané d'accès aux opportunités d'emploi";
+        jobErrorMessage = allJobSearchErrorText;
         logError(
           "Job Search Error",
           `All job sources in error. PE : ${response.data.peJobs.message} - LBB : ${response.data.lbbCompanies.message} - LBA : ${response.data.lbaCompanies.message}`
@@ -296,7 +301,7 @@ const RightColumn = ({
           response.data.lbbCompanies.result === "error" ||
           response.data.lbaCompanies.result === "error"
         ) {
-          jobErrorMessage = "Problème momentané d'accès à certaines opportunités d'emploi";
+          jobErrorMessage = partialJobSearchErrorText;
           if (response.data.peJobs.result === "error")
             logError("Job Search Error", `PE Error : ${response.data.peJobs.message}`);
           if (response.data.lbbCompanies.result === "error")
@@ -318,7 +323,7 @@ const RightColumn = ({
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
       logError("Job search error", err);
-      setJobSearchError(`Problème momentané d'accès aux opportunités d'emploi`);
+      setJobSearchError(allJobSearchErrorText);
       setAllJobSearchError(true);
     }
 
