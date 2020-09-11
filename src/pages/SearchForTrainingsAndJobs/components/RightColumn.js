@@ -3,7 +3,7 @@ import { useDispatch, useSelector, useStore } from "react-redux";
 import axios from "axios";
 import distance from "@turf/distance";
 import baseUrl from "../../../utils/baseUrl";
-import { scrollToTop, scrollToElementInContainer, getItemElement } from "../../../utils/tools";
+import { scrollToTop, scrollToElementInContainer, logError, getItemElement } from "../../../utils/tools";
 import ItemDetail from "../../../components/ItemDetail/ItemDetail";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
@@ -25,6 +25,11 @@ import {
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
 import { gtag } from "../../../services/googleAnalytics";
+
+const allJobSearchErrorText = "Problème momentané d'accès aux opportunités d'emploi";
+const partialJobSearchErrorText = "Problème momentané d'accès à certaines opportunités d'emploi";
+const trainingErrorText = "Oups ! Les résultats formation ne sont pas disponibles actuellement !";
+const technicalErrorText = "Error technique momentanée";
 
 const trainingsApi = baseUrl + "/formations";
 const jobsApi = baseUrl + "/jobs";
@@ -48,6 +53,10 @@ const RightColumn = ({
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
   const [jobSearchError, setJobSearchError] = useState("");
+  const [allJobSearchError, setAllJobSearchError] = useState(false);
+
+  //TODO: définition niveau d'erreur JOB partiel  ou total
+
   const [trainingSearchError, setTrainingSearchError] = useState("");
 
   useEffect(() => {
@@ -159,9 +168,16 @@ const RightColumn = ({
     dispatch(setTrainings(trainings));
   };
 
+  const clearTrainings = () => {
+    dispatch(setTrainings([]));
+    setTrainingMarkers(null);
+    closeMapPopups();
+  };
+
   const searchForTrainings = async (values) => {
     setIsTrainingSearchLoading(true);
     setTrainingSearchError("");
+    clearTrainings();
     try {
       const response = await axios.get(trainingsApi, {
         params: {
@@ -172,6 +188,11 @@ const RightColumn = ({
           diploma: values.diploma,
         },
       });
+
+      if (response.data.result === "error") {
+        logError("Training Search Error", `${response.data.message}`);
+        setTrainingSearchError(trainingErrorText);
+      }
 
       dispatch(setTrainings(response.data));
 
@@ -188,11 +209,8 @@ const RightColumn = ({
           err.response.data ? err.response.data.error : ""
         })`
       );
-      setTrainingSearchError(
-        `Erreur interne lors de la recherche de formations (${err.response.status} : ${
-          err.response.data ? err.response.data.error : ""
-        })`
-      );
+      logError("Training search error", err);
+      setTrainingSearchError(trainingErrorText);
     }
 
     setIsTrainingSearchLoading(false);
@@ -215,6 +233,7 @@ const RightColumn = ({
   const searchForJobs = async (values, strictRadius) => {
     setIsJobSearchLoading(true);
     setJobSearchError("");
+    setAllJobSearchError(false);
 
     try {
       const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
@@ -236,7 +255,8 @@ const RightColumn = ({
       let results = {};
 
       if (response.data === "romes_missing") {
-        setJobSearchError(`Erreur interne lors de la recherche d'emplois  (400 : romes manquants)`);
+        setJobSearchError(technicalErrorText);
+        logError("Job search error", `Missing romes`);
       } else {
         if (!response.data.peJobs.result || response.data.peJobs.result !== "error")
           peJobs = await computeMissingPositionAndDistance(
@@ -261,6 +281,38 @@ const RightColumn = ({
         };
       }
 
+      // gestion des erreurs
+      let jobErrorMessage = "";
+      if (
+        response.data.peJobs.result === "error" &&
+        response.data.lbbCompanies.result === "error" &&
+        response.data.lbaCompanies.result === "error"
+      ) {
+        //TODO: définition niveau d'erreur JOB total
+        setAllJobSearchError(true);
+        jobErrorMessage = allJobSearchErrorText;
+        logError(
+          "Job Search Error",
+          `All job sources in error. PE : ${response.data.peJobs.message} - LBB : ${response.data.lbbCompanies.message} - LBA : ${response.data.lbaCompanies.message}`
+        );
+      } else {
+        if (
+          response.data.peJobs.result === "error" ||
+          response.data.lbbCompanies.result === "error" ||
+          response.data.lbaCompanies.result === "error"
+        ) {
+          jobErrorMessage = partialJobSearchErrorText;
+          if (response.data.peJobs.result === "error")
+            logError("Job Search Error", `PE Error : ${response.data.peJobs.message}`);
+          if (response.data.lbbCompanies.result === "error")
+            logError("Job Search Error", `LBB Error : ${response.data.lbbCompanies.message}`);
+          if (response.data.lbaCompanies.result === "error")
+            logError("Job Search Error", `LBA Error : ${response.data.lbaCompanies.message}`);
+        }
+      }
+
+      if (jobErrorMessage) setJobSearchError(jobErrorMessage);
+
       dispatch(setJobs(results));
 
       setJobMarkers(factorJobsForMap(results));
@@ -270,11 +322,9 @@ const RightColumn = ({
           err.response && err.response.status ? err.response.status : ""
         } : ${err.response && err.response.data ? err.response.data.error : err.message})`
       );
-      setJobSearchError(
-        `Erreur interne lors de la recherche d'emplois (${
-          err.response && err.response.status ? err.response.status : ""
-        } : ${err.response && err.response.data ? err.response.data.error : err.message})`
-      );
+      logError("Job search error", err);
+      setJobSearchError(allJobSearchErrorText);
+      setAllJobSearchError(true);
     }
 
     setIsJobSearchLoading(false);
@@ -297,6 +347,9 @@ const RightColumn = ({
         searchForJobsOnNewCenter={searchForJobsOnNewCenter}
         searchForTrainingsOnNewCenter={searchForTrainingsOnNewCenter}
         jobs={jobs}
+        jobSearchError={jobSearchError}
+        allJobSearchError={allJobSearchError}
+        trainingSearchError={trainingSearchError}
       />
     );
   };

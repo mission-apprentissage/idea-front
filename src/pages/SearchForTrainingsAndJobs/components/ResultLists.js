@@ -3,7 +3,7 @@ import { Button, Spinner } from "reactstrap";
 import Training from "../../../components/ItemDetail/Training";
 import PeJob from "../../../components/ItemDetail/PeJob";
 import LbbCompany from "../../../components/ItemDetail/LbbCompany";
-import { LogoIdea } from "../../../components";
+import { LogoIdea, ErrorMessage } from "../../../components";
 import { useSelector } from "react-redux";
 import ExtendedSearchButton from "./ExtendedSearchButton";
 import NoJobResult from "./NoJobResult";
@@ -49,6 +49,8 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
+    if (props.allJobSearchError) return "";
+
     const jobCount = getJobCount(props.jobs);
 
     if (jobCount) {
@@ -229,6 +231,8 @@ const ResultLists = (props) => {
 
   // construit le bloc formaté avec les décomptes de formations et d'opportunités d'emploi
   const getResultCounts = () => {
+    if (props.allJobSearchError && props.trainingSearchError) return "";
+
     let trainingPart = "";
 
     if (props.isTrainingSearchLoading) {
@@ -238,7 +242,7 @@ const ResultLists = (props) => {
           <Spinner />
         </div>
       );
-    } else {
+    } else if (!props.trainingSearchError) {
       const trs = props.trainings ? props.trainings.length : "";
       let trainingCount = trs,
         trainingCountLabel = " formation ne correspond";
@@ -269,7 +273,7 @@ const ResultLists = (props) => {
             <Spinner />
           </div>
         );
-      } else {
+      } else if (!props.allJobSearchError) {
         let jobs = getJobCount(props.jobs),
           jobCount,
           jobCountLabel = " entreprise ne correspond";
@@ -300,6 +304,18 @@ const ResultLists = (props) => {
     );
   };
 
+  // construit le bloc formaté avec les erreurs remontées
+  const getErrorMessages = () => {
+    return props.trainingSearchError && props.allJobSearchError ? (
+      <ErrorMessage message="Erreur technique momentanée" type="column" />
+    ) : (
+      <>
+        {props.trainingSearchError ? <ErrorMessage message={props.trainingSearchError} /> : ""}
+        {props.jobSearchError ? <ErrorMessage message={props.jobSearchError} /> : ""}
+      </>
+    );
+  };
+
   return (
     <div className={props.isFormVisible || props.selectedItem ? "hiddenResultList" : ""}>
       <header>
@@ -310,6 +326,7 @@ const ResultLists = (props) => {
       </header>
       <div className="clearBoth" />
       {getResultCounts()}
+      {getErrorMessages()}
       {getTrainingResult()}
       {getJobResult()}
     </div>

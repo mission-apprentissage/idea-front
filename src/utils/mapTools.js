@@ -297,7 +297,8 @@ const factorJobsForMap = (lists) => {
       } else currentMarker.jobs.push(sortedList[i]);
     }
   }
-  resultList.push(currentMarker);
+
+  if (currentMarker) resultList.push(currentMarker);
 
   return resultList;
 };

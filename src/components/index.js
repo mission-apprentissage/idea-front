@@ -7,6 +7,7 @@ import DatePickerField from "./DatePickerField";
 import AutoCompleteField from "./AutoCompleteField";
 import LogoIdea from "./LogoIdea";
 import RadioButton from "./RadioButton";
+import ErrorMessage from "./ErrorMessage";
 import { ItemDetail, PeJob, PeJobDetail, Training, TrainingDetail, LbbCompany, LbbCompanyDetail } from "./ItemDetail";
 
 export {
@@ -26,4 +27,5 @@ export {
   TrainingDetail,
   LbbCompany,
   LbbCompanyDetail,
+  ErrorMessage,
 };
