@@ -209,6 +209,7 @@ const SearchForm = (props) => {
                       onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
                       compareItemFunction={compareAutoCompleteValues}
                       onInputValueChangeFunction={fetchAddresses}
+                      scrollParentId="rightColumn"
                       name="placeField"
                       placeholder="Adresse"
                     />

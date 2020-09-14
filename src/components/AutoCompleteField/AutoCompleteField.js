@@ -11,6 +11,7 @@ export const AutoCompleteField = ({
   initialItem,
   items,
   initialIsOpen,
+  scrollParentId,
   ...props
 }) => {
   const { setFieldValue } = useFormikContext();
@@ -20,6 +21,17 @@ export const AutoCompleteField = ({
   const itemToString = (item) => {
     if (itemToStringFunction) return item ? itemToStringFunction(item) : "";
     else return item;
+  };
+
+  // hack pour scroller un champ autocomplete dont les valeurs pourraient être cachées par le clavier du mobile
+  const onFocus = (e) => {
+    let ancestor = e.currentTarget.closest(`#${scrollParentId}`);
+
+    if (ancestor) {
+      setTimeout(() => {
+        if (window.innerHeight < 650) ancestor.scrollTop = ancestor.scrollTop + 150;
+      }, 350);
+    }
   };
 
   const {
@@ -65,6 +77,7 @@ export const AutoCompleteField = ({
           {...getInputProps()}
           className={inputValue && inputValue.length > 20 ? "autoCompleteSmallFont" : ""}
           placeholder={props.placeholder}
+          onFocus={onFocus}
           name={props.name}
         />
         {/*<button {...getToggleButtonProps()} aria-label="toggle menu">
