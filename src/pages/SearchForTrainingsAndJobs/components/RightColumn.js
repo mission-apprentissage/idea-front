@@ -25,6 +25,8 @@ import {
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
 import { gtag } from "../../../services/googleAnalytics";
+import { widgetParameters, applyWidgetParameters, setWidgetApplied } from "../../../services/config";
+import { fetchAddressFromCoordinates } from "../../../services/baseAdresse";
 
 const allJobSearchErrorText = "Problème momentané d'accès aux opportunités d'emploi";
 const partialJobSearchErrorText = "Problème momentané d'accès à certaines opportunités d'emploi";
@@ -68,6 +70,16 @@ const RightColumn = ({
         dispatch(setItemToScrollTo(null));
       }
     }
+
+    console.log("widgetParameters in useEffect : ", widgetParameters);
+    console.log("applywidgetParameters in useEffect : ", applyWidgetParameters);
+
+    if (applyWidgetParameters) {
+      console.log("applyWidget : ", widgetParameters);
+      launchWidgetSearch(widgetParameters);
+      setWidgetApplied(); // action one shot
+      console.log("applyWidgetParameters in useEffect after : ", applyWidgetParameters);
+    }
   });
 
   const handleSelectItem = (item, type) => {
@@ -79,6 +91,27 @@ const RightColumn = ({
 
   const handleClose = () => {
     unSelectItem();
+  };
+
+  const launchWidgetSearch = async () => {
+    // récupération du code insee depuis la base d'adresse
+    const addresses = await fetchAddressFromCoordinates([widgetParameters.lon, widgetParameters.lat]);
+
+    if (addresses.length) {
+      let values = {
+        location: {
+          value: {
+            type: "Point",
+            coordinates: [widgetParameters.lat, widgetParameters.lon],
+          },
+        },
+        radius: widgetParameters.radius || 30,
+        ...addresses[0],
+      };
+
+      //handleSubmit(values);
+      console.log("submitSearch : ",values);
+    } else console.log("aucun lieu trouvé");
   };
 
   const handleSubmit = async (values) => {
