@@ -41,6 +41,10 @@ export const getWidgetParameters = () => {
   }
 };
 
+export const setWidgetApplied = () => {
+  applyWidgetParameters = false;
+};
+
 export const getIsTrainingOnly = () => {
   console.log("ok");
 
