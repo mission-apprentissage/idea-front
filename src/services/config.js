@@ -3,34 +3,49 @@ import { getValueFromPath } from "../utils/tools";
 export let widgetParameters = null;
 export let applyWidgetParameters = false;
 
-export const getWidgetParameters = () =>
-{
-    widgetParameters = {};
+export const getWidgetParameters = () => {
+  if (getValueFromPath("caller")) {
+    widgetParameters = {
+      caller: getValueFromPath("caller"),
+    };
+
     applyWidgetParameters = true;
-}
 
-export const getIsTrainingOnly = () =>
-{
-    console.log("ok");
+    let p = getValueFromPath("lat");
+    if (p && !isNaN(p)) widgetParameters.lat = parseFloat(p);
+    else applyWidgetParameters = false;
 
-    let result = getValueFromPath("isTrainingOnly") ? true : false;     // paramètres historique utilisé par par LBA
+    p = getValueFromPath("lon");
+    if (p && !isNaN(p)) widgetParameters.lon = parseFloat(p);
+    else applyWidgetParameters = false;
 
-    if(!result && getValueFromPath("scope")==="training" && getValueFromPath("caller"))
-        result = true;
-        
-    return result;
-}
+    p = getValueFromPath("romes"); // todo appliquer un ctrl regexp sur romes, max 3
+    if (p) widgetParameters.romes = p;
+    else applyWidgetParameters = false;
 
+    p = getValueFromPath("radius"); //todo: vérifier les valeurs légitimes
+    if (p && !isNaN(p)) widgetParameters.radius = parseInt(p);
 
+    p = getValueFromPath("return_uri");
+    if (p) widgetParameters.return_uri = p;
 
-/*
-  radius : Optionnel . Valeur numérique. Valeurs autorisées : 10 | 30 | 60 | 100. Le rayon de recherche autour du lieu en km. Valeur par défaut 30.
-  romes : Optionnel. Une liste de codes romes séparés par des virgules. Ex : A1021 | F1065,F1066,F1067 . Maximum 3 romes. Valeur par défaut null.
-  scope : Optionnel. Valeurs autorisées all | training . Valeur par défaut all. Si absent ou la valeur est all la recherche portera sur les formations et les offres. Si training la recherche portera sur formations seulement
-  lat : Optionnel. Coordonnée géographique en degrés décimaux (float). Valeur par défaut null. La partie lattitude des coordonnées gps.
-  lon : Optionnel. Coordonnée géographique en degrés décimaux (float). Valeur par défaut null. La partie longitude des coordonnées gps.
-  caller : Obligatoire. L'identification du site appelant. A fixer lors de la mise en place avec l’équipe d’IDEA.
-  return_uri : Optionnel. Valeur par défaut / . L'uri de retour qui sera notifiée au site appelant. 
-  return_logo_url : Optionnel. Valeur par défaut : logo du site Labonnealternance.pole-emploi.fr . L'url du logo du site vers lequel l'utilisateur revient en cliquant sur le bouton de retour dans Idea. 
-Si lat, lon et romes sont correctement renseignés une recherche sera lancée automatiquement en utilisant ces critères. Si radius est correctement renseigné il sera utilisé comme critère de la recherche.
-  */
+    p = getValueFromPath("return_logo_url");
+    if (p) widgetParameters.return_logo_url = p;
+    /*
+        radius : Optionnel . Valeur numérique. Valeurs autorisées : 10 | 30 | 60 | 100. Le rayon de recherche autour du lieu en km. Valeur par défaut 30.
+        return_uri : Optionnel. Valeur par défaut / . L'uri de retour qui sera notifiée au site appelant. 
+        return_logo_url : Optionnel. Valeur par défaut : logo du site Labonnealternance.pole-emploi.fr . L'url du logo du site vers lequel l'utilisateur revient en cliquant sur le bouton de retour dans Idea. 
+        Si lat, lon et romes sont correctement renseignés une recherche sera lancée automatiquement en utilisant ces critères. Si radius est correctement renseigné il sera utilisé comme critère de la recherche.
+        */
+  }
+};
+
+export const getIsTrainingOnly = () => {
+  console.log("ok");
+
+  let result = getValueFromPath("isTrainingOnly") ? true : false; // paramètres historique utilisé par par LBA
+
+  if (!result && getValueFromPath("scope") === "training" && getValueFromPath("caller")) result = true;
+
+  return result;
+};
