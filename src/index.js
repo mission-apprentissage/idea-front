@@ -13,7 +13,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
-import { widgetParameters, applyWidgetParameters, getWidgetParameters, getIsTrainingOnly } from "./services/config";
+import { getWidgetParameters, getIsTrainingOnly } from "./services/config";
 
 const store = configureStore();
 
@@ -24,11 +24,8 @@ async function init() {
     tracesSampleRate: 1.0,
   });
 
-  console.log("avant ",widgetParameters,applyWidgetParameters);
   const isTrainingOnly = getIsTrainingOnly();
   getWidgetParameters();
-  console.log("ito : ",isTrainingOnly);
-  console.log("après ",widgetParameters,applyWidgetParameters);
 
   ReactDOM.render(
     <Provider store={store}>
