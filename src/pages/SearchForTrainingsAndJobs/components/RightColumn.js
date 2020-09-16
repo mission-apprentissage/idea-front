@@ -102,15 +102,22 @@ const RightColumn = ({
         location: {
           value: {
             type: "Point",
-            coordinates: [widgetParameters.lat, widgetParameters.lon],
+            coordinates: [widgetParameters.lon, widgetParameters.lat],
           },
+        },
+        job: {
+          romes: widgetParameters.romes.split(","),
         },
         radius: widgetParameters.radius || 30,
         ...addresses[0],
       };
 
-      //handleSubmit(values);
-      console.log("submitSearch : ",values);
+      while (
+        !map.getSource("job-points") ||
+        !map.getSource("training-points") // attente que la map soit prête
+      )
+        await new Promise((resolve) => setTimeout(resolve, 350));
+      await handleSubmit(values);
     } else console.log("aucun lieu trouvé");
   };
 
