@@ -61,7 +61,7 @@ export const fetchAddressFromCoordinates = (coordinates) => {
       };
     });
 
-    console.log("returned items : ", returnedItems);
+    //console.log("returned items : ", returnedItems);
 
     return returnedItems;
   });
