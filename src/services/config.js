@@ -46,11 +46,7 @@ export const setWidgetApplied = () => {
 };
 
 export const getIsTrainingOnly = () => {
-  console.log("ok");
-
   let result = getValueFromPath("isTrainingOnly") ? true : false; // paramètres historique utilisé par par LBA
-
   if (!result && getValueFromPath("scope") === "training" && getValueFromPath("caller")) result = true;
-
   return result;
 };
