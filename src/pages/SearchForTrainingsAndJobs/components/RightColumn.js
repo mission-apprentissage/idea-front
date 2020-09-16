@@ -71,14 +71,9 @@ const RightColumn = ({
       }
     }
 
-    console.log("widgetParameters in useEffect : ", widgetParameters);
-    console.log("applywidgetParameters in useEffect : ", applyWidgetParameters);
-
     if (applyWidgetParameters) {
-      console.log("applyWidget : ", widgetParameters);
       launchWidgetSearch(widgetParameters);
       setWidgetApplied(); // action one shot
-      console.log("applyWidgetParameters in useEffect after : ", applyWidgetParameters);
     }
   });
 
@@ -127,9 +122,7 @@ const RightColumn = ({
 
     setSearchRadius(values.radius || 30);
     dispatch(setExtendedSearch(false));
-
     map.flyTo({ center: searchCenter, zoom: 10 });
-
     dispatch(setFormValues({ ...values }));
     searchForTrainings(values);
 
@@ -145,7 +138,7 @@ const RightColumn = ({
   const logSearchEvent = (type, isJobSearch, isTrainingSearch, isStrictJobSearch, values) => {
     let gaParams = {
       rayon: values.radius,
-      metier: values.job.label,
+      metier: values.job.label || values.job.romes,
       diplome: values.diploma,
       lieu: values.location.label,
       codePostal: values.location.zipcode,
