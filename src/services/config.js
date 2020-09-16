@@ -24,7 +24,8 @@ export const getWidgetParameters = () => {
     else applyWidgetParameters = false;
 
     p = getValueFromPath("radius"); //todo: vérifier les valeurs légitimes
-    if (p && !isNaN(p)) widgetParameters.radius = parseInt(p);
+    if (p && !isNaN(p) && (p === "10" || p === "30" || p === "60" || p === "100"))
+      widgetParameters.radius = parseInt(p);
 
     p = getValueFromPath("return_uri");
     if (p) widgetParameters.return_uri = p;
