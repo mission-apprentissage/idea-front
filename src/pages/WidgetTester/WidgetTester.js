@@ -1,37 +1,41 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Button, Container, Row, Col, FormGroup, Label, Input } from "reactstrap";
 import "./widgettester.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Formik, Form, ErrorMessage } from "formik";
-import { AutoCompleteField } from "../../components";
+import { Formik, Form, ErrorMessage, Field } from "formik";
+import { AutoCompleteField, RadioButton } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
-import ReactMapboxGl, { Layer, Feature, ZoomControl } from "react-mapbox-gl";
-//import Training from "./Training";
-import ReactJson from "react-json-view";
+import baseUrl from "../../utils/baseUrl";
+import mapMarker from "../../assets/icons/pin.svg";
+import { fetchRomes } from "../SearchForTrainingsAndJobs/components/SearchForm";
 
-const Map = ReactMapboxGl({
-  accessToken: "pk.eyJ1IjoiYWxhbmxyIiwiYSI6ImNrYWlwYWYyZDAyejQzMHBpYzE0d2hoZWwifQ.FnAOzwsIKsYFRnTUwneUSA",
-});
-
-const baseUrl =
-  window.location.hostname === "localhost" ? "http://localhost:3000" : "https://idea-mna-api.herokuapp.com";
-
-const formationsApi = baseUrl + "/formations";
-const jobsApi = baseUrl + "/jobs";
 const romeLabelsApi = baseUrl + "/romelabels";
 
-export const fetchRomes = async (value) => {
-  if (value) {
-    const response = await axios.get(romeLabelsApi, { params: { title: value } });
-
-    if (response.data instanceof Array) return response.data;
-    else return [];
-  } else return [];
-};
 
 const WidgetTester = () => {
+  const [locationRadius, setLocationRadius] = useState(0);
+
+  const getRadioButton = (value, label, selectedValue, setFieldValue) => {
+    return (
+      <Col xs="2" className="radioButton">
+        <RadioButton
+          handleChange={handleRadiusChange}
+          value={value}
+          label={label}
+          selectedValue={selectedValue}
+          setFieldValue={setFieldValue}
+        />
+      </Col>
+    );
+  };
+
+  const handleRadiusChange = (radius, setFieldValue) => {
+    setLocationRadius(radius);
+
+    setTimeout(() => {
+      setFieldValue("radius", radius);
+    }, 0);
+  };
+
   // indique l'attribut de l'objet contenant le texte de l'item sélectionné à afficher
   const autoCompleteToStringFunction = (item) => {
     return item ? item.label : "";
@@ -58,167 +62,143 @@ const WidgetTester = () => {
     }, 0);
   };
 
-  const [trainings, setTrainings] = useState(null);
-  const [jobs, setJobs] = useState(null);
+  const handleSubmit = async (values) => {
 
-  const [mapState, setMapState] = useState({
-    lon: 2.3488,
-    lat: 48.85341,
-    zoom: 2,
-  });
+    console.log("values : ",values);
 
-  const getMap = () => {
+
+  };
+
+  const getWidget = (params) => {
+    let ideaUrl = window.location.origin;
+
     return (
-      <Map
-        style="mapbox://styles/mapbox/streets-v9"
-        containerStyle={{
-          height: "50vh",
-          width: "50vw",
+      <iframe
+        title={params.title}
+        style={{
+          marginTop: "30px",
+          marginBottom: "30px",
+          height: `${params.height}px`,
+          width: params.width ? `${params.width}px` : "100%",
         }}
-        maxPitch={0}
-        disab={false}
-        center={[mapState.lon, mapState.lat]}
-      >
-        <ZoomControl position="bottom-left" />
-        <Layer type="symbol" id="marker" layout={{ "icon-image": "marker-15" }}>
-          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-        </Layer>
-      </Map>
+        src={ideaUrl}
+      />
     );
   };
 
-  const handleSubmit = async (values) => {
-    setMapState({ lon: values.location.value.coordinates[0], lat: values.location.value.coordinates[1] });
+  const getForm = () => {
+    return (
+      <Formik initialValues={{ job: {}, location: {}, radius: 0 }} onSubmit={handleSubmit}>
+        {({ isSubmitting, setFieldValue }) => (
+          <Form>
+            <Row>
+              <Col xs="12">
+                <div className="formGroup">
+                  <label htmlFor="jobField">Métier</label>
+                  <div className="fieldContainer">
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchRomes}
+                      name="jobField"
+                      placeholder="ex: plomberie"
+                    />
+                  </div>
+                  <ErrorMessage name="job" className="errorField" component="div" />
+                </div>
+              </Col>
 
-    searchForTrainings(values);
-    searchForJobs(values);
-  };
+              <Col xs="12">
+                <div className="formGroup">
+                  <label htmlFor="placeField">Centre de recherche</label>
+                  <div className="fieldContainer">
+                    <AutoCompleteField
+                      items={[]}
+                      itemToStringFunction={autoCompleteToStringFunction}
+                      onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
+                      compareItemFunction={compareAutoCompleteValues}
+                      onInputValueChangeFunction={fetchAddresses}
+                      scrollParentId="rightColumn"
+                      name="placeField"
+                      placeholder="Adresse"
+                    />
+                    <img className="inFormIcon" src={mapMarker} alt="" />
+                  </div>
+                  <ErrorMessage name="location" className="errorField" component="div" />
+                </div>
+              </Col>
 
-  const searchForTrainings = async (values) => {
-    const response = await axios.get(formationsApi, {
-      params: {
-        romes: values.job.rome,
-        longitude: values.location.value.coordinates[0],
-        latitude: values.location.value.coordinates[1],
-      },
-    });
-    setTrainings(response.data);
-  };
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>Rayon de recherche</label>
+                  <Field type="hidden" value={locationRadius} name="locationRadius" />
+                  <div className="buttons">
+                    <Container>
+                      <Row>
+                        {getRadioButton(0, "Non défini", locationRadius, setFieldValue)}
+                        {getRadioButton(10, "10km", locationRadius, setFieldValue)}
+                        {getRadioButton(30, "30km", locationRadius, setFieldValue)}
+                        {getRadioButton(60, "60km", locationRadius, setFieldValue)}
+                        {getRadioButton(100, "100km", locationRadius, setFieldValue)}
+                      </Row>
+                    </Container>
+                  </div>
+                </div>
+              </Col>
+            </Row>
 
-  const searchForJobs = async (values) => {
-    const response = await axios.get(jobsApi, {
-      params: {
-        romes: values.job.rome,
-        longitude: values.location.value.coordinates[0],
-        latitude: values.location.value.coordinates[1],
-        insee: values.location.insee,
-        zipcode: values.location.zipcode,
-      },
-    });
-
-    let results = { peJobs: response.data.peJobs.resultats, lbbCompanies: response.data.lbbCompanies };
-
-    setJobs(results);
-  };
-
-  const getTrainingResult = () => {
-    if (trainings) {
-      return (
-        <div className="apiResult">
-          <h2>Formations ({trainings.length})</h2>
-          <ReactJson src={trainings} />
-        </div>
-      );
-    } else {
-      return "";
-    }
-  };
-
-  const getJobResult = () => {
-    if (jobs) {
-      return (
-        <div className="apiResult">
-          <h2>
-            Postes ({jobs.peJobs.length}), Bonnes boîtes ({jobs.lbbCompanies.companies.length})
-          </h2>
-          <ReactJson src={jobs} />
-        </div>
-      );
-    } else {
-      return "";
-    }
+            <Button className="submitButton" type="submit" disabled={isSubmitting}>
+              Mettre à jour les widgets
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    );
   };
 
   return (
-    <div className="page apiTestPage">
+    <div className="page demoPage widgetTestPage">
       <Container>
         <Row>
           <Col xs="12">
-            <h1>Test des APIs IDEA</h1>
-            <Formik
-              validate={(values) => {
-                const errors = {};
-                if (!values.job || !values.job.label || !values.job.rome) {
-                  errors.job = "Sélectionne un métier";
-                }
-                return errors;
-              }}
-              initialValues={{ job: {} }}
-              onSubmit={handleSubmit}
-            >
-              {({ isSubmitting }) => (
-                <Form>
-                  <Row>
-                    <Col xs="12" md="6">
-                      <div className="formGroup">
-                        <FontAwesomeIcon icon={faSearch} />
-                        <AutoCompleteField
-                          items={[]}
-                          itemToStringFunction={autoCompleteToStringFunction}
-                          onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
-                          compareItemFunction={compareAutoCompleteValues}
-                          onInputValueChangeFunction={fetchRomes}
-                          name="jobField"
-                          placeholder="ex: boucher"
-                        />
-                      </div>
-                      <ErrorMessage name="job" className="errorField" component="div" />
-                    </Col>
-                    <Col xs="12" md="6">
-                      <div className="formGroup">
-                        <FontAwesomeIcon icon={faMapMarkerAlt} />
-                        <AutoCompleteField
-                          items={[]}
-                          itemToStringFunction={autoCompleteToStringFunction}
-                          onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
-                          compareItemFunction={compareAutoCompleteValues}
-                          onInputValueChangeFunction={fetchAddresses}
-                          name="placeField"
-                          placeholder="ex: Nantes"
-                        />
-                      </div>
-                      <ErrorMessage name="location" className="errorField" component="div" />
-                    </Col>
-                  </Row>
-
-                  <Button type="submit" disabled={isSubmitting}>
-                    Valider
-                  </Button>
-                </Form>
-              )}
-            </Formik>
+            <h1>Test du Widget Idea</h1>
+            {getForm()}
           </Col>
         </Row>
-        <Row>
-          <Col xs="12" lg="6">
-            {getTrainingResult()}
+        <Row className="widgetList">
+          <Col xs="12">
+            <h3>Largeur 317 px - hauteur 640 px</h3>
+            {getWidget({
+              title: "narrow",
+              height: 640,
+              width: 317,
+            })}
           </Col>
-          <Col xs="12" lg="6">
-            {getJobResult()}
+          <Col xs="12">
+            <h3>Largeur 360 px - hauteur 640 px</h3>
+            {getWidget({
+              title: "mobile",
+              height: 640,
+              width: 360,
+            })}
           </Col>
-        </Row>
-        <Row>
-          <Col xs="12">{getMap()}</Col>
+          <Col xs="12">
+            <h3>Largeur 768 px - hauteur 800 px</h3>
+            {getWidget({
+              title: "tablet",
+              height: 800,
+              width: 768,
+            })}
+          </Col>
+          <Col xs="12">
+            <h3>Largeur 100% - hauteur 800 px</h3>
+            {getWidget({
+              title: "desktop",
+              height: 800,
+            })}
+          </Col>
         </Row>
       </Container>
     </div>
