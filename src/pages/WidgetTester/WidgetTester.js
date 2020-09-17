@@ -10,9 +10,12 @@ import { fetchRomes } from "../SearchForTrainingsAndJobs/components/SearchForm";
 
 const romeLabelsApi = baseUrl + "/romelabels";
 
-
 const WidgetTester = () => {
   const [locationRadius, setLocationRadius] = useState(0);
+  const [searchCenter, setSearchCenter] = useState(null);
+  const [romes, setRomes] = useState(null);
+  const [shownRomes, setShownRomes] = useState(null);
+  const [shownSearchCenter, setShownSearchCenter] = useState(null);
 
   const getRadioButton = (value, label, selectedValue, setFieldValue) => {
     return (
@@ -48,25 +51,42 @@ const WidgetTester = () => {
 
   // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
   const updateValuesFromJobAutoComplete = (item, setFieldValue) => {
+    console.log(item);
     //setTimeout perme d'éviter un conflit de setState
     setTimeout(() => {
       setFieldValue("job", item);
+      setShownRomes(item);
     }, 0);
   };
 
   // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
   const updateValuesFromPlaceAutoComplete = (item, setFieldValue) => {
+    
     //setTimeout perme d'éviter un conflit de setState
     setTimeout(() => {
       setFieldValue("location", item);
+      setShownSearchCenter(item);
     }, 0);
   };
 
+  const showSearchCenter = () => {
+    return shownSearchCenter && shownSearchCenter.value && shownSearchCenter.value.coordinates ? (
+      <div className="shownValue">{`Lat : ${shownSearchCenter.value.coordinates[1]} - Lon : ${shownSearchCenter.value.coordinates[0]}`}</div>
+    ) : (
+      ""
+    );
+  };
+
+  const showSelectedRomes = () => {
+    return shownRomes && shownRomes.romes ? (
+      <div className="shownValue">{`Romes : ${shownRomes.romes.join()}`}</div>
+    ) : (
+      ""
+    );
+  };
+
   const handleSubmit = async (values) => {
-
-    console.log("values : ",values);
-
-
+    console.log("values : ", values);
   };
 
   const getWidget = (params) => {
@@ -106,6 +126,7 @@ const WidgetTester = () => {
                       placeholder="ex: plomberie"
                     />
                   </div>
+                  {showSelectedRomes()}
                   <ErrorMessage name="job" className="errorField" component="div" />
                 </div>
               </Col>
@@ -126,6 +147,7 @@ const WidgetTester = () => {
                     />
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
+                  {showSearchCenter()}
                   <ErrorMessage name="location" className="errorField" component="div" />
                 </div>
               </Col>
@@ -169,6 +191,7 @@ const WidgetTester = () => {
         </Row>
         <Row className="widgetList">
           <Col xs="12">
+            <hr />
             <h3>Largeur 317 px - hauteur 640 px</h3>
             {getWidget({
               title: "narrow",
@@ -177,6 +200,7 @@ const WidgetTester = () => {
             })}
           </Col>
           <Col xs="12">
+            <hr />
             <h3>Largeur 360 px - hauteur 640 px</h3>
             {getWidget({
               title: "mobile",
@@ -185,6 +209,7 @@ const WidgetTester = () => {
             })}
           </Col>
           <Col xs="12">
+            <hr />
             <h3>Largeur 768 px - hauteur 800 px</h3>
             {getWidget({
               title: "tablet",
@@ -193,6 +218,7 @@ const WidgetTester = () => {
             })}
           </Col>
           <Col xs="12">
+            <hr />
             <h3>Largeur 100% - hauteur 800 px</h3>
             {getWidget({
               title: "desktop",
