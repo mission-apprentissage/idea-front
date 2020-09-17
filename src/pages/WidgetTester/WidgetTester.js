@@ -12,8 +12,7 @@ const romeLabelsApi = baseUrl + "/romelabels";
 
 const WidgetTester = () => {
   const [locationRadius, setLocationRadius] = useState(0);
-  const [searchCenter, setSearchCenter] = useState(null);
-  const [romes, setRomes] = useState(null);
+  const [widgetParams, setWidgetParams] = useState(null);
   const [shownRomes, setShownRomes] = useState(null);
   const [shownSearchCenter, setShownSearchCenter] = useState(null);
 
@@ -51,7 +50,6 @@ const WidgetTester = () => {
 
   // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
   const updateValuesFromJobAutoComplete = (item, setFieldValue) => {
-    console.log(item);
     //setTimeout perme d'éviter un conflit de setState
     setTimeout(() => {
       setFieldValue("job", item);
@@ -61,7 +59,6 @@ const WidgetTester = () => {
 
   // Mets à jours les valeurs de champs du formulaire Formik à partir de l'item sélectionné dans l'AutoCompleteField
   const updateValuesFromPlaceAutoComplete = (item, setFieldValue) => {
-    
     //setTimeout perme d'éviter un conflit de setState
     setTimeout(() => {
       setFieldValue("location", item);
@@ -86,7 +83,13 @@ const WidgetTester = () => {
   };
 
   const handleSubmit = async (values) => {
-    console.log("values : ", values);
+    let res = {};
+
+    res.romes = values.job && values.job.romes ? values.job.romes.join() : null;
+    res.location = values.location && values.location.value ? values.location.value.coordinates : null;
+    res.radius = values.radius || null;
+
+    setWidgetParams(res);
   };
 
   const getWidget = (params) => {
