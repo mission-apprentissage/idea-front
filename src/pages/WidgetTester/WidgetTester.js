@@ -95,6 +95,14 @@ const WidgetTester = () => {
   const getWidget = (params) => {
     let ideaUrl = window.location.origin;
 
+    if (widgetParams) {
+      //console.log("widgetParams  : ",widgetParams);
+      ideaUrl += "?caller=a";
+      ideaUrl += widgetParams.romes ? `&romes=${widgetParams.romes}` : "";
+      ideaUrl += widgetParams.location ? `&lon=${widgetParams.location[0]}&lat=${widgetParams.location[1]}` : "";
+      ideaUrl += widgetParams.location ? `&radius=${widgetParams.radius}` : "";
+    }
+
     return (
       <iframe
         title={params.title}
