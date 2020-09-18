@@ -12,15 +12,17 @@ const romeLabelsApi = baseUrl + "/romelabels";
 
 const WidgetTester = () => {
   const [locationRadius, setLocationRadius] = useState(0);
+  const [scope, setScope] = useState("");
   const [widgetParams, setWidgetParams] = useState(null);
   const [shownRomes, setShownRomes] = useState(null);
   const [shownSearchCenter, setShownSearchCenter] = useState(null);
 
-  const getRadioButton = (value, label, selectedValue, setFieldValue) => {
+  const getRadioButton = (inputName, value, label, selectedValue, setFieldValue, handleChange) => {
     return (
       <Col xs="2" className="radioButton">
         <RadioButton
-          handleChange={handleRadiusChange}
+          inputName={inputName}
+          handleChange={handleChange}
           value={value}
           label={label}
           selectedValue={selectedValue}
@@ -35,6 +37,14 @@ const WidgetTester = () => {
 
     setTimeout(() => {
       setFieldValue("radius", radius);
+    }, 0);
+  };
+
+  const handleScopeChange = (scope, setFieldValue) => {
+    setScope(scope);
+
+    setTimeout(() => {
+      setFieldValue("scope", scope);
     }, 0);
   };
 
@@ -85,6 +95,8 @@ const WidgetTester = () => {
   const handleSubmit = async (values) => {
     let res = {};
 
+    console.log("values : ",values);
+
     res.romes = values.job && values.job.romes ? values.job.romes.join() : null;
     res.location = values.location && values.location.value ? values.location.value.coordinates : null;
     res.radius = values.radius || null;
@@ -119,7 +131,7 @@ const WidgetTester = () => {
 
   const getForm = () => {
     return (
-      <Formik initialValues={{ job: {}, location: {}, radius: 0 }} onSubmit={handleSubmit}>
+      <Formik initialValues={{ job: {}, location: {}, radius: 0, scope: "" }} onSubmit={handleSubmit}>
         {({ isSubmitting, setFieldValue }) => (
           <Form>
             <Row>
@@ -170,11 +182,27 @@ const WidgetTester = () => {
                   <div className="buttons">
                     <Container>
                       <Row>
-                        {getRadioButton(0, "Non défini", locationRadius, setFieldValue)}
-                        {getRadioButton(10, "10km", locationRadius, setFieldValue)}
-                        {getRadioButton(30, "30km", locationRadius, setFieldValue)}
-                        {getRadioButton(60, "60km", locationRadius, setFieldValue)}
-                        {getRadioButton(100, "100km", locationRadius, setFieldValue)}
+                        {getRadioButton("locationRadius", 0, "Non défini", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 10, "10km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 30, "30km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 60, "60km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 100, "100km", locationRadius, setFieldValue, handleRadiusChange)}
+                      </Row>
+                    </Container>
+                  </div>
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>Périmètre</label>
+                  <Field type="hidden" value={scope} name="scope" />
+                  <div className="buttons">
+                    <Container>
+                      <Row>
+                        {getRadioButton("scope", "", "Non défini", scope, setFieldValue, handleScopeChange)}
+                        {getRadioButton("scope", "all", "Tout", scope, setFieldValue, handleScopeChange)}
+                        {getRadioButton("scope", "training", "Formations", scope, setFieldValue, handleScopeChange)}
                       </Row>
                     </Container>
                   </div>
