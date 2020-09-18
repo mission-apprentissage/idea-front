@@ -95,7 +95,7 @@ const WidgetTester = () => {
   const handleSubmit = async (values) => {
     let res = {};
 
-    console.log("values : ",values);
+    console.log("values : ", values);
 
     res.romes = values.job && values.job.romes ? values.job.romes.join() : null;
     res.location = values.location && values.location.value ? values.location.value.coordinates : null;
@@ -114,7 +114,8 @@ const WidgetTester = () => {
       ideaUrl += widgetParams.romes ? `&romes=${widgetParams.romes}` : "";
       ideaUrl += widgetParams.location ? `&lon=${widgetParams.location[0]}&lat=${widgetParams.location[1]}` : "";
       ideaUrl += widgetParams.location ? `&radius=${widgetParams.radius}` : "";
-      ideaUrl += widgetParams.scope ?  `&scope=${widgetParams.scope}` : "";
+      ideaUrl += widgetParams.scope ? `&scope=${widgetParams.scope}` : "";
+      ideaUrl += widgetParams.returnURI ? `&return_uri=${widgetParams.returnURI}` : "";
     }
 
     return (
@@ -184,11 +185,46 @@ const WidgetTester = () => {
                   <div className="buttons">
                     <Container>
                       <Row>
-                        {getRadioButton("locationRadius", 0, "Non défini", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 10, "10km", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 30, "30km", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 60, "60km", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 100, "100km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton(
+                          "locationRadius",
+                          0,
+                          "Non défini",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          10,
+                          "10km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          30,
+                          "30km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          60,
+                          "60km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          100,
+                          "100km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
                       </Row>
                     </Container>
                   </div>
