@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 import { gtag } from "../../services/googleAnalytics";
+import infoIcon from "../../assets/icons/info.svg";
+import lightbulbIcon from "../../assets/icons/lightbulb.svg";
+import linkIcon from "../../assets/icons/link.svg";
 
 const LbbCompanyDetail = ({ company }) => {
   //console.log("lbb : ", company);
@@ -46,7 +49,8 @@ const LbbCompanyDetail = ({ company }) => {
         <div className="sectionTitle">
           Voir la fiche entreprise sur le site {company.type === "lba" ? "La Bonne Alternance" : "La Bonne Boîte"}
         </div>
-        <div className="description">
+        <div>
+          <img className="linkIcon" src={linkIcon} alt="" />
           <a
             target="lbb"
             href={company.url}
@@ -58,6 +62,7 @@ const LbbCompanyDetail = ({ company }) => {
           </a>
         </div>
         <div className="blueAdvice">
+          <img src={infoIcon} alt="" />
           <span className="bold">C'est quoi une candidature spontanée ?</span>
           <br />
           <br />
@@ -65,6 +70,7 @@ const LbbCompanyDetail = ({ company }) => {
           que vous seriez très intéressé pour intégrer son équipe dans le cadre de votre alternance.
         </div>
         <div className="pinkAdvice">
+          <img src={lightbulbIcon} alt="" />
           <span className="bold">Comment se préparer pour une candidature spontanée ?</span>
           <br />
           <ul>

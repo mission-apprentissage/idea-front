@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { gtag } from "../../services/googleAnalytics";
+import infoIcon from "../../assets/icons/info.svg";
 
 const TrainingDetail = ({ training }) => {
   //console.log("training : ", training);
@@ -58,9 +59,14 @@ const TrainingDetail = ({ training }) => {
         )}
 
         <div className="blueAdvice">
-          Idea est en version BETA
-          <br />
-          D'autres informations seront disponibles sur cette page prochainement
+          <div className="floatLeft">
+            <img src={infoIcon} alt="" />
+          </div>
+          <div className="paragraph">
+            Vous consultez une version BETA
+            <br />
+            D'autres informations seront disponibles sur cette page prochainement
+          </div>
         </div>
       </div>
     </>
