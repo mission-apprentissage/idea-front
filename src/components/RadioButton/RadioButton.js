@@ -1,7 +1,7 @@
 import React from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 
-const RadioButton = React.memo(({ handleChange, value, label, selectedValue, setFieldValue }) => {
+const RadioButton = React.memo(({ inputName, handleChange, value, label, selectedValue, setFieldValue }) => {
   return (
     <FormGroup check>
       <Label
@@ -13,7 +13,7 @@ const RadioButton = React.memo(({ handleChange, value, label, selectedValue, set
       >
         <Input
           type="radio"
-          name="locationRadius"
+          name={inputName}
           onChange={() => handleChange(value, setFieldValue)}
           checked={selectedValue === value}
         />{" "}
