@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "connected-react-router";
-import { getValueFromPath } from "./utils/tools";
+
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 
@@ -13,6 +13,7 @@ import * as serviceWorker from "./serviceWorker";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
+import { getWidgetParameters, getIsTrainingOnly } from "./services/config";
 
 const store = configureStore();
 
@@ -23,7 +24,8 @@ async function init() {
     tracesSampleRate: 1.0,
   });
 
-  const isTrainingOnly = getValueFromPath("isTrainingOnly") ? true : false;
+  const isTrainingOnly = getIsTrainingOnly();
+  getWidgetParameters();
 
   ReactDOM.render(
     <Provider store={store}>

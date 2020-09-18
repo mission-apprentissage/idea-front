@@ -48,3 +48,21 @@ export const fetchAddresses = (value, type) => {
     });
   } else return [];
 };
+
+// récupère cp et insee à partir de lat / lon
+export const fetchAddressFromCoordinates = (coordinates) => {
+  let addressURL = `https://api-adresse.data.gouv.fr/reverse/?lat=${coordinates[1]}&lon=${coordinates[0]}`;
+  return axios.get(addressURL).then((response) => {
+    const returnedItems = response.data.features.map((feature) => {
+      return {
+        insee: feature.properties.citycode,
+        zipcode: feature.properties.postcode,
+        label: feature.properties.label,
+      };
+    });
+
+    //console.log("returned items : ", returnedItems);
+
+    return returnedItems;
+  });
+};

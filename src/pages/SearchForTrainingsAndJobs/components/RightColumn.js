@@ -25,6 +25,8 @@ import {
   computeMissingPositionAndDistance,
 } from "../../../utils/mapTools";
 import { gtag } from "../../../services/googleAnalytics";
+import { widgetParameters, applyWidgetParameters, setWidgetApplied } from "../../../services/config";
+import { fetchAddressFromCoordinates } from "../../../services/baseAdresse";
 
 const allJobSearchErrorText = "Problème momentané d'accès aux opportunités d'emploi";
 const partialJobSearchErrorText = "Problème momentané d'accès à certaines opportunités d'emploi";
@@ -68,6 +70,11 @@ const RightColumn = ({
         dispatch(setItemToScrollTo(null));
       }
     }
+
+    if (applyWidgetParameters) {
+      launchWidgetSearch(widgetParameters);
+      setWidgetApplied(); // action one shot
+    }
   });
 
   const handleSelectItem = (item, type) => {
@@ -81,15 +88,41 @@ const RightColumn = ({
     unSelectItem();
   };
 
+  const launchWidgetSearch = async () => {
+    // récupération du code insee depuis la base d'adresse
+    const addresses = await fetchAddressFromCoordinates([widgetParameters.lon, widgetParameters.lat]);
+
+    if (addresses.length) {
+      let values = {
+        location: {
+          value: {
+            type: "Point",
+            coordinates: [widgetParameters.lon, widgetParameters.lat],
+          },
+        },
+        job: {
+          romes: widgetParameters.romes.split(","),
+        },
+        radius: widgetParameters.radius || 30,
+        ...addresses[0],
+      };
+
+      while (
+        !map.getSource("job-points") ||
+        !map.getSource("training-points") // attente que la map soit prête
+      )
+        await new Promise((resolve) => setTimeout(resolve, 350));
+      await handleSubmit(values);
+    } else console.log("aucun lieu trouvé");
+  };
+
   const handleSubmit = async (values) => {
     // centrage de la carte sur le lieu de recherche
     const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
     setSearchRadius(values.radius || 30);
     dispatch(setExtendedSearch(false));
-
     map.flyTo({ center: searchCenter, zoom: 10 });
-
     dispatch(setFormValues({ ...values }));
     searchForTrainings(values);
 
@@ -105,7 +138,7 @@ const RightColumn = ({
   const logSearchEvent = (type, isJobSearch, isTrainingSearch, isStrictJobSearch, values) => {
     let gaParams = {
       rayon: values.radius,
-      metier: values.job.label,
+      metier: values.job.label || values.job.romes,
       diplome: values.diploma,
       lieu: values.location.label,
       codePostal: values.location.zipcode,

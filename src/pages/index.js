@@ -10,6 +10,7 @@ import LocationSelection from "./LocationSelection";
 import HelpForUserProject from "./HelpForUserProject";
 import TrainingList from "./TrainingList";
 import ApiTester from "./ApiTester";
+import WidgetTester from "./WidgetTester";
 import SearchForTrainingsAndJobs from "./SearchForTrainingsAndJobs";
 
 export {
@@ -25,5 +26,6 @@ export {
   HelpForUserProject,
   TrainingList,
   ApiTester,
+  WidgetTester,
   SearchForTrainingsAndJobs,
 };
