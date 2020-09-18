@@ -100,6 +100,7 @@ const WidgetTester = () => {
     res.romes = values.job && values.job.romes ? values.job.romes.join() : null;
     res.location = values.location && values.location.value ? values.location.value.coordinates : null;
     res.radius = values.radius || null;
+    res.scope = values.scope || null;
 
     setWidgetParams(res);
   };
@@ -113,6 +114,7 @@ const WidgetTester = () => {
       ideaUrl += widgetParams.romes ? `&romes=${widgetParams.romes}` : "";
       ideaUrl += widgetParams.location ? `&lon=${widgetParams.location[0]}&lat=${widgetParams.location[1]}` : "";
       ideaUrl += widgetParams.location ? `&radius=${widgetParams.radius}` : "";
+      ideaUrl += widgetParams.scope ?  `&scope=${widgetParams.scope}` : "";
     }
 
     return (
