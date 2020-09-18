@@ -28,10 +28,10 @@ export const getWidgetParameters = () => {
       widgetParameters.radius = parseInt(p);
 
     p = getValueFromPath("return_uri");
-    if (p) widgetParameters.return_uri = p;
+    if (p) widgetParameters.returnURI = p;
 
     p = getValueFromPath("return_logo_url");
-    if (p) widgetParameters.return_logo_url = p;
+    if (p) widgetParameters.returnLogoURL = p;
     /*
         radius : Optionnel . Valeur numérique. Valeurs autorisées : 10 | 30 | 60 | 100. Le rayon de recherche autour du lieu en km. Valeur par défaut 30.
         return_uri : Optionnel. Valeur par défaut / . L'uri de retour qui sera notifiée au site appelant. 

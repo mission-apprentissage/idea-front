@@ -114,11 +114,12 @@ const SearchForm = (props) => {
     }, 0);
   };
 
-  const getRadioButton = (value, label, selectedValue, setFieldValue) => {
+  const getRadioButton = (inputName, value, label, selectedValue, setFieldValue, handleChange) => {
     return (
       <Col xs="3" className="radioButton">
         <RadioButton
-          handleChange={handleRadiusChange}
+          handleChange={handleChange}
+          inputName={inputName}
           value={value}
           label={label}
           selectedValue={selectedValue}
@@ -226,10 +227,10 @@ const SearchForm = (props) => {
                   <div className="buttons">
                     <Container>
                       <Row>
-                        {getRadioButton(10, "10km", locationRadius, setFieldValue)}
-                        {getRadioButton(30, "30km", locationRadius, setFieldValue)}
-                        {getRadioButton(60, "60km", locationRadius, setFieldValue)}
-                        {getRadioButton(100, "100km", locationRadius, setFieldValue)}
+                        {getRadioButton("locationRadius", 10, "10km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 30, "30km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 60, "60km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton("locationRadius", 100, "100km", locationRadius, setFieldValue, handleRadiusChange)}
                       </Row>
 
                       <ErrorMessage name="locationRadius" className="errorField" component="div" />
