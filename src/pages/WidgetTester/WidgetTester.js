@@ -162,7 +162,9 @@ const WidgetTester = () => {
             <Row>
               <Col xs="12">
                 <div className="formGroup">
-                  <label htmlFor="jobField">Métier</label>
+                  <label htmlFor="jobField">
+                    Métier (pour renseigner le champ <strong>romes</strong>)
+                  </label>
                   <div className="fieldContainer">
                     <AutoCompleteField
                       items={[]}
@@ -181,7 +183,9 @@ const WidgetTester = () => {
 
               <Col xs="12">
                 <div className="formGroup">
-                  <label htmlFor="placeField">Centre de recherche</label>
+                  <label htmlFor="placeField">
+                    Centre de recherche (pour renseigner <strong>lat</strong> et <strong>lon</strong>)
+                  </label>
                   <div className="fieldContainer">
                     <AutoCompleteField
                       items={[]}
@@ -202,7 +206,9 @@ const WidgetTester = () => {
 
               <Col xs="12">
                 <div className="formGroup">
-                  <label>Rayon de recherche</label>
+                  <label>
+                    Rayon de recherche (<strong>radius</strong>)
+                  </label>
                   <Field type="hidden" value={locationRadius} name="locationRadius" />
                   <div className="buttons">
                     <Container>
@@ -255,7 +261,9 @@ const WidgetTester = () => {
 
               <Col xs="12">
                 <div className="formGroup">
-                  <label>Périmètre</label>
+                  <label>
+                    Périmètre (<strong>scope</strong>)
+                  </label>
                   <Field type="hidden" value={scope} name="scope" />
                   <div className="buttons">
                     <Container>
@@ -278,21 +286,27 @@ const WidgetTester = () => {
 
               <Col xs="12">
                 <div className="formGroup">
-                  <label>Identifiant appelant</label>
+                  <label>
+                    Identifiant appelant (<strong>caller</strong>)
+                  </label>
                   <Field type="text" name="caller" />
                 </div>
               </Col>
 
               <Col xs="12">
                 <div className="formGroup">
-                  <label>URI au click du bouton de retour</label>
+                  <label>
+                    URI au click du bouton de retour (<strong>return_uri</strong>)
+                  </label>
                   <Field type="text" name="returnURI" />
                 </div>
               </Col>
 
               <Col xs="12">
                 <div className="formGroup">
-                  <label>URL de l'image du bouton de retour</label>
+                  <label>
+                    URL de l'image du bouton de retour (<strong>return_logo_url</strong>)
+                  </label>
                   <Field type="text" name="returnLogoURL" />
                 </div>
               </Col>
@@ -313,10 +327,18 @@ const WidgetTester = () => {
         <Row>
           <Col xs="12">
             <h1>Test du Widget Idea</h1>
+            <div>
+              La documentation est ici :{" "}
+              <a href="https://app.gitbook.com/@mission-apprentissage/s/idea/documentation" target="docIdea">
+                https://app.gitbook.com/@mission-apprentissage/s/idea/documentation
+              </a>
+            </div>
             {getForm()}
           </Col>
 
-          <Col xs="12">{getIdeaUrlWithParams()}</Col>
+          <Col xs="12">
+            URL associés à l'attribut <strong>src</strong> de l'iframe : {getIdeaUrlWithParams()}
+          </Col>
         </Row>
         <Row className="widgetList">
           <Col xs="12">
