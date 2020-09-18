@@ -3,10 +3,14 @@ import logoLBA from "../../assets/logo-noir-lba.svg";
 
 import "./logoidea.css";
 import { Row, Col } from "reactstrap";
+import { widgetParameters } from "../../services/config";
 
 const LogoIdea = () => {
   const goToLbaHome = () => {
-    let p = { type: "goToPage", page: "/" };
+    let p = {
+      type: "goToPage",
+      page: widgetParameters && widgetParameters.returnURI ? widgetParameters.returnURI : "/",
+    };
     window.parent.postMessage(p, "*");
   };
 
