@@ -101,22 +101,33 @@ const WidgetTester = () => {
     res.location = values.location && values.location.value ? values.location.value.coordinates : null;
     res.radius = values.radius || null;
     res.scope = values.scope || null;
+    res.caller = values.caller || null;
+    res.returnURI = values.returnURI || null;
+    res.returnLogoURL = values.returnLogoURL || null;
 
     setWidgetParams(res);
   };
 
-  const getWidget = (params) => {
+  const getIdeaUrlWithParams = () => {
     let ideaUrl = window.location.origin;
 
     if (widgetParams) {
       //console.log("widgetParams  : ",widgetParams);
-      ideaUrl += "?caller=a";
+      ideaUrl += "?";
+      ideaUrl += widgetParams.caller ? `&caller=${widgetParams.caller}` : "";
       ideaUrl += widgetParams.romes ? `&romes=${widgetParams.romes}` : "";
       ideaUrl += widgetParams.location ? `&lon=${widgetParams.location[0]}&lat=${widgetParams.location[1]}` : "";
       ideaUrl += widgetParams.location ? `&radius=${widgetParams.radius}` : "";
       ideaUrl += widgetParams.scope ? `&scope=${widgetParams.scope}` : "";
       ideaUrl += widgetParams.returnURI ? `&return_uri=${widgetParams.returnURI}` : "";
+      ideaUrl += widgetParams.returnLogoURL ? `&return_logo_url=${widgetParams.returnLogoURL}` : "";
     }
+
+    return ideaUrl;
+  };
+
+  const getWidget = (params) => {
+    let ideaUrl = getIdeaUrlWithParams(widgetParams);
 
     return (
       <iframe
@@ -134,7 +145,18 @@ const WidgetTester = () => {
 
   const getForm = () => {
     return (
-      <Formik initialValues={{ job: {}, location: {}, radius: 0, scope: "" }} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={{
+          job: {},
+          location: {},
+          radius: 0,
+          scope: "",
+          caller: "identifiant_appelant",
+          returnURI: "/",
+          returnLogoURL: "",
+        }}
+        onSubmit={handleSubmit}
+      >
         {({ isSubmitting, setFieldValue }) => (
           <Form>
             <Row>
@@ -240,10 +262,38 @@ const WidgetTester = () => {
                       <Row>
                         {getRadioButton("scope", "", "Non défini", scope, setFieldValue, handleScopeChange)}
                         {getRadioButton("scope", "all", "Tout", scope, setFieldValue, handleScopeChange)}
-                        {getRadioButton("scope", "training", "Formations", scope, setFieldValue, handleScopeChange)}
+                        {getRadioButton(
+                          "scope",
+                          "training",
+                          "Formations seules",
+                          scope,
+                          setFieldValue,
+                          handleScopeChange
+                        )}
                       </Row>
                     </Container>
                   </div>
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>Identifiant appelant</label>
+                  <Field type="text" name="caller" />
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>URI au click du bouton de retour</label>
+                  <Field type="text" name="returnURI" />
+                </div>
+              </Col>
+
+              <Col xs="12">
+                <div className="formGroup">
+                  <label>URL de l'image du bouton de retour</label>
+                  <Field type="text" name="returnLogoURL" />
                 </div>
               </Col>
             </Row>
@@ -265,6 +315,8 @@ const WidgetTester = () => {
             <h1>Test du Widget Idea</h1>
             {getForm()}
           </Col>
+
+          <Col xs="12">{getIdeaUrlWithParams()}</Col>
         </Row>
         <Row className="widgetList">
           <Col xs="12">
