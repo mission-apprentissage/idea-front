@@ -95,8 +95,6 @@ const WidgetTester = () => {
   const handleSubmit = async (values) => {
     let res = {};
 
-    console.log("values : ", values);
-
     res.romes = values.job && values.job.romes ? values.job.romes.join() : null;
     res.location = values.location && values.location.value ? values.location.value.coordinates : null;
     res.radius = values.radius || null;
