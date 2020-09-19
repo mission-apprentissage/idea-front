@@ -8,6 +8,7 @@ import AutoCompleteField from "./AutoCompleteField";
 import LogoIdea from "./LogoIdea";
 import RadioButton from "./RadioButton";
 import ErrorMessage from "./ErrorMessage";
+import Spinner from "./Spinner";
 import { ItemDetail, PeJob, PeJobDetail, Training, TrainingDetail, LbbCompany, LbbCompanyDetail } from "./ItemDetail";
 
 export {
@@ -28,4 +29,5 @@ export {
   LbbCompany,
   LbbCompanyDetail,
   ErrorMessage,
+  Spinner,
 };
