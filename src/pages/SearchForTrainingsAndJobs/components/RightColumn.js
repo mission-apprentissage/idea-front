@@ -5,6 +5,7 @@ import distance from "@turf/distance";
 import baseUrl from "../../../utils/baseUrl";
 import { scrollToTop, scrollToElementInContainer, logError, getItemElement } from "../../../utils/tools";
 import ItemDetail from "../../../components/ItemDetail/ItemDetail";
+import Spinner from "../../../components/Spinner";
 import { setJobMarkers, setTrainingMarkers } from "../utils/mapTools";
 import SearchForm from "./SearchForm";
 import ResultLists from "./ResultLists";
@@ -51,6 +52,7 @@ const RightColumn = ({
   const store = useStore();
 
   const { trainings, jobs, selectedItem, itemToScrollTo, formValues } = useSelector((state) => state.trainings);
+  const [isLoading, setIsLoading] = useState(true);
   const [isTrainingSearchLoading, setIsTrainingSearchLoading] = useState(true);
   const [isJobSearchLoading, setIsJobSearchLoading] = useState(true);
   const [searchRadius, setSearchRadius] = useState(30);
@@ -74,7 +76,7 @@ const RightColumn = ({
     if (applyWidgetParameters) {
       launchWidgetSearch(widgetParameters);
       setWidgetApplied(); // action one shot
-    }
+    } else setIsLoading(false);
   });
 
   const handleSelectItem = (item, type) => {
@@ -89,31 +91,40 @@ const RightColumn = ({
   };
 
   const launchWidgetSearch = async () => {
-    // récupération du code insee depuis la base d'adresse
-    const addresses = await fetchAddressFromCoordinates([widgetParameters.lon, widgetParameters.lat]);
+    setIsLoading(true);
 
-    if (addresses.length) {
-      let values = {
-        location: {
-          value: {
-            type: "Point",
-            coordinates: [widgetParameters.lon, widgetParameters.lat],
+    try {
+      // récupération du code insee depuis la base d'adresse
+      const addresses = await fetchAddressFromCoordinates([widgetParameters.lon, widgetParameters.lat]);
+
+      if (addresses.length) {
+        let values = {
+          location: {
+            value: {
+              type: "Point",
+              coordinates: [widgetParameters.lon, widgetParameters.lat],
+            },
           },
-        },
-        job: {
-          romes: widgetParameters.romes.split(","),
-        },
-        radius: widgetParameters.radius || 30,
-        ...addresses[0],
-      };
+          job: {
+            romes: widgetParameters.romes.split(","),
+          },
+          radius: widgetParameters.radius || 30,
+          ...addresses[0],
+        };
 
-      while (
-        !map.getSource("job-points") ||
-        !map.getSource("training-points") // attente que la map soit prête
-      )
-        await new Promise((resolve) => setTimeout(resolve, 350));
-      await handleSubmit(values);
-    } else console.log("aucun lieu trouvé");
+        while (
+          !map.getSource("job-points") ||
+          !map.getSource("training-points") // attente que la map soit prête
+        )
+          await new Promise((resolve) => setTimeout(resolve, 350));
+        await handleSubmit(values);
+      } else console.log("aucun lieu trouvé");
+
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      logError("WidgetSearch error", err);
+    }
   };
 
   const handleSubmit = async (values) => {
@@ -405,9 +416,15 @@ const RightColumn = ({
 
   return (
     <div id="rightColumn" className="rightCol">
-      {getSearchForm()}
-      {getResultLists()}
-      {getSelectedItemDetail()}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          {getSearchForm()}
+          {getResultLists()}
+          {getSelectedItemDetail()}
+        </>
+      )}
     </div>
   );
 };
