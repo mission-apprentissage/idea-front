@@ -1,0 +1,348 @@
+.widgetTestPage
+{
+    max-width: 99%;
+
+
+    .autoCompleteMenu
+    {
+        margin-left: 0px;
+        width: 100%;
+        max-width: 370px;
+        margin-top: 4px;
+        box-shadow: 1px 1px 10px rgba(0,0,0,0.2);
+    }
+
+    header
+    {
+        background: none;
+        padding: 0px 10px;
+    }
+    
+    .bold
+    {
+        font-weight: bold;
+    }
+
+
+    form{
+        margin-top: 20px;
+    }
+
+    .hiddenResultList,
+    .hiddenSearchForm,
+    .hiddenItemDetail
+    {
+        display:none;
+    }
+
+    .leftShadow
+    {
+        box-shadow: none;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    @media only screen and (min-width:768px) {
+        
+        .leftShadow
+        {
+            box-shadow: 2px -15px 15px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    .activeXSPane
+    {
+        display:block;
+    }
+
+    .inactiveXSPane
+    {
+        display:block;
+    }
+    
+    .floatingButtons
+    {
+        display:none;
+    }
+
+    .floatingButtons button
+    {
+        cursor: pointer;
+        margin-right: 30px;
+        background-color: #0061DF;
+        font-size: 14px;
+        color: #fff;
+        border-radius: 19px;
+        border: none;
+        padding: 10px 20px;
+    }
+
+    .floatingButtons button:focus
+    {
+        box-shadow: none;
+    }
+
+    @media only screen and (max-width:767px) {        
+        .inactiveXSPane
+        {
+            display:none;
+        
+        }
+
+        .floatingButtons
+        {
+            display:block;
+            position: fixed;
+            bottom: 40px;
+            right: 40%;
+        }
+
+        .floatingButtons.resultList
+        {
+            right: 30px;
+        }
+    }
+    
+    .inFormIcon
+    {
+        margin-top: 13px;
+    }
+
+    form
+    {
+        .apiResult{
+            text-align: left;
+        }
+        
+        .shownValue
+        {
+            margin-bottom: 20px;
+        }
+        
+        .formGroup {
+            text-align: left;
+            margin: auto;
+            width: 90%;
+            max-width: 600px;
+            min-width: 250px;
+            margin-top: 20px;            
+
+            > label
+            {
+                font-weight: bold;
+            }
+        }        
+
+        .fieldContainer {
+            border: 1px solid #e0e0e0;
+            height: 56px;
+            width: 100%;
+            margin: auto;
+            margin-bottom: 15px;
+            text-align: left;
+            padding: 1px 10px;
+            background: #fff;
+            border-radius: 10px;
+        }
+
+        .fieldContainer:focus-within
+        {
+            border: 1px solid #006AEB;
+        }
+
+        .errorField
+        {
+            color: red;
+            margin-top: -10px;
+            margin-bottom: 25px;
+        }
+
+        .form-check
+        {
+            padding-left:0;
+        }
+
+        .buttons
+        {
+            margin:auto;
+            max-width: 600px;
+        }
+
+        input,
+        select
+        {
+            border: none;
+            height: 52px;
+            margin-left: 5px;
+            width: 90%;
+        }
+
+        input[type="radio"]
+        {
+            height: 16px;
+            margin-left: -44px;
+            margin-top: 3px;
+        }
+
+        @media only screen and (min-width:768px) and (max-width:870px) {        
+            input[type="radio"]
+            {
+                margin-left: -25px;
+            }
+        }
+
+        @media only screen and (min-width:871px) and (max-width:1000px) {        
+            input[type="radio"]
+            {
+                margin-left: -30px;
+            }
+        }
+        @media only screen and (min-width:1001px) and (max-width:1150px) {        
+            input[type="radio"]
+            {
+                margin-left: -35px;
+            }
+        }
+
+        input:focus,
+        select:focus
+        {
+            outline: none;
+        }
+
+        .fa-search,
+        .fa-map-marker-alt
+        {
+            margin-top: 16px;
+        }
+
+        .autoCompleteContainer
+        {
+            width: 87%;
+            float: left;
+        }
+
+        h2
+        {
+            font-size: 24px;
+            color: #333;
+            margin: 20px 0;
+        }
+
+        .listText
+        {
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    
+
+        button
+        {
+            width: 80%;
+            background: #333;
+            color: #fff;
+            border: 1px solid #333;
+            text-align: center;
+            font-size: 16px;
+            padding: 18px;
+            max-width: 280px;
+            margin: auto;
+        }
+
+        .blueButton
+        {
+            color: #066EE7;
+            background: #fff;
+            border: 2px solid #066EE7;
+            border-radius: 50px !important;
+            font-size: 14px;    
+            padding: 10px;
+            text-align: center; 
+            width: auto;       
+        }
+
+        .closeButton
+        {
+            color: #4A4A4A;
+            background: #fff;
+            border-radius: 50px !important;
+            font-size: 16px;
+            padding: 4px 5px 3px 4px;
+            text-align: center;
+            width: auto;
+            float: right;
+            width: 32px;
+            height: 32px;
+            border: none;
+            box-shadow: 0px 1px 0px 1px rgba(0,0,0,0.2);
+        }
+
+        .submitButton
+        {
+            margin-top: 20px;
+            background-color: #0061DF;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 22px;
+            font-weight: bold;
+            padding: 10px;
+            border: none;
+            margin-bottom: 30px;
+        }
+
+        header .blueButton
+        {
+            margin-top: 5px;
+            float: right;
+        }
+
+        .blueButton:hover
+        {
+            color: #fff;
+            border: 2px solid #066EE7;
+            background: #066EE7;            
+        }
+
+        .filterButton  {
+            background-image: url(/pic/icons/filter.svg);
+            background-position: 4px;
+            background-repeat: no-repeat;
+            width: 80px;
+            text-align: right;            
+        }
+        .filterButton:hover  {
+            background-image: url("/pic/icons/filter_white.svg");
+            background-position: 4px;
+            background-repeat: no-repeat;            
+        }
+
+        .noOpportunityFound
+        {
+            margin-top: 30px;
+        }
+    }
+
+    .row
+        {
+            text-align: center;
+        }
+
+    .clearBoth {
+        clear:both;
+    }
+
+    @media only screen and (max-width:900px) {        
+        .hiddenSM{
+            display:none;
+        }
+
+        .filterButton  {
+            background-position: 8px !important;
+            width: 42px !important;
+            height: 42px !important;
+        }
+        .filterButton:hover  {
+            background-position: 8px !important;
+        }
+    }   
+}

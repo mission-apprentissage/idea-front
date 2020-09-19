@@ -11,6 +11,7 @@
     "LOCATIONSELECTION": "/lieu-formation",
     "TRAININGLIST": "/formations",
     "APITESTER": "/test-api",
+    "WIDGETTESTER": "/test-widget",
     "SEARCHFORTRAININGSANDJOBS": "/recherche-apprentissage",
     "HELPFORUSERPROJECT": "/aide-pour-mon-projet"
 }
