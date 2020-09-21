@@ -212,7 +212,7 @@ const SearchForm = (props) => {
                       onInputValueChangeFunction={fetchAddresses}
                       scrollParentId="rightColumn"
                       name="placeField"
-                      placeholder="Adresse"
+                      placeholder="Adresse ou ville ou code postal"
                     />
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>

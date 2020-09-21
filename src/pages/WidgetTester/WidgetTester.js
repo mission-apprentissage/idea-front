@@ -182,7 +182,7 @@ const WidgetTester = () => {
               <Col xs="12">
                 <div className="formGroup">
                   <label htmlFor="placeField">
-                    Centre de recherche (pour renseigner <strong>lat</strong> et <strong>lon</strong>)
+                    Localité (pour renseigner <strong>lat</strong> et <strong>lon</strong>)
                   </label>
                   <div className="fieldContainer">
                     <AutoCompleteField
@@ -193,7 +193,7 @@ const WidgetTester = () => {
                       onInputValueChangeFunction={fetchAddresses}
                       scrollParentId="rightColumn"
                       name="placeField"
-                      placeholder="Adresse"
+                      placeholder="Adresse ou ville ou code postal"
                     />
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
@@ -271,7 +271,7 @@ const WidgetTester = () => {
                         {getRadioButton(
                           "scope",
                           "training",
-                          "Formations seules",
+                          "Formations uniquement",
                           scope,
                           setFieldValue,
                           handleScopeChange
