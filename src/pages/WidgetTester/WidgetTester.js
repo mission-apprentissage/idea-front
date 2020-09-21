@@ -327,8 +327,8 @@ const WidgetTester = () => {
             <h1>Test du Widget Idea</h1>
             <div>
               La documentation est ici :{" "}
-              <a href="https://app.gitbook.com/@mission-apprentissage/s/idea/documentation" target="docIdea">
-                https://app.gitbook.com/@mission-apprentissage/s/idea/documentation
+              <a href="https://mission-apprentissage.gitbook.io/idea/documentation" target="docIdea">
+                https://mission-apprentissage.gitbook.io/idea/documentation
               </a>
             </div>
             {getForm()}
