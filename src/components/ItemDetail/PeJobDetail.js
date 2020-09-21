@@ -76,7 +76,7 @@ const PeJobDetail = ({ job }) => {
           ""
         )}
         <div className="sectionTitle">Retrouvez l'offre sur Pôle emploi</div>
-        <div>
+        <div className="ellipsisLink">
           <a
             target="poleemploi"
             href={`https://candidat.pole-emploi.fr/offres/recherche/detail/${job.id}`}
