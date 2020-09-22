@@ -7,7 +7,7 @@ import "./notFound.css";
 const NotFound = () => (
   <div className="page not-found">
     <div class="error">
-      <img src={peopleIcon} />
+      <img src={peopleIcon} alt="" />
       <div id="error-text">
         <span>404</span>
         <h1>PAGE INCONNUE !</h1>
@@ -18,9 +18,8 @@ const NotFound = () => (
       </div>
 
       <Link to="/" className="back">
-          Retour à l'accueil
+        Retour à l'accueil
       </Link>
-
     </div>
   </div>
 );
