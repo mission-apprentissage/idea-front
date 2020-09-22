@@ -93,7 +93,30 @@
         box-shadow: none;
     }
 
-    @media only screen and (max-width:767px) {        
+    @media only screen and (max-width:350px) {        
+        .inactiveXSPane
+        {
+            display:none;
+        
+        }
+
+        .floatingButtons
+        {
+            display:block;
+            position: fixed;
+            bottom: 40px;
+            right: unset;
+            left: 20px;
+        }
+
+        .floatingButtons.resultList
+        {
+            right: 30px;
+        }
+    }
+
+
+    @media only screen and (min-width:351px) and (max-width:767px) {        
         .inactiveXSPane
         {
             display:none;
@@ -110,7 +133,7 @@
 
         .floatingButtons.resultList
         {
-            right: 30px;
+            right: -10px;
         }
     }
     
