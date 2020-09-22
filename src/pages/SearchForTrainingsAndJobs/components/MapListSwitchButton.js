@@ -5,13 +5,15 @@ import { Button } from "reactstrap";
 
 const MapListSwitchButton = ({ visiblePane, hasSearch, showResultMap, showSearchForm, showResultList }) => {
   if (visiblePane === "resultList") {
-    return (
-      <div className="floatingButtons resultList">
-        <Button onClick={showResultMap}>
-          <FontAwesomeIcon icon={faMapMarkerAlt} /> Carte
-        </Button>
-      </div>
-    );
+    if (hasSearch)
+      return (
+        <div className="floatingButtons resultList">
+          <Button onClick={showResultMap}>
+            <FontAwesomeIcon icon={faMapMarkerAlt} /> Carte
+          </Button>
+        </div>
+      );
+    else return "";
   } else {
     return (
       <div className="floatingButtons resultMap">
