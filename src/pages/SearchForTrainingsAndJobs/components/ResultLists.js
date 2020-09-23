@@ -232,76 +232,94 @@ const ResultLists = (props) => {
   };
 
   // construit le bloc formaté avec les décomptes de formations et d'opportunités d'emploi
-  const getResultCounts = () => {
+  const getResultCountAndLoading = () => {
     if (props.allJobSearchError && props.trainingSearchError) return "";
 
+    let count = 0;
+    let trainingCount = 0;
     let trainingPart = "";
+    let trainingLoading = "";
 
     if (props.isTrainingSearchLoading) {
-      trainingPart = (
-        <div className="searchLoading">
-          Recherche des formations en cours
-          <Spinner />
-        </div>
+      trainingLoading = (
+        <span className="trainingColor">
+          <div className="searchLoading">
+            Recherche des formations en cours
+            <Spinner />
+          </div>
+        </span>
       );
     } else if (!props.trainingSearchError) {
-      const trs = props.trainings ? props.trainings.length : "";
-      let trainingCount = trs,
-        trainingCountLabel = " formation ne correspond";
+      trainingCount = props.trainings ? props.trainings.length : 0;
 
-      if (trs === 0) {
-        trainingCount = "Aucune";
-      } else if (trs === 1) {
-        trainingCountLabel = " formation trouvée";
-      } else {
-        trainingCountLabel = " formations trouvées";
+      //trainingCount = 0;
+
+      count += trainingCount;
+
+      trainingPart = `${trainingCount === 0 ? "Aucune formation" : trainingCount}`;
+
+      if (trainingCount === 1) {
+        trainingPart += " formation";
+      } else if (trainingCount > 1) {
+        trainingPart += " formations";
       }
-
-      trainingPart = (
-        <>
-          <span className="countValue">{trainingCount}</span>
-          {trainingCountLabel}
-        </>
-      );
     }
 
     let jobPart = "";
+    let jobLoading = "";
+    let jobCount = 0;
 
     if (!props.isTrainingOnly) {
       if (props.isJobSearchLoading) {
-        jobPart = (
-          <div className="searchLoading">
-            Recherche des entreprises en cours
-            <Spinner />
-          </div>
+        jobLoading = (
+          <span className="jobColor">
+            <div className="searchLoading">
+              Recherche des entreprises en cours
+              <Spinner />
+            </div>
+          </span>
         );
       } else if (!props.allJobSearchError) {
-        let jobs = getJobCount(props.jobs),
-          jobCount,
-          jobCountLabel = " entreprise ne correspond";
+        jobCount = getJobCount(props.jobs);
+        
+        //jobCount = 0;
 
-        jobCount = jobs;
+        count += jobCount;
 
-        if (jobs === 0) {
-          jobCount = "Aucune";
-        } else if (jobs === 1) {
-          jobCountLabel = " entreprise trouvée";
-        } else {
-          jobCountLabel = " entreprises trouvées";
+        jobPart = `${jobCount === 0 ? "aucune entreprise" : jobCount}`;
+
+        if (jobCount === 1) {
+          jobPart += " entreprise";
+        } else if (jobCount > 1) {
+          jobPart += " entreprises";
         }
-        jobPart = (
-          <>
-            <span className="countValue">{jobCount}</span>
-            {jobCountLabel}
-          </>
-        );
       }
     }
     return (
       <div className="resultTitle">
-        <span className="trainingColor">{trainingPart}</span>
-        <br />
-        <span className="jobColor">{jobPart}</span>
+        {!trainingLoading || !jobLoading
+          ? `${trainingPart}${trainingPart && jobPart ? " et " : ""}${jobPart}${count === 0 ? " ne" : ""}${
+              count <= 1 ? " correspond" : " correspondent"
+            } à votre recherche`
+          : ""}
+        {trainingLoading ? (
+          <>
+            <br />
+            <br />
+            {trainingLoading}
+          </>
+        ) : (
+          ""
+        )}
+        {jobLoading ? (
+          <>
+            <br />
+            <br />
+            {jobLoading}
+          </>
+        ) : (
+          ""
+        )}
       </div>
     );
   };
@@ -327,7 +345,7 @@ const ResultLists = (props) => {
         </Button>
       </header>
       <div className="clearBoth" />
-      {getResultCounts()}
+      {getResultCountAndLoading()}
       {getErrorMessages()}
       {getTrainingResult()}
       {getJobResult()}
