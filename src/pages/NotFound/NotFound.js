@@ -17,9 +17,9 @@ const NotFound = () => (
         </div>
       </div>
 
-      <Link to="/" className="back">
+      <a href="https://labonnealternance.pole-emploi.fr" className="back">
         Retour à l'accueil
-      </Link>
+      </a>
     </div>
   </div>
 );
