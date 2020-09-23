@@ -80,7 +80,9 @@ const LbbCompany = ({ company, handleSelectItem, showTextOnly, searchForTraining
         <>
           {Math.round(company.distance) > formValues.radius ? getCenterSearchOnCompanyButton() : ""}
           <div className="knowMore">
-            <button onClick={onSelectItem}>En savoir plus</button>
+            <button className={`gtmSavoirPlus gtm${company.type} gtmListe`} onClick={onSelectItem}>
+              En savoir plus
+            </button>
           </div>
           <div style={{ clear: "both" }} />
         </>

@@ -63,7 +63,9 @@ const Training = ({ training, handleSelectItem, showTextOnly, searchForJobsOnNew
         <>
           {Math.round(training.sort[0]) > formValues.radius && !isTrainingOnly ? getCenterSearchOnTrainingButton() : ""}
           <div className="knowMore">
-            <button onClick={onSelectItem}>En savoir plus</button>
+            <button className={`gtmSavoirPlus gtmFormation gtmListe`} onClick={onSelectItem}>
+              En savoir plus
+            </button>
           </div>
           <div style={{ clear: "both" }} />
         </>

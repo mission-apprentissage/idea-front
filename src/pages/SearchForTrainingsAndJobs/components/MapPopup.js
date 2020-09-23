@@ -39,7 +39,9 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
                 <div className="mapboxPopupTitle">{job.intitule}</div>
                 <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
                 <div className="knowMore">
-                  <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+                  <button className={`gtmSavoirPlus gtmPeJob gtmMap`} onClick={() => openJobDetail(job)}>
+                    En savoir plus
+                  </button>
                 </div>
               </>
             );
@@ -49,7 +51,9 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
                 <div className="mapboxPopupTitle">{job.name}</div>
                 <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
                 <div className="knowMore">
-                  <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+                  <button className={`gtmSavoirPlus gtm${job.type} gtmMap`} onClick={() => openJobDetail(job)}>
+                    En savoir plus
+                  </button>
                 </div>
               </>
             );
@@ -111,7 +115,7 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
     let result = (
       <>
         {list.map((training, idx) => (
-          <li onClick={() => openTrainingDetail(training)} key={idx}>
+          <li className={`gtmSavoirPlus gtmFormation gtmMap`} onClick={() => openTrainingDetail(training)} key={idx}>
             {training.source.nom ? training.source.nom : training.source.intitule_long}
           </li>
         ))}
