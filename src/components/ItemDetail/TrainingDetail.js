@@ -21,7 +21,7 @@ const TrainingDetail = ({ training }) => {
         <div className="title">En savoir plus</div>
 
         {training.source.onisep_url ? (
-          <div>
+          <div className="ellipsisLink">
             Descriptif du{" "}
             <a
               href={training.source.onisep_url}

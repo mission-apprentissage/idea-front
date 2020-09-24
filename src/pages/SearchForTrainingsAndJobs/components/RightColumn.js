@@ -131,6 +131,7 @@ const RightColumn = ({
     // centrage de la carte sur le lieu de recherche
     const searchCenter = [values.location.value.coordinates[0], values.location.value.coordinates[1]];
 
+    setHasSearch(false);
     setSearchRadius(values.radius || 30);
     dispatch(setExtendedSearch(false));
     map.flyTo({ center: searchCenter, zoom: 10 });

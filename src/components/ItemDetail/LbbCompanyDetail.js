@@ -49,7 +49,7 @@ const LbbCompanyDetail = ({ company }) => {
         <div className="sectionTitle">
           Voir la fiche entreprise sur le site {company.type === "lba" ? "La Bonne Alternance" : "La Bonne Boîte"}
         </div>
-        <div>
+        <div className="ellipsisLink">
           <img className="linkIcon" src={linkIcon} alt="" />
           <a
             target="lbb"
@@ -84,7 +84,7 @@ const LbbCompanyDetail = ({ company }) => {
               Mettez en valeur vos qualités en lien avec le métier recherché et indiquez pourquoi vous souhaitez
               réaliser votre apprentissage dans cette entreprise en particulier.
             </li>
-            <li>
+            <li className="ellipsisLink">
               Besoin d'aide pour concevoir votre CV ? Il existe plusieurs outils gratuits :
               <br />
               <a

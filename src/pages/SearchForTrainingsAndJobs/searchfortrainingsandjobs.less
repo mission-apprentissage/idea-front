@@ -26,6 +26,17 @@
 
     form{
         margin-top: 20px;
+
+        .row
+        {
+            margin-left: -5px;
+            margin-right: -5px;
+        }
+
+        .col-3.radioButton
+        {
+            max-width: 100% !important;
+        }
     }
 
     .hiddenResultList,
@@ -82,7 +93,30 @@
         box-shadow: none;
     }
 
-    @media only screen and (max-width:767px) {        
+    @media only screen and (max-width:350px) {        
+        .inactiveXSPane
+        {
+            display:none;
+        
+        }
+
+        .floatingButtons
+        {
+            display:block;
+            position: fixed;
+            bottom: 40px;
+            right: unset;
+            left: 20px;
+        }
+
+        .floatingButtons.resultList
+        {
+            right: 30px;
+        }
+    }
+
+
+    @media only screen and (min-width:351px) and (max-width:767px) {        
         .inactiveXSPane
         {
             display:none;
@@ -99,7 +133,7 @@
 
         .floatingButtons.resultList
         {
-            right: 30px;
+            right: -10px;
         }
     }
     
@@ -122,14 +156,14 @@
             text-align: left;
             margin: auto;
             width: 90%;
-            max-width: 400px;
+            max-width: 450px;
             min-width: 250px;            
         }
 
         .fieldContainer {
             border: 1px solid #e0e0e0;
             height: 56px;
-            width: 100%;
+            width: 90%;
             margin: auto;
             margin-bottom: 15px;
             text-align: left;
@@ -172,29 +206,9 @@
 
         input[type="radio"]
         {
-            height: 16px;
-            margin-left: -44px;
+            height: 16px;        
+            margin-left: -45px;
             margin-top: 3px;
-        }
-
-        @media only screen and (min-width:768px) and (max-width:870px) {        
-            input[type="radio"]
-            {
-                margin-left: -25px;
-            }
-        }
-
-        @media only screen and (min-width:871px) and (max-width:1000px) {        
-            input[type="radio"]
-            {
-                margin-left: -30px;
-            }
-        }
-        @media only screen and (min-width:1001px) and (max-width:1150px) {        
-            input[type="radio"]
-            {
-                margin-left: -35px;
-            }
         }
 
         input:focus,

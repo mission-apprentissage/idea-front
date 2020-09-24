@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { getTrainingSchoolName, getTrainingAddress } from "../../../utils/formations";
 import { getJobAddress } from "../../../utils/jobs";
 import { gtag } from "../../../services/googleAnalytics";
+import { logError } from "../../../utils/tools";
+import { ErrorMessage } from "../../../components";
 
 const MapPopup = ({ type, item, handleSelectItem }) => {
   const dispatch = useDispatch();
@@ -37,7 +39,9 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
                 <div className="mapboxPopupTitle">{job.intitule}</div>
                 <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
                 <div className="knowMore">
-                  <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+                  <button className={`gtmSavoirPlus gtmPeJob gtmMap`} onClick={() => openJobDetail(job)}>
+                    En savoir plus
+                  </button>
                 </div>
               </>
             );
@@ -47,7 +51,9 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
                 <div className="mapboxPopupTitle">{job.name}</div>
                 <div className="mapboxPopupAddress">{getJobAddress(job)}</div>
                 <div className="knowMore">
-                  <button onClick={() => openJobDetail(job)}>En savoir plus</button>
+                  <button className={`gtmSavoirPlus gtm${job.type} gtmMap`} onClick={() => openJobDetail(job)}>
+                    En savoir plus
+                  </button>
                 </div>
               </>
             );
@@ -68,16 +74,21 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
         );
       }
     } catch (err) {
+      logError(`Popup error ${type}`, err);
       console.log("Erreur de format des éléments emplois : ", type, item);
       return (
-        <div className="popupError">
-          Le format de l'élément sélectionné est erroné.
-          <br />
-          <br />
-          Veuillez accepter nos excuses. <br />
-          <br />
-          L'équipe Labonnealternance.
-        </div>
+        <ErrorMessage
+          message={
+            <div className="popupError">
+              Le format de l'élément sélectionné est erroné.
+              <br />
+              <br />
+              Veuillez accepter nos excuses.
+              <br />
+              L'équipe Labonnealternance.
+            </div>
+          }
+        />
       );
     }
   };
@@ -104,7 +115,7 @@ const MapPopup = ({ type, item, handleSelectItem }) => {
     let result = (
       <>
         {list.map((training, idx) => (
-          <li onClick={() => openTrainingDetail(training)} key={idx}>
+          <li className={`gtmSavoirPlus gtmFormation gtmMap`} onClick={() => openTrainingDetail(training)} key={idx}>
             {training.source.nom ? training.source.nom : training.source.intitule_long}
           </li>
         ))}

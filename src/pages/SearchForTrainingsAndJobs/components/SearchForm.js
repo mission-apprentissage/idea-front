@@ -212,7 +212,7 @@ const SearchForm = (props) => {
                       onInputValueChangeFunction={fetchAddresses}
                       scrollParentId="rightColumn"
                       name="placeField"
-                      placeholder="Adresse"
+                      placeholder="Adresse ou ville ou code postal"
                     />
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
@@ -227,10 +227,38 @@ const SearchForm = (props) => {
                   <div className="buttons">
                     <Container>
                       <Row>
-                        {getRadioButton("locationRadius", 10, "10km", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 30, "30km", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 60, "60km", locationRadius, setFieldValue, handleRadiusChange)}
-                        {getRadioButton("locationRadius", 100, "100km", locationRadius, setFieldValue, handleRadiusChange)}
+                        {getRadioButton(
+                          "locationRadius",
+                          10,
+                          "10km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          30,
+                          "30km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          60,
+                          "60km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
+                        {getRadioButton(
+                          "locationRadius",
+                          100,
+                          "100km",
+                          locationRadius,
+                          setFieldValue,
+                          handleRadiusChange
+                        )}
                       </Row>
 
                       <ErrorMessage name="locationRadius" className="errorField" component="div" />

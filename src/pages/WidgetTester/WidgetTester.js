@@ -115,7 +115,7 @@ const WidgetTester = () => {
       ideaUrl += widgetParams.caller ? `&caller=${widgetParams.caller}` : "";
       ideaUrl += widgetParams.romes ? `&romes=${widgetParams.romes}` : "";
       ideaUrl += widgetParams.location ? `&lon=${widgetParams.location[0]}&lat=${widgetParams.location[1]}` : "";
-      ideaUrl += widgetParams.location ? `&radius=${widgetParams.radius}` : "";
+      ideaUrl += widgetParams.radius ? `&radius=${widgetParams.radius}` : "";
       ideaUrl += widgetParams.scope ? `&scope=${widgetParams.scope}` : "";
       ideaUrl += widgetParams.returnURI ? `&return_uri=${widgetParams.returnURI}` : "";
       ideaUrl += widgetParams.returnLogoURL ? `&return_logo_url=${widgetParams.returnLogoURL}` : "";
@@ -182,7 +182,7 @@ const WidgetTester = () => {
               <Col xs="12">
                 <div className="formGroup">
                   <label htmlFor="placeField">
-                    Centre de recherche (pour renseigner <strong>lat</strong> et <strong>lon</strong>)
+                    Localité (pour renseigner <strong>lat</strong> et <strong>lon</strong>)
                   </label>
                   <div className="fieldContainer">
                     <AutoCompleteField
@@ -193,7 +193,7 @@ const WidgetTester = () => {
                       onInputValueChangeFunction={fetchAddresses}
                       scrollParentId="rightColumn"
                       name="placeField"
-                      placeholder="Adresse"
+                      placeholder="Adresse ou ville ou code postal"
                     />
                     <img className="inFormIcon" src={mapMarker} alt="" />
                   </div>
@@ -271,7 +271,7 @@ const WidgetTester = () => {
                         {getRadioButton(
                           "scope",
                           "training",
-                          "Formations seules",
+                          "Formations uniquement",
                           scope,
                           setFieldValue,
                           handleScopeChange
@@ -327,8 +327,8 @@ const WidgetTester = () => {
             <h1>Test du Widget Idea</h1>
             <div>
               La documentation est ici :{" "}
-              <a href="https://app.gitbook.com/@mission-apprentissage/s/idea/documentation" target="docIdea">
-                https://app.gitbook.com/@mission-apprentissage/s/idea/documentation
+              <a href="https://mission-apprentissage.gitbook.io/idea/documentation" target="docIdea">
+                https://mission-apprentissage.gitbook.io/idea/documentation
               </a>
             </div>
             {getForm()}

@@ -49,60 +49,62 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
-    if (props.allJobSearchError) return "";
+    if (props.hasSearch && !props.isJobSearchLoading) {
+      if (props.allJobSearchError) return "";
 
-    const jobCount = getJobCount(props.jobs);
+      const jobCount = getJobCount(props.jobs);
 
-    if (jobCount) {
-      if (extendedSearch) {
-        const mergedJobList = getMergedJobList();
-        return <div className="jobResult">{mergedJobList ? <>{mergedJobList}</> : ""}</div>;
-      } else {
-        const peJobList = getPeJobList();
-        const lbbCompanyList = getLbbCompanyList();
-        return (
-          <div className="jobResult">
-            {peJobList || lbbCompanyList ? (
-              <>
-                {peJobList}
-                {lbbCompanyList}
-                {jobCount < 100 ? (
+      if (jobCount) {
+        if (extendedSearch) {
+          const mergedJobList = getMergedJobList();
+          return <div className="jobResult">{mergedJobList ? <>{mergedJobList}</> : ""}</div>;
+        } else {
+          const peJobList = getPeJobList();
+          const lbbCompanyList = getLbbCompanyList();
+          return (
+            <div className="jobResult">
+              {peJobList || lbbCompanyList ? (
+                <>
+                  {peJobList}
+                  {lbbCompanyList}
+                  {jobCount < 100 ? (
+                    <ExtendedSearchButton
+                      title="Voir plus de résultats"
+                      handleExtendedSearch={props.handleExtendedSearch}
+                      isTrainingOnly={props.isTrainingOnly}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
+              ) : (
+                <>
+                  <NoJobResult isTrainingOnly={props.isTrainingOnly} />
                   <ExtendedSearchButton
-                    title="Voir plus de résultats"
+                    title="Etendre la sélection"
                     handleExtendedSearch={props.handleExtendedSearch}
                     isTrainingOnly={props.isTrainingOnly}
                   />
-                ) : (
-                  ""
-                )}
-              </>
-            ) : (
-              <>
-                <NoJobResult isTrainingOnly={props.isTrainingOnly} />
-                <ExtendedSearchButton
-                  title="Etendre la sélection"
-                  handleExtendedSearch={props.handleExtendedSearch}
-                  isTrainingOnly={props.isTrainingOnly}
-                />
-              </>
-            )}
-          </div>
-        );
+                </>
+              )}
+            </div>
+          );
+        }
+      } else {
+        if (extendedSearch) return <NoJobResult isTrainingOnly={props.isTrainingOnly} />;
+        else
+          return (
+            <>
+              <NoJobResult isTrainingOnly={props.isTrainingOnly} />
+              <ExtendedSearchButton
+                title="Etendre la sélection"
+                handleExtendedSearch={props.handleExtendedSearch}
+                isTrainingOnly={props.isTrainingOnly}
+              />
+            </>
+          );
       }
-    } else {
-      if (extendedSearch) return <NoJobResult isTrainingOnly={props.isTrainingOnly} />;
-      else
-        return (
-          <>
-            <NoJobResult isTrainingOnly={props.isTrainingOnly} />
-            <ExtendedSearchButton
-              title="Etendre la sélection"
-              handleExtendedSearch={props.handleExtendedSearch}
-              isTrainingOnly={props.isTrainingOnly}
-            />
-          </>
-        );
-    }
+    } else return "";
   };
 
   const getJobCount = (jobs) => {
