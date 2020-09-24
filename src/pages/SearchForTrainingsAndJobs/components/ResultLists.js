@@ -7,6 +7,7 @@ import { LogoIdea, ErrorMessage } from "../../../components";
 import { useSelector } from "react-redux";
 import ExtendedSearchButton from "./ExtendedSearchButton";
 import NoJobResult from "./NoJobResult";
+import FilterButton from "./FilterButton";
 
 const ResultLists = (props) => {
   const { extendedSearch } = useSelector((state) => state.trainings);
@@ -281,7 +282,7 @@ const ResultLists = (props) => {
         );
       } else if (!props.allJobSearchError) {
         jobCount = getJobCount(props.jobs);
-        
+
         //jobCount = 0;
 
         count += jobCount;
@@ -296,31 +297,42 @@ const ResultLists = (props) => {
       }
     }
     return (
-      <div className="resultTitle">
-        {!trainingLoading || !jobLoading
-          ? `${trainingPart}${trainingPart && jobPart ? " et " : ""}${jobPart}${count === 0 ? " ne" : ""}${
-              count <= 1 ? " correspond" : " correspondent"
-            } à votre recherche`
-          : ""}
-        {trainingLoading ? (
-          <>
-            <br />
-            <br />
-            {trainingLoading}
-          </>
+      <>
+        <div className="resultTitle">
+          {!trainingLoading || !jobLoading
+            ? `${trainingPart}${trainingPart && jobPart ? " et " : ""}${jobPart}${count === 0 ? " ne" : ""}${
+                count <= 1 ? " correspond" : " correspondent"
+              } à votre recherche`
+            : ""}
+          {trainingLoading ? (
+            <>
+              <br />
+              <br />
+              {trainingLoading}
+            </>
+          ) : (
+            ""
+          )}
+          {jobLoading ? (
+            <>
+              <br />
+              <br />
+              {jobLoading}
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+        {!trainingLoading && !jobLoading && !props.isTrainingOnly ? (
+          <div className="filterButtons">
+            <FilterButton type="all" />
+            <FilterButton type="trainings" count={trainingCount} />
+            <FilterButton type="jobs" count={jobCount} />
+          </div>
         ) : (
           ""
         )}
-        {jobLoading ? (
-          <>
-            <br />
-            <br />
-            {jobLoading}
-          </>
-        ) : (
-          ""
-        )}
-      </div>
+      </>
     );
   };
 
