@@ -1,9 +1,21 @@
 import React from "react";
+import trainingIcon from "../../../assets/icons/training_filter.svg";
+import jobIcon from "../../../assets/icons/job_filter.svg";
+import inactiveTrainingIcon from "../../../assets/icons/training_filter_inactive.svg";
+import inactiveJobIcon from "../../../assets/icons/job_filter_inactive.svg";
 
-const FilterButton = ({ type, count }) => {
+const FilterButton = ({ type, count, isActive, handleFilterButtonClicked }) => {
   const handleClick = (e) => {
     e.stopPropagation();
-    console.log("click :", type);
+    if (!isActive) handleFilterButtonClicked(type);
+  };
+
+  const getIcon = () => {
+    let src = "";
+    if (type === "trainings") src = isActive ? trainingIcon : inactiveTrainingIcon;
+    else if (type === "jobs") src = isActive ? jobIcon : inactiveJobIcon;
+
+    return src ? <img src={src} alt="" /> : "";
   };
 
   const getText = () => {
@@ -13,7 +25,8 @@ const FilterButton = ({ type, count }) => {
   };
 
   return (
-    <button onClick={handleClick} className={`filterButton${type}`}>
+    <button onClick={handleClick} className={`filterButton${type}${isActive ? " active" : ""}`}>
+      {getIcon()}
       {getText()}
     </button>
   );
