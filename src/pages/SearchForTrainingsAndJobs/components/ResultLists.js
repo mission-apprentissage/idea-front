@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Spinner } from "reactstrap";
 import Training from "../../../components/ItemDetail/Training";
 import PeJob from "../../../components/ItemDetail/PeJob";
@@ -10,10 +10,20 @@ import NoJobResult from "./NoJobResult";
 import FilterButton from "./FilterButton";
 
 const ResultLists = (props) => {
+  const [activeFilter, setActiveFilter] = useState("all");
+
   const { extendedSearch } = useSelector((state) => state.trainings);
 
+  const  filterButtonClicked = (filterButton) =>
+  {
+    console.log("filterButtonClicked",filterButton);
+    setActiveFilter(filterButton);
+
+    // jouer avec map;
+  }
+
   const getTrainingResult = () => {
-    if (props.hasSearch) {
+    if (props.hasSearch && (activeFilter === "all" || activeFilter === "trainings")) {
       return <div className="trainingResult">{getTrainingList()}</div>;
     } else {
       return "";
@@ -50,7 +60,7 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
-    if (props.hasSearch && !props.isJobSearchLoading) {
+    if (props.hasSearch && !props.isJobSearchLoading && (activeFilter === "all" || activeFilter === "jobs")) {
       if (props.allJobSearchError) return "";
 
       const jobCount = getJobCount(props.jobs);
@@ -325,9 +335,9 @@ const ResultLists = (props) => {
         </div>
         {!trainingLoading && !jobLoading && !props.isTrainingOnly ? (
           <div className="filterButtons">
-            <FilterButton type="all" />
-            <FilterButton type="trainings" count={trainingCount} />
-            <FilterButton type="jobs" count={jobCount} />
+            <FilterButton type="all" isActive={activeFilter==="all"?true:false} handleFilterButtonClicked={filterButtonClicked} />
+            <FilterButton type="trainings" count={trainingCount} isActive={activeFilter==="trainings"?true:false} handleFilterButtonClicked={filterButtonClicked} />
+            <FilterButton type="jobs" count={jobCount} isActive={activeFilter==="jobs"?true:false} handleFilterButtonClicked={filterButtonClicked} />
           </div>
         ) : (
           ""
