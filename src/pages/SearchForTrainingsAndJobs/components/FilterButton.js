@@ -25,7 +25,10 @@ const FilterButton = ({ type, count, isActive, handleFilterButtonClicked }) => {
   };
 
   return (
-    <button onClick={handleClick} className={`filterButton${type}${isActive ? " active" : ""}`}>
+    <button
+      onClick={handleClick}
+      className={`gtmFilterButton gtmFilterButton${type} filterButton${type}${isActive ? " active" : ""}`}
+    >
       {getIcon()}
       {getText()}
     </button>
