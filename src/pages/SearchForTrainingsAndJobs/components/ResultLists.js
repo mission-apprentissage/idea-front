@@ -4,6 +4,7 @@ import Training from "../../../components/ItemDetail/Training";
 import PeJob from "../../../components/ItemDetail/PeJob";
 import LbbCompany from "../../../components/ItemDetail/LbbCompany";
 import { LogoIdea, ErrorMessage } from "../../../components";
+import { filterLayers } from "../../../utils/mapTools";
 import { useSelector } from "react-redux";
 import ExtendedSearchButton from "./ExtendedSearchButton";
 import NoJobResult from "./NoJobResult";
@@ -14,13 +15,10 @@ const ResultLists = (props) => {
 
   const { extendedSearch } = useSelector((state) => state.trainings);
 
-  const  filterButtonClicked = (filterButton) =>
-  {
-    console.log("filterButtonClicked",filterButton);
+  const filterButtonClicked = (filterButton) => {
     setActiveFilter(filterButton);
-
-    // jouer avec map;
-  }
+    filterLayers(filterButton);
+  };
 
   const getTrainingResult = () => {
     if (props.hasSearch && (activeFilter === "all" || activeFilter === "trainings")) {
@@ -335,9 +333,23 @@ const ResultLists = (props) => {
         </div>
         {!trainingLoading && !jobLoading && !props.isTrainingOnly ? (
           <div className="filterButtons">
-            <FilterButton type="all" isActive={activeFilter==="all"?true:false} handleFilterButtonClicked={filterButtonClicked} />
-            <FilterButton type="trainings" count={trainingCount} isActive={activeFilter==="trainings"?true:false} handleFilterButtonClicked={filterButtonClicked} />
-            <FilterButton type="jobs" count={jobCount} isActive={activeFilter==="jobs"?true:false} handleFilterButtonClicked={filterButtonClicked} />
+            <FilterButton
+              type="all"
+              isActive={activeFilter === "all" ? true : false}
+              handleFilterButtonClicked={filterButtonClicked}
+            />
+            <FilterButton
+              type="trainings"
+              count={trainingCount}
+              isActive={activeFilter === "trainings" ? true : false}
+              handleFilterButtonClicked={filterButtonClicked}
+            />
+            <FilterButton
+              type="jobs"
+              count={jobCount}
+              isActive={activeFilter === "jobs" ? true : false}
+              handleFilterButtonClicked={filterButtonClicked}
+            />
           </div>
         ) : (
           ""
