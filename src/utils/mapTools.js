@@ -368,6 +368,33 @@ const buildJobMarkerIcon = (job) => {
   return markerNode;
 };
 
+const filterLayers = (filter) => {
+  let layersToShow = [];
+  let layersToHide = [];
+  if (filter === "all")
+    layersToShow = [
+      "training-points-cluster-count",
+      "training-points-layer",
+      "job-points-cluster-count",
+      "job-points-layer",
+    ];
+  if (filter === "jobs") {
+    layersToShow = ["job-points-cluster-count", "job-points-layer"];
+    layersToHide = ["training-points-cluster-count", "training-points-layer"];
+  }
+  if (filter === "trainings") {
+    layersToHide = ["job-points-cluster-count", "job-points-layer"];
+    layersToShow = ["training-points-cluster-count", "training-points-layer"];
+  }
+
+  layersToHide.map((layerId) => {
+    map.setLayoutProperty(layerId, "visibility", "none");
+  });
+  layersToShow.map((layerId) => {
+    map.setLayoutProperty(layerId, "visibility", "visible");
+  });
+};
+
 export {
   map,
   buildPopup,
@@ -379,4 +406,5 @@ export {
   factorTrainingsForMap,
   factorJobsForMap,
   computeMissingPositionAndDistance,
+  filterLayers,
 };
