@@ -327,6 +327,61 @@
         {
             margin-top: 30px;
         }
+
+        .filterButtons
+        {
+            display: inline-block;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+            margin-left: 15px;
+            
+            button
+            {
+                text-align: center;
+                font-size: 14px;
+                background: none;
+                border-radius: 20px !important;
+                width: fit-content;
+                min-width: 100px;
+                margin: 0 0 10px 10px;
+                outline: none;
+                border: 1px solid #C9C9C9;
+                padding: 11px;
+                color: #929292;
+
+                img
+                {
+                    margin: -2px 5px 0 5px;
+                }
+            }
+
+            button.filterButtonall.active
+            {
+                border: 2px solid #828282;
+                color: #4A4A4A;
+            }
+
+            button.filterButtontrainings.active
+            {
+                border: 1px solid #BD1992;
+                padding: 11px;
+                color: #BD1992;
+            }
+
+            button.filterButtonjobs.active
+            {
+                border: 1px solid #54108E;
+                padding: 11px;
+                color:#54108E;
+            }
+
+            button:hover,
+            button:focus
+            {
+                box-shadow: 0px 1px 2px rgb(0,0,0,0.7);
+            }
+        }
     }
 
     .row
@@ -373,7 +428,7 @@
         text-align: left;
         margin-left: 10px;
         color: #4A4A4A;
-        font-weight: 500;
+        font-weight: 600;
         font-size: 22px;
         margin-top: 10px;
         margin-bottom: 20px;
@@ -509,4 +564,7 @@
 
         .knowMoreButton() !important;
     }
+
+
+    
 }

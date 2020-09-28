@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Spinner } from "reactstrap";
 import Training from "../../../components/ItemDetail/Training";
 import PeJob from "../../../components/ItemDetail/PeJob";
 import LbbCompany from "../../../components/ItemDetail/LbbCompany";
 import { LogoIdea, ErrorMessage } from "../../../components";
+import { filterLayers } from "../../../utils/mapTools";
 import { useSelector } from "react-redux";
 import ExtendedSearchButton from "./ExtendedSearchButton";
 import NoJobResult from "./NoJobResult";
+import FilterButton from "./FilterButton";
 
 const ResultLists = (props) => {
+  const [activeFilter, setActiveFilter] = useState("all");
+
   const { extendedSearch } = useSelector((state) => state.trainings);
 
+  const filterButtonClicked = (filterButton) => {
+    setActiveFilter(filterButton);
+    filterLayers(filterButton);
+  };
+
   const getTrainingResult = () => {
-    if (props.hasSearch) {
+    if (props.hasSearch && (activeFilter === "all" || activeFilter === "trainings")) {
       return <div className="trainingResult">{getTrainingList()}</div>;
     } else {
       return "";
@@ -49,7 +58,7 @@ const ResultLists = (props) => {
   };
 
   const getJobResult = () => {
-    if (props.hasSearch && !props.isJobSearchLoading) {
+    if (props.hasSearch && !props.isJobSearchLoading && (activeFilter === "all" || activeFilter === "jobs")) {
       if (props.allJobSearchError) return "";
 
       const jobCount = getJobCount(props.jobs);
@@ -232,77 +241,120 @@ const ResultLists = (props) => {
   };
 
   // construit le bloc formaté avec les décomptes de formations et d'opportunités d'emploi
-  const getResultCounts = () => {
+  const getResultCountAndLoading = () => {
     if (props.allJobSearchError && props.trainingSearchError) return "";
 
+    let count = 0;
+    let trainingCount = 0;
     let trainingPart = "";
+    let trainingLoading = "";
 
     if (props.isTrainingSearchLoading) {
-      trainingPart = (
-        <div className="searchLoading">
-          Recherche des formations en cours
-          <Spinner />
-        </div>
+      trainingLoading = (
+        <span className="trainingColor">
+          <div className="searchLoading">
+            Recherche des formations en cours
+            <Spinner />
+          </div>
+        </span>
       );
     } else if (!props.trainingSearchError) {
-      const trs = props.trainings ? props.trainings.length : "";
-      let trainingCount = trs,
-        trainingCountLabel = " formation ne correspond";
+      trainingCount = props.trainings ? props.trainings.length : 0;
 
-      if (trs === 0) {
-        trainingCount = "Aucune";
-      } else if (trs === 1) {
-        trainingCountLabel = " formation trouvée";
-      } else {
-        trainingCountLabel = " formations trouvées";
+      //trainingCount = 0;
+
+      count += trainingCount;
+
+      trainingPart = `${trainingCount === 0 ? "Aucune formation" : trainingCount}`;
+
+      if (trainingCount === 1) {
+        trainingPart += " formation";
+      } else if (trainingCount > 1) {
+        trainingPart += " formations";
       }
-
-      trainingPart = (
-        <>
-          <span className="countValue">{trainingCount}</span>
-          {trainingCountLabel}
-        </>
-      );
     }
 
     let jobPart = "";
+    let jobLoading = "";
+    let jobCount = 0;
 
     if (!props.isTrainingOnly) {
       if (props.isJobSearchLoading) {
-        jobPart = (
-          <div className="searchLoading">
-            Recherche des entreprises en cours
-            <Spinner />
-          </div>
+        jobLoading = (
+          <span className="jobColor">
+            <div className="searchLoading">
+              Recherche des entreprises en cours
+              <Spinner />
+            </div>
+          </span>
         );
       } else if (!props.allJobSearchError) {
-        let jobs = getJobCount(props.jobs),
-          jobCount,
-          jobCountLabel = " entreprise ne correspond";
+        jobCount = getJobCount(props.jobs);
 
-        jobCount = jobs;
+        //jobCount = 0;
 
-        if (jobs === 0) {
-          jobCount = "Aucune";
-        } else if (jobs === 1) {
-          jobCountLabel = " entreprise trouvée";
-        } else {
-          jobCountLabel = " entreprises trouvées";
+        count += jobCount;
+
+        jobPart = `${jobCount === 0 ? "aucune entreprise" : jobCount}`;
+
+        if (jobCount === 1) {
+          jobPart += " entreprise";
+        } else if (jobCount > 1) {
+          jobPart += " entreprises";
         }
-        jobPart = (
-          <>
-            <span className="countValue">{jobCount}</span>
-            {jobCountLabel}
-          </>
-        );
       }
     }
     return (
-      <div className="resultTitle">
-        <span className="trainingColor">{trainingPart}</span>
-        <br />
-        <span className="jobColor">{jobPart}</span>
-      </div>
+      <>
+        <div className="resultTitle">
+          {!trainingLoading || !jobLoading
+            ? `${trainingPart}${trainingPart && jobPart ? " et " : ""}${jobPart}${count === 0 ? " ne" : ""}${
+                count <= 1 ? " correspond" : " correspondent"
+              } à votre recherche`
+            : ""}
+          {trainingLoading ? (
+            <>
+              <br />
+              <br />
+              {trainingLoading}
+            </>
+          ) : (
+            ""
+          )}
+          {jobLoading ? (
+            <>
+              <br />
+              <br />
+              {jobLoading}
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+        {!trainingLoading && !jobLoading && !props.isTrainingOnly ? (
+          <div className="filterButtons">
+            <FilterButton
+              type="all"
+              isActive={activeFilter === "all" ? true : false}
+              handleFilterButtonClicked={filterButtonClicked}
+            />
+            <FilterButton
+              type="trainings"
+              count={trainingCount}
+              isActive={activeFilter === "trainings" ? true : false}
+              handleFilterButtonClicked={filterButtonClicked}
+            />
+            <FilterButton
+              type="jobs"
+              count={jobCount}
+              isActive={activeFilter === "jobs" ? true : false}
+              handleFilterButtonClicked={filterButtonClicked}
+            />
+          </div>
+        ) : (
+          ""
+        )}
+      </>
     );
   };
 
@@ -327,7 +379,7 @@ const ResultLists = (props) => {
         </Button>
       </header>
       <div className="clearBoth" />
-      {getResultCounts()}
+      {getResultCountAndLoading()}
       {getErrorMessages()}
       {getTrainingResult()}
       {getJobResult()}
