@@ -19,6 +19,7 @@ export const fetchRomes = async (value) => {
     if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
     else {
       if (response.data.error) {
+        console.log("error!!!!!!!!!!!!!!!!!!!!!!");
         logError("Rome API error", `Rome API error ${response.data.error}`);
       }
 
