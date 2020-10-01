@@ -379,11 +379,11 @@ const ResultLists = (props) => {
         </Button>
       </header>
       <div className="clearBoth" />
-      {getResultCountAndLoading()}
-      {getErrorMessages()}
-      {getTrainingResult()}
-      {getJobResult()}
-    </div>
+        {getResultCountAndLoading()}
+        {getErrorMessages()}
+        {getTrainingResult()}
+        {getJobResult()}
+      </div>
   );
 };
 
