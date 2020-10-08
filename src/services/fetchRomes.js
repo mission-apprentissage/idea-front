@@ -2,8 +2,13 @@ import axios from "axios";
 import baseUrl from "../utils/baseUrl";
 import _ from 'lodash'
 import { logError } from "../utils/tools";
+import { useSelector, useDispatch } from "react-redux";
+import { push } from "connected-react-router";
 
-export default async function fetchRomes(value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) {
+// import { fetchRomeFailure } from "../redux/Auth/actions";
+
+
+export default async function fetchRomes(value, errorCallbackFn=_.noop, localBaseUrl=baseUrl, localAxios=axios) {
   
   const romeLabelsApi = localBaseUrl + "/romelabels";
 
@@ -13,9 +18,13 @@ export default async function fetchRomes(value, localBaseUrl=baseUrl, localAxios
     if (_.get(response, 'data.labelsAndRomes')) {
       return response.data.labelsAndRomes;
     } else if (_.get(response, 'data.error')) {
-      console.log("error!!!!!!!!!!!!!!!!!!!!!!");
-      localLogError("Rome API error", `Rome API error ${response.data.error}`);
-      return [];
+      errorCallbackFn()
+      // dispatch(
+      //   fetchRomeFailure(`Erreur lors du chargement du code Rome ${response.data.error}`)
+      // );
+      // console.log("error!!!!!!!!!!!!!!!!!!!!!!");
+      // localLogError("Rome API error", `Rome API error ${response.data.error}`);
+      // return [];
     }
   } else {
     return [];

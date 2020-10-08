@@ -20,7 +20,7 @@ describe('fetchRomes', () => {
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, urlMock, axiosMock)
+      const res = await fetchRomes(value, _.noop, urlMock, axiosMock)
       // then
       expect(res).toEqual(['remotely_returned_array']);
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
@@ -34,7 +34,7 @@ describe('fetchRomes', () => {
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, urlMock, axiosMock)
+      const res = await fetchRomes(value, _.noop, urlMock, axiosMock)
       // then
       expect(res).toEqual([]);
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
