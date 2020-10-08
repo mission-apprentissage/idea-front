@@ -1,6 +1,6 @@
 import axios from "axios";
 import baseUrl from "../utils/baseUrl";
-import get from 'lodash/get'
+import _ from 'lodash'
 import { logError } from "../utils/tools";
 
 export default async function(value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) {
@@ -9,6 +9,8 @@ export default async function(value, localBaseUrl=baseUrl, localAxios=axios, loc
 
   if (value) {
     const response = await localAxios.get(romeLabelsApi, { params: { title: value } });
+
+    console.log("response??", response);
 
     if (response.data.labelsAndRomes) {
       return response.data.labelsAndRomes;
