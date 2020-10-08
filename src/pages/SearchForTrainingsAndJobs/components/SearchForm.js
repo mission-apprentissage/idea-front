@@ -7,26 +7,27 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 import baseUrl from "../../../utils/baseUrl";
+import fetchRomes from "../../../services/fetchRomes";
 import { logError } from "../../../utils/tools";
 
-const romeLabelsApi = baseUrl + "/romelabels";
+// const romeLabelsApi = baseUrl + "/romelabels";
 const romeDiplomasApi = baseUrl + "/jobsdiplomas";
 
-export const fetchRomes = async (value) => {
-  if (value) {
-    const response = await axios.get(romeLabelsApi, { params: { title: value } });
+// export const fetchRomes = async (value) => {
+//   if (value) {
+//     const response = await axios.get(romeLabelsApi, { params: { title: value } });
 
-    if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
-    else {
-      if (response.data.error) {
-        console.log("error!!!!!!!!!!!!!!!!!!!!!!");
-        logError("Rome API error", `Rome API error ${response.data.error}`);
-      }
+//     if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
+//     else {
+//       if (response.data.error) {
+//         console.log("error!!!!!!!!!!!!!!!!!!!!!!");
+//         logError("Rome API error", `Rome API error ${response.data.error}`);
+//       }
 
-      return [];
-    }
-  } else return [];
-};
+//       return [];
+//     }
+//   } else return [];
+// };
 
 export const fetchDiplomas = async (romes) => {
   if (romes && romes.length) {
