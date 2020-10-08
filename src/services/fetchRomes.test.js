@@ -26,4 +26,18 @@ describe('fetchRomes', () => {
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
     });
 
+    it('Should return empty array if response.data.errir is filled', async () => {
+      // given
+      const value = 'plomberie'
+      const urlMock = 'urlMock'
+      const remoteResponse = {data: {error: 'remote_error_message'}}
+      const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
+      const axiosMock = {get: mockedRemoteCall}
+      // when
+      const res = await fetchRomes(value, urlMock, axiosMock)
+      // then
+      expect(res).toEqual([]);
+      expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
+    });
+
 });
