@@ -7,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 import fetchRomes from "../../../services/fetchRomes";
-import DomainError from "./DomainError";
+import DomainError from "./DomainError/DomainError";
 import baseUrl from "../../../utils/baseUrl";
 import { logError } from "../../../utils/tools";
 

@@ -27,7 +27,7 @@ describe('fetchRomes', () => {
       expect(mockedErrorFn).not.toHaveBeenCalled()
     });
 
-    it('error : Should return empty array if response.data.error is filled', async () => {
+    it('error : Should return undefined, and call the error callback', async () => {
       // given
       const value = 'plomberie'
       const urlMock = 'urlMock'
