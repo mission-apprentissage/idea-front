@@ -3,30 +3,31 @@ import _ from 'lodash';
 
 describe('fetchRomes', () => {
 
-    it('Should return an empty array if no value is given', async () => {
+    it('empty : Should return an empty array if no value is given', async () => {
       // given
-      const value = null
       // when
-      const res = await fetchRomes(value)
+      const res = await fetchRomes()
       // then
       expect(res).toEqual([]);
     });
 
-    it('Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
+    it('nominal : Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
       // given
       const value = 'plomberie'
       const urlMock = 'urlMock'
       const remoteResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
+      const mockedErrorFn = jest.fn()
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, _.noop, urlMock, axiosMock)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
       // then
       expect(res).toEqual(['remotely_returned_array']);
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
+      expect(mockedErrorFn).not.toHaveBeenCalled()
     });
 
-    it('Should return empty array if response.data.error is filled', async () => {
+    it('error : Should return empty array if response.data.error is filled', async () => {
       // given
       const value = 'plomberie'
       const urlMock = 'urlMock'

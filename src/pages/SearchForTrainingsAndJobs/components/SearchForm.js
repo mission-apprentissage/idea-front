@@ -13,24 +13,6 @@ import { logError } from "../../../utils/tools";
 const romeLabelsApi = baseUrl + "/romelabels";
 const romeDiplomasApi = baseUrl + "/jobsdiplomas";
 
-// export const fetchRomes = async (value, errorCallback) => {
-//   if (value) {
-//     const response = await axios.get(romeLabelsApi, { params: { title: value } });
-
-//     if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
-//     else {
-//       if (response.data.error) {
-//         console.log('error ! ...')
-//         errorCallback()
-//         logError("Rome API error", `Rome API error ${response.data.error}`);
-//       }
-
-//       return [];
-//     }
-//   } else return [];
-// };
-
-
 export const fetchDiplomas = async (romes) => {
   if (romes && romes.length) {
     const response = await axios.get(romeDiplomasApi, { params: { romes: romes.join(",") } });
