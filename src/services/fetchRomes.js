@@ -1,8 +1,10 @@
 import axios from "axios";
 import baseUrl from "../utils/baseUrl";
 import get from 'lodash/get'
+import { logError } from "../utils/tools";
 
-export default async function (value, localBaseUrl=baseUrl, localAxios=axios) {
+export default async function (value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) {
+// export const fetchRomes = (value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) => {
   
   const romeLabelsApi = localBaseUrl + "/romelabels";
 
@@ -14,7 +16,7 @@ export default async function (value, localBaseUrl=baseUrl, localAxios=axios) {
     } else {
       if (response.data.error) {
         console.log("error!!!!!!!!!!!!!!!!!!!!!!");
-        logError("Rome API error", `Rome API error ${response.data.error}`);
+        localLogError("Rome API error", `Rome API error ${response.data.error}`);
       }
       return [];
     }
