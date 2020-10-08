@@ -5,6 +5,7 @@ import DomainError from './DomainError';
 
 describe('DomainError', () => {
   it('Renders static image and text', () => {
-    expect(<DomainError/>).not.toBeUndefined()
+    const { container } = render(<DomainError />)
+    expect(container.firstChild.classList.contains('c-domainerror')).toBe(true)
   })
 })
