@@ -19,6 +19,7 @@ export const fetchRomes = async (value) => {
     if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
     else {
       if (response.data.error) {
+        console.log('error ! ...')
         logError("Rome API error", `Rome API error ${response.data.error}`);
       }
 
@@ -26,6 +27,7 @@ export const fetchRomes = async (value) => {
     }
   } else return [];
 };
+
 
 export const fetchDiplomas = async (romes) => {
   if (romes && romes.length) {
@@ -39,6 +41,7 @@ export const fetchDiplomas = async (romes) => {
 const SearchForm = (props) => {
   const [locationRadius, setLocationRadius] = useState(30);
   const [diplomas, setDiplomas] = useState([]);
+  const [domainError, setDomainError] = useState([]);
 
   const diplomaMap = {
     "3 (CAP...)": "Cap, autres formations niveau 3",
@@ -48,6 +51,10 @@ const SearchForm = (props) => {
     "7 (Master, titre ingénieur...)": "Master, titre ingénieur, autres formations niveaux 7 ou 8 (bac+5)",
   };
 
+  const domainChanged = async function (val) {
+    const res = await fetchRomes(val, () => {setDomainError(true)})
+    return res
+  }
   const buildAvailableDiplomas = () => {
     return (
       <>
@@ -180,7 +187,7 @@ const SearchForm = (props) => {
                       itemToStringFunction={autoCompleteToStringFunction}
                       onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
                       compareItemFunction={compareAutoCompleteValues}
-                      onInputValueChangeFunction={fetchRomes}
+                      onInputValueChangeFunction={domainChanged}
                       name="jobField"
                       placeholder="ex: plomberie"
                     />
