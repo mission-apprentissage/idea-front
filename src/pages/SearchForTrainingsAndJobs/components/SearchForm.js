@@ -6,8 +6,8 @@ import mapMarker from "../../../assets/icons/pin.svg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
-import  fetchRomes from "../../../services/fetchRomes";
-import  renderDomainError from "../../../services/renderDomainError";
+import fetchRomes from "../../../services/fetchRomes";
+import DomainError from "./DomainError";
 import baseUrl from "../../../utils/baseUrl";
 import { logError } from "../../../utils/tools";
 
@@ -273,7 +273,7 @@ const SearchForm = (props) => {
            {
             domainError
               ? 
-                renderDomainError()
+                <DomainError></DomainError>
               :
                 renderFormik()
                 
