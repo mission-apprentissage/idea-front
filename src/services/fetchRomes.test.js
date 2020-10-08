@@ -17,18 +17,10 @@ describe('fetchRomes', () => {
       const value = 'plomberie'
       const urlMock = 'urlMock'
       const axiosResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
-      // const axiosResponse = _.set({}, 'response.data.labelsAndRomes', ['remotely_returned_array']) 
-      const axiosMock = {
-        get: function() {
-          console.log("axiosResponse", axiosResponse);
-          // See https://www.leighhalliday.com/mocking-axios-in-jest-testing-async-functions
-          // return () => Promise.resolve(axiosResponse)
-          // return Promise.resolve(axiosResponse)
-          return axiosResponse
-        }
-      }
+      const axiosMock = {get: () => {return axiosResponse}}
+      
       // when
-      const res = await fetchRomes(value, 'urlMock', axiosMock)
+      const res = await fetchRomes(value, urlMock, axiosMock)
       // then
       expect(res).toEqual(['remotely_returned_array']);
     });
