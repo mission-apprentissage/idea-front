@@ -12,7 +12,7 @@ import { logError } from "../../../utils/tools";
 const romeLabelsApi = baseUrl + "/romelabels";
 const romeDiplomasApi = baseUrl + "/jobsdiplomas";
 
-export const fetchRomes = async (value) => {
+export const fetchRomes = async (value, errorCallback) => {
   if (value) {
     const response = await axios.get(romeLabelsApi, { params: { title: value } });
 
@@ -20,6 +20,7 @@ export const fetchRomes = async (value) => {
     else {
       if (response.data.error) {
         console.log('error ! ...')
+        errorCallback()
         logError("Rome API error", `Rome API error ${response.data.error}`);
       }
 
