@@ -17,11 +17,13 @@ describe('fetchRomes', () => {
       const value = 'plomberie'
       const urlMock = 'urlMock'
       const remoteResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
-      const axiosMock = {get: jest.fn().mockReturnValue(remoteResponse)}
+      const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
+      const axiosMock = {get: mockedRemoteCall}
       // when
       const res = await fetchRomes(value, urlMock, axiosMock)
       // then
       expect(res).toEqual(['remotely_returned_array']);
+      expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
     });
 
 });
