@@ -260,13 +260,17 @@ const SearchForm = (props) => {
     <div className={props.isFormVisible ? "" : "hiddenSearchForm"}>
       <header>
         <LogoIdea />
-        {props.hasSearch ? (
-          <Button className="blueButton" onClick={props.showResultList}>
-            Retour
-          </Button>
-        ) : (
-          ""
-        )}
+        {
+          props.hasSearch 
+          ? (
+              <Button className="blueButton" onClick={props.showResultList}>
+                Retour
+              </Button>
+            ) 
+          : (
+              ""
+            )
+          }
       </header>
       <div className="clearBoth" />
 
