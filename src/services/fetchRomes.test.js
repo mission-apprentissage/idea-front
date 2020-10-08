@@ -26,7 +26,7 @@ describe('fetchRomes', () => {
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
     });
 
-    it('Should return empty array if response.data.errir is filled', async () => {
+    it('Should return empty array if response.data.error is filled', async () => {
       // given
       const value = 'plomberie'
       const urlMock = 'urlMock'
