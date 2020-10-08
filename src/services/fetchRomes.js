@@ -3,8 +3,7 @@ import baseUrl from "../utils/baseUrl";
 import get from 'lodash/get'
 import { logError } from "../utils/tools";
 
-export default async function (value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) {
-// export const fetchRomes = (value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) => {
+export default async function(value, localBaseUrl=baseUrl, localAxios=axios, localLogError=logError) {
   
   const romeLabelsApi = localBaseUrl + "/romelabels";
 
