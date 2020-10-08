@@ -50,7 +50,7 @@
     "test": "run-s -n build-css test-js",
     "start-js": "PORT=3003 react-app-rewired start",
     "build-js": "CI=false react-app-rewired build",
-    "test-js": "react-app-rewired test --env=jsdom",
+    "test-js": "react-app-rewired test --env=jsdom --coverage",
     "build-css": "node-less-chokidar src",
     "watch-css": "node-less-chokidar src --watch",
     "eject": "react-app-rewired eject",

@@ -16,9 +16,8 @@ describe('fetchRomes', () => {
       // given
       const value = 'plomberie'
       const urlMock = 'urlMock'
-      const axiosResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
-      const axiosMock = {get: () => {return axiosResponse}}
-      
+      const remoteResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
+      const axiosMock = {get: jest.fn().mockReturnValue(remoteResponse)}
       // when
       const res = await fetchRomes(value, urlMock, axiosMock)
       // then

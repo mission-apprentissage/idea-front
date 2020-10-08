@@ -10,8 +10,6 @@ export default async function(value, localBaseUrl=baseUrl, localAxios=axios, loc
   if (value) {
     const response = await localAxios.get(romeLabelsApi, { params: { title: value } });
 
-    console.log("response??", response);
-
     if (response.data.labelsAndRomes) {
       return response.data.labelsAndRomes;
     } else {
