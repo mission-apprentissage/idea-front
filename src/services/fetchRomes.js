@@ -9,7 +9,7 @@ import { push } from "connected-react-router";
 
 const isNonEmptyString = (val) => {return _.isString(val) && val.trim().length > 0}
 
-export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl=baseUrl, _axios=axios, _window=window) {
+export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl=baseUrl, _axios=axios, _window=window, _logError=logError) {
   
   let res = []
 
@@ -22,16 +22,13 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   const isSimulatedError = getQueryVariable('romeError', _window) === 'true'
 
   if (isAxiosError) {
-    console.log("isAxiosError");
-    logError("Rome API error", `Rome API error ${response.data.error}`);
+    _logError("Rome API error", `Rome API error ${response.data.error}`);
     errorCallbackFn()
   } else if (hasNoLabelsAndRomes) {
-    console.log("hasNoLabelsAndRomes");
-    logError("Rome API error : API call worked, but returned unexpected data");
+    _logError("Rome API error : API call worked, but returned unexpected data");
     errorCallbackFn()
   } else if (isSimulatedError) {
-    console.log("isSimulatedError");
-    logError("Rome API error simulated with a query param :)");
+    _logError("Rome API error simulated with a query param :)");
     errorCallbackFn()
   } else {
     res = response.data.labelsAndRomes;
