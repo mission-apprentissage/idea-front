@@ -8,7 +8,7 @@ import { push } from "connected-react-router";
 
 const isNonEmptyString = (val) => {(_.isString(val) && val.trim().length > 0)}
 
-export default async function fetchRomes(value, errorCallbackFn=_.noop, localBaseUrl=baseUrl, localAxios=axios) {
+export default async function fetchRomes(value, errorCallbackFn=_.noop, localBaseUrl=baseUrl, localAxios=axios, localWindow=window) {
   
 
   let res = []
