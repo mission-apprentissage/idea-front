@@ -1,5 +1,4 @@
 import fetchRomes from './fetchRomes';
-import _ from 'lodash';
 
 describe('fetchRomes', () => {
 
