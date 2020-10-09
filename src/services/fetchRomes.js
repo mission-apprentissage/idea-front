@@ -1,4 +1,5 @@
 import axios from "axios";
+import getQueryVariable from "./getQueryVariable";
 import baseUrl from "../utils/baseUrl";
 import _ from 'lodash'
 import { logError } from "../utils/tools";
@@ -19,6 +20,7 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   const response = await _axios.get(romeLabelsApi, { params: { title: value } });
   const isAxiosError = !!_.get(response, 'data.error')
   const hasNoLabelsAndRomes = !_.get(response, 'data.labelsAndRomes')
+  const isSimulatedError = getQueryVariable('romeError', _window) === 'true'
 
   if (isAxiosError) {
     logError("Rome API error", `Rome API error ${response.data.error}`);
