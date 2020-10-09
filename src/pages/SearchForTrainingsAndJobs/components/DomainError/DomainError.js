@@ -10,10 +10,10 @@ export default function DomainError() {
   return (
     <div className="c-domainerror">
       <div className="c-domainerror-img">
-        <img src={domainErrorMainSvg} alt="" />
+        <img src={domainErrorMainSvg} alt="Ressource non trouvée" />
       </div>
       <div className="c-domainerror-notice">
-        <img src={domainErrorNoticeSvg} alt="" />
+        <img src={domainErrorNoticeSvg} alt="Erreur technique momentanée" />
       </div>
       <div className="c-domainerror-texttitle">
         Pas de panique !
