@@ -13,7 +13,7 @@ describe('fetchRomes', () => {
 
     it('nominal : Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
+      const mockedErrorFn = jest.fn()
       const axiosMockGet = jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})
       const axiosStub = {get: axiosMockGet}
       // when
@@ -26,8 +26,8 @@ describe('fetchRomes', () => {
 
     it('error case : axios returns an non-empty data.error property', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
       const axiosStub = {get: jest.fn().mockReturnValue({data: {error: 'remote_error_message'}})}
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
@@ -39,8 +39,8 @@ describe('fetchRomes', () => {
 
     it('error case : axios do NOT returns expected data', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
       const axiosStub = {get: jest.fn().mockReturnValue({data: {unexpected_prop: 'unexpected_val'}})}
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
@@ -52,8 +52,8 @@ describe('fetchRomes', () => {
 
     it('error case : user simulated an error through URL query param', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
       const axiosStub = {get: jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})}
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=true'}}, mockedLoggerFn)
