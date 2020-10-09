@@ -37,6 +37,8 @@ const SearchForm = (props) => {
   };
 
   const domainChanged = async function (val) {
+    // console.log('window is')
+    // console.log(window.location)
     const res = await fetchRomes(val, () => {setDomainError(true)})
     return res
   }

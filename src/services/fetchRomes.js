@@ -1,13 +1,11 @@
 import axios from "axios";
-import getQueryVariable from "./getQueryVariable";
 import baseUrl from "../utils/baseUrl";
 import _ from 'lodash'
+import { isNonEmptyString } from '../utils/strutils'
 import { logError } from "../utils/tools";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-
-const isNonEmptyString = (val) => _.isString(val) && val.trim().length > 0
 
 export default async function fetchRomes(
                                 value, 
@@ -25,7 +23,7 @@ export default async function fetchRomes(
   const response = await _axios.get(romeLabelsApi, { params: { title: value } });
   const isAxiosError = !!_.get(response, 'data.error')
   const hasNoLabelsAndRomes = !_.get(response, 'data.labelsAndRomes')
-  const isSimulatedError = getQueryVariable('romeError', _window) === 'true'
+  const isSimulatedError = _.includes(_.get(_window, 'location.href', ''), 'romeError=true')
 
   if (isAxiosError) {
     _logError("Rome API error", `Rome API error ${response.data.error}`);

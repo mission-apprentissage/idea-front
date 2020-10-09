@@ -21,7 +21,7 @@ describe('fetchRomes', () => {
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=false'}}, console.log)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
       // then
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).not.toHaveBeenCalled()
@@ -37,10 +37,10 @@ describe('fetchRomes', () => {
       const mockedErrorFn = jest.fn()
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=false'}}, console.log)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
       // then
-      expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
+      expect(res).toEqual([]);
     });
 
     it('error case : axios do NOT returns expected data', async () => {
@@ -48,13 +48,13 @@ describe('fetchRomes', () => {
       const value = 'plomberie'
       const urlMock = 'urlMock'
       const mockedRemoteCall = jest.fn().mockReturnValue({data: {unexpected_prop: 'unexpected_val'}})
-      const mockedErrorFn = jest.fn()
+      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=false'}}, console.log)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
       // then
-      expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
+      expect(res).toEqual([]);
     });
 
     it('error case : user simulated an error through URL query param', async () => {
@@ -62,13 +62,13 @@ describe('fetchRomes', () => {
       const value = 'plomberie'
       const urlMock = 'urlMock'
       const mockedRemoteCall = jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})
-      const mockedErrorFn = jest.fn()
+      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=true'}}, console.log)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=true'}}, console.log)
       // then
-      expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
+      expect(res).toEqual([]);
     });
 
 });
