@@ -14,14 +14,12 @@ describe('fetchRomes', () => {
 
     it('nominal : Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
       // given
-      const value = 'plomberie'
-      const urlMock = 'urlMock'
       const remoteResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
-      const mockedErrorFn = jest.fn()
+      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
       // then
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).not.toHaveBeenCalled()
@@ -30,44 +28,44 @@ describe('fetchRomes', () => {
 
     it('error case : axios returns an non-empty data.error property', async () => {
       // given
-      const value = 'plomberie'
-      const urlMock = 'urlMock'
       const remoteResponse = {data: {error: 'remote_error_message'}}
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
-      const mockedErrorFn = jest.fn()
+      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
+      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
       // then
       expect(mockedErrorFn).toHaveBeenCalled();
+      expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error", "Rome API error remote_error_message");
       expect(res).toEqual([]);
     });
 
     it('error case : axios do NOT returns expected data', async () => {
       // given
-      const value = 'plomberie'
-      const urlMock = 'urlMock'
       const mockedRemoteCall = jest.fn().mockReturnValue({data: {unexpected_prop: 'unexpected_val'}})
       const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
       const axiosMock = {get: mockedRemoteCall}
+      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
       // then
       expect(mockedErrorFn).toHaveBeenCalled();
+      expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error : API call worked, but returned unexpected data");
       expect(res).toEqual([]);
     });
 
     it('error case : user simulated an error through URL query param', async () => {
       // given
-      const value = 'plomberie'
-      const urlMock = 'urlMock'
       const mockedRemoteCall = jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})
       const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
+      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{href:'anyurl.com?romeError=true'}}, console.log)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=true'}}, mockedLoggerFn)
       // then
       expect(mockedErrorFn).toHaveBeenCalled();
+      expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error simulated with a query param :)");
       expect(res).toEqual([]);
     });
 
