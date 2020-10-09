@@ -21,8 +21,10 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   const hasNoLabelsAndRomes = !_.get(response, 'data.labelsAndRomes')
 
   if (isAxiosError) {
+    logError("Rome API error", `Rome API error ${response.data.error}`);
     errorCallbackFn()
   } else if (hasNoLabelsAndRomes) {
+    logError("Rome API error : API call worked, but returned unexpected data");
     errorCallbackFn()
   } else if (_.get(response, 'data.labelsAndRomes')) {
     res = response.data.labelsAndRomes;

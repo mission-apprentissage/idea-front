@@ -46,8 +46,7 @@ describe('fetchRomes', () => {
       // given
       const value = 'plomberie'
       const urlMock = 'urlMock'
-      const remoteResponse = {data: {unexpected_prop: 'unexpected_val'}}
-      const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
+      const mockedRemoteCall = jest.fn().mockReturnValue({data: {unexpected_prop: 'unexpected_val'}})
       const mockedErrorFn = jest.fn()
       const axiosMock = {get: mockedRemoteCall}
       // when
@@ -56,5 +55,20 @@ describe('fetchRomes', () => {
       expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
     });
+
+    // it('error case : user simulated an error through URL query param', async () => {
+    //   // given
+    //   const value = 'plomberie'
+    //   const urlMock = 'urlMock'
+    //   const remoteResponse = {data: {labelsAndRomes: ['remotely_returned_array']}}
+    //   const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
+    //   const mockedErrorFn = jest.fn()
+    //   const axiosMock = {get: mockedRemoteCall}
+    //   // when
+    //   const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
+    //   // then
+    //   expect(res).toEqual([]);
+    //   expect(mockedErrorFn).toHaveBeenCalled();
+    // });
 
 });
