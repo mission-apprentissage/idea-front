@@ -18,8 +18,11 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   const romeLabelsApi = _baseUrl + "/romelabels";
   const response = await _axios.get(romeLabelsApi, { params: { title: value } });
   const isAxiosError = !!_.get(response, 'data.error')
+  const hasNoLabelsAndRomes = !_.get(response, 'data.labelsAndRomes')
 
   if (isAxiosError) {
+    errorCallbackFn()
+  } else if (hasNoLabelsAndRomes) {
     errorCallbackFn()
   } else if (_.get(response, 'data.labelsAndRomes')) {
     res = response.data.labelsAndRomes;
