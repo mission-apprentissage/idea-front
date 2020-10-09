@@ -15,6 +15,7 @@ const romeLabelsApi = baseUrl + "/romelabels";
 const romeDiplomasApi = baseUrl + "/jobsdiplomas";
 
 export const fetchDiplomas = async (romes) => {
+  console.log("romes", romes);
   if (romes && romes.length) {
     const response = await axios.get(romeDiplomasApi, { params: { romes: romes.join(",") } });
 
