@@ -5,7 +5,7 @@ import { Formik, Form, ErrorMessage, Field } from "formik";
 import { AutoCompleteField, RadioButton } from "../../components";
 import { fetchAddresses } from "../../services/baseAdresse";
 import mapMarker from "../../assets/icons/pin.svg";
-import { fetchRomes } from "../SearchForTrainingsAndJobs/components/SearchForm";
+import fetchRomes from "../../services/fetchRomes";
 
 const WidgetTester = () => {
   const [locationRadius, setLocationRadius] = useState(0);
