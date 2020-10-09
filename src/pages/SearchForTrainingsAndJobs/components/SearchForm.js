@@ -7,22 +7,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 import fetchRomes from "../../../services/fetchRomes";
+import fetchDiplomas from "../../../services/fetchDiplomas";
 import DomainError from "./DomainError/DomainError";
 import baseUrl from "../../../utils/baseUrl";
 import { logError } from "../../../utils/tools";
-
-const romeLabelsApi = baseUrl + "/romelabels";
-const romeDiplomasApi = baseUrl + "/jobsdiplomas";
-
-export const fetchDiplomas = async (romes) => {
-  console.log("romes", romes);
-  if (romes && romes.length) {
-    const response = await axios.get(romeDiplomasApi, { params: { romes: romes.join(",") } });
-
-    if (response.data instanceof Array) return response.data;
-    else return [];
-  } else return [];
-};
 
 const SearchForm = (props) => {
   const [locationRadius, setLocationRadius] = useState(30);
