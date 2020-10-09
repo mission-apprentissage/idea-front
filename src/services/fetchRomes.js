@@ -28,6 +28,9 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   } else if (hasNoLabelsAndRomes) {
     logError("Rome API error : API call worked, but returned unexpected data");
     errorCallbackFn()
+  } else if (isSimulatedError) {
+    logError("Rome API error simulated with a query param :)");
+    errorCallbackFn()
   } else if (_.get(response, 'data.labelsAndRomes')) {
     res = response.data.labelsAndRomes;
   }
