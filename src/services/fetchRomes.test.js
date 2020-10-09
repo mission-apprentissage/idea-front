@@ -14,10 +14,12 @@ describe('fetchRomes', () => {
     it('nominal : Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
       // given
       const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const axiosMock = {get: jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})}
+      const axiosMockGet = jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})
+      const axiosMock = {get: axiosMockGet}
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
       // then
+      expect(axiosMockGet).toHaveBeenCalledWith("urlMock/romelabels", {"params": {"title": "plomberie"}});
       expect(mockedErrorFn).not.toHaveBeenCalled()
       expect(res).toEqual(['remotely_returned_array']);
     });
