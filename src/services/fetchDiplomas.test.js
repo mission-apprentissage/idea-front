@@ -20,7 +20,7 @@ describe('fetchDiplomas', () => {
       const mockedAxiosGet = jest.fn().mockReturnValue({data: ['remotely_returned_array']})
       const axiosMock = {get: mockedAxiosGet}
       // when
-      const res = await fetchDiplomas(["D1208", "D1203"], mockedErrorFn, 'urlMock', axiosMock, {}, console.log)
+      const res = await fetchDiplomas(["D1208", "D1203"], mockedErrorFn, 'urlMock', axiosMock, {}, _.noop)
       // then
       expect(mockedErrorFn).not.toHaveBeenCalled()
       expect(mockedAxiosGet).toHaveBeenCalledWith("urlMock/jobsdiplomas", {"params": {"romes": "D1208,D1203"}})
