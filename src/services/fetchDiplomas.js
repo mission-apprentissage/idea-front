@@ -24,11 +24,11 @@ export default async function fetchDiplomas(
   let res = []
 
   let cleanedArrayOfRome = filteredInput(arrayOfRome)
-
   if (cleanedArrayOfRome.length === 0) return res
 
   const romeDiplomasApi = _baseUrl + "/jobsdiplomas";
   const response = await _axios.get(romeDiplomasApi, { params: { romes: cleanedArrayOfRome.join(",") } });
+
   const isAxiosError = !!_.get(response, 'data.error')
   const hasNoValidData = !_.isArray(_.get(response, 'data'))
   const isSimulatedError = _.includes(_.get(_window, 'location.href', ''), 'diplomaError=true')
