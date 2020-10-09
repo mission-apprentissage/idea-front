@@ -16,10 +16,10 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   if (isNonEmptyString(value)) return res
 
   const romeLabelsApi = _baseUrl + "/romelabels";
-
   const response = await _axios.get(romeLabelsApi, { params: { title: value } });
+  const isAxiosError = !!_.get(response, 'data.error')
 
-  if (_.get(response, 'data.error')) {
+  if (isAxiosError) {
     errorCallbackFn()
   } else if (_.get(response, 'data.labelsAndRomes')) {
     res = response.data.labelsAndRomes;
