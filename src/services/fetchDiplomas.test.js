@@ -1,4 +1,5 @@
 import fetchDiplomas from './fetchDiplomas';
+import _ from 'lodash';
 
 describe('fetchDiplomas', () => {
 
@@ -11,5 +12,18 @@ describe('fetchDiplomas', () => {
       expect(await fetchDiplomas('  ')).toEqual([]);
       expect(await fetchDiplomas([])).toEqual([]);
       expect(await fetchDiplomas(['', ' '])).toEqual([]);
+    });
+
+    it('nominal : Should return response.data if remote API replied correctly', async () => {
+      // given
+      const mockedErrorFn = jest.fn();
+      const mockedAxiosGet = jest.fn().mockReturnValue({data: ['remotely_returned_array']})
+      const axiosMock = {get: mockedAxiosGet}
+      // when
+      const res = await fetchDiplomas(["D1208", "D1203"], mockedErrorFn, 'urlMock', axiosMock, {}, console.log)
+      // then
+      expect(mockedErrorFn).not.toHaveBeenCalled()
+      expect(mockedAxiosGet).toHaveBeenCalledWith("urlMock/jobsdiplomas", {"params": {"romes": "D1208,D1203"}})
+      expect(res).toEqual(['remotely_returned_array']);
     });
 });
