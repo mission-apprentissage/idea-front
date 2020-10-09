@@ -19,6 +19,8 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 To get full coverage, replace relevant property in package.json by
 "test-js": "react-app-rewired test --env=jsdom --coverage --watchAll",
+or
+"test-js": "react-app-rewired test --env=jsdom --coverage --watch",
 
 ### `yarn build`
 

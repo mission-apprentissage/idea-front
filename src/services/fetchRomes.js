@@ -21,22 +21,26 @@ export default async function fetchRomes(
 
   const romeLabelsApi = _baseUrl + "/romelabels";
   const response = await _axios.get(romeLabelsApi, { params: { title: value } });
+
   const isAxiosError = !!_.get(response, 'data.error')
   const hasNoLabelsAndRomes = !_.get(response, 'data.labelsAndRomes')
   const isSimulatedError = _.includes(_.get(_window, 'location.href', ''), 'romeError=true')
 
-  if (isAxiosError) {
-    _logError("Rome API error", `Rome API error ${response.data.error}`);
+  const isError = isAxiosError || hasNoLabelsAndRomes || isSimulatedError
+
+  if (isError) {
     errorCallbackFn()
-  } else if (hasNoLabelsAndRomes) {
-    _logError("Rome API error : API call worked, but returned unexpected data");
-    errorCallbackFn()
-  } else if (isSimulatedError) {
-    _logError("Rome API error simulated with a query param :)");
-    errorCallbackFn()
+    if (isAxiosError) {
+      _logError("Rome API error", `Rome API error ${response.data.error}`);
+    } else if (hasNoLabelsAndRomes) {
+      _logError("Rome API error : API call worked, but returned unexpected data");
+    } else if (isSimulatedError) {
+      _logError("Rome API error simulated with a query param :)");
+    }
   } else {
     res = response.data.labelsAndRomes;
-  }
+  }    
+
 
   return res;
 };
