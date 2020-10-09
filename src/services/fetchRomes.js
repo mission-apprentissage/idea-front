@@ -8,17 +8,20 @@ import { push } from "connected-react-router";
 
 export default async function fetchRomes(value, errorCallbackFn=_.noop, localBaseUrl=baseUrl, localAxios=axios) {
   
+
+  let res = []
   const romeLabelsApi = localBaseUrl + "/romelabels";
 
   if (value) {
     const response = await localAxios.get(romeLabelsApi, { params: { title: value } });
 
-    if (_.get(response, 'data.labelsAndRomes')) {
-      return response.data.labelsAndRomes;
-    } else if (_.get(response, 'data.error')) {
+    if (_.get(response, 'data.error')) {
       errorCallbackFn()
+    } else if (_.get(response, 'data.labelsAndRomes')) {
+      res = response.data.labelsAndRomes;
     }
   } else {
     return [];
   }
+  return res;
 };

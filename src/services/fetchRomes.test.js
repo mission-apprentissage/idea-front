@@ -38,7 +38,7 @@ describe('fetchRomes', () => {
       // when
       const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
       // then
-      expect(res).toEqual(undefined);
+      expect(res).toEqual([]);
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).toHaveBeenCalled();
     });
