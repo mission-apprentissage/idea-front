@@ -11,7 +11,6 @@ const isNonEmptyString = (val) => {_.isString(val) && val.trim().length > 0}
 
 export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl=baseUrl, _axios=axios, _window=window) {
   
-
   let res = []
 
   if (isNonEmptyString(value)) return res
