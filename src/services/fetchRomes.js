@@ -31,7 +31,7 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   } else if (isSimulatedError) {
     logError("Rome API error simulated with a query param :)");
     errorCallbackFn()
-  } else if (_.get(response, 'data.labelsAndRomes')) {
+  } else {
     res = response.data.labelsAndRomes;
   }
 
