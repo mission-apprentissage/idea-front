@@ -21,7 +21,7 @@ describe('fetchRomes', () => {
       const mockedRemoteCall = jest.fn().mockReturnValue(remoteResponse)
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=false'}}, console.log)
       // then
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).not.toHaveBeenCalled()
@@ -37,7 +37,7 @@ describe('fetchRomes', () => {
       const mockedErrorFn = jest.fn()
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=false'}}, console.log)
       // then
       expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
@@ -51,7 +51,7 @@ describe('fetchRomes', () => {
       const mockedErrorFn = jest.fn()
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=false'}}, console.log)
       // then
       expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('fetchRomes', () => {
       const mockedErrorFn = jest.fn()
       const axiosMock = {get: mockedRemoteCall}
       // when
-      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=true'}})
+      const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock, {location:{search:'?romeError=true'}}, console.log)
       // then
       expect(res).toEqual([]);
       expect(mockedErrorFn).toHaveBeenCalled();
