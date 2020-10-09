@@ -36,6 +36,7 @@ describe('fetchRomes', () => {
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
       // then
+      expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).toHaveBeenCalled();
       expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error", "Rome API error remote_error_message");
       expect(res).toEqual([]);
@@ -50,6 +51,7 @@ describe('fetchRomes', () => {
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
       // then
+      expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).toHaveBeenCalled();
       expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error : API call worked, but returned unexpected data");
       expect(res).toEqual([]);
@@ -64,6 +66,7 @@ describe('fetchRomes', () => {
       // when
       const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=true'}}, mockedLoggerFn)
       // then
+      expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).toHaveBeenCalled();
       expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error simulated with a query param :)");
       expect(res).toEqual([]);
