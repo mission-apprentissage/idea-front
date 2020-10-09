@@ -8,16 +8,16 @@ import { push } from "connected-react-router";
 
 const isNonEmptyString = (val) => {(_.isString(val) && val.trim().length > 0)}
 
-export default async function fetchRomes(value, errorCallbackFn=_.noop, localBaseUrl=baseUrl, localAxios=axios, localWindow=window) {
+export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl=baseUrl, _axios=axios, _window=window) {
   
 
   let res = []
 
   if (isNonEmptyString(value)) return res
 
-  const romeLabelsApi = localBaseUrl + "/romelabels";
+  const romeLabelsApi = _baseUrl + "/romelabels";
 
-  const response = await localAxios.get(romeLabelsApi, { params: { title: value } });
+  const response = await _axios.get(romeLabelsApi, { params: { title: value } });
 
   if (_.get(response, 'data.error')) {
     errorCallbackFn()
