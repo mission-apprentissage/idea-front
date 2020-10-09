@@ -7,13 +7,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 
-const isNonEmptyString = (val) => {_.isString(val) && val.trim().length > 0}
+const isNonEmptyString = (val) => {return _.isString(val) && val.trim().length > 0}
 
 export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl=baseUrl, _axios=axios, _window=window) {
   
   let res = []
 
-  if (isNonEmptyString(value)) return res
+  if (!isNonEmptyString(value)) return res;
 
   const romeLabelsApi = _baseUrl + "/romelabels";
   const response = await _axios.get(romeLabelsApi, { params: { title: value } });
@@ -22,12 +22,15 @@ export default async function fetchRomes(value, errorCallbackFn=_.noop, _baseUrl
   const isSimulatedError = getQueryVariable('romeError', _window) === 'true'
 
   if (isAxiosError) {
+    console.log("isAxiosError");
     logError("Rome API error", `Rome API error ${response.data.error}`);
     errorCallbackFn()
   } else if (hasNoLabelsAndRomes) {
+    console.log("hasNoLabelsAndRomes");
     logError("Rome API error : API call worked, but returned unexpected data");
     errorCallbackFn()
   } else if (isSimulatedError) {
+    console.log("isSimulatedError");
     logError("Rome API error simulated with a query param :)");
     errorCallbackFn()
   } else {

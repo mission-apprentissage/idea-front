@@ -3,12 +3,13 @@ import _ from 'lodash';
 
 describe('fetchRomes', () => {
 
-    it('empty : Should return an empty array if no value is given', async () => {
-      // given
-      // when
-      const res = await fetchRomes()
-      // then
-      expect(res).toEqual([]);
+    it('skip : Should return an empty array if there is any wrong input', async () => {
+      expect(await fetchRomes()).toEqual([]);
+      expect(await fetchRomes(null)).toEqual([]);
+      expect(await fetchRomes(/^/)).toEqual([]);
+      expect(await fetchRomes(42)).toEqual([]);
+      expect(await fetchRomes('')).toEqual([]);
+      expect(await fetchRomes('  ')).toEqual([]);
     });
 
     it('nominal : Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
@@ -22,9 +23,9 @@ describe('fetchRomes', () => {
       // when
       const res = await fetchRomes(value, mockedErrorFn, urlMock, axiosMock)
       // then
-      expect(res).toEqual(['remotely_returned_array']);
       expect(mockedRemoteCall).toHaveBeenCalledWith('urlMock/romelabels', {params: { title: 'plomberie'}});
       expect(mockedErrorFn).not.toHaveBeenCalled()
+      expect(res).toEqual(['remotely_returned_array']);
     });
 
     it('error case : axios returns an non-empty data.error property', async () => {
