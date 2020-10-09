@@ -6,22 +6,24 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 
+const isNonEmptyString = (val) => {(_.isString(val) && val.trim().length > 0)}
+
 export default async function fetchRomes(value, errorCallbackFn=_.noop, localBaseUrl=baseUrl, localAxios=axios) {
   
 
   let res = []
+
+  if (isNonEmptyString(value)) return res
+
   const romeLabelsApi = localBaseUrl + "/romelabels";
 
-  if (value) {
-    const response = await localAxios.get(romeLabelsApi, { params: { title: value } });
+  const response = await localAxios.get(romeLabelsApi, { params: { title: value } });
 
-    if (_.get(response, 'data.error')) {
-      errorCallbackFn()
-    } else if (_.get(response, 'data.labelsAndRomes')) {
-      res = response.data.labelsAndRomes;
-    }
-  } else {
-    return [];
+  if (_.get(response, 'data.error')) {
+    errorCallbackFn()
+  } else if (_.get(response, 'data.labelsAndRomes')) {
+    res = response.data.labelsAndRomes;
   }
+
   return res;
 };
