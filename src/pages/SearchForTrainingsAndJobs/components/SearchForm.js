@@ -7,26 +7,16 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
 import fetchRomes from "../../../services/fetchRomes";
+import fetchDiplomas from "../../../services/fetchDiplomas";
 import DomainError from "./DomainError/DomainError";
 import baseUrl from "../../../utils/baseUrl";
 import { logError } from "../../../utils/tools";
-
-const romeLabelsApi = baseUrl + "/romelabels";
-const romeDiplomasApi = baseUrl + "/jobsdiplomas";
-
-export const fetchDiplomas = async (romes) => {
-  if (romes && romes.length) {
-    const response = await axios.get(romeDiplomasApi, { params: { romes: romes.join(",") } });
-
-    if (response.data instanceof Array) return response.data;
-    else return [];
-  } else return [];
-};
 
 const SearchForm = (props) => {
   const [locationRadius, setLocationRadius] = useState(30);
   const [diplomas, setDiplomas] = useState([]);
   const [domainError, setDomainError] = useState(false);
+  const [diplomaError, setDiplomaError] = useState(false);
 
   const diplomaMap = {
     "3 (CAP...)": "Cap, autres formations niveau 3",
@@ -125,7 +115,7 @@ const SearchForm = (props) => {
   const updateDiplomaSelectionFromJobChange = async (job) => {
     let diplomas = [];
     if (job) {
-      diplomas = await fetchDiplomas(job.romes);
+      diplomas = await fetchDiplomas(job.romes, () => {setDiplomaError(true)});
     }
 
     setTimeout(() => {
@@ -275,7 +265,7 @@ const SearchForm = (props) => {
       <div className="clearBoth" />
 
            {
-            domainError
+            domainError || diplomaError
               ? 
                 <DomainError></DomainError>
               :

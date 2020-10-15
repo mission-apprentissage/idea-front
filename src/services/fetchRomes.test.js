@@ -1,5 +1,4 @@
 import fetchRomes from './fetchRomes';
-import _ from 'lodash';
 
 describe('fetchRomes', () => {
 
@@ -14,22 +13,24 @@ describe('fetchRomes', () => {
 
     it('nominal : Should return response.data.labelsAndRomes if remote API replied correctly', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const axiosMock = {get: jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})}
+      const mockedErrorFn = jest.fn()
+      const axiosMockGet = jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})
+      const axiosStub = {get: axiosMockGet}
       // when
-      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, console.log)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=false'}}, console.log)
       // then
+      expect(axiosMockGet).toHaveBeenCalledWith("urlMock/romelabels", {"params": {"title": "plomberie"}});
       expect(mockedErrorFn).not.toHaveBeenCalled()
       expect(res).toEqual(['remotely_returned_array']);
     });
 
     it('error case : axios returns an non-empty data.error property', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
-      const axiosMock = {get: jest.fn().mockReturnValue({data: {error: 'remote_error_message'}})}
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
+      const axiosStub = {get: jest.fn().mockReturnValue({data: {error: 'remote_error_message'}})}
       // when
-      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
       // then
       expect(mockedErrorFn).toHaveBeenCalled();
       expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error", "Rome API error remote_error_message");
@@ -38,11 +39,11 @@ describe('fetchRomes', () => {
 
     it('error case : axios do NOT returns expected data', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
-      const axiosMock = {get: jest.fn().mockReturnValue({data: {unexpected_prop: 'unexpected_val'}})}
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
+      const axiosStub = {get: jest.fn().mockReturnValue({data: {unexpected_prop: 'unexpected_val'}})}
       // when
-      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=false'}}, mockedLoggerFn)
       // then
       expect(mockedErrorFn).toHaveBeenCalled();
       expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error : API call worked, but returned unexpected data");
@@ -51,11 +52,11 @@ describe('fetchRomes', () => {
 
     it('error case : user simulated an error through URL query param', async () => {
       // given
-      const mockedErrorFn = jest.fn().mockName('mockedErrorFn');
-      const mockedLoggerFn = jest.fn().mockName('mockedLoggerFn');
-      const axiosMock = {get: jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})}
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
+      const axiosStub = {get: jest.fn().mockReturnValue({data: {labelsAndRomes: ['remotely_returned_array']}})}
       // when
-      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosMock, {location:{href:'anyurl.com?romeError=true'}}, mockedLoggerFn)
+      const res = await fetchRomes('plomberie', mockedErrorFn, 'urlMock', axiosStub, {location:{href:'anyurl.com?romeError=true'}}, mockedLoggerFn)
       // then
       expect(mockedErrorFn).toHaveBeenCalled();
       expect(mockedLoggerFn).toHaveBeenCalledWith("Rome API error simulated with a query param :)");
