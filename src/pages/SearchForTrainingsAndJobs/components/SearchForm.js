@@ -16,6 +16,7 @@ const SearchForm = (props) => {
   const [locationRadius, setLocationRadius] = useState(30);
   const [diplomas, setDiplomas] = useState([]);
   const [domainError, setDomainError] = useState(false);
+  const [diplomaError, setDiplomaError] = useState(false);
 
   const diplomaMap = {
     "3 (CAP...)": "Cap, autres formations niveau 3",
@@ -114,7 +115,7 @@ const SearchForm = (props) => {
   const updateDiplomaSelectionFromJobChange = async (job) => {
     let diplomas = [];
     if (job) {
-      diplomas = await fetchDiplomas(job.romes);
+      diplomas = await fetchDiplomas(job.romes, () => {setDiplomaError(true)});
     }
 
     setTimeout(() => {
@@ -264,7 +265,7 @@ const SearchForm = (props) => {
       <div className="clearBoth" />
 
            {
-            domainError
+            domainError || diplomaError
               ? 
                 <DomainError></DomainError>
               :
