@@ -18,12 +18,25 @@ describe('fetchDiplomas', () => {
       // given
       const mockedErrorFn = jest.fn();
       const mockedAxiosGet = jest.fn().mockReturnValue({data: ['remotely_returned_array']})
-      const axiosMock = {get: mockedAxiosGet}
+      const axiosStub = {get: mockedAxiosGet}
       // when
-      const res = await fetchDiplomas(["D1208", "D1203"], mockedErrorFn, 'urlMock', axiosMock, {}, _.noop)
+      const res = await fetchDiplomas(["D1208", "D1203"], mockedErrorFn, 'urlMock', axiosStub, {}, _.noop)
       // then
       expect(mockedErrorFn).not.toHaveBeenCalled()
       expect(mockedAxiosGet).toHaveBeenCalledWith("urlMock/jobsdiplomas", {"params": {"romes": "D1208,D1203"}})
       expect(res).toEqual(['remotely_returned_array']);
+    });
+
+    it('error case : axios returns an non-empty data.error property', async () => {
+      // given
+      const mockedErrorFn = jest.fn()
+      const mockedLoggerFn = jest.fn()
+      const axiosStub = {get: jest.fn().mockReturnValue({data: {error: 'remote_error_message'}})}
+      // when
+      const res = await fetchDiplomas(["D1208", "D1203"], mockedErrorFn, 'urlMock', axiosStub, {}, mockedLoggerFn)
+      // then
+      expect(mockedErrorFn).toHaveBeenCalled();
+      expect(mockedLoggerFn).toHaveBeenCalledWith("Diploma API error", "Diploma API error remote_error_message");
+      expect(res).toEqual([]);
     });
 });
