@@ -17,6 +17,11 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
+To get full coverage, replace relevant property in package.json by
+"test-js": "react-app-rewired test --env=jsdom --coverage --watchAll",
+or
+"test-js": "react-app-rewired test --env=jsdom --coverage --watch",
+
 ### `yarn build`
 
 Builds the app for production to the `build` folder.<br />

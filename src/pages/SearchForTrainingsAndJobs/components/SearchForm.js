@@ -6,26 +6,13 @@ import mapMarker from "../../../assets/icons/pin.svg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { AutoCompleteField, LogoIdea, RadioButton } from "../../../components";
 import { fetchAddresses } from "../../../services/baseAdresse";
+import fetchRomes from "../../../services/fetchRomes";
+import DomainError from "./DomainError/DomainError";
 import baseUrl from "../../../utils/baseUrl";
 import { logError } from "../../../utils/tools";
 
 const romeLabelsApi = baseUrl + "/romelabels";
 const romeDiplomasApi = baseUrl + "/jobsdiplomas";
-
-export const fetchRomes = async (value) => {
-  if (value) {
-    const response = await axios.get(romeLabelsApi, { params: { title: value } });
-
-    if (response.data.labelsAndRomes) return response.data.labelsAndRomes;
-    else {
-      if (response.data.error) {
-        logError("Rome API error", `Rome API error ${response.data.error}`);
-      }
-
-      return [];
-    }
-  } else return [];
-};
 
 export const fetchDiplomas = async (romes) => {
   if (romes && romes.length) {
@@ -39,6 +26,7 @@ export const fetchDiplomas = async (romes) => {
 const SearchForm = (props) => {
   const [locationRadius, setLocationRadius] = useState(30);
   const [diplomas, setDiplomas] = useState([]);
+  const [domainError, setDomainError] = useState(false);
 
   const diplomaMap = {
     "3 (CAP...)": "Cap, autres formations niveau 3",
@@ -47,6 +35,11 @@ const SearchForm = (props) => {
     "6 (Licence...)": "Licence, autres formations niveaux 6 (bac+3)",
     "7 (Master, titre ingénieur...)": "Master, titre ingénieur, autres formations niveaux 7 ou 8 (bac+5)",
   };
+
+  const domainChanged = async function (val) {
+    const res = await fetchRomes(val, () => {setDomainError(true)})
+    return res
+  }
 
   const buildAvailableDiplomas = () => {
     return (
@@ -140,140 +133,157 @@ const SearchForm = (props) => {
     }, 0);
   };
 
+  const renderFormik = () => {
+    return (<Formik
+      validate={(values) => {
+        const errors = {};
+        if (!values.job || !values.job.label || !values.job.romes || !values.job.romes.length > 0) {
+          errors.job = "Sélectionnez un domaine proposé";
+        }
+        if (!values.location || !values.location.label) {
+          errors.location = "Sélectionnez un lieu proposé";
+        }
+        return errors;
+      }}
+      initialValues={{ job: {}, location: {}, radius: 30, diploma: "" }}
+      onSubmit={props.handleSubmit}
+    >
+      {({ isSubmitting, setFieldValue }) => (
+        <Form>
+          <Row>
+            <Col xs="12">
+              <div className="formGroup">
+                <label htmlFor="jobField">Votre projet est dans le domaine ...</label>
+                <div className="fieldContainer">
+                  <AutoCompleteField
+                    items={[]}
+                    itemToStringFunction={autoCompleteToStringFunction}
+                    onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
+                    compareItemFunction={compareAutoCompleteValues}
+                    onInputValueChangeFunction={domainChanged}
+                    name="jobField"
+                    placeholder="ex: plomberie"
+                  />
+                </div>
+                <ErrorMessage name="job" className="errorField" component="div" />
+              </div>
+            </Col>
+
+            <Col xs="12">
+              <div className="formGroup">
+                <label htmlFor="diplomaField">Le diplôme que vous souhaitez obtenir ...</label>
+                <div className="fieldContainer">
+                  <Input onChange={(evt) => handleDiplomaChange(evt, setFieldValue)} type="select" name="diploma">
+                    {buildAvailableDiplomas()}
+                  </Input>
+                </div>
+              </div>
+            </Col>
+
+            <Col xs="12">
+              <div className="formGroup">
+                <label htmlFor="placeField">A proximité de ...</label>
+                <div className="fieldContainer">
+                  <AutoCompleteField
+                    items={[]}
+                    itemToStringFunction={autoCompleteToStringFunction}
+                    onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
+                    compareItemFunction={compareAutoCompleteValues}
+                    onInputValueChangeFunction={fetchAddresses}
+                    scrollParentId="rightColumn"
+                    name="placeField"
+                    placeholder="Adresse ou ville ou code postal"
+                  />
+                  <img className="inFormIcon" src={mapMarker} alt="" />
+                </div>
+                <ErrorMessage name="location" className="errorField" component="div" />
+              </div>
+            </Col>
+
+            <Col xs="12">
+              <div className="formGroup">
+                <label>Dans un rayon de ...</label>
+                <Field type="hidden" value={locationRadius} name="locationRadius" />
+                <div className="buttons">
+                  <Container>
+                    <Row>
+                      {getRadioButton(
+                        "locationRadius",
+                        10,
+                        "10km",
+                        locationRadius,
+                        setFieldValue,
+                        handleRadiusChange
+                      )}
+                      {getRadioButton(
+                        "locationRadius",
+                        30,
+                        "30km",
+                        locationRadius,
+                        setFieldValue,
+                        handleRadiusChange
+                      )}
+                      {getRadioButton(
+                        "locationRadius",
+                        60,
+                        "60km",
+                        locationRadius,
+                        setFieldValue,
+                        handleRadiusChange
+                      )}
+                      {getRadioButton(
+                        "locationRadius",
+                        100,
+                        "100km",
+                        locationRadius,
+                        setFieldValue,
+                        handleRadiusChange
+                      )}
+                    </Row>
+
+                    <ErrorMessage name="locationRadius" className="errorField" component="div" />
+                  </Container>
+                </div>
+              </div>
+            </Col>
+          </Row>
+
+          <Button className="submitButton" type="submit" disabled={isSubmitting}>
+            Voir les résultats
+          </Button>
+        </Form>
+      )}
+    </Formik>)
+  }
+
   return (
     <div className={props.isFormVisible ? "" : "hiddenSearchForm"}>
       <header>
         <LogoIdea />
-        {props.hasSearch ? (
-          <Button className="blueButton" onClick={props.showResultList}>
-            Retour
-          </Button>
-        ) : (
-          ""
-        )}
+        {
+          props.hasSearch 
+          ? (
+              <Button className="blueButton" onClick={props.showResultList}>
+                Retour
+              </Button>
+            ) 
+          : (
+              ""
+            )
+          }
       </header>
       <div className="clearBoth" />
 
-      <Formik
-        validate={(values) => {
-          const errors = {};
-          if (!values.job || !values.job.label || !values.job.romes || !values.job.romes.length > 0) {
-            errors.job = "Sélectionnez un domaine proposé";
-          }
-          if (!values.location || !values.location.label) {
-            errors.location = "Sélectionnez un lieu proposé";
-          }
-          return errors;
-        }}
-        initialValues={{ job: {}, location: {}, radius: 30, diploma: "" }}
-        onSubmit={props.handleSubmit}
-      >
-        {({ isSubmitting, setFieldValue }) => (
-          <Form>
-            <Row>
-              <Col xs="12">
-                <div className="formGroup">
-                  <label htmlFor="jobField">Votre projet est dans le domaine ...</label>
-                  <div className="fieldContainer">
-                    <AutoCompleteField
-                      items={[]}
-                      itemToStringFunction={autoCompleteToStringFunction}
-                      onSelectedItemChangeFunction={updateValuesFromJobAutoComplete}
-                      compareItemFunction={compareAutoCompleteValues}
-                      onInputValueChangeFunction={fetchRomes}
-                      name="jobField"
-                      placeholder="ex: plomberie"
-                    />
-                  </div>
-                  <ErrorMessage name="job" className="errorField" component="div" />
-                </div>
-              </Col>
+           {
+            domainError
+              ? 
+                <DomainError></DomainError>
+              :
+                renderFormik()
+                
+           }
 
-              <Col xs="12">
-                <div className="formGroup">
-                  <label htmlFor="diplomaField">Le diplôme que vous souhaitez obtenir ...</label>
-                  <div className="fieldContainer">
-                    <Input onChange={(evt) => handleDiplomaChange(evt, setFieldValue)} type="select" name="diploma">
-                      {buildAvailableDiplomas()}
-                    </Input>
-                  </div>
-                </div>
-              </Col>
 
-              <Col xs="12">
-                <div className="formGroup">
-                  <label htmlFor="placeField">A proximité de ...</label>
-                  <div className="fieldContainer">
-                    <AutoCompleteField
-                      items={[]}
-                      itemToStringFunction={autoCompleteToStringFunction}
-                      onSelectedItemChangeFunction={updateValuesFromPlaceAutoComplete}
-                      compareItemFunction={compareAutoCompleteValues}
-                      onInputValueChangeFunction={fetchAddresses}
-                      scrollParentId="rightColumn"
-                      name="placeField"
-                      placeholder="Adresse ou ville ou code postal"
-                    />
-                    <img className="inFormIcon" src={mapMarker} alt="" />
-                  </div>
-                  <ErrorMessage name="location" className="errorField" component="div" />
-                </div>
-              </Col>
-
-              <Col xs="12">
-                <div className="formGroup">
-                  <label>Dans un rayon de ...</label>
-                  <Field type="hidden" value={locationRadius} name="locationRadius" />
-                  <div className="buttons">
-                    <Container>
-                      <Row>
-                        {getRadioButton(
-                          "locationRadius",
-                          10,
-                          "10km",
-                          locationRadius,
-                          setFieldValue,
-                          handleRadiusChange
-                        )}
-                        {getRadioButton(
-                          "locationRadius",
-                          30,
-                          "30km",
-                          locationRadius,
-                          setFieldValue,
-                          handleRadiusChange
-                        )}
-                        {getRadioButton(
-                          "locationRadius",
-                          60,
-                          "60km",
-                          locationRadius,
-                          setFieldValue,
-                          handleRadiusChange
-                        )}
-                        {getRadioButton(
-                          "locationRadius",
-                          100,
-                          "100km",
-                          locationRadius,
-                          setFieldValue,
-                          handleRadiusChange
-                        )}
-                      </Row>
-
-                      <ErrorMessage name="locationRadius" className="errorField" component="div" />
-                    </Container>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-
-            <Button className="submitButton" type="submit" disabled={isSubmitting}>
-              Voir les résultats
-            </Button>
-          </Form>
-        )}
-      </Formik>
     </div>
   );
 };
