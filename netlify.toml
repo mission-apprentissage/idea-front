@@ -1,11 +1,8 @@
 [[redirects]]
-  from = "/"
-  to = "https://labonnealternance.apprentissage.beta.gouv.fr/"
-  force = true  
-
-[[redirects]]
-  from = "/api-docs"
-  to = "/test-widget"
+from = "/*"
+to = "https://labonnealternance.apprentissage.beta.gouv.fr/:splat"
+status = 301
+force = false
 
 [context.production.environment]
   REACT_APP_GOOGLE_ANALYTICS_UA_CODE = "UA-116850596-4"
