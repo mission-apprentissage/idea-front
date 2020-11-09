@@ -7,72 +7,28 @@
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="IDEA"
+      content="La Bonne Alternance"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous">
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet' />
-    <title>IDEA</title>    
+    <title>La Bonne Alternance</title>    
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GOOGLE_ANALYTICS_UA_CODE%"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+      if (window.location.hostname.includes("netlify.app")) {
+        //window.location.replace("https://labonnealternance.apprentissage.beta.gouv.fr");
+        console.log("move to https://labonnealternance.apprentissage.beta.gouv.fr");
+        
+      }
 
-        gtag('config', '%REACT_APP_GOOGLE_ANALYTICS_UA_CODE%', {
-          'custom_map': {
-            'dimension1': 'niveauZoom',
-            'dimension2': 'rayon',
-            'dimension3': 'metier',
-            'dimension4': 'diplome',
-            'dimension5': 'lieu',
-            'dimension6': 'codePostal',
-            'dimension7': 'strictRadius',
-            'dimension8': 'source',
-            'dimension9': 'type',
-          }});
     </script>
 
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-T9G5QSC');</script>
-      <!-- End Google Tag Manager -->
-
+   
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T9G5QSC"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
-    <noscript>Javascript doit être activé pour faire fonctionner cette application / You need to enable JavaScript to run this app</noscript>    
-  
-    <div id="root">
-        
-      <div style="text-align: center; font-size: 32px; margin:auto; margin-top:150px; width: 100%; max-width: 800px;">
-
-        <div style="margin: 50px;">
-          <i style="font-size:40px" class="fa fa-spinner fa-spin"></i>
-        </div>
-        
-        Chargement en cours, veuillez patienter :)
-    
-      </div>
-
-
-    </div>
-    
+    <noscript>La service a changé d'adresse veuillez vous rendre sur <a href="https://labonnealternance.apprentissage.beta.gouv.fr">https://labonnealternance.apprentissage.beta.gouv.fr</a></noscript>    
   </body>
 
   <script>
     if(window.parent !== window.self)
       document.body.className="framed";
-
-
   </script>
 </html>
