@@ -3,6 +3,10 @@
   to = "https://labonnealternance.apprentissage.beta.gouv.fr/"
   force = true  
 
+[[redirects]]
+  from = "/api-docs"
+  to = "/test-widget"
+
 [context.production.environment]
   REACT_APP_GOOGLE_ANALYTICS_UA_CODE = "UA-116850596-4"
 
