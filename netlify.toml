@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "/*"
-  to = "https://labonnealternance.apprentissage.beta.gouv.fr/:splat"
+  from = "/"
+  to = "https://labonnealternance.apprentissage.beta.gouv.fr/"
   force = true  
 
 [context.production.environment]
